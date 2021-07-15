@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {Box, Text, Image} from 'native-base';
 import {ImageBackground} from 'react-native';
+import TopMusicAll from '../Assets/Image/Top_music/top_music_all.jpg';
 
 export default class MusicAlbumComponent extends Component {
   render() {
@@ -18,15 +19,11 @@ export default class MusicAlbumComponent extends Component {
             marginTop={3}>
             {/* 앨범이미지 */}
             <ImageBackground
-              source={require('../Assets/Image/Top_music/top_music_all.jpg')}
+              source={TopMusicAll}
               resizeMode="cover"
               style={{
                 width: 100,
                 height: 100,
-                shadowColor: '#ffffff',
-                shadowOffset: {width: 3, height: 5},
-                shadowOpacity: 0.5,
-                shadowRadius: 3.84,
               }}>
               <Image
                 source={require('../Assets/Image/Top_music/top_music_badge_2.png')}

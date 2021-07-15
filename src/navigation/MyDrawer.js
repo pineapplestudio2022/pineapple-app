@@ -5,10 +5,16 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {Box, Center, Pressable, Text, VStack} from 'native-base';
+import {Box, Center, Pressable, Text, View, VStack} from 'native-base';
 import MainScreen from '../Screens/MainScreen';
 import Challenge from '../Screens/Challenge';
 import Singing from '../Screens/Singing';
+import LyricsView from '../Screens/ChallengeLyricsView';
+import ListeningView from '../Screens/ChallengeListening';
+import {ImageBackground} from 'react-native';
+import MainBackground from '../Assets/Image/bg_main.png';
+import {borderWidth} from 'styled-system';
+
 const Drawer = createDrawerNavigator();
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
@@ -50,30 +56,35 @@ function CustomDrawerContent(props) {
 
 function MyDrawer() {
   return (
-    <Box flex={1}>
+    <ImageBackground
+      source={MainBackground}
+      style={{width: '100%', height: '100%'}}>
       <Drawer.Navigator
         drawerStyle={{
           backgroundColor: '#595d6299',
           borderRadius: 8,
         }}
         overlayColor={'transparent'}
+        sceneContainerStyle={{backgroundColor: 'transparent'}}
         drawerContent={props => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="MainScreen" component={MainScreen} />
         <Drawer.Screen name="Singing" component={Singing} />
-        <Drawer.Screen name="About" component={MainScreen} />
+        <Drawer.Screen name="LyricsView" component={LyricsView} />
+        <Drawer.Screen name="ListeningView" component={ListeningView} />
+        {/* <Drawer.Screen name="About" component={MainScreen} />
         <Drawer.Screen name="Price - 준비중" component={MainScreen} />
         <Drawer.Screen name="My Diary - 준비중" component={MainScreen} />
         <Drawer.Screen name="My Photo Album - 준비중" component={MainScreen} />
-        <Drawer.Screen name="내가 만든 음원 - 준비중" component={MainScreen} />
+        <Drawer.Screen name="내가 만든 음원 - 준비중" component={MainScreen} /> */}
         <Drawer.Screen name="My Challenge" component={Challenge} />
-        <Drawer.Screen name="My BGM - 준비중" component={MainScreen} />
+        {/* <Drawer.Screen name="My BGM - 준비중" component={MainScreen} />
         <Drawer.Screen
           name="파인애플스튜디오 - 준비중"
           component={MainScreen}
         />
-        <Drawer.Screen name="My List - 준비중" component={MainScreen} />
+        <Drawer.Screen name="My List - 준비중" component={MainScreen} /> */}
       </Drawer.Navigator>
-    </Box>
+    </ImageBackground>
   );
 }
 export default MyDrawer;
