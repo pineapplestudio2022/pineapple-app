@@ -1,30 +1,31 @@
 //상단 헤더, 햄버거 메뉴 컴포넌트
 import React from 'react';
-import {
-  Box,
-  Center,
-  HamburgerIcon,
-  Heading,
-  HStack,
-  Icon,
-  Image,
-  Pressable,
-  ChevronLeftIcon,
-  View,
-  Text,
-} from 'native-base';
+import {Box, Center, HStack, Image, Pressable, Text} from 'native-base';
 import HomeIcon from '../Assets/Image/icon_home.png';
+import HamburgerIcon from '../Assets/Image/icon_main_hamburg.png';
+import LeftArrowIcon from '../Assets/Image/icon_main_left_arrow.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';
 import {ImageBackground} from 'react-native';
 import MainBackground from '../Assets/Image/bg_main.png';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  heightPersentage,
+  widthPersentage,
+} from '../Commons/DeviceWHPersentage';
+
 //헤더 이름 변경해서 보여주기위한 switch-case
 const getTitle = screenName => {
   switch (screenName) {
     case 'MainScreen':
       return 'PINEAPPLE STUDIO';
     case 'My Challenge':
-      return 'Challenge';
+      return 'My Challenge';
     default:
       return undefined;
   }
@@ -32,59 +33,84 @@ const getTitle = screenName => {
 
 function MenuComponent({name, navigation}) {
   return (
-    <Box>
-      <Box safeAreaTop mb={5}>
-        {/* 상단 그라데이션 && 블러 효과 start */}
-        <LinearGradient
-          colors={['#0fefbd', '#94fc1300']}
+    <Box safeAreaTop mb={responsiveHeight(heightPersentage(22))}>
+      {/* 상단 그라데이션 && 블러 효과 start */}
+      <LinearGradient
+        colors={['#0fefbd', '#94fc1300']}
+        style={{
+          flex: 1,
+          position: 'absolute',
+          width: '100%',
+          height: responsiveHeight(heightPersentage(152)),
+          backgroundColor: 'transparent',
+        }}>
+        <BlurView
           style={{
-            flex: 1,
-            position: 'absolute',
+            height: '100%',
             width: '100%',
-            height: '350%',
-            backgroundColor: 'transparent',
-          }}>
-          <BlurView
-            style={{
-              height: '100%',
-              width: '100%',
-            }}
-            blurType="light"
-            blurAmount={10}
-            reducedTransparencyFallbackColor="white"
-          />
-        </LinearGradient>
-        {/* 상단 그라데이션 && 블러 효과 end */}
-        {/* 상단 메뉴, 타이틀 start */}
-        <HStack alignItems="center" borderColor={'red'} height={44}>
-          <Box ml={30}>
-            {name === 'MainScreen' ? (
-              <Pressable onPress={() => navigation.toggleDrawer()}>
-                <HamburgerIcon size="6" />
-              </Pressable>
-            ) : (
-              <Pressable onPress={() => navigation.goBack()}>
-                <ChevronLeftIcon size="6" />
-              </Pressable>
-            )}
-          </Box>
-          <Center flex={1}>
-            <Heading size="md" fontSize={'17'} color={'#1a1b1c'}>
-              {getTitle(name)}
-            </Heading>
-          </Center>
+          }}
+          blurType="light"
+          blurAmount={10}
+          reducedTransparencyFallbackColor="white"
+        />
+      </LinearGradient>
+      {/* 상단 그라데이션 && 블러 효과 end */}
+      {/* 상단 메뉴, 타이틀 start */}
+      <HStack
+        alignItems="center"
+        width="100%"
+        height={responsiveHeight(heightPersentage(44))}>
+        <Box ml={responsiveWidth(widthPersentage(30))}>
           {name === 'MainScreen' ? (
-            <Box size={6} mr={30}></Box>
+            <Pressable
+              onPress={() => navigation.toggleDrawer()}
+              w={responsiveWidth(widthPersentage(25))}
+              h={responsiveHeight(heightPersentage(25))}>
+              <Image
+                size="100%"
+                source={HamburgerIcon}
+                resizeMode={'contain'}
+              />
+            </Pressable>
           ) : (
-            <Box mr={30}>
-              <Pressable onPress={() => navigation.navigate('MainScreen')}>
-                <Image size="6" source={HomeIcon} resizeMode={'contain'} />
-              </Pressable>
-            </Box>
+            <Pressable
+              onPress={() => navigation.goBack()}
+              w={responsiveWidth(widthPersentage(25))}
+              h={responsiveHeight(heightPersentage(25))}>
+              <Image
+                size="100%"
+                source={LeftArrowIcon}
+                resizeMode={'contain'}
+              />
+            </Pressable>
           )}
-        </HStack>
-        {/* 상단 메뉴, 타이틀 end */}
-      </Box>
+        </Box>
+        <Center flex={1}>
+          <Text
+            textAlign={'center'}
+            fontSize={responsiveFontSize(fontSizePersentage(17))}
+            fontWeight={600}
+            color={'#1a1b1c'}>
+            {getTitle(name)}
+          </Text>
+        </Center>
+        {name === 'MainScreen' ? (
+          <Box
+            w={responsiveWidth(widthPersentage(25))}
+            h={responsiveHeight(heightPersentage(25))}
+            mr={responsiveWidth(widthPersentage(30))}></Box>
+        ) : (
+          <Box mr={responsiveWidth(widthPersentage(30))}>
+            <Pressable
+              onPress={() => navigation.navigate('MainScreen')}
+              w={responsiveWidth(widthPersentage(25))}
+              h={responsiveHeight(heightPersentage(25))}>
+              <Image size="100%" source={HomeIcon} resizeMode={'contain'} />
+            </Pressable>
+          </Box>
+        )}
+      </HStack>
+      {/* 상단 메뉴, 타이틀 end */}
     </Box>
   );
 }

@@ -13,6 +13,6 @@ export function heightPersentage(height) {
 }
 
 export function fontSizePersentage(size) {
-  const persentage = size * 0.125;
+  const persentage = size * 0.13;
   return persentage;
 }

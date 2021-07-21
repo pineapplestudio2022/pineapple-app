@@ -1,21 +1,18 @@
 // Challenge 화면
 
 import React from 'react';
-import {ImageBackground} from 'react-native';
+import {Box, VStack, HStack, Text, Stack, Image, Pressable} from 'native-base';
 import {
-  Box,
-  VStack,
-  HStack,
-  Center,
-  Text,
-  Stack,
-  Image,
-  Pressable,
-  HamburgerIcon,
-  Heading,
-} from 'native-base';
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  heightPersentage,
+  widthPersentage,
+} from '../Commons/DeviceWHPersentage';
 import MenuComponent from '../Components/MenuComponent';
-import MainBackground from '../Assets/Image/bg_main.png';
 import ChallengeDancer from '../Assets/Image/challenge/image_challenge_dancer.png';
 import HeadPhoneIcon from '../Assets/Image/challenge/btn_challenge_headphones.png';
 import SingingIcon from '../Assets/Image/challenge/btn_challenge_singing.png';
@@ -30,21 +27,28 @@ function Challenge(props) {
       <Box>
         <Stack space={5} alignItems="center">
           <VStack space={5} alignItems="center">
-            <HStack space={5} alignItems="center">
-              <Center
-                size={140}
-                rounded="xl"
+            <HStack space={5}>
+              <Pressable
+                size={responsiveWidth(widthPersentage(140))}
+                alignItems="center"
+                justifyContent="center"
+                rounded="8"
                 borderWidth="1"
                 borderColor="#0fefbd">
-                {/* 색은 확인차 적용함 나중에 수정 필요 */}
                 <Image source={SingingIcon} resizeMode={'contain'} />
-                <Text marginTop="2" color="#0fefbd" bold>
+                <Text
+                  marginTop="2"
+                  color="#0fefbd"
+                  fontSize={responsiveFontSize(fontSizePersentage(14))}
+                  bold>
                   노래 부르기 참여
                 </Text>
-              </Center>
-              <Center
-                size={140}
-                rounded="xl"
+              </Pressable>
+              <Pressable
+                size={responsiveWidth(widthPersentage(140))}
+                alignItems="center"
+                justifyContent="center"
+                rounded="8"
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
@@ -52,13 +56,15 @@ function Challenge(props) {
                 <Text marginTop="2" color="#0fefbd" textAlign={'center'} bold>
                   15초 영상 챌린지
                 </Text>
-              </Center>
+              </Pressable>
             </HStack>
           </VStack>
           <VStack space={5} alignItems="center">
             <HStack space={5} alignItems="center">
-              <Center
-                size={140}
+              <Pressable
+                size={responsiveWidth(widthPersentage(140))}
+                alignItems="center"
+                justifyContent="center"
                 rounded="xl"
                 borderWidth="1"
                 borderColor="#0fefbd"
@@ -67,9 +73,11 @@ function Challenge(props) {
                 <Text marginTop="2" color="#0fefbd" bold>
                   연주 참여
                 </Text>
-              </Center>
-              <Center
-                size={140}
+              </Pressable>
+              <Pressable
+                size={responsiveWidth(widthPersentage(140))}
+                alignItems="center"
+                justifyContent="center"
                 rounded="xl"
                 borderWidth="1"
                 borderColor="#0fefbd"
@@ -78,11 +86,11 @@ function Challenge(props) {
                 <Text marginTop="2" color="#0fefbd" bold>
                   작곡 참여
                 </Text>
-              </Center>
+              </Pressable>
             </HStack>
           </VStack>
           <Pressable
-            w="80%"
+            w={responsiveWidth(widthPersentage(320))}
             borderWidth={1}
             borderColor="#0fefbd"
             alignItems="center"

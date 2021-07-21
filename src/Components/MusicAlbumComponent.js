@@ -4,7 +4,16 @@ import React, {Component} from 'react';
 import {Box, Text, Image} from 'native-base';
 import {ImageBackground} from 'react-native';
 import TopMusicAll from '../Assets/Image/Top_music/top_music_all.jpg';
-
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  heightPersentage,
+  widthPersentage,
+} from '../Commons/DeviceWHPersentage';
 export default class MusicAlbumComponent extends Component {
   render() {
     return (
@@ -22,8 +31,8 @@ export default class MusicAlbumComponent extends Component {
               source={TopMusicAll}
               resizeMode="cover"
               style={{
-                width: 100,
-                height: 100,
+                width: responsiveWidth(widthPersentage(100)),
+                height: responsiveWidth(widthPersentage(100)),
               }}>
               <Image
                 source={require('../Assets/Image/Top_music/top_music_badge_2.png')}

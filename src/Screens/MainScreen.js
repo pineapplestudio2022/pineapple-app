@@ -12,12 +12,11 @@ import {
   Pressable,
   Image,
 } from 'native-base';
-import {ImageBackground, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
-  useResponsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import {
   widthPersentage,
@@ -26,7 +25,6 @@ import {
 } from '../Commons/DeviceWHPersentage';
 import MusicAlbumComponent from '../Components/MusicAlbumComponent';
 import MenuComponent from '../Components/MenuComponent';
-import MainBackground from '../Assets/Image/bg_main.png';
 import ChallengeIcon from '../Assets/Image/btn_main_speaker.png';
 import MagazineIcon from '../Assets/Image/btn_main_magazine.png';
 import PhotoIcon from '../Assets/Image/btn_main_photo.png';
