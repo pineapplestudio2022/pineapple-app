@@ -2,8 +2,8 @@
 
 import React from 'react';
 import {Box, Image, Input, Pressable, Text, VStack} from 'native-base';
-import MenuComponent from '../Components/MenuComponent';
-import LinkIcon from '../Assets/Image/challenge/icon_challenge_link.png';
+import MenuComponent from '../../Components/MenuComponent';
+import LinkIcon from '../../Assets/Image/challenge/icon_challenge_link.png';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -13,7 +13,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../../Commons/DeviceWHPersentage';
 function MyChallengeVideo(props) {
   return (
     <Box flex={1}>

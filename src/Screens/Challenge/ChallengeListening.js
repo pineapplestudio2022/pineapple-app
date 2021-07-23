@@ -21,13 +21,13 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../../Commons/DeviceWHPersentage';
 import {ImageBackground, TouchableOpacity} from 'react-native';
-import MenuComponent from '../Components/MenuComponent';
-import LyricsViewBackground from '../Assets/Image/challenge/bg_lyricsView_glassbox.png';
+import MenuComponent from '../../Components/MenuComponent';
+import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import XIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import DumpImg from '../Assets/Image/image_singing_dumpimage.jpg';
-
+import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
+import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
 function ChallengeListening(props) {
   return (
     <Box flex={1}>
@@ -77,8 +77,8 @@ function ChallengeListening(props) {
             </HStack>
           </HStack>
           <Box
-            h={responsiveHeight(heightPersentage(440))}
             style={{
+              height: responsiveHeight(heightPersentage(440)),
               shadowColor: '#858c9233',
               shadowOffset: {width: 0, height: 2},
               shadowRadius: 4,
@@ -95,8 +95,10 @@ function ChallengeListening(props) {
                 <Center>
                   <Box
                     backgroundColor={'#aabbcc'}
-                    w={responsiveWidth(widthPersentage(209))}
-                    h={responsiveHeight(heightPersentage(188))}
+                    style={{
+                      width: responsiveWidth(widthPersentage(209)),
+                      height: responsiveHeight(heightPersentage(188)),
+                    }}
                     rounded={8}
                     overflow={'hidden'}
                     my={5}>
@@ -119,19 +121,28 @@ function ChallengeListening(props) {
                       shadowRadius: 4,
                       shadowOpacity: 1,
                       width: responsiveWidth(widthPersentage(220)),
-                      padding: 12,
+                      height: responsiveHeight(heightPersentage(40)),
                     }}>
                     <HStack space={1}>
-                      <Icon
-                        as={<XIcon name="headphones" />}
-                        size="md"
-                        color={'white'}
+                      <Image
+                        source={HeadPhoneIcon}
+                        style={{
+                          position: 'absolute',
+                          top: responsiveHeight(heightPersentage(8)),
+                          left: responsiveWidth(widthPersentage(15)),
+                          width: responsiveWidth(widthPersentage(24)),
+                          height: responsiveHeight(heightPersentage(24)),
+                        }}
                       />
                       <Text
+                        style={{
+                          position: 'absolute',
+                          top: responsiveHeight(heightPersentage(8)),
+                          left: responsiveWidth(widthPersentage(44)),
+                          width: responsiveWidth(widthPersentage(162)),
+                        }}
                         fontSize={responsiveFontSize(fontSizePersentage(18))}
                         fontWeight={600}
-                        w={responsiveWidth(widthPersentage(162))}
-                        lineHeight={28}
                         textAlign={'center'}
                         color={'white'}>
                         15초 듣기
@@ -140,8 +151,10 @@ function ChallengeListening(props) {
                   </TouchableOpacity>
                   <Box
                     bg={'#fafafa80'}
-                    w={responsiveWidth(widthPersentage(240))}
-                    h={responsiveHeight(heightPersentage(136))}
+                    style={{
+                      width: responsiveWidth(widthPersentage(240)),
+                      height: responsiveHeight(heightPersentage(136)),
+                    }}
                     my={2}
                     rounded={16}>
                     <TextArea
@@ -214,7 +227,7 @@ function ChallengeListening(props) {
                   shadowOpacity: 1,
                   justifyContent: 'center',
                   width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(55)),
+                  height: responsiveHeight(heightPersentage(40)),
                 }}>
                 <HStack
                   space={4}
@@ -246,7 +259,7 @@ function ChallengeListening(props) {
                   shadowOpacity: 1,
                   justifyContent: 'center',
                   width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(55)),
+                  height: responsiveHeight(heightPersentage(40)),
                 }}>
                 <HStack
                   space={4}

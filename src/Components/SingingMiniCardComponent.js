@@ -1,4 +1,4 @@
-//작곡 참여 하단의 작품감상하기 리스트
+//My Challenge > 노래 챌린지 > 카드컴포넌트
 import React, {Component} from 'react';
 import {Image, Text, Box, VStack, HStack, Pressable, View} from 'native-base';
 import {

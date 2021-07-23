@@ -2,8 +2,8 @@
 
 import React from 'react';
 import {Box, ScrollView, VStack} from 'native-base';
-import MenuComponent from '../Components/MenuComponent';
-import MySingingCardComponent from '../Components/MySingingCardComponent';
+import MenuComponent from '../../Components/MenuComponent';
+import MySingingCardComponent from '../../Components/MySingingCardComponent';
 
 function MyChallengeSinging(props) {
   return (

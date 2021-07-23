@@ -2,8 +2,8 @@
 
 import React from 'react';
 import {Box, HStack, Image, Input, Pressable, Text, VStack} from 'native-base';
-import MenuComponent from '../Components/MenuComponent';
-import LinkIcon from '../Assets/Image/challenge/icon_challenge_link.png';
+import MenuComponent from '../../Components/MenuComponent';
+import LinkIcon from '../../Assets/Image/challenge/icon_challenge_link.png';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -13,7 +13,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../../Commons/DeviceWHPersentage';
 import {BlurView} from '@react-native-community/blur';
 function MyChallengePlay(props) {
   return (

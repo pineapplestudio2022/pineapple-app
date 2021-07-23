@@ -11,13 +11,13 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import MenuComponent from '../Components/MenuComponent';
+} from '../../Commons/DeviceWHPersentage';
+import MenuComponent from '../../Components/MenuComponent';
 
-import SingingIcon from '../Assets/Image/challenge/btn_challenge_singing.png';
-import PlayingMusicIcon from '../Assets/Image/challenge/btn_challenge_playingmusic.png';
-import PreviewIcon from '../Assets/Image/challenge/btn_challenge_preview.png';
-import CameraIcon from '../Assets/Image/challenge/btn_challenge_camera.png';
+import SingingIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
+import PlayingMusicIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
+import PreviewIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
+import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
 import {BlurView} from '@react-native-community/blur';
 
 function MyChallenge(props) {
@@ -37,6 +37,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
+            onPress={() => props.navigation.navigate('MySinging')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}
@@ -80,6 +81,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
+            onPress={() => props.navigation.navigate('MyVideo')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}
@@ -123,6 +125,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
+            onPress={() => props.navigation.navigate('MyPlaying')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}
@@ -166,6 +169,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
+            onPress={() => props.navigation.navigate('MyComposing')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}

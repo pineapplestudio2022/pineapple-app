@@ -6,8 +6,6 @@ import HamburgerIcon from '../Assets/Image/icon_main_hamburg.png';
 import LeftArrowIcon from '../Assets/Image/icon_main_left_arrow.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';
-import {ImageBackground} from 'react-native';
-import MainBackground from '../Assets/Image/bg_main.png';
 import {
   responsiveFontSize,
   responsiveHeight,

@@ -1,15 +1,7 @@
 //작곡 참여 View
-import {
-  Box,
-  HStack,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-  VStack,
-} from 'native-base';
+import {Box, HStack, Pressable, ScrollView, Text, VStack} from 'native-base';
 import React from 'react';
-import MenuComponent from '../Components/MenuComponent';
+import MenuComponent from '../../Components/MenuComponent';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -19,16 +11,17 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import AIMusicBoxComponent from '../Components/AIMusicBoxComponent';
+} from '../../Commons/DeviceWHPersentage';
+import AIMusicBoxComponent from '../../Components/AIMusicBoxComponent';
 
-function ChallengeComposing(props) {
+function ChallengePlaying(props) {
   return (
     <Box flex={1}>
       <MenuComponent name={props.route.name} navigation={props.navigation} />
       <ScrollView>
         <Box alignItems={'center'} my={3}>
           <Pressable
+            onPress={() => props.navigation.navigate('MyChallenge')}
             width={responsiveWidth(widthPersentage(220))}
             height={responsiveHeight(heightPersentage(40))}
             backgroundColor={'#0fefbd'}
@@ -53,28 +46,24 @@ function ChallengeComposing(props) {
         </Box>
         <VStack space={22}>
           <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
+            <AIMusicBoxComponent
+              navigation={props.navigation}
+              nextView={'PlayingDetail'}
+            />
+            <AIMusicBoxComponent
+              navigation={props.navigation}
+              nextView={'PlayingDetail'}
+            />
           </HStack>
           <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
-          </HStack>
-          <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
-          </HStack>
-          <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
-          </HStack>
-          <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
-          </HStack>
-          <HStack space={22} justifyContent={'center'}>
-            <AIMusicBoxComponent />
-            <AIMusicBoxComponent />
+            <AIMusicBoxComponent
+              navigation={props.navigation}
+              nextView={'PlayingDetail'}
+            />
+            <AIMusicBoxComponent
+              navigation={props.navigation}
+              nextView={'PlayingDetail'}
+            />
           </HStack>
         </VStack>
       </ScrollView>
@@ -82,4 +71,4 @@ function ChallengeComposing(props) {
   );
 }
 
-export default ChallengeComposing;
+export default ChallengePlaying;

@@ -30,7 +30,7 @@ import MusicPlayerFull from '../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../Components/MusicPlayerSmall';
 import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
-function PineappleMusic(props) {
+function MusicRacking(props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isBottom, setIsBottom] = React.useState(true);
   const [scroll, setScroll] = React.useState(true);
@@ -42,84 +42,73 @@ function PineappleMusic(props) {
     <Box flex={1}>
       <MenuComponent name={props.route.name} navigation={props.navigation} />
       <ScrollView>
-        {/* Search Box start */}
-        <VStack>
-          <Center>
-            <Box
-              style={{
-                width: responsiveWidth(widthPersentage(300)),
-                height: responsiveHeight(heightPersentage(35)),
-                paddingTop: 2,
-                paddingBottom: 2,
-                paddingLeft: 10,
-                paddingRight: 10,
-                backgroundColor: '#fafafa80',
-                borderRadius: 8,
-                marginBottom: 5,
-              }}>
-              <Input
-                variant="underlined"
-                placeholder="Search"
-                fontSize={responsiveFontSize(fontSizePersentage(16))}
-                borderBottomColor="#0fefbd"
-                InputLeftElement={
-                  <Image
-                    source={SearchIcon}
-                    resizeMode={'contain'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(25)),
-                      height: responsiveHeight(heightPersentage(24)),
-                    }}
-                  />
-                }
-              />
-            </Box>
-          </Center>
-        </VStack>
-        {/* Search Box end */}
-        <VStack>
-          {/* HashTag start */}
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false} //가로 스크롤바 표시 여부
-            contentContainerStyle={{
-              height: responsiveHeight(heightPersentage(26)),
-              width: '100%',
-              paddingStart: 35,
-            }}>
-            <Pressable
-              style={{
-                paddingLeft: 12,
-                paddingRight: 12,
-                paddingTop: 5,
-                paddingBottom: 5,
-                borderRadius: 4,
-                backgroundColor: '#0fefbd',
-                marginLeft: 4,
-                marginRight: 4,
-              }}>
-              <Text
-                fontSize={responsiveFontSize(fontSizePersentage(13))}
-                fontWeight={500}
-                color={'#fafafa'}
-                textAlign={'center'}>
-                # Dance
-              </Text>
-            </Pressable>
-          </ScrollView>
-        </VStack>
-        {/* HashTag end */}
         {/* 앨범 리스트 start  */}
         <VStack space={8} alignItems={'center'} my={4}>
           <HStack space={8}>
             <MusicBox
-              badge={true}
+              badge={1}
               music={'버터'}
               owner={'bts'}
               onPress={HandlerOpen}
             />
             <MusicBox
-              badge={false}
+              badge={2}
+              music={'음원제목'}
+              owner={'소유자'}
+              onPress={HandlerOpen}
+            />
+          </HStack>
+          <HStack space={8}>
+            <MusicBox
+              badge={3}
+              music={'버터'}
+              owner={'bts'}
+              onPress={HandlerOpen}
+            />
+            <MusicBox
+              badge={4}
+              music={'음원제목'}
+              owner={'소유자'}
+              onPress={HandlerOpen}
+            />
+          </HStack>
+          <HStack space={8}>
+            <MusicBox
+              badge={5}
+              music={'버터'}
+              owner={'bts'}
+              onPress={HandlerOpen}
+            />
+            <MusicBox
+              badge={6}
+              music={'음원제목'}
+              owner={'소유자'}
+              onPress={HandlerOpen}
+            />
+          </HStack>
+          <HStack space={8}>
+            <MusicBox
+              badge={7}
+              music={'버터'}
+              owner={'bts'}
+              onPress={HandlerOpen}
+            />
+            <MusicBox
+              badge={8}
+              music={'음원제목'}
+              owner={'소유자'}
+              onPress={HandlerOpen}
+            />
+          </HStack>
+          <HStack space={8}>
+            <MusicBox
+              badge={9}
+              music={'버터'}
+              owner={'bts'}
+              onPress={HandlerOpen}
+            />
+            <MusicBox
+              badge={10}
               music={'음원제목'}
               owner={'소유자'}
               onPress={HandlerOpen}
@@ -152,4 +141,4 @@ function PineappleMusic(props) {
   );
 }
 
-export default PineappleMusic;
+export default MusicRacking;

@@ -2,16 +2,14 @@
 import {
   Box,
   HStack,
-  Icon,
   Image,
   Pressable,
   ScrollView,
   Text,
-  View,
   VStack,
 } from 'native-base';
 import React from 'react';
-import MenuComponent from '../Components/MenuComponent';
+import MenuComponent from '../../Components/MenuComponent';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -21,12 +19,12 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import IconHeaphone from '../Assets/Image/challenge/icon_challenge_headphone.png';
-import IconClose from '../Assets/Image/icon_check_close.png';
+} from '../../Commons/DeviceWHPersentage';
 import {ImageBackground} from 'react-native';
-import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_3.jpg';
-import SingingMiniCardComponent from '../Components/SingingMiniCardComponent';
+import IconHeaphone from '../../Assets/Image/challenge/icon_challenge_headphone.png';
+import IconClose from '../../Assets/Image/icon_check_close.png';
+import DumpImage from '../../Assets/Image/challenge/bg_challenge_ai_3.jpg';
+import SingingMiniCardComponent from '../../Components/SingingMiniCardComponent';
 function ChallengeComposingDetail(props) {
   return (
     <Box flex={1}>

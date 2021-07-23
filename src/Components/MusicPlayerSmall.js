@@ -1,6 +1,6 @@
 //음악플레이어 작은 화면
 import {BlurView} from '@react-native-community/blur';
-import {Box, Image, Pressable} from 'native-base';
+import {Box, HStack, Image, Pressable, Text, VStack} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -13,8 +13,9 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 import CdDumpImage from '../Assets/Image/img_dump_cd.png';
-import ArrowUpIcon from '../Assets/Image/icon_musicplayer_arrow_up.png';
-
+import SkipBackIcon from '../Assets/Image/icon_musicplayer_skip_back.png';
+import SkipForwordIcon from '../Assets/Image/icon_musicplayer_skip_forword.png';
+import PulseIcon from '../Assets/Image/icon_musicplayer_pulse.png';
 function MusicPlayerSmall(props) {
   return (
     <BlurView
@@ -33,24 +34,70 @@ function MusicPlayerSmall(props) {
         }}
         backgroundColor={'#fafafacc'}
         borderRadius={16}>
-        <Pressable
+        <VStack
           style={{
-            position: 'absolute',
-            top: 23,
-            left: 35,
-            width: responsiveWidth(widthPersentage(40)),
-            height: responsiveHeight(heightPersentage(40)),
+            width: responsiveWidth(widthPersentage(163)),
+            marginTop: 32,
+            marginLeft: 39,
           }}>
-          <Image
-            source={ArrowUpIcon}
+          <Text
             style={{
-              width: '100%',
-              height: '100%',
+              fontSize: responsiveFontSize(fontSizePersentage(14)),
+              color: '#1a1b1c',
             }}
-            resizeMode={'contain'}
-          />
-        </Pressable>
-        <Pressable
+            noOfLines={1}
+            bold>
+            곡 제목이 들어갈 공간입니다.
+          </Text>
+          <Text
+            style={{
+              fontSize: responsiveFontSize(fontSizePersentage(12)),
+              color: '#858c92',
+              textAlign: 'right',
+            }}>
+            참여자 이름
+          </Text>
+          <HStack justifyContent={'space-between'} my={4} alignItems={'center'}>
+            <Pressable
+              style={{
+                width: responsiveWidth(widthPersentage(36)),
+                height: responsiveHeight(heightPersentage(36)),
+              }}>
+              <Image
+                source={SkipBackIcon}
+                resizeMode={'contain'}
+                style={{width: '100%', height: '100%'}}
+                alt={' '}
+              />
+            </Pressable>
+            <Pressable
+              style={{
+                width: responsiveWidth(widthPersentage(38)),
+                height: responsiveHeight(heightPersentage(38)),
+              }}>
+              <Image
+                source={PulseIcon}
+                resizeMode={'contain'}
+                style={{width: '100%', height: '100%'}}
+                alt={' '}
+              />
+            </Pressable>
+            <Pressable
+              style={{
+                width: responsiveWidth(widthPersentage(36)),
+                height: responsiveHeight(heightPersentage(36)),
+              }}>
+              <Image
+                source={SkipForwordIcon}
+                resizeMode={'contain'}
+                style={{width: '100%', height: '100%'}}
+                alt={' '}
+              />
+            </Pressable>
+          </HStack>
+        </VStack>
+        {/* CD Image start */}
+        <Box
           style={{
             position: 'absolute',
             top: 26,
@@ -65,8 +112,10 @@ function MusicPlayerSmall(props) {
               height: '100%',
             }}
             resizeMode={'contain'}
+            alt={' '}
           />
-        </Pressable>
+        </Box>
+        {/* CD Image end */}
       </Box>
     </BlurView>
   );

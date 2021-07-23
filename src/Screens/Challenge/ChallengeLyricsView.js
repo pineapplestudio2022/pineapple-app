@@ -3,8 +3,8 @@
 import React from 'react';
 import {Box, Center, Text, VStack, HStack, TextArea, Icon} from 'native-base';
 import {ImageBackground, TouchableOpacity} from 'react-native';
-import MenuComponent from '../Components/MenuComponent';
-import LyricsViewBackground from '../Assets/Image/challenge/bg_lyricsView_glassbox.png';
+import MenuComponent from '../../Components/MenuComponent';
+import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import XIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function LyricsView(props) {

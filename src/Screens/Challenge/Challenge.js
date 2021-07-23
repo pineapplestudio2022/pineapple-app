@@ -11,14 +11,14 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import MenuComponent from '../Components/MenuComponent';
-import ChallengeDancer from '../Assets/Image/challenge/image_challenge_dancer.png';
-import HeadPhoneIcon from '../Assets/Image/challenge/btn_challenge_headphones.png';
-import SingingIcon from '../Assets/Image/challenge/btn_challenge_singing.png';
-import PlayingMusicIcon from '../Assets/Image/challenge/btn_challenge_playingmusic.png';
-import PreviewIcon from '../Assets/Image/challenge/btn_challenge_preview.png';
-import CameraIcon from '../Assets/Image/challenge/btn_challenge_camera.png';
+} from '../../Commons/DeviceWHPersentage';
+import MenuComponent from '../../Components/MenuComponent';
+import ChallengeDancer from '../../Assets/Image/challenge/image_challenge_dancer.png';
+import HeadPhoneIcon from '../../Assets/Image/challenge/btn_challenge_headphones.png';
+import SingingIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
+import PlayingMusicIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
+import PreviewIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
+import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
 
 function Challenge(props) {
   return (
@@ -29,6 +29,7 @@ function Challenge(props) {
           <VStack space={5} alignItems="center">
             <HStack space={5}>
               <Pressable
+                onPress={() => props.navigation.navigate('SingingScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -45,6 +46,8 @@ function Challenge(props) {
                 </Text>
               </Pressable>
               <Pressable
+                // 추가 필요
+                // onPress={() => props.navigation.navigate('')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -62,6 +65,7 @@ function Challenge(props) {
           <VStack space={5} alignItems="center">
             <HStack space={5} alignItems="center">
               <Pressable
+                onPress={() => props.navigation.navigate('ComposingScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -75,6 +79,7 @@ function Challenge(props) {
                 </Text>
               </Pressable>
               <Pressable
+                onPress={() => props.navigation.navigate('PlayingScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -90,6 +95,7 @@ function Challenge(props) {
             </HStack>
           </VStack>
           <Pressable
+            onPress={() => props.navigation.navigate('ListeningScreen')}
             w={responsiveWidth(widthPersentage(320))}
             borderWidth={1}
             borderColor="#0fefbd"
