@@ -5,7 +5,6 @@ import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createStackNavigator} from '@react-navigation/stack';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {fontSizePersentage} from '../Commons/DeviceWHPersentage';
 
@@ -34,7 +33,7 @@ function CustomDrawerContent(props) {
         reducedTransparencyFallbackColor="white">
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           {props.state.routeNames.map((name, index) =>
-            index > 1 ? (
+            index > 2 ? (
               <Pressable
                 w="100%"
                 onPress={() => props.navigation.navigate(name)}>

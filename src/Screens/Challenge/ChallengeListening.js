@@ -14,7 +14,6 @@ import {
 import {
   responsiveFontSize,
   responsiveHeight,
-  responsiveScreenFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
@@ -31,7 +30,11 @@ import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphone
 function ChallengeListening(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'노래부르기'}
+        navigation={props.navigation}
+      />
       <Box safeAreaBottom alignItems="center">
         <VStack space={2} w={responsiveWidth(widthPersentage(345))}>
           <Center>

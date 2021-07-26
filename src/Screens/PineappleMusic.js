@@ -40,7 +40,11 @@ function PineappleMusic(props) {
 
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'Pinapple Music'}
+        navigation={props.navigation}
+      />
       <ScrollView>
         {/* Search Box start */}
         <VStack>

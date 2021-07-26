@@ -18,6 +18,7 @@ import {
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import {HStack} from 'native-base';
+import MenuComponent from '../../Components/MenuComponent';
 
 const Findch = props => {
   // const [userEmail, setUserEmail] = useState('');
@@ -26,10 +27,12 @@ const Findch = props => {
   return (
     <View>
       <View>
-        <HStack>
-          <Text style={styles.txt1}>파인애플 스튜디오 </Text>
-        </HStack>
-
+        <MenuComponent
+          name={'Login'}
+          titleName={'파인애플스튜디오'}
+          navigation={props.navigation}
+          notGB
+        />
         <ImageBackground
           source={require('../../Assets/Image/member/NewLogin.png')}
           style={styles.bgimg1}>

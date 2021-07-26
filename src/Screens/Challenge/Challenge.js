@@ -23,7 +23,11 @@ import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
 function Challenge(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'Challenge'}
+        navigation={props.navigation}
+      />
       <Box>
         <Stack space={5} alignItems="center">
           <VStack space={5} alignItems="center">
@@ -46,8 +50,7 @@ function Challenge(props) {
                 </Text>
               </Pressable>
               <Pressable
-                // 추가 필요
-                // onPress={() => props.navigation.navigate('')}
+                onPress={() => props.navigation.navigate('VideoScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"

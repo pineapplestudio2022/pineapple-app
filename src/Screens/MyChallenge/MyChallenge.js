@@ -23,7 +23,11 @@ import {BlurView} from '@react-native-community/blur';
 function MyChallenge(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'My Challenge'}
+        navigation={props.navigation}
+      />
       <VStack alignItems={'center'}>
         {/* 노래 챌린지 버튼 start */}
         <BlurView

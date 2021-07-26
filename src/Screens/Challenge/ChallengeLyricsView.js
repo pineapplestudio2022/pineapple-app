@@ -10,7 +10,11 @@ import XIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 function LyricsView(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'노래부르기'}
+        navigation={props.navigation}
+      />
       <Box safeAreaBottom alignItems="center">
         <VStack space={2} w="80%">
           <Center>

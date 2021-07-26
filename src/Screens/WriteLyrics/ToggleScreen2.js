@@ -66,7 +66,7 @@ function Swipe(props) {
     return (
       <View>
         <View style={styles.imgbg}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.Text1}
             onPress={() => props.navigation.navigate('WriteLyrics')}>
             <View>
@@ -82,7 +82,7 @@ function Swipe(props) {
                 style={styles.dd}
               />
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -120,7 +120,11 @@ function Swipe(props) {
   };
   return (
     <View>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'가사 쓰기'}
+        navigation={props.navigation}
+      />
       <View style={styles.container}>
         <View style={styles.imgbg1}>
           <SwipeListView

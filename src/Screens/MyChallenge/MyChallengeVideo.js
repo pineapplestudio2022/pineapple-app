@@ -17,7 +17,11 @@ import {
 function MyChallengeVideo(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'My Challenge/영상챌린지'}
+        navigation={props.navigation}
+      />
       <VStack alignItems={'center'} mt={20}>
         <Text
           textAlign={'center'}

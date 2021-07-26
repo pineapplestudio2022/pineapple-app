@@ -28,7 +28,11 @@ import SingingMiniCardComponent from '../../Components/SingingMiniCardComponent'
 function ChallengeComposingDetail(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'연주 참여'}
+        navigation={props.navigation}
+      />
       <VStack alignItems={'center'}>
         <Text
           fontSize={responsiveFontSize(fontSizePersentage(20))}

@@ -17,51 +17,42 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-//헤더 이름 변경해서 보여주기위한 switch-case
-const getTitle = screenName => {
-  switch (screenName) {
-    case 'MainScreen':
-      return '파인애플스튜디오';
-    case 'My Challenge':
-      return 'My Challenge';
-    default:
-      return undefined;
-  }
-};
-
-function MenuComponent({name, navigation}) {
+function MenuComponent(props) {
   return (
     <Box safeAreaTop mb={responsiveHeight(heightPersentage(22))}>
       {/* 상단 그라데이션 && 블러 효과 start */}
-      <LinearGradient
-        colors={['#0fefbd', '#94fc1300']}
-        style={{
-          flex: 1,
-          position: 'absolute',
-          width: '100%',
-          height: responsiveHeight(heightPersentage(152)),
-          backgroundColor: 'transparent',
-        }}>
-        <BlurView
+      {props.notGB ? null : (
+        <LinearGradient
+          colors={['#0fefbd', '#94fc1300']}
           style={{
-            height: '100%',
+            flex: 1,
+            position: 'absolute',
             width: '100%',
-          }}
-          blurType="light"
-          blurAmount={10}
-          reducedTransparencyFallbackColor="white"
-        />
-      </LinearGradient>
+            height: responsiveHeight(heightPersentage(152)),
+            backgroundColor: 'transparent',
+          }}>
+          <BlurView
+            style={{
+              height: '100%',
+              width: '100%',
+            }}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+        </LinearGradient>
+      )}
       {/* 상단 그라데이션 && 블러 효과 end */}
+
       {/* 상단 메뉴, 타이틀 start */}
       <HStack
         alignItems="center"
         width="100%"
         height={responsiveHeight(heightPersentage(44))}>
         <Box ml={responsiveWidth(widthPersentage(30))}>
-          {name === 'MainScreen' ? (
+          {props.name === 'MainScreen' ? (
             <Pressable
-              onPress={() => navigation.toggleDrawer()}
+              onPress={() => props.navigation.toggleDrawer()}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -72,7 +63,7 @@ function MenuComponent({name, navigation}) {
             </Pressable>
           ) : (
             <Pressable
-              onPress={() => navigation.goBack()}
+              onPress={() => props.navigation.goBack()}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -88,11 +79,12 @@ function MenuComponent({name, navigation}) {
             textAlign={'center'}
             fontSize={responsiveFontSize(fontSizePersentage(17))}
             fontWeight={600}
+            noOfLines={1}
             color={'#1a1b1c'}>
-            {getTitle(name)}
+            {props.titleName}
           </Text>
         </Center>
-        {name === 'MainScreen' ? (
+        {props.name === 'MainScreen' ? (
           <Box
             w={responsiveWidth(widthPersentage(25))}
             h={responsiveHeight(heightPersentage(25))}
@@ -100,7 +92,7 @@ function MenuComponent({name, navigation}) {
         ) : (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={() => navigation.navigate('MainScreen')}
+              onPress={() => props.navigation.navigate('MainScreen')}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image size="100%" source={HomeIcon} resizeMode={'contain'} />

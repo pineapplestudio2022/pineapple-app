@@ -35,9 +35,11 @@ import MusicNoteIcon from '../Assets/Image/btn_main_music_note.png';
 function MainScreen(props) {
   return (
     <Box flex={1}>
-      {/* 배경이미지 */}
-
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'파인애플스튜디오'}
+        navigation={props.navigation}
+      />
       <ScrollView>
         {/* 가로스크롤 뷰 && 인기 음원 순위 start */}
         <Box>

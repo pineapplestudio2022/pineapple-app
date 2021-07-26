@@ -28,7 +28,6 @@ import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayerFull from '../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../Components/MusicPlayerSmall';
-import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
 function MusicRacking(props) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -40,7 +39,11 @@ function MusicRacking(props) {
 
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'Ranking'}
+        navigation={props.navigation}
+      />
       <ScrollView>
         {/* 앨범 리스트 start  */}
         <VStack space={8} alignItems={'center'} my={4}>

@@ -9,11 +9,13 @@ import ChallengeLyricsView from '../Screens/Challenge/ChallengeLyricsView';
 import ChallengePlaying from '../Screens/Challenge/ChallengePlaying';
 import ChallengePlayingDetail from '../Screens/Challenge/ChallengePlayingDetail';
 import MyChallengeScreen from './MyChallengeNavigation';
+import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
 
 const ChallengeStack = createStackNavigator();
 const SingingStack = createStackNavigator();
 const ComposingStack = createStackNavigator();
 const PlayingStack = createStackNavigator();
+const VideoStack = createStackNavigator();
 
 // Challenge > 연주 참여 nav
 const PlayingScreen = () => {
@@ -31,6 +33,21 @@ const PlayingScreen = () => {
       />
       <PlayingStack.Screen name={'MyChallenge'} component={MyChallengeScreen} />
     </PlayingStack.Navigator>
+  );
+};
+
+//Challenge > 15초 영상챌린지
+const VideoScreen = () => {
+  return (
+    <VideoStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {backgroundColor: 'transparent'},
+        animationEnabled: false,
+      }}>
+      <VideoStack.Screen name={'Video'} component={ChallengeVideo} />
+      <VideoStack.Screen name={'MyChallenge'} component={MyChallengeScreen} />
+    </VideoStack.Navigator>
   );
 };
 
@@ -76,6 +93,8 @@ const SingingScreen = () => {
   );
 };
 
+// Challenge > 15초 영상 챌린지
+
 // Challenge nav
 export default ChallengeScreen = () => {
   return (
@@ -87,17 +106,12 @@ export default ChallengeScreen = () => {
       }}>
       <ChallengeStack.Screen name={'Challenge'} component={Challenge} />
       <ChallengeStack.Screen name={'SingingScreen'} component={SingingScreen} />
-      {/* 15초영상 챌린지 파일 받아서 추가 필요 */}
       <ChallengeStack.Screen
         name={'ComposingScreen'}
         component={ComposingScreen}
       />
       <SingingStack.Screen name={'PlayingScreen'} component={PlayingScreen} />
-      {/* 챌린지 감상 페이지 추가해야함 */}
-      {/* <ChallengeStack.Screen
-        name={'ListeningScreen'}
-        component={ListeningScreen}
-      /> */}
+      <ChallengeStack.Screen name={'VideoScreen'} component={VideoScreen} />
     </ChallengeStack.Navigator>
   );
 };

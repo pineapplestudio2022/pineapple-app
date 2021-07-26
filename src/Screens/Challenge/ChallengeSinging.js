@@ -7,7 +7,11 @@ import SingingCardComponent from '../../Components/SingingCardComponent';
 function Singing(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'노래부르기'}
+        navigation={props.navigation}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         _contentContainerStyle={{

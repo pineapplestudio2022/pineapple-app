@@ -17,7 +17,11 @@ import AIMusicBoxComponent from '../../Components/AIMusicBoxComponent';
 function ChallengePlaying(props) {
   return (
     <Box flex={1}>
-      <MenuComponent name={props.route.name} navigation={props.navigation} />
+      <MenuComponent
+        name={props.route.name}
+        titleName={'편곡 참여'}
+        navigation={props.navigation}
+      />
       <ScrollView>
         <Box alignItems={'center'} my={3}>
           <Pressable

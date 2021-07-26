@@ -11,124 +11,192 @@ import {
   TextArea,
   ScrollView,
   View,
+  KeyboardAvoidingView,
+  Input,
+  Pressable,
 } from 'native-base';
 import {StyleSheet, ImageBackground} from 'react-native';
 import {
+  responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
   widthPersentage,
   heightPersentage,
+  fontSizePersentage,
 } from '../../Commons/DeviceWHPersentage';
-import Glassbox from '../../Assets/Image/GlassboxTextbox.png';
+import MenuComponent from '../../Components/MenuComponent';
+import AIIcon from '../../Assets/Image/Close.png';
+import CloseIcon from '../../Assets/Image/icon_lyrics_close.png';
+import {BlurView} from '@react-native-community/blur';
 
 function Wlyrics(props) {
   return (
-    <View>
+    <Box flex={1}>
+      <MenuComponent
+        name={props.route.name}
+        titleName={'가사 쓰기'}
+        navigation={props.navigation}
+      />
       <ScrollView>
-        <Box flex={1} safeArea alignItems={'center'} justifyContent={'center'}>
-          <ImageBackground
-            source={Glassbox}
+        <Box alignItems={'center'}>
+          <BlurView
+            blurType="light"
+            blurAmount={4}
+            reducedTransparencyFallbackColor="white"
             style={{
-              width: responsiveWidth(widthPersentage(356)),
+              width: responsiveWidth(widthPersentage(350)),
               height: responsiveHeight(heightPersentage(664)),
             }}>
-            <Box>
-              <VStack>
-                <Text style={styles.txt2}>
-                  <TextArea>
-                    {'\n'}
-                    울지 마 이미 지난 일이야{'\n'}
-                    삶의 반직선 위에 점일 뿐이야 살아가면서 누구나 겪는 일이야
-                    어른이 되는 단지 과정일뿐이야 Uh 단지 과정일뿐이야
-                    {'\n'}
-                    울지 마 이미 지난 일이야
-                    {'\n'}
-                    삶의 반직선 위에 점일 뿐이야 살아가면서 누구나 겪는 일이야
-                    어른이 되는
-                    {'\n'}
-                    울지 마 이미 지난 일이야{'\n'}
-                    삶의 반직선 위에 점일 뿐이야 살아가면서 누구나 겪는 일이야
-                    어른이 되는 단지 과정일뿐이야 Uh 단지 과정일뿐이야
-                    {'\n'}
-                    울지 마 이미 지난 일이야
-                    {'\n'}
-                    삶의 반직선 위에 점일 뿐이야 살아가면서 누구나 겪는 일이야
-                    어른이 되는
-                  </TextArea>
-                </Text>
-              </VStack>
-            </Box>
+            <VStack
+              space={5}
+              alignItems={'center'}
+              w={'100%'}
+              h={'100%'}
+              style={{
+                borderRadius: 8,
+                backgroundColor: '#fafafaa6',
+                shadowColor: '#858c9233',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowRadius: 4,
+                shadowOpacity: 1,
+              }}>
+              <Input
+                placeholder={'제목을 적어주세요'}
+                placeholderTextColor={'#4be3ac'}
+                fontSize={responsiveFontSize(fontSizePersentage(34))}
+                textAlign={'center'}
+                borderWidth={0}
+                bold
+                color={'#4be3ac'}></Input>
+              <Divider
+                bgColor={'#4be3ac'}
+                w={responsiveWidth(widthPersentage(320))}
+              />
+              <Box
+                style={{
+                  width: responsiveWidth(widthPersentage(240)),
+                  height: responsiveHeight(heightPersentage(440)),
+                  padding: 6,
+                }}>
+                <TextArea
+                  textAlign={'center'}
+                  fontSize={responsiveFontSize(fontSizePersentage(16))}
+                  color={'#000000'}
+                  borderWidth={0}
+                  w="100%"
+                  h="100%">
+                  울지 마 이미 지난 일이야 {'\n'}
+                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
+                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
+                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
+                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
+                  되는 울지 마 이미 지난 일이야 {'\n'}
+                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
+                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
+                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
+                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
+                  되는 울지 마 이미 지난 일이야 {'\n'}
+                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
+                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
+                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
+                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
+                  되는 울지 마 이미 지난 일이야 {'\n'}
+                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
+                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
+                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
+                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
+                  되는 울지 마 이미 지난 일이야 {'\n'}
+                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
+                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
+                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
+                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
+                  되는{' '}
+                </TextArea>
+              </Box>
 
-            <Box alignItems="center">
-              <HStack space={10}>
-                <Button style={styles.btn}>
-                  <HStack>
-                    <Image source={require('../../Assets/Image/Close.png')} />
-                    <Text style={styles.txts}> AI작곡-준비중 </Text>
+              <HStack w={'100%'} justifyContent={'space-around'}>
+                <Pressable
+                  style={{
+                    width: responsiveWidth(widthPersentage(120)),
+                    height: responsiveHeight(heightPersentage(40)),
+                    borderRadius: 6,
+                    backgroundColor: '#0fefbd',
+                    shadowColor: '#00000033',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowRadius: 4,
+                    shadowOpacity: 1,
+                  }}>
+                  <HStack
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    h="100%"
+                    space={1}>
+                    <Image
+                      source={AIIcon}
+                      style={{
+                        width: responsiveWidth(widthPersentage(21)),
+                        height: responsiveHeight(heightPersentage(20)),
+                      }}
+                      resizeMode={'contain'}
+                    />
+                    <Text
+                      color={'#ffffff'}
+                      fontSize={responsiveFontSize(fontSizePersentage(13))}
+                      fontWeight={800}>
+                      AI 작곡-준비중
+                    </Text>
                   </HStack>
-                </Button>
-                <Button style={styles.btn}> X 닫기 </Button>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.goBack()}
+                  style={{
+                    width: responsiveWidth(widthPersentage(120)),
+                    height: responsiveHeight(heightPersentage(40)),
+                    borderRadius: 6,
+                    backgroundColor: '#0fefbd',
+                    shadowColor: '#00000033',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowRadius: 4,
+                    shadowOpacity: 1,
+                  }}>
+                  <HStack
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    h="100%"
+                    space={3}>
+                    <Image
+                      source={CloseIcon}
+                      style={{
+                        width: responsiveWidth(widthPersentage(21)),
+                        height: responsiveHeight(heightPersentage(20)),
+                      }}
+                      resizeMode={'contain'}
+                    />
+                    <Text
+                      color={'#ffffff'}
+                      fontSize={responsiveFontSize(fontSizePersentage(13))}
+                      fontWeight={800}>
+                      닫 기
+                    </Text>
+                  </HStack>
+                </Pressable>
               </HStack>
-            </Box>
-          </ImageBackground>
+            </VStack>
+          </BlurView>
         </Box>
       </ScrollView>
-    </View>
+    </Box>
   );
 }
-``;
 export default Wlyrics;
-
-const styles = StyleSheet.create({
-  icons: {
-    width: responsiveWidth(widthPersentage(3)),
-    height: responsiveHeight(heightPersentage(3)),
-  },
-
-  txt1: {
-    fontSize: 17,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-    textAlign: 'center',
-    color: '#1a1b1c',
-    marginBottom: 32,
-    margin: 0,
-  },
-
-  txt2: {
-    width: responsiveWidth(widthPersentage(180)),
-    height: responsiveHeight(heightPersentage(190)),
-    fontSize: 16,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    letterSpacing: -0.8,
-    color: '#000000',
-    marginTop: 130,
-    marginLeft: 85,
-    marginRight: 53,
-  },
-  btn: {
-    width: responsiveWidth(widthPersentage(130)),
-    height: responsiveHeight(heightPersentage(50)),
-    borderRadius: 6,
-    backgroundColor: '#0fefbd',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-    marginTop: 250,
-    fontWeight: '700',
-  },
-
-  txts: {
-    color: '#fafafa',
-    fontWeight: '700',
-  },
-});
