@@ -1,19 +1,24 @@
 //Main Drawer Navigation
 
 import React from 'react';
-import MainScreen from '../Screens/MainScreen';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
+import {ImageBackground} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {ImageBackground} from 'react-native';
-import MainBackground from '../Assets/Image/bg_main.png';
-
-import PineappleMusic from '../Screens/PineappleMusic';
-import HomeNavigation from '../navigation/HomeNavigation';
-import MyChallengeNavigation from './MyChallengeNavigation';
+import {createStackNavigator} from '@react-navigation/stack';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {fontSizePersentage} from '../Commons/DeviceWHPersentage';
+
+import HomeNavigation from '../navigation/HomeNavigation';
+import MyChallengeNavigation from './MyChallengeNavigation';
+
+import MainBackground from '../Assets/Image/bg_main.png';
+
 import Intro from '../Screens/Intro';
+import PineappleMusic from '../Screens/PineappleMusic';
+import MainScreen from '../Screens/MainScreen';
+import {MemberScreen, LoginScreen} from './MemberNavigation';
+
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
   return (
@@ -29,7 +34,7 @@ function CustomDrawerContent(props) {
         reducedTransparencyFallbackColor="white">
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           {props.state.routeNames.map((name, index) =>
-            index > 0 ? (
+            index > 1 ? (
               <Pressable
                 w="100%"
                 onPress={() => props.navigation.navigate(name)}>
@@ -47,7 +52,9 @@ function CustomDrawerContent(props) {
         </VStack>
         <VStack space={5} alignItems={'center'} safeAreaBottom mb={4}>
           {/* 로그인 시 마이페이지, 로그아웃으로 변경 */}
-          <Pressable onPress={null} w="100%">
+          <Pressable
+            onPress={() => props.navigation.navigate('MemberScreen')}
+            w="100%">
             <Center>
               <Text
                 color={'#fafafa'}
@@ -57,7 +64,9 @@ function CustomDrawerContent(props) {
               </Text>
             </Center>
           </Pressable>
-          <Pressable onPress={null} w="100%">
+          <Pressable
+            w="100%"
+            onPress={() => props.navigation.navigate('LoginScreen')}>
             <Center>
               <Text
                 color={'#fafafa'}
@@ -89,6 +98,8 @@ function MainNavigation() {
         sceneContainerStyle={{backgroundColor: 'transparent'}}
         drawerContent={props => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
+        <Drawer.Screen name="MemberScreen" component={MemberScreen} />
+        <Drawer.Screen name="LoginScreen" component={LoginScreen} />
         <Drawer.Screen name="Pineapple Studio 소개" component={Intro} />
         <Drawer.Screen
           name="PinappleMusic [준비중]"

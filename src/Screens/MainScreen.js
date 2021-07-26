@@ -121,6 +121,7 @@ function MainScreen(props) {
                   {/* Challenge 버튼 end */}
                   {/* 가사 쓰기 버튼 start */}
                   <Pressable
+                    onPress={() => props.navigation.navigate('LyricsScreen')}
                     borderWidth={1}
                     w={responsiveWidth(widthPersentage(140))}
                     h={responsiveWidth(widthPersentage(140))}

@@ -21,7 +21,7 @@ import {
 const getTitle = screenName => {
   switch (screenName) {
     case 'MainScreen':
-      return 'PINEAPPLE STUDIO';
+      return '파인애플스튜디오';
     case 'My Challenge':
       return 'My Challenge';
     default:
