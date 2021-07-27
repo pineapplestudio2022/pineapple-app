@@ -14,13 +14,11 @@ import {
 } from 'native-base';
 import {ScrollView} from 'react-native';
 import {
-  responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import {
   widthPersentage,
-  heightPersentage,
   fontSizePersentage,
 } from '../Commons/DeviceWHPersentage';
 import MusicAlbumComponent from '../Components/MusicAlbumComponent';

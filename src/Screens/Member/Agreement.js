@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import {
   responsiveHeight,
@@ -9,7 +9,7 @@ import {
   widthPersentage,
   heightPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {Center, Divider, HStack} from 'native-base';
+import {Divider, HStack} from 'native-base';
 
 const Agreement = props => {
   return (

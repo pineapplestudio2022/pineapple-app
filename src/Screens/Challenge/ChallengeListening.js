@@ -24,9 +24,11 @@ import {
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
-import XIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
 import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
+import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
+import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
+
 function ChallengeListening(props) {
   return (
     <Box flex={1}>
@@ -236,10 +238,12 @@ function ChallengeListening(props) {
                   space={4}
                   justifyContent={'center'}
                   alignItems={'center'}>
-                  <Icon
-                    as={<XIcon name="file-excel-box" />}
-                    size={responsiveWidth(widthPersentage(21))}
-                    color={'white'}
+                  <Image
+                    source={XIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(21)),
+                    }}
                   />
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(13))}
@@ -268,10 +272,12 @@ function ChallengeListening(props) {
                   space={4}
                   justifyContent={'center'}
                   alignItems={'center'}>
-                  <Icon
-                    as={<XIcon name="checkbox-marked" />}
-                    size={responsiveWidth(widthPersentage(21))}
-                    color={'white'}
+                  <Image
+                    source={CheckIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(21)),
+                    }}
                   />
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(13))}

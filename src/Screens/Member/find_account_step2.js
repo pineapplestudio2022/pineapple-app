@@ -6,7 +6,6 @@ import {
   ImageBackground,
   SafeAreaView,
   Image,
-  TouchableOpacity,
 } from 'react-native';
 import {
   responsiveHeight,

@@ -1,28 +1,9 @@
 //파인애플 뮤직 화면
-import {
-  Box,
-  Center,
-  HStack,
-  Image,
-  Input,
-  Pressable,
-  ScrollView,
-  Slide,
-  Text,
-  VStack,
-} from 'native-base';
+import {Box, HStack, ScrollView, Slide, VStack} from 'native-base';
 import React from 'react';
 
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {heightPersentage} from '../Commons/DeviceWHPersentage';
 
 import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';

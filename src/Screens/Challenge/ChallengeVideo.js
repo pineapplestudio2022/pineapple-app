@@ -1,15 +1,7 @@
 import React from 'react';
 import {StyleSheet, Image, ImageBackground} from 'react-native';
 
-import {
-  Text,
-  Button,
-  Heading,
-  Container,
-  Center,
-  Box,
-  ScrollView,
-} from 'native-base';
+import {Text, Button, Container, Center, Box, ScrollView} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 
 /*윤호님 카드 컴포넌트 작성법 참조해서 상단에 배경화면들 임포트하기*/

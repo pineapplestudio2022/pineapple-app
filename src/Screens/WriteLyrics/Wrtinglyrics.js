@@ -4,18 +4,13 @@ import {
   VStack,
   Text,
   Divider,
-  Center,
   HStack,
   Image,
-  Button,
   TextArea,
   ScrollView,
-  View,
-  KeyboardAvoidingView,
   Input,
   Pressable,
 } from 'native-base';
-import {StyleSheet, ImageBackground} from 'react-native';
 import {
   responsiveFontSize,
   responsiveHeight,

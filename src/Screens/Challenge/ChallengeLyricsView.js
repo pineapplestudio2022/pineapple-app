@@ -1,11 +1,14 @@
 //Challenge -> 가사보기 뷰
 
 import React from 'react';
-import {Box, Center, Text, VStack, HStack, TextArea, Icon} from 'native-base';
+import {Box, Center, Text, VStack, HStack, TextArea, Image} from 'native-base';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {widthPersentage} from '../../Commons/DeviceWHPersentage';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
-import XIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
+import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
 
 function LyricsView(props) {
   return (
@@ -138,10 +141,12 @@ function LyricsView(props) {
                   padding: 12,
                 }}>
                 <HStack space={4} justifyContent={'center'}>
-                  <Icon
-                    as={<XIcon name="file-excel-box" />}
-                    size="xs"
-                    color={'white'}
+                  <Image
+                    source={XIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(21)),
+                    }}
                   />
                   <Text fontSize={13} fontWeight={800} color={'white'}>
                     닫 기
@@ -164,10 +169,12 @@ function LyricsView(props) {
                   padding: 12,
                 }}>
                 <HStack space={4} justifyContent={'center'}>
-                  <Icon
-                    as={<XIcon name="checkbox-marked" />}
-                    size="xs"
-                    color={'white'}
+                  <Image
+                    source={CheckIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(21)),
+                    }}
                   />
                   <Text fontSize={13} fontWeight={800} color={'white'}>
                     참 여
