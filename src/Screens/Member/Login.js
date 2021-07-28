@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20,
     marginRight: 20,
+    marginTop: 50,
     shadowColor: 'rgba(133, 140, 146, 0.2)',
     shadowRadius: 10,
     shadowOpacity: 1,

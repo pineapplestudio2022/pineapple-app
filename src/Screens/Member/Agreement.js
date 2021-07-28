@@ -10,14 +10,17 @@ import {
   heightPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import {Divider, HStack} from 'native-base';
+import MenuComponent from '../../Components/MenuComponent';
 
 const Agreement = props => {
   return (
     <View style={styles.mainBody}>
-      <HStack>
-        <Image source={require('../../Assets/Image/member/Arrow1.png')} />
-        <Text style={styles.txt1}>{'          '} 회원가입 </Text>
-      </HStack>
+      <MenuComponent
+        name={'Agreement'}
+        titleName={'회원가입'}
+        navigation={props.navigation}
+        notGB
+      />
       {/*처음 접속시에는 스플래시 화면만->로그인 버튼을 클릭한 뒤에 로그인 화면이 나타난다. 챌린지는 Guest상태로는 불가-> 회원가입요청*/}
       {/*챌린지감상하기는 검색바 해시태그 4개 {노래,영상,편곡,연주}*/}
       <View style={styles.bgimg1} alignItems={'center'}>
@@ -97,7 +100,6 @@ export default Agreement;
 
 const styles = StyleSheet.create({
   mainBody: {
-    flex: 1,
     justifyContent: 'center',
   },
 

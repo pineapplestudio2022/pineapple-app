@@ -1,6 +1,6 @@
 //MainScreen 상단 Top 10 안의 음원 표시 Component
 
-import React, {Component} from 'react';
+import React from 'react';
 import {Box, Text, Image, Pressable} from 'native-base';
 import {ImageBackground} from 'react-native';
 import TopMusicAll from '../Assets/Image/Top_music/top_music_all.jpg';
@@ -15,16 +15,8 @@ import BadgeIcon8 from '../Assets/Image/Top_music/top_music_badge_8.png';
 import BadgeIcon9 from '../Assets/Image/Top_music/top_music_badge_9.png';
 import BadgeIcon10 from '../Assets/Image/Top_music/top_music_badge_10.png';
 import BadgeIconCrown from '../Assets/Image/Top_music/top_music_badge_crown.png';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {widthPersentage} from '../Commons/DeviceWHPersentage';
 
 const getBadge = number => {
   switch (number) {

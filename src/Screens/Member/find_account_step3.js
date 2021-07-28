@@ -18,75 +18,72 @@ import {
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import {HStack} from 'native-base';
+import MenuComponent from '../../Components/MenuComponent';
 
 const Findch = props => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
   return (
-    <View>
-      <View>
-        <HStack style={styles.aimg}>
-          <Image source={require('../../Assets/Image/member/Arrow1.png')} />
-          <Text style={styles.txt1}>{'          '} 계정찾기 </Text>
-        </HStack>
+    <View style={{flex: 1}}>
+      <MenuComponent
+        name={'Agreement'}
+        titleName={'회원가입'}
+        navigation={props.navigation}
+        notGB
+      />
+      <View style={{alignItems: 'center'}}>
+        <ImageBackground
+          source={require('../../Assets/Image/member/Login3-1.png')}
+          style={styles.bgimg1}>
+          <View style={styles.dotView}>
+            <HStack space={2}>
+              <Text style={styles.dot}></Text>
+              <Text style={styles.dot}></Text>
+              <Text style={styles.dot1}></Text>
+            </HStack>
+          </View>
+          <View>
+            <Text style={styles.TextStyle}> 사용하실 암호를 입력해주세요 </Text>
+          </View>
 
-        <View style={styles.bgimg}>
-          <ImageBackground
-            source={require('../../Assets/Image/member/Login3-1.png')}
-            style={styles.bgimg1}>
-            <View style={styles.dotView}>
-              <HStack space={2}>
-                <Text style={styles.dot}></Text>
-                <Text style={styles.dot}></Text>
-                <Text style={styles.dot1}></Text>
-              </HStack>
-            </View>
-            <View>
-              <Text style={styles.TextStyle}>
-                {' '}
-                사용하실 암호를 입력해주세요{' '}
-              </Text>
-            </View>
+          <View style={styles.SectionStyle}>
+            <Image
+              source={require('../../Assets/Image/member/key.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="PW"
+              placeholderTextColor="#a5a8ae"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              underlineColorIos="transparent"
+            />
+          </View>
 
-            <View style={styles.SectionStyle}>
-              <Image
-                source={require('../../Assets/Image/member/key.png')}
-                style={styles.buttonImageIconStyle}
-              />
-              <TextInput
-                style={{flex: 1}}
-                placeholder="PW"
-                placeholderTextColor="#a5a8ae"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                underlineColorIos="transparent"
-              />
-            </View>
-
-            <View style={styles.SectionStyle}>
-              <Image
-                source={require('../../Assets/Image/member/key.png')}
-                style={styles.buttonImageIconStyle}
-              />
-              <TextInput
-                style={{flex: 1}}
-                placeholder="PW check"
-                placeholderTextColor="#a5a8ae"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                underlineColorIos="transparent"
-              />
-            </View>
-            <SafeAreaView>
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={() => props.navigation.navigate('MainScreen')}>
-                <Text style={styles.buttonTextStyle}> 완 료 </Text>
-              </TouchableOpacity>
-            </SafeAreaView>
-          </ImageBackground>
-        </View>
+          <View style={styles.SectionStyle}>
+            <Image
+              source={require('../../Assets/Image/member/key.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="PW check"
+              placeholderTextColor="#a5a8ae"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              underlineColorIos="transparent"
+            />
+          </View>
+          <SafeAreaView>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => props.navigation.navigate('MainScreen')}>
+              <Text style={styles.buttonTextStyle}> 완 료 </Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        </ImageBackground>
       </View>
     </View>
   );
@@ -99,17 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  bgimg: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 70,
-    marginBottom: 100,
-  },
-
   bgimg1: {
     width: responsiveWidth(widthPersentage(350)),
     height: responsiveHeight(heightPersentage(500)),
     borderRadius: 20,
+    marginTop: 50,
     overflow: 'hidden',
     borderRadius: 20,
     overflow: 'hidden',

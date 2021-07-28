@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {HStack} from 'native-base';
+import {HStack, ScrollView} from 'native-base';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -17,6 +17,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
+import MenuComponent from '../../Components/MenuComponent';
 
 //import FontAwesomeIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 //fontawesome 뒤 특정 페이지 아이콘을 임포트할 경우 react-native-icons/뒤에 요소만 바꿔준다.
@@ -24,167 +25,169 @@ import {
 const Register = props => {
   return (
     <View style={styles.mainBody}>
-      <View style={{alignItems: 'center'}}>
-        <HStack>
-          <Image source={require('../../Assets/Image/member/Arrow1.png')} />
-          <Text style={styles.txt1}>회원가입</Text>
-        </HStack>
-      </View>
-      <View style={{flex: 1}}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            source={require('../../Assets/Image/member/SignUp-1.png')}
-            style={styles.imgStyle}
-          />
-        </View>
-        <View style={styles.SectionStyle1}>
-          <Text style={styles.Txtstyle}>계정정보</Text>
-        </View>
+      <MenuComponent
+        name={'Agreement'}
+        titleName={'회원가입'}
+        navigation={props.navigation}
+        notGB
+      />
+      <ScrollView>
+        <View style={{flex: 1}}>
+          <View style={{alignItems: 'center'}}>
+            <Image
+              source={require('../../Assets/Image/member/SignUp-1.png')}
+              style={styles.imgStyle}
+            />
+          </View>
+          <View style={styles.SectionStyle1}>
+            <Text style={styles.Txtstyle}>계정정보</Text>
+          </View>
 
-        <View style={styles.SectionStyle2}>
-          <Image
-            source={require('../../Assets/Image/member/0224Email.png')}
-            style={styles.buttonImageIconStyle}
-          />
-          <TextInput
-            style={{flex: 1}}
-            placeholder="Email"
-            placeholderTextColor="#a5a8ae"
-          />
-        </View>
+          <View style={styles.SectionStyle2}>
+            <Image
+              source={require('../../Assets/Image/member/0224Email.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="Email"
+              placeholderTextColor="#a5a8ae"
+            />
+          </View>
 
-        <View style={styles.SectionStyle2}>
-          <Image
-            source={require('../../Assets/Image/member/key.png')}
-            style={styles.buttonImageIconStyle}
-          />
-          <TextInput
-            style={{flex: 1}}
-            placeholder="PW"
-            placeholderTextColor="#a5a8ae"
-            keyboardType="default"
-            secureTextEntry={true}
-            underlineColorIos="transparent"
-          />
-        </View>
+          <View style={styles.SectionStyle2}>
+            <Image
+              source={require('../../Assets/Image/member/key.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="PW"
+              placeholderTextColor="#a5a8ae"
+              keyboardType="default"
+              secureTextEntry={true}
+              underlineColorIos="transparent"
+            />
+          </View>
 
-        <View style={styles.SectionStyle2}>
-          <Image
-            source={require('../../Assets/Image/member/key.png')}
-            style={styles.buttonImageIconStyle}
-          />
-          <TextInput
-            style={{flex: 1}}
-            placeholder="PW check"
-            placeholderTextColor="#a5a8ae"
-            keyboardType="default"
-            secureTextEntry={true}
-            underlineColorIos="transparent"
-          />
-        </View>
+          <View style={styles.SectionStyle2}>
+            <Image
+              source={require('../../Assets/Image/member/key.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="PW check"
+              placeholderTextColor="#a5a8ae"
+              keyboardType="default"
+              secureTextEntry={true}
+              underlineColorIos="transparent"
+            />
+          </View>
 
-        <View style={styles.SectionStyle1}>
-          <Text style={styles.Txtstyle}>본인 인증</Text>
-        </View>
+          <View style={styles.SectionStyle1}>
+            <Text style={styles.Txtstyle}>본인 인증</Text>
+          </View>
 
-        <View style={styles.SectionStyle2}>
-          <Image
-            source={require('../../Assets/Image/member/0224call.png')}
-            style={styles.buttonImageIconStyle}
-          />
-          <TextInput
-            style={{flex: 1}}
-            placeholder="전화번호"
-            placeholderTextColor="#a5a8ae"
-            autoCapitalize="sentences"
-            underlineColorIos="transparent"
-          />
-          <TouchableOpacity style={styles.InbtnStyle}>
-            <Text style={styles.IntxtStyle}>인증번호</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.SectionStyle2}>
-          <Image
-            source={require('../../Assets/Image/member/0224lock.png')}
-            style={styles.buttonImageIconStyle}
-          />
-          <TextInput
-            style={{flex: 1}}
-            placeholder="인증번호"
-            placeholderTextColor="#a5a8ae"
-            autoCapitalize="sentences"
-            underlineColorIos="transparent"
-          />
-          <TouchableOpacity style={styles.InbtnStyle}>
-            <Text style={styles.IntxtStyle}>확인</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.SectionStyle2}>
+            <Image
+              source={require('../../Assets/Image/member/0224call.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="전화번호"
+              placeholderTextColor="#a5a8ae"
+              autoCapitalize="sentences"
+              underlineColorIos="transparent"
+            />
+            <TouchableOpacity style={styles.InbtnStyle}>
+              <Text style={styles.IntxtStyle}>인증번호</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.SectionStyle2}>
+            <Image
+              source={require('../../Assets/Image/member/0224lock.png')}
+              style={styles.buttonImageIconStyle}
+            />
+            <TextInput
+              style={{flex: 1}}
+              placeholder="인증번호"
+              placeholderTextColor="#a5a8ae"
+              autoCapitalize="sentences"
+              underlineColorIos="transparent"
+            />
+            <TouchableOpacity style={styles.InbtnStyle}>
+              <Text style={styles.IntxtStyle}>확인</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.SectionStyle1}>
-          <Text style={styles.Txtstyle}>회원 구분</Text>
-        </View>
+          <View style={styles.SectionStyle1}>
+            <Text style={styles.Txtstyle}>회원 구분</Text>
+          </View>
 
-        <View style={styles.SectionStyle3}>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>일반인</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>실연자</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>퍼포먼서</Text>
+          <View style={styles.SectionStyle3}>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>일반인</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>실연자</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>퍼포먼서</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.SectionStyle4}>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>작사가</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>연습생</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>엔지니어</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.SectionStyle5}>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>작곡가</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
+              <View style={styles.radioButtonIcon2} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={styles.radioButtonText}>인플루언서</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity style={styles.buttonStyle}>
+            <Text style={styles.buttonTextStyle}>SIGN UP</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.SectionStyle4}>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>작사가</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>연습생</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>엔지니어</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.SectionStyle5}>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>작곡가</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
-            <View style={styles.radioButtonIcon2} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.radioButtonText}>인플루언서</Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.buttonStyle}>
-          <Text style={styles.buttonTextStyle}>SIGN UP</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 };

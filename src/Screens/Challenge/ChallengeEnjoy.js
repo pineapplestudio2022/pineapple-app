@@ -22,21 +22,22 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../../Commons/DeviceWHPersentage';
 
-import MenuComponent from '../Components/MenuComponent';
+import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import MusicPlayerFull from '../Components/MusicPlayerFull';
-import MusicPlayerSmall from '../Components/MusicPlayerSmall';
-import SearchIcon from '../Assets/Image/icon_main_search.png';
-import MusicBox from '../Components/MusicBoxComponent';
+import MusicPlayerFull from '../../Components/MusicPlayerFull';
+import MusicPlayerSmall from '../../Components/MusicPlayerSmall';
+import SearchIcon from '../../Assets/Image/icon_main_search.png';
+import MusicBox from '../../Components/MusicBoxComponent';
+import {TouchableOpacity} from 'react-native';
 
-function pineappleMusic(props) {
+function ChallengeEnjoy(props) {
   const [scroll, setScroll] = React.useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [playerOpen, setPlayerOpen] = React.useState(false);
   const [isBottom, setIsBottom] = React.useState(true);
+  const [playerOpen, setPlayerOpen] = React.useState(false);
 
   const openFullPlayer = () => {
     setPlayerOpen(true);
@@ -48,7 +49,7 @@ function pineappleMusic(props) {
     <Box flex={1}>
       <MenuComponent
         name={props.route.name}
-        titleName={'Pinapple Music'}
+        titleName={'모두의 챌린지'}
         navigation={props.navigation}
       />
       <ScrollView>
@@ -89,34 +90,78 @@ function pineappleMusic(props) {
         {/* Search Box end */}
         <VStack>
           {/* HashTag start */}
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false} //가로 스크롤바 표시 여부
-            contentContainerStyle={{
-              height: responsiveHeight(heightPersentage(26)),
-              width: '100%',
-              paddingStart: 35,
-            }}>
-            <Pressable
-              style={{
-                paddingLeft: 12,
-                paddingRight: 12,
-                paddingTop: 5,
-                paddingBottom: 5,
-                borderRadius: 4,
-                backgroundColor: '#0fefbd',
-                marginLeft: 4,
-                marginRight: 4,
-              }}>
-              <Text
-                fontSize={responsiveFontSize(fontSizePersentage(13))}
-                fontWeight={500}
-                color={'#fafafa'}
-                textAlign={'center'}>
-                # Dance
-              </Text>
-            </Pressable>
-          </ScrollView>
+          <Box>
+            <HStack justifyContent={'center'} space={2}>
+              <Pressable
+                style={{
+                  paddingLeft: 11,
+                  paddingRight: 11,
+                  height: responsiveHeight(heightPersentage(26)),
+                  borderRadius: 4,
+                  backgroundColor: '#0fefbd',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  fontSize={responsiveFontSize(fontSizePersentage(13))}
+                  fontWeight={500}
+                  color={'#fafafa'}
+                  textAlign={'center'}>
+                  # 노래
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  paddingLeft: 11,
+                  paddingRight: 11,
+                  height: responsiveHeight(heightPersentage(26)),
+                  borderRadius: 4,
+                  backgroundColor: '#0fefbd',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  fontSize={responsiveFontSize(fontSizePersentage(13))}
+                  fontWeight={500}
+                  color={'#fafafa'}
+                  textAlign={'center'}>
+                  # 영상
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  paddingLeft: 11,
+                  paddingRight: 11,
+                  height: responsiveHeight(heightPersentage(26)),
+                  borderRadius: 4,
+                  backgroundColor: '#0fefbd',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  fontSize={responsiveFontSize(fontSizePersentage(13))}
+                  fontWeight={500}
+                  color={'#fafafa'}
+                  textAlign={'center'}>
+                  # 연주
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  paddingLeft: 11,
+                  paddingRight: 11,
+                  height: responsiveHeight(heightPersentage(26)),
+                  borderRadius: 4,
+                  backgroundColor: '#0fefbd',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  fontSize={responsiveFontSize(fontSizePersentage(13))}
+                  fontWeight={500}
+                  color={'#fafafa'}
+                  textAlign={'center'}>
+                  # 편곡
+                </Text>
+              </Pressable>
+            </HStack>
+          </Box>
         </VStack>
         {/* HashTag end */}
         {/* 앨범 리스트 start  */}
@@ -142,6 +187,7 @@ function pineappleMusic(props) {
       <SlidingUpPanel
         ref={c => (this._panel = c)}
         allowDragging={scroll}
+        friction={0.2}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
           bottom: responsiveHeight(heightPersentage(157)),
@@ -160,4 +206,4 @@ function pineappleMusic(props) {
   );
 }
 
-export default pineappleMusic;
+export default ChallengeEnjoy;

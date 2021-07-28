@@ -98,7 +98,7 @@ function Challenge(props) {
             </HStack>
           </VStack>
           <Pressable
-            onPress={() => props.navigation.navigate('ListeningScreen')}
+            onPress={() => props.navigation.navigate('ChallengeEnjoy')}
             w={responsiveWidth(widthPersentage(320))}
             borderWidth={1}
             borderColor="#0fefbd"

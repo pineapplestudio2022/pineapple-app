@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Box,
   Center,
   Input,
   SearchIcon,
-  Icon,
   Stack,
   HStack,
   VStack,

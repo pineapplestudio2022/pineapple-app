@@ -19,7 +19,8 @@ export const LoginScreen = () => {
         headerShown: false,
         cardStyle: {backgroundColor: 'transparent'},
         animationEnabled: false,
-      }}>
+      }}
+      initialRouteName={'Login'}>
       <LoginStack.Screen name={'Login'} component={Login} />
       <LoginStack.Screen name={'FindAccount1'} component={FindAccount1} />
       <LoginStack.Screen name={'FindAccount2'} component={FindAccount2} />

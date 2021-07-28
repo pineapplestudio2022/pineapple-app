@@ -16,28 +16,25 @@ import {
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import {HStack, Button} from 'native-base';
+import MenuComponent from '../../Components/MenuComponent';
 
 const Findpw = props => {
   return (
-    <View style={styles.mainbody}>
-      <View style={(styles.alignItems = 'center')}></View>
-      <View>
-        {/* 아이콘 텍스트 일자정렬 */}
-        <HStack>
-          <Image
-            source={require('../../Assets/Image/member/Arrow1.png')}
-            marginLeft={22}
-          />
-          <Text style={styles.txt1}>{'          '} 계정찾기 </Text>
-        </HStack>
-
+    <View style={{flex: 1}}>
+      <MenuComponent
+        name={'Agreement'}
+        titleName={'회원가입'}
+        navigation={props.navigation}
+        notGB
+      />
+      <View style={{justifyContent: 'center'}}>
         <ImageBackground
           source={require('../../Assets/Image/member/Login3-1.png')}
           style={styles.bgimg1}>
           <View style={styles.Vstyle}>
             <HStack space={2}>
-              <Text style={styles.dot1}></Text>
               <Text style={styles.dot}></Text>
+              <Text style={styles.dot1}></Text>
               <Text style={styles.dot}></Text>
             </HStack>
             <Text style={styles.TextStyle}> 아이디는 아래와 같습니다.</Text>
@@ -75,7 +72,6 @@ export default Findpw;
 
 const styles = StyleSheet.create({
   mainbody: {
-    flex: 1,
     justifyContent: 'center',
   },
 
@@ -106,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20,
     marginRight: 20,
-    marginTop: -27,
+    marginTop: 50,
     shadowColor: 'rgba(133, 140, 146, 0.2)',
     shadowRadius: 10,
     shadowOpacity: 1,

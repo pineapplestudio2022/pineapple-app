@@ -18,23 +18,22 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {HStack} from 'native-base';
+import {Center, HStack} from 'native-base';
+import MenuComponent from '../../Components/MenuComponent';
 
 const Fnnum2 = props => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
   return (
-    <View style={styles.mainBody}>
+    <View style={{flex: 1}}>
+      <MenuComponent
+        name={'Agreement'}
+        titleName={'회원가입'}
+        navigation={props.navigation}
+        notGB
+      />
       <View>
-        <HStack>
-          <Image
-            source={require('../../Assets/Image/member/Arrow1.png')}
-            marginLeft={22}
-          />
-          <Text style={styles.txt1}>{'          '} 계정찾기 </Text>
-        </HStack>
-
         <ImageBackground
           source={require('../../Assets/Image/member/Login3-1.png')}
           style={styles.bgimg1}>
@@ -101,16 +100,12 @@ const Fnnum2 = props => {
 export default Fnnum2;
 
 const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-
   bgimg1: {
     width: responsiveWidth(widthPersentage(350)),
     height: responsiveHeight(heightPersentage(460)),
     alignItems: 'center',
     marginLeft: 20,
+    marginTop: 50,
     marginRight: 20,
     shadowColor: 'rgba(133, 140, 146, 0.2)',
     shadowRadius: 10,

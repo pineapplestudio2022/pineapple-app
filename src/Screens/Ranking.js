@@ -11,12 +11,17 @@ import MusicPlayerFull from '../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../Components/MusicPlayerSmall';
 import MusicBox from '../Components/MusicBoxComponent';
 function MusicRacking(props) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isBottom, setIsBottom] = React.useState(true);
   const [scroll, setScroll] = React.useState(true);
   const HandlerScroll = bool => setScroll(bool);
-  const HandlerOpen = () => setIsOpen(!isOpen);
-  let btnStr = `${isOpen ? 'hide' : 'show'}`;
+
+  const [playerOpen, setPlayerOpen] = React.useState(false);
+  const [isBottom, setIsBottom] = React.useState(true);
+
+  const openFullPlayer = () => {
+    setPlayerOpen(true);
+    setIsBottom(false);
+    this._panel.show();
+  };
 
   return (
     <Box flex={1}>
@@ -33,13 +38,13 @@ function MusicRacking(props) {
               badge={1}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={2}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
           <HStack space={8}>
@@ -47,13 +52,13 @@ function MusicRacking(props) {
               badge={3}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={4}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
           <HStack space={8}>
@@ -61,13 +66,13 @@ function MusicRacking(props) {
               badge={5}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={6}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
           <HStack space={8}>
@@ -75,13 +80,13 @@ function MusicRacking(props) {
               badge={7}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={8}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
           <HStack space={8}>
@@ -89,38 +94,36 @@ function MusicRacking(props) {
               badge={9}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={10}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
         </VStack>
         {/* 앨범 리스트 end */}
       </ScrollView>
 
-      <Slide in={isOpen}>
-        <SlidingUpPanel
-          ref={c => (this._panel = c)}
-          allowDragging={scroll}
-          draggableRange={{
-            top: responsiveHeight(heightPersentage(740)),
-            bottom: responsiveHeight(heightPersentage(157)),
-          }}
-          onMomentumDragStart={() => setIsBottom(false)}
-          onBottomReached={() => setIsBottom(true)}
-          animatedValue={this._draggedValue}
-          showBackdrop={false}>
-          {isBottom ? (
-            <MusicPlayerSmall />
-          ) : (
-            <MusicPlayerFull onScroll={HandlerScroll} />
-          )}
-        </SlidingUpPanel>
-      </Slide>
+      <SlidingUpPanel
+        ref={c => (this._panel = c)}
+        allowDragging={scroll}
+        draggableRange={{
+          top: responsiveHeight(heightPersentage(740)),
+          bottom: responsiveHeight(heightPersentage(157)),
+        }}
+        onMomentumDragStart={() => setIsBottom(false)}
+        onBottomReached={() => setIsBottom(true)}
+        animatedValue={this._draggedValue}
+        showBackdrop={false}>
+        {isBottom ? (
+          <MusicPlayerSmall />
+        ) : (
+          <MusicPlayerFull onScroll={HandlerScroll} />
+        )}
+      </SlidingUpPanel>
     </Box>
   );
 }
