@@ -46,7 +46,9 @@ function CustomDrawerContent(props) {
                   </Text>
                 </Center>
               </Pressable>
-            ) : null,
+            ) : (
+              <></>
+            ),
           )}
         </VStack>
         <VStack space={5} alignItems={'center'} safeAreaBottom mb={4}>

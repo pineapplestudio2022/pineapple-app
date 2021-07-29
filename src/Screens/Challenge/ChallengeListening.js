@@ -21,15 +21,63 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  PermissionsAndroid,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
 import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
 import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
 import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
-
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 function ChallengeListening(props) {
+  // 마이크 권한 체크
+  const checkRecord = async () => {
+    try {
+      const result = await request(PERMISSIONS.IOS.SPEECH_RECOGNITION);
+      if (result === RESULTS.GRANTED) {
+        console.log('succese');
+      }
+      if (Platform.OS === 'android') {
+        try {
+          const grants = await PermissionsAndroid.requestMultiple([
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          ]);
+
+          console.log('write external stroage', grants);
+
+          if (
+            grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+              PermissionsAndroid.RESULTS.GRANTED &&
+            grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+              PermissionsAndroid.RESULTS.GRANTED &&
+            grants['android.permission.RECORD_AUDIO'] ===
+              PermissionsAndroid.RESULTS.GRANTED
+          ) {
+            console.log('Permissions granted');
+          } else {
+            console.log('All required permissions not granted');
+            return;
+          }
+        } catch (err) {
+          console.warn(err);
+          return;
+        }
+      }
+    } catch (e) {
+      console.log(`error \n ${e}`);
+    }
+  };
+  React.useEffect(() => {
+    checkRecord();
+  }, []);
+
   return (
     <Box flex={1}>
       <MenuComponent
