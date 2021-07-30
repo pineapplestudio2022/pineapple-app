@@ -51,7 +51,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Allow pineapple to access your SpeechRecognition</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow pineapple to access your Microphone</string>
 </dict>
 </plist>

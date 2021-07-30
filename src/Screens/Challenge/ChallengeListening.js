@@ -1,16 +1,7 @@
 //Challenge -> 15초감상 View
 
-import React from 'react';
-import {
-  Box,
-  Center,
-  Text,
-  VStack,
-  HStack,
-  TextArea,
-  Icon,
-  Image,
-} from 'native-base';
+import React, {useEffect} from 'react';
+import {Box, Center, Text, VStack, HStack, TextArea, Image} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -21,62 +12,70 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {
-  ImageBackground,
-  PermissionsAndroid,
-  Platform,
-  TouchableOpacity,
-} from 'react-native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
-import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
-import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
-import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import Gbutton from '../../Components/GbuttonComponent';
+
+import AudioRecorderPlayer, {
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+  AVEncoderAudioQualityIOSType,
+  AVEncodingOption,
+} from 'react-native-audio-recorder-player';
+
 function ChallengeListening(props) {
-  // 마이크 권한 체크
-  const checkRecord = async () => {
-    try {
-      const result = await request(PERMISSIONS.IOS.SPEECH_RECOGNITION);
-      if (result === RESULTS.GRANTED) {
-        console.log('succese');
-      }
-      if (Platform.OS === 'android') {
-        try {
-          const grants = await PermissionsAndroid.requestMultiple([
-            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-          ]);
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+  const [recordSecs, setRecordSecs] = React.useState(0);
+  const [recordTime, setRecordTime] = React.useState('00:00:00');
+  const [currentPositionSec, setCurrentPositionSec] = React.useState(0);
+  const [currentDurationSec, setCurrentDurationSec] = React.useState(0);
+  const [playTime, setPlayTime] = React.useState('00:00:00');
+  const [duration, setDuration] = React.useState('00:00:00');
 
-          console.log('write external stroage', grants);
+  const [recordBtn, setRecordBtn] = React.useState(false);
+  const [stopRecordBtn, setStopRecordBtn] = React.useState(false);
 
-          if (
-            grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-              PermissionsAndroid.RESULTS.GRANTED &&
-            grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-              PermissionsAndroid.RESULTS.GRANTED &&
-            grants['android.permission.RECORD_AUDIO'] ===
-              PermissionsAndroid.RESULTS.GRANTED
-          ) {
-            console.log('Permissions granted');
-          } else {
-            console.log('All required permissions not granted');
-            return;
-          }
-        } catch (err) {
-          console.warn(err);
-          return;
-        }
-      }
-    } catch (e) {
-      console.log(`error \n ${e}`);
+  const ARPlayer = React.useRef(AudioRecorderPlayer);
+
+  useEffect(() => {
+    ARPlayer.current = new AudioRecorderPlayer();
+    // ARPlayer.current.setSubscriptionDuration(0.1);
+  }, []);
+
+  const onStartRecord = async () => {
+    const audioSet = {
+      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+      AudioSourceAndroid: AudioSourceAndroidType.MIC,
+      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+      AVNumberOfChannelsKeyIOS: 2,
+      AVFormatIDKeyIOS: AVEncodingOption.aac,
+    };
+
+    console.log('audioSet', audioSet);
+
+    if (ARPlayer.current) {
+      const uri = await ARPlayer.current.startRecorder(undefined, audioSet);
+      ARPlayer.current.addRecordBackListener(e => {
+        console.log('record-back', e);
+        setRecordSecs(e.currentPosition);
+        setRecordTime(ARPlayer.current.mmssss(Math.floor(e.currentPosition)));
+      });
+      console.log(`uri: ${uri}`);
+    }
+    setStopRecordBtn(true);
+  };
+
+  const onStopRecord = async () => {
+    if (ARPlayer.current) {
+      const result = await ARPlayer.current.stopRecorder();
+      ARPlayer.current.removeRecordBackListener();
+      setRecordSecs(0);
+      setStopRecordBtn(false);
+      console.log(result);
     }
   };
-  React.useEffect(() => {
-    checkRecord();
-  }, []);
 
   return (
     <Box flex={1}>
@@ -87,6 +86,7 @@ function ChallengeListening(props) {
       />
       <Box safeAreaBottom alignItems="center">
         <VStack space={2} w={responsiveWidth(widthPersentage(345))}>
+          {/* 제목 start */}
           <Center>
             <Text
               fontSize={responsiveFontSize(fontSizePersentage(20))}
@@ -99,6 +99,8 @@ function ChallengeListening(props) {
             </Text>
             <Text></Text>
           </Center>
+          {/* 제목 end */}
+          {/* 자곡가, 작사가 start */}
           <HStack space={10} justifyContent={'center'} p={2}>
             <HStack>
               <Text
@@ -129,6 +131,8 @@ function ChallengeListening(props) {
               </Text>
             </HStack>
           </HStack>
+          {/* 자곡가, 작사가 end */}
+          {/* GlassBox start */}
           <Box
             style={{
               height: responsiveHeight(heightPersentage(440)),
@@ -147,61 +151,76 @@ function ChallengeListening(props) {
                 }}>
                 <Center>
                   <Box
-                    backgroundColor={'#aabbcc'}
                     style={{
                       width: responsiveWidth(widthPersentage(209)),
                       height: responsiveHeight(heightPersentage(188)),
                     }}
                     rounded={8}
                     overflow={'hidden'}
-                    my={5}>
+                    mt={5}>
                     <Image
                       source={DumpImg}
                       w="100%"
                       h="100%"
                       resizeMode="center"
+                      alt={''}
                     />
                   </Box>
-                  <TouchableOpacity
+                  <HStack
                     style={{
-                      backgroundColor: '#0fefbd',
-                      borderRadius: 6,
-                      shadowColor: '#00000033',
-                      shadowOffset: {
-                        width: 0,
-                        height: 2,
-                      },
-                      shadowRadius: 4,
-                      shadowOpacity: 1,
-                      width: responsiveWidth(widthPersentage(220)),
-                      height: responsiveHeight(heightPersentage(40)),
+                      width: responsiveWidth(widthPersentage(209)),
+                      justifyContent: 'space-between',
                     }}>
-                    <HStack space={1}>
-                      <Image
-                        source={HeadPhoneIcon}
-                        style={{
-                          position: 'absolute',
-                          top: responsiveHeight(heightPersentage(8)),
-                          left: responsiveWidth(widthPersentage(15)),
-                          width: responsiveWidth(widthPersentage(24)),
-                          height: responsiveHeight(heightPersentage(24)),
-                        }}
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(12))}
+                      fontWeight={500}
+                      color={'#0fefbd'}>
+                      {recordSecs}
+                    </Text>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(12))}
+                      fontWeight={500}
+                      color={'#0fefbd'}>
+                      {recordTime}
+                    </Text>
+                  </HStack>
+                  {recordBtn ? (
+                    stopRecordBtn ? (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={'pulse'}
+                        onPress={onStopRecord}
+                        text={'RECORD'}
                       />
-                      <Text
-                        style={{
-                          position: 'absolute',
-                          top: responsiveHeight(heightPersentage(8)),
-                          left: responsiveWidth(widthPersentage(44)),
-                          width: responsiveWidth(widthPersentage(162)),
-                        }}
-                        fontSize={responsiveFontSize(fontSizePersentage(18))}
-                        fontWeight={600}
-                        textAlign={'center'}
-                        color={'white'}>
-                        15초 듣기
-                      </Text>
-                    </HStack>
-                  </TouchableOpacity>
+                    ) : (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={'mic'}
+                        onPress={onStartRecord}
+                        text={'Record'}
+                      />
+                    )
+                  ) : (
+                    <Gbutton
+                      wp={220}
+                      hp={40}
+                      fs={18}
+                      fw={600}
+                      rounded={8}
+                      imgName={'headphone'}
+                      onPress={onStopRecord}
+                      text={'15초 듣기'}
+                    />
+                  )}
+
                   <Box
                     bg={'#fafafa80'}
                     style={{
@@ -267,74 +286,26 @@ function ChallengeListening(props) {
               </ImageBackground>
             </Box>
             <HStack space={5} justifyContent={'space-around'} mt={4}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(40)),
-                }}>
-                <HStack
-                  space={4}
-                  justifyContent={'center'}
-                  alignItems={'center'}>
-                  <Image
-                    source={XIcon}
-                    resizeMode={'contain'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(13))}
-                    fontWeight={800}
-                    color={'white'}>
-                    닫 기
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(40)),
-                }}>
-                <HStack
-                  space={4}
-                  justifyContent={'center'}
-                  alignItems={'center'}>
-                  <Image
-                    source={CheckIcon}
-                    resizeMode={'contain'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(13))}
-                    fontWeight={800}
-                    color={'white'}>
-                    참 여
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                imgName={'x'}
+                text={'닫기'}
+                rounded={6}
+                onPress={() => props.navigation.goBack()}
+              />
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                rounded={6}
+                imgName={'check'}
+                text={'참여'}
+                onPress={() => setRecordBtn(true)}
+              />
             </HStack>
           </Box>
         </VStack>

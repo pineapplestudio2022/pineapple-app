@@ -35,6 +35,7 @@ function CustomDrawerContent(props) {
           {props.state.routeNames.map((name, index) =>
             index > 2 ? (
               <Pressable
+                key={name + index}
                 w="100%"
                 onPress={() => props.navigation.navigate(name)}>
                 <Center>
@@ -47,7 +48,7 @@ function CustomDrawerContent(props) {
                 </Center>
               </Pressable>
             ) : (
-              <></>
+              null || undefined
             ),
           )}
         </VStack>
