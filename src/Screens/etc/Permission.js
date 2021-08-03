@@ -42,6 +42,7 @@ function MicPermission() {
                     width: responsiveWidth(widthPersentage(26)),
                     height: responsiveHeight(heightPersentage(26)),
                   }}
+                  alt={' '}
                   resizeMode={'contain'}
                 />
               </Box>

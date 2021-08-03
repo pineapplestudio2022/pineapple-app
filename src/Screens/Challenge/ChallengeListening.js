@@ -1,7 +1,16 @@
 //Challenge -> 15초감상 View
 
 import React, {useEffect} from 'react';
-import {Box, Center, Text, VStack, HStack, TextArea, Image} from 'native-base';
+import {
+  Box,
+  Center,
+  Text,
+  VStack,
+  HStack,
+  TextArea,
+  Image,
+  Slider,
+} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -12,9 +21,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {ImageBackground, TouchableOpacity} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
-import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
 import Gbutton from '../../Components/GbuttonComponent';
 
@@ -24,26 +31,85 @@ import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
+import {BlurView} from '@react-native-community/blur';
+import {Platform} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 function ChallengeListening(props) {
-  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
-  const [recordSecs, setRecordSecs] = React.useState(0);
-  const [recordTime, setRecordTime] = React.useState('00:00:00');
-  const [currentPositionSec, setCurrentPositionSec] = React.useState(0);
-  const [currentDurationSec, setCurrentDurationSec] = React.useState(0);
-  const [playTime, setPlayTime] = React.useState('00:00:00');
-  const [duration, setDuration] = React.useState('00:00:00');
+  const [currentTrack, setCurrentTrack] = React.useState(1); //음악 트랙에 대한 인덱스
+  const [isAlreadyPlay, setIsAlreadyPlay] = React.useState(false); //재생 | 일시정지 상태
+  const [duration, setDuration] = React.useState('00:00:00'); //트랙 길이
+  const [timeElapsed, setTimeElapsed] = React.useState('00:00:00'); //트랙 경과 시간
+  const [percent, setPercent] = React.useState(0); //트랙 경과시간에 따른 slider 표시
 
-  const [recordBtn, setRecordBtn] = React.useState(false);
-  const [stopRecordBtn, setStopRecordBtn] = React.useState(false);
-
+  const [recordBtn, setRecordBtn] = React.useState(false); //녹음 시작 버튼 활성화
+  const [stopRecordBtn, setStopRecordBtn] = React.useState(false); // 녹음 중지 버튼 활성화
   const ARPlayer = React.useRef(AudioRecorderPlayer);
 
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer();
-    // ARPlayer.current.setSubscriptionDuration(0.1);
+    ARPlayer.current.setSubscriptionDuration(0.1);
+    return () => {
+      //재생, 녹음중 다른화면으로 나갈시 해제
+      ARPlayer.current.stopPlayer();
+      ARPlayer.current.removePlayBackListener();
+      ARPlayer.current.stopRecorder();
+      ARPlayer.current.removeRecordBackListener();
+    };
   }, []);
+  //임시 데이터
+  const playlist = [
+    {title: 'test tilte', path: 'futurehouse1-2.mp3', cover: ''},
+    {title: 'test tilte2', path: '210708_folk.mp3', cover: ''},
+    {title: 'test tilte3', path: '210719_5.mp3', cover: ''},
+    {title: 'test tilte4', path: 'trap_1.mp3', cover: ''},
+  ];
 
+  const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+  const path = Platform.select({
+    ios: 'file://' + dirs + '/',
+    android: 'file://' + dirs + '/',
+  });
+  console.log('path: ' + path);
+
+  const onStartPlay = async () => {
+    try {
+      const msg = await ARPlayer.current.startPlayer(
+        path + playlist[currentTrack].path,
+      );
+      const volume = await ARPlayer.current.setVolume(1.0);
+      console.log(`file: ${msg}`, `volume: ${volume}`);
+      setIsAlreadyPlay(true);
+
+      ARPlayer.current.addPlayBackListener(e => {
+        if (ARPlayer.current.mmssss(e.currentPosition) >= '00:15:00') {
+          ARPlayer.current.stopPlayer();
+          setIsAlreadyPlay(false);
+        }
+        let percent = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
+        setPercent(percent);
+        setDuration(ARPlayer.current.mmssss(e.duration));
+
+        return;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onStopPlay = async e => {
+    setTimeElapsed('00:00:00');
+    setDuration('00:00:00');
+    setPercent(0);
+    ARPlayer.current.stopPlayer();
+    ARPlayer.current.removePlayBackListener();
+    setIsAlreadyPlay(false);
+  };
+
+  //녹음 시작
   const onStartRecord = async () => {
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
@@ -55,25 +121,47 @@ function ChallengeListening(props) {
 
     console.log('audioSet', audioSet);
 
-    if (ARPlayer.current) {
-      const uri = await ARPlayer.current.startRecorder(undefined, audioSet);
-      ARPlayer.current.addRecordBackListener(e => {
-        console.log('record-back', e);
-        setRecordSecs(e.currentPosition);
-        setRecordTime(ARPlayer.current.mmssss(Math.floor(e.currentPosition)));
+    try {
+      //음악 재생
+      const msg = await ARPlayer.current.startPlayer(
+        path + playlist[currentTrack].path,
+      );
+      const volume = await ARPlayer.current.setVolume(1.0);
+      console.log(`file: ${msg}`, `volume: ${volume}`);
+
+      ARPlayer.current.addPlayBackListener(e => {
+        let percent = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
+        setPercent(percent);
+        setDuration(ARPlayer.current.mmssss(e.duration));
       });
+
+      //녹음 시작
+      const uri = await ARPlayer.current.startRecorder(
+        path + 'recording.m4a',
+        audioSet,
+      );
+      console.log('recording file name : ' + path + 'recording.mp3');
+      ARPlayer.current.addRecordBackListener();
+
+      setStopRecordBtn(true);
       console.log(`uri: ${uri}`);
+    } catch (error) {
+      console.log(error);
     }
-    setStopRecordBtn(true);
   };
 
   const onStopRecord = async () => {
-    if (ARPlayer.current) {
+    try {
+      onStopPlay();
       const result = await ARPlayer.current.stopRecorder();
       ARPlayer.current.removeRecordBackListener();
-      setRecordSecs(0);
       setStopRecordBtn(false);
       console.log(result);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -107,27 +195,13 @@ function ChallengeListening(props) {
                 color={'#4be3ac'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                작곡가 :{'  '}
+                장르 :{'  '}
               </Text>
               <Text
                 color={'#1a1b1c'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                뮤지아
-              </Text>
-            </HStack>
-            <HStack>
-              <Text
-                color={'#4be3ac'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                작사가 :{'  '}
-              </Text>
-              <Text
-                color={'#1a1b1c'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                김하나
+                일렉트로닉
               </Text>
             </HStack>
           </HStack>
@@ -142,13 +216,15 @@ function ChallengeListening(props) {
               shadowOpacity: 1,
             }}>
             <Box borderRadius={20} overflow={'hidden'}>
-              <ImageBackground
-                source={LyricsViewBackground}
-                resizeMode={'cover'}
+              <BlurView
                 style={{
                   width: '100%',
                   height: '100%',
-                }}>
+                  backgroundColor: '#ededed59',
+                }}
+                blurType="light"
+                blurAmount={12}
+                reducedTransparencyFallbackColor="white">
                 <Center>
                   <Box
                     style={{
@@ -163,8 +239,23 @@ function ChallengeListening(props) {
                       w="100%"
                       h="100%"
                       resizeMode="center"
-                      alt={''}
+                      alt={' '}
                     />
+                    {recordBtn ? (
+                      <Slider
+                        style={{
+                          position: 'absolute',
+                          bottom: '-5%',
+                        }}
+                        defaultValue={0}
+                        value={percent}>
+                        <Slider.Track bg={'#a5a8ae'}>
+                          <Slider.FilledTrack bg={'#0fefbd'} />
+                        </Slider.Track>
+                      </Slider>
+                    ) : (
+                      undefined || null
+                    )}
                   </Box>
                   <HStack
                     style={{
@@ -175,13 +266,13 @@ function ChallengeListening(props) {
                       fontSize={responsiveFontSize(fontSizePersentage(12))}
                       fontWeight={500}
                       color={'#0fefbd'}>
-                      {recordSecs}
+                      {timeElapsed}
                     </Text>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(12))}
                       fontWeight={500}
                       color={'#0fefbd'}>
-                      {recordTime}
+                      {duration}
                     </Text>
                   </HStack>
                   {recordBtn ? (
@@ -205,9 +296,20 @@ function ChallengeListening(props) {
                         rounded={8}
                         imgName={'mic'}
                         onPress={onStartRecord}
-                        text={'Record'}
+                        text={'RECORD'}
                       />
                     )
+                  ) : isAlreadyPlay ? (
+                    <Gbutton
+                      wp={220}
+                      hp={40}
+                      fs={18}
+                      fw={600}
+                      rounded={8}
+                      imgName={'stop'}
+                      text={'15초 듣기'}
+                      onPress={onStopPlay}
+                    />
                   ) : (
                     <Gbutton
                       wp={220}
@@ -216,8 +318,8 @@ function ChallengeListening(props) {
                       fw={600}
                       rounded={8}
                       imgName={'headphone'}
-                      onPress={onStopRecord}
                       text={'15초 듣기'}
+                      onPress={onStartPlay}
                     />
                   )}
 
@@ -283,7 +385,7 @@ function ChallengeListening(props) {
                     </TextArea>
                   </Box>
                 </Center>
-              </ImageBackground>
+              </BlurView>
             </Box>
             <HStack space={5} justifyContent={'space-around'} mt={4}>
               <Gbutton

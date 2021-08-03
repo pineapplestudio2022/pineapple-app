@@ -144,6 +144,7 @@ function LyricsView(props) {
                   <Image
                     source={XIcon}
                     resizeMode={'contain'}
+                    alt={' '}
                     style={{
                       width: responsiveWidth(widthPersentage(21)),
                     }}
@@ -172,6 +173,7 @@ function LyricsView(props) {
                   <Image
                     source={CheckIcon}
                     resizeMode={'contain'}
+                    alt={' '}
                     style={{
                       width: responsiveWidth(widthPersentage(21)),
                     }}

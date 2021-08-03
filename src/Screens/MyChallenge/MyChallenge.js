@@ -54,6 +54,7 @@ function MyChallenge(props) {
                 left={responsiveWidth(widthPersentage(56))}
                 top={responsiveHeight(heightPersentage(32))}
                 source={SingingIcon}
+                alt={''}
                 style={{
                   width: responsiveWidth(widthPersentage(40)),
                   height: responsiveHeight(heightPersentage(40)),
@@ -98,6 +99,7 @@ function MyChallenge(props) {
                 left={responsiveWidth(widthPersentage(56))}
                 top={responsiveHeight(heightPersentage(32))}
                 source={CameraIcon}
+                alt={''}
                 style={{
                   width: responsiveWidth(widthPersentage(40)),
                   height: responsiveHeight(heightPersentage(40)),
@@ -142,6 +144,7 @@ function MyChallenge(props) {
                 left={responsiveWidth(widthPersentage(56))}
                 top={responsiveHeight(heightPersentage(32))}
                 source={PlayingMusicIcon}
+                alt={''}
                 style={{
                   width: responsiveWidth(widthPersentage(40)),
                   height: responsiveHeight(heightPersentage(40)),
@@ -186,6 +189,7 @@ function MyChallenge(props) {
                 left={responsiveWidth(widthPersentage(56))}
                 top={responsiveHeight(heightPersentage(32))}
                 source={PreviewIcon}
+                alt={''}
                 style={{
                   width: responsiveWidth(widthPersentage(40)),
                   height: responsiveHeight(heightPersentage(40)),

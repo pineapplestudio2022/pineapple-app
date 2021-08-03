@@ -29,6 +29,7 @@ export default function ChallengeVideo(props) {
                 <Image
                   source={require('../../Assets/Image/challenge/02PlayBtn.png')}
                   style={styles.imgbtn}
+                  alt={' '}
                 />
               </ImageBackground>
             </Box>
@@ -53,6 +54,7 @@ export default function ChallengeVideo(props) {
                 <Image
                   source={require('../../Assets/Image/challenge/02PlayBtn.png')}
                   style={styles.imgbtn}
+                  alt={' '}
                 />
               </ImageBackground>
             </Box>

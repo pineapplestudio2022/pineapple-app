@@ -50,6 +50,9 @@ class Gbutton extends React.Component {
         case 'pulse':
         case 'pulse-reverse':
           return PulseIcon;
+        case 'stop':
+        case 'stop-reverse':
+          return StopIcon;
         default:
           return undefined;
       }
@@ -108,7 +111,7 @@ class Gbutton extends React.Component {
                 height: responsiveHeight(heightPersentage(this.props.hp)) / 1.6,
               }}
               resizeMode={'contain'}
-              alt={''}
+              alt={' '}
             />
           ) : (
             <></>

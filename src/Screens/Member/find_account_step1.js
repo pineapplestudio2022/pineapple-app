@@ -18,7 +18,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {Center, HStack} from 'native-base';
+import {HStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 
 const Fnnum2 = props => {

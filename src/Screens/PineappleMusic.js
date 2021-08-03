@@ -7,7 +7,6 @@ import {
   Input,
   Pressable,
   ScrollView,
-  Slide,
   Text,
   VStack,
 } from 'native-base';
@@ -76,6 +75,7 @@ function pineappleMusic(props) {
                   <Image
                     source={SearchIcon}
                     resizeMode={'contain'}
+                    alt={''}
                     style={{
                       width: responsiveWidth(widthPersentage(25)),
                       height: responsiveHeight(heightPersentage(24)),
@@ -148,7 +148,7 @@ function pineappleMusic(props) {
         }}
         onMomentumDragStart={() => setIsBottom(false)}
         onBottomReached={() => setIsBottom(true)}
-        animatedValue={this._draggedValue}
+        // animatedValue={this._draggedValue}
         showBackdrop={false}>
         {isBottom ? (
           <MusicPlayerSmall />

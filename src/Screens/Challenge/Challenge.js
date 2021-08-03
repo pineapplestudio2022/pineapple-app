@@ -40,7 +40,7 @@ function Challenge(props) {
                 rounded="8"
                 borderWidth="1"
                 borderColor="#0fefbd">
-                <Image source={SingingIcon} resizeMode={'contain'} />
+                <Image source={SingingIcon} resizeMode={'contain'} alt=" " />
                 <Text
                   marginTop="2"
                   color="#0fefbd"
@@ -58,7 +58,7 @@ function Challenge(props) {
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
-                <Image source={CameraIcon} resizeMode={'contain'} />
+                <Image source={CameraIcon} resizeMode={'contain'} alt=" " />
                 <Text marginTop="2" color="#0fefbd" textAlign={'center'} bold>
                   15초 영상 챌린지
                 </Text>
@@ -76,7 +76,11 @@ function Challenge(props) {
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
-                <Image source={PlayingMusicIcon} resizeMode={'contain'} />
+                <Image
+                  source={PlayingMusicIcon}
+                  resizeMode={'contain'}
+                  alt=" "
+                />
                 <Text marginTop="2" color="#0fefbd" bold>
                   연주 참여
                 </Text>
@@ -90,7 +94,7 @@ function Challenge(props) {
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
-                <Image source={PreviewIcon} resizeMode={'contain'} />
+                <Image source={PreviewIcon} resizeMode={'contain'} alt=" " />
                 <Text marginTop="2" color="#0fefbd" bold>
                   작곡 참여
                 </Text>
@@ -107,7 +111,7 @@ function Challenge(props) {
             pb="35"
             rounded="xl">
             <HStack space={5} alignItems="center">
-              <Image source={HeadPhoneIcon} resizeMode={'contain'} />
+              <Image source={HeadPhoneIcon} resizeMode={'contain'} alt=" " />
               <Text fontSize="28" color={'#0fefbd'} bold>
                 챌린지 감상
               </Text>
@@ -122,6 +126,7 @@ function Challenge(props) {
           position={'absolute'}
           right={3}
           h="100%"
+          alt=" "
         />
       </Box>
     </Box>

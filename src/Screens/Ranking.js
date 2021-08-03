@@ -116,7 +116,7 @@ function MusicRacking(props) {
         }}
         onMomentumDragStart={() => setIsBottom(false)}
         onBottomReached={() => setIsBottom(true)}
-        animatedValue={this._draggedValue}
+        // animatedValue={this._draggedValue}
         showBackdrop={false}>
         {isBottom ? (
           <MusicPlayerSmall />

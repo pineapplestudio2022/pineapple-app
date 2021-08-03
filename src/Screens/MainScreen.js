@@ -108,6 +108,7 @@ function MainScreen(props) {
                       source={ChallengeIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -133,6 +134,7 @@ function MainScreen(props) {
                       source={WriteMusicIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -168,6 +170,7 @@ function MainScreen(props) {
                       source={PhotoIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -200,6 +203,7 @@ function MainScreen(props) {
                       source={BgmStudioIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -236,6 +240,7 @@ function MainScreen(props) {
                       source={MagazineIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -268,6 +273,7 @@ function MainScreen(props) {
                       source={MusicNoteIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"

@@ -188,8 +188,8 @@ function MusicPlayerFull(props) {
               onTouchStart={() => props.onScroll(false)}
               onTouchEnd={() => props.onScroll(true)}
               onTouchCancel={() => props.onScroll(false)}>
-              {['1', '2', '3', '4', '5', '6', '7'].map(() => (
-                <HStack space={8} my={1}>
+              {['1', '2', '3', '4', '5', '6', '7'].map((name, index) => (
+                <HStack space={8} my={1} key={name + index}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(14))}
                     bold

@@ -21,9 +21,6 @@ import {HStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 
 const Findch = props => {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-
   return (
     <View style={{flex: 1}}>
       <MenuComponent

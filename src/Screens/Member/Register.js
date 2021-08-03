@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -7,12 +7,11 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {HStack, ScrollView} from 'native-base';
+import {ScrollView} from 'native-base';
 import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-// import {Radio, RadioGroup} from 'react-radio-group';
 import {
   heightPersentage,
   widthPersentage,

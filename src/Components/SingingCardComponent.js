@@ -31,6 +31,7 @@ function SingingCardComponent(props) {
             resizeMode={'center'}
             width={responsiveWidth(widthPersentage(110))}
             height={responsiveWidth(widthPersentage(110))}
+            alt={' '}
           />
         </Box>
         <VStack space={1} w={responsiveWidth(widthPersentage(190))}>

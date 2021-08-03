@@ -5,7 +5,6 @@ import {
   Text,
   ImageBackground,
   SafeAreaView,
-  Image,
 } from 'react-native';
 import {
   responsiveHeight,

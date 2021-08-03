@@ -9,7 +9,7 @@ import {
   widthPersentage,
   heightPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {Divider, HStack} from 'native-base';
+import {Divider} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 
 const Agreement = props => {

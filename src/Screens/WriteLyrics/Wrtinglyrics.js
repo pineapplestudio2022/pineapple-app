@@ -140,6 +140,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
+                      alt={''}
                       resizeMode={'contain'}
                     />
                     <Text
@@ -176,6 +177,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
+                      alt={''}
                       resizeMode={'contain'}
                     />
                     <Text

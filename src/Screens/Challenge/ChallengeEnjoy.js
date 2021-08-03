@@ -7,7 +7,6 @@ import {
   Input,
   Pressable,
   ScrollView,
-  Slide,
   Text,
   VStack,
 } from 'native-base';
@@ -30,7 +29,6 @@ import MusicPlayerFull from '../../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../../Components/MusicPlayerSmall';
 import SearchIcon from '../../Assets/Image/icon_main_search.png';
 import MusicBox from '../../Components/MusicBoxComponent';
-import {TouchableOpacity} from 'react-native';
 
 function ChallengeEnjoy(props) {
   const [scroll, setScroll] = React.useState(true);
@@ -77,6 +75,7 @@ function ChallengeEnjoy(props) {
                   <Image
                     source={SearchIcon}
                     resizeMode={'contain'}
+                    alt={' '}
                     style={{
                       width: responsiveWidth(widthPersentage(25)),
                       height: responsiveHeight(heightPersentage(24)),

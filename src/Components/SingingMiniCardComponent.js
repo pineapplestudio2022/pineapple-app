@@ -3,12 +3,10 @@ import React, {Component} from 'react';
 import {Image, Text, Box, VStack, HStack, Pressable, View} from 'native-base';
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
   fontSizePersentage,
-  heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic.png';
@@ -48,6 +46,7 @@ export default class SingingMiniCardComponent extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              alt={' '}
             />
           </Pressable>
         </HStack>
