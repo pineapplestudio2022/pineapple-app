@@ -16,7 +16,8 @@ import MainBackground from '../Assets/Image/bg_main.png';
 import Intro from '../Screens/Intro';
 import PineappleMusic from '../Screens/PineappleMusic';
 import MainScreen from '../Screens/MainScreen';
-import {MemberScreen, LoginScreen} from './MemberNavigation';
+import {MemberScreen, LoginScreen, MypageScreen} from './MemberNavigation';
+import LyricsScreen from '../navigation/LyricsNavigation';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -33,7 +34,7 @@ function CustomDrawerContent(props) {
         reducedTransparencyFallbackColor="white">
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           {props.state.routeNames.map((name, index) =>
-            index > 2 ? (
+            index > 3 ? (
               <Pressable
                 key={name + index}
                 w="100%"
@@ -78,6 +79,18 @@ function CustomDrawerContent(props) {
               </Text>
             </Center>
           </Pressable>
+          <Pressable
+            w="100%"
+            onPress={() => props.navigation.navigate('MypageScreen')}>
+            <Center>
+              <Text
+                color={'#fafafa'}
+                bold
+                fontSize={responsiveFontSize(fontSizePersentage(18))}>
+                마이페이지
+              </Text>
+            </Center>
+          </Pressable>
         </VStack>
       </BlurView>
     </Box>
@@ -102,13 +115,14 @@ function MainNavigation() {
         <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
         <Drawer.Screen name="MemberScreen" component={MemberScreen} />
         <Drawer.Screen name="LoginScreen" component={LoginScreen} />
+        <Drawer.Screen name="MypageScreen" component={MypageScreen} />
         <Drawer.Screen name="Pineapple Studio 소개" component={Intro} />
         <Drawer.Screen
           name="PinappleMusic [준비중]"
           component={PineappleMusic}
         />
         <Drawer.Screen name="My Challenge" component={MyChallengeNavigation} />
-        <Drawer.Screen name="My Lyrics" component={MainScreen} />
+        <Drawer.Screen name="My Lyrics" component={LyricsScreen} />
         <Drawer.Screen name="My Photo Album [준비중]" component={MainScreen} />
         <Drawer.Screen name="내가 만든 음원 [준비중]" component={MainScreen} />
         <Drawer.Screen name="My BGM [준비중]" component={MainScreen} />

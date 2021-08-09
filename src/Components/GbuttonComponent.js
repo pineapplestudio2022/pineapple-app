@@ -75,13 +75,13 @@ class Gbutton extends React.Component {
     };
     return (
       <Pressable
-        onPress={this.props.onPress}
-        onPressIn={pressIn}
-        onPressOut={pressOut}
+        onPress={this.props.disable ? () => {} : this.props.onPress}
+        onPressIn={this.props.disable ? () => {} : pressIn}
+        onPressOut={this.props.disable ? () => {} : pressOut}
         style={{
           width: responsiveWidth(widthPersentage(this.props.wp)),
           height: responsiveHeight(heightPersentage(this.props.hp)),
-          backgroundColor: this.state.bgColor,
+          backgroundColor: this.props.disable ? '#a5a8ae' : this.state.bgColor,
           borderWidth: this.state.bwidth,
           borderRadius: this.props.rounded,
           borderColor: '#0fefbd',
@@ -121,7 +121,6 @@ class Gbutton extends React.Component {
             style={{
               color: this.state.textColor,
               fontSize: responsiveFontSize(fontSizePersentage(this.props.fs)),
-              marginLeft: 20,
             }}>
             {this.props.text}
           </Text>
@@ -138,6 +137,7 @@ Gbutton.defaultProps = {
   wp: 390, //width
   hp: 843, //height
   rounded: 0, //borderRadius
+  disable: false, //disalbe
 };
 
 export default Gbutton;
