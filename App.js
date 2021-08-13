@@ -3,7 +3,8 @@ import 'react-native-gesture-handler';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import MainNavigation from './src/navigation/MainNavigation';
-import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
+import UserDispatchProvider from './src/Commons/UserDispatchProvider';
+// import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 
 const App = () => {
   // // 음성인식 권한 체크
@@ -22,11 +23,13 @@ const App = () => {
   // }, []);
 
   return (
-    <NavigationContainer>
-      <NativeBaseProvider>
-        <MainNavigation />
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <UserDispatchProvider>
+      <NavigationContainer>
+        <NativeBaseProvider>
+          <MainNavigation />
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </UserDispatchProvider>
   );
 };
 

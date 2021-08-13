@@ -18,7 +18,9 @@ import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
-import APIKit, {setClientToken} from '../../API/APIkit';
+import APIKit, {cleanClientToken, setClientToken} from '../../API/APIkit';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {useContext} from 'react';
 
 const Login = props => {
   const [signInEmail, setSignInEmail] = React.useState('');
@@ -29,18 +31,32 @@ const Login = props => {
     password: signInPassword,
   };
 
+  const {userId, dispatch} = useContext(UserDispatch);
+
   const onSuccess = ({data}) => {
+    if (data.IBcode == '2001') {
+      //db data 없음
+      console.log('회원정보 없음');
+      return;
+    }
+    if (data.IBcode == '2001') {
+      //db data 없음
+      console.log('회원정보 틀림');
+      return;
+    }
     // Set JSON Web Token on success
-    setClientToken(data);
-    console.log(data);
+    setClientToken(data.IBparams.token);
+    dispatch({type: 'SIGN_IN', userId: data.IBparams.userId});
+    props.navigation.navigate('MainScreen');
   };
   const onFailure = error => {
     console.log(error && error.response);
   };
 
   const submit = async () => {
-    console.log(payload);
-    APIKit.post('/login/signIn', payload).then(onSuccess).catch(onFailure);
+    await APIKit.post('/login/signIn', payload)
+      .then(onSuccess)
+      .catch(onFailure);
   };
 
   return (

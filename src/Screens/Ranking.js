@@ -1,6 +1,6 @@
 //파인애플 뮤직 화면
-import {Box, HStack, ScrollView, Slide, VStack} from 'native-base';
-import React from 'react';
+import {Box, Center, Flex, ScrollView} from 'native-base';
+import React, {useState, useRef, useEffect} from 'react';
 
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {heightPersentage} from '../Commons/DeviceWHPersentage';
@@ -10,18 +10,63 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayerFull from '../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../Components/MusicPlayerSmall';
 import MusicBox from '../Components/MusicBoxComponent';
+import APIKit from '../API/APIkit';
 function MusicRacking(props) {
-  const [scroll, setScroll] = React.useState(true);
+  const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [playerOpen, setPlayerOpen] = React.useState(false);
-  const [isBottom, setIsBottom] = React.useState(true);
+  const [playerOpen, setPlayerOpen] = useState(false);
+  const [isBottom, setIsBottom] = useState(true);
+  const panel = useRef();
 
-  const openFullPlayer = () => {
+  //음원 랭킹 리스트 10
+  const [musicList, setMusicList] = useState();
+
+  //플레이어
+  const [id, setId] = useState(); //id
+  const [title, setTitile] = useState(''); //곡 제목
+  const [participant, setParticipant] = useState(''); // 참여자 이름
+  const [cover, setCover] = useState();
+  const [cheering, setCheering] = useState(0); //응원해요
+  const [likes, setLikes] = useState(0); //찜
+  const [getTogether, setGetTogether] = useState(0); //함께해요
+
+  const openFullPlayer = index => {
+    setId(musicList.rows[index].id);
+    setTitile(musicList.rows[index].title);
+    setParticipant(musicList.rows[index].participant);
+    setCheering(musicList.rows[index].cheering);
+    setLikes(musicList.rows[index].likes);
+    setGetTogether(musicList.rows[index].getTogether);
+    setCover(index);
     setPlayerOpen(true);
     setIsBottom(false);
-    this._panel.show();
+    panel.current.show();
   };
+
+  console.log('musicid : ' + props.route.params.musicId);
+
+  useEffect(() => {
+    console.log('api get');
+
+    const onSuccess = response => {
+      setMusicList(response.data.IBparams);
+    };
+
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const getRankedChallenges = async () => {
+      await APIKit.get('/challenge/getRankedChallenges')
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    getRankedChallenges();
+    return () => {
+      console.log('api unmount');
+    };
+  }, []);
 
   return (
     <Box flex={1}>
@@ -32,83 +77,32 @@ function MusicRacking(props) {
       />
       <ScrollView>
         {/* 앨범 리스트 start  */}
-        <VStack space={8} alignItems={'center'} my={4}>
-          <HStack space={8}>
-            <MusicBox
-              badge={1}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
-            />
-            <MusicBox
-              badge={2}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
-            />
-          </HStack>
-          <HStack space={8}>
-            <MusicBox
-              badge={3}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
-            />
-            <MusicBox
-              badge={4}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
-            />
-          </HStack>
-          <HStack space={8}>
-            <MusicBox
-              badge={5}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
-            />
-            <MusicBox
-              badge={6}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
-            />
-          </HStack>
-          <HStack space={8}>
-            <MusicBox
-              badge={7}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
-            />
-            <MusicBox
-              badge={8}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
-            />
-          </HStack>
-          <HStack space={8}>
-            <MusicBox
-              badge={9}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
-            />
-            <MusicBox
-              badge={10}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
-            />
-          </HStack>
-        </VStack>
-        {/* 앨범 리스트 end */}
+        <Center>
+          <Flex
+            width={'82%'}
+            flexWrap={'wrap'}
+            direction={'row'}
+            justifyContent={'space-between'}>
+            {musicList &&
+              musicList.rows.map((rows, index) => (
+                <Box my={5}>
+                  <MusicBox
+                    key={rows.id}
+                    badge={index + 1}
+                    cover={index + 1}
+                    music={rows.title}
+                    owner={rows.participant}
+                    onPress={() => openFullPlayer(index)}
+                  />
+                </Box>
+              ))}
+          </Flex>
+        </Center>
       </ScrollView>
+      {/* 앨범 리스트 end */}
 
       <SlidingUpPanel
-        ref={c => (this._panel = c)}
+        ref={panel}
         allowDragging={scroll}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
@@ -116,12 +110,20 @@ function MusicRacking(props) {
         }}
         onMomentumDragStart={() => setIsBottom(false)}
         onBottomReached={() => setIsBottom(true)}
-        // animatedValue={this._draggedValue}
         showBackdrop={false}>
         {isBottom ? (
-          <MusicPlayerSmall />
+          <MusicPlayerSmall id={id} title={title} owner={participant} />
         ) : (
-          <MusicPlayerFull onScroll={HandlerScroll} />
+          <MusicPlayerFull
+            onScroll={HandlerScroll}
+            id={id}
+            cover={cover}
+            title={title}
+            owner={participant}
+            cheering={cheering}
+            likes={likes}
+            together={getTogether}
+          />
         )}
       </SlidingUpPanel>
     </Box>

@@ -1,185 +1,212 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+
 import {
+  responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
 import {
-  widthPersentage,
+  fontSizePersentage,
   heightPersentage,
+  widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {Divider} from 'native-base';
+import {
+  Box,
+  Center,
+  Checkbox,
+  Divider,
+  HStack,
+  Image,
+  ScrollView,
+  Text,
+  VStack,
+} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
+import Gbutton from '../../Components/GbuttonComponent';
+import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
+import {Alert, TouchableOpacity} from 'react-native';
 
 const Agreement = props => {
+  const [allCheck, setAllCheck] = React.useState(false); //전체동의
+  const [privacy, setPrivacy] = React.useState(false); //개인정보
+  const [terms, setTerms] = React.useState(false); //이용약관
+  const [marketing, setMarketing] = React.useState('0'); //마케팅 0:거부, 1:수신
+
+  //전체동의
+  const handelAllCheck = value => {
+    if (value) {
+      setPrivacy(true);
+      setTerms(true);
+      setMarketing('1');
+    } else {
+      setPrivacy(false);
+      setTerms(false);
+      setMarketing('0');
+    }
+  };
+
+  const handleAgreement = () => {
+    if (privacy && terms) {
+      props.navigation.navigate('Register', {
+        marketing: marketing,
+      });
+    } else {
+      Alert.alert(
+        'PineApple',
+        '서비스 이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.',
+        [{text: '확인'}],
+      );
+    }
+  };
   return (
-    <View style={styles.mainBody}>
+    <Box flex={1}>
       <MenuComponent
-        name={'Agreement'}
-        titleName={'회원가입'}
+        name={'Mypage'}
+        titleName={'마이페이지'}
         navigation={props.navigation}
         notGB
       />
-      {/*처음 접속시에는 스플래시 화면만->로그인 버튼을 클릭한 뒤에 로그인 화면이 나타난다. 챌린지는 Guest상태로는 불가-> 회원가입요청*/}
-      {/*챌린지감상하기는 검색바 해시태그 4개 {노래,영상,편곡,연주}*/}
-      <View style={styles.bgimg1} alignItems={'center'}>
-        <View>
-          <Text style={styles.TextStyle}>
-            어쨌든 간에 약관 동의를 요청하는 말
-          </Text>
-        </View>
-
-        <View>
-          <Text style={styles.TextStyle2}>
-            <Image
-              source={require('../../Assets/Image/member/02Icons24CheckmarkCircle.png')}
-              style={styles.imgsize}
-            />{' '}
-            약관에 전체 동의합니다
-          </Text>
-        </View>
-
-        <Divider
-          width={responsiveWidth(widthPersentage(355))}
-          height={responsiveHeight(heightPersentage(1))}
-          bordercolor={'#1a1b1c'}
-          borderStyle={'solid'}
-          borderWidth={0.2}
-        />
-
-        <View padding={40}>
-          <Text style={styles.txt}>
-            {' '}
-            <Image
-              source={require('../../Assets/Image/member/02Icons24CheckmarkCircleCopy.png')}
-            />
-            &nbsp; 개인정보 수집.이용 동의 (필수)
-            <Image
-              source={require('../../Assets/Image/member/02Icons24ExternalLink.png')}
-            />{' '}
-            {'\n'}
-          </Text>
-
-          <Text style={styles.txt}>
-            {' '}
-            <Image
-              source={require('../../Assets/Image/member/02Icons24CheckmarkCircleCopy.png')}
-            />
-            &nbsp; 서비스 이용약관 동의 (필수)
-            <Image
-              source={require('../../Assets/Image/member/02Icons24ExternalLink.png')}
-            />{' '}
-            {'\n'}{' '}
-          </Text>
-
-          <Text style={styles.txt}>
-            {' '}
-            <Image
-              source={require('../../Assets/Image/member/02Icons24CheckmarkCircleCopy.png')}
-            />
-            &nbsp; 광고.마케팅 수신 동의 (선택){' '}
-            <Image
-              source={require('../../Assets/Image/member/02Icons24ExternalLink.png')}
-            />{' '}
-            {'\n'}{' '}
-          </Text>
-        </View>
-
-        <View></View>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => props.navigation.navigate('Register')}>
-          <Text style={styles.btntxt}> 동의 </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      <ScrollView>
+        <Box
+          alignItems={'center'}
+          style={{
+            shadowColor: '#00000023',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowRadius: 1,
+            shadowOpacity: 1,
+          }}>
+          <Box
+            style={{
+              width: responsiveWidth(widthPersentage(355)),
+              height: responsiveHeight(heightPersentage(620)),
+              borderRadius: 8,
+              backgroundColor: '#ffffff',
+              overflow: 'hidden',
+            }}>
+            <VStack alignItems={'center'} space={8}>
+              <Text
+                fontSize={responsiveFontSize(fontSizePersentage(17))}
+                fontWeight={600}
+                color={'#1a1b1c'}
+                style={{
+                  width: responsiveWidth(widthPersentage(235)),
+                  height: responsiveHeight(heightPersentage(68)),
+                  marginTop: responsiveHeight(heightPersentage(59)),
+                  marginBottom: responsiveHeight(heightPersentage(46)),
+                }}>
+                회원가입을 위하여 개인정보 수집 및 마케팅 동의에 관련한 약관
+                동의를 부탁드려요!
+              </Text>
+              <Checkbox
+                value="1"
+                colorScheme={'rgb(15,239,189)'}
+                size={'md'}
+                onChange={handelAllCheck}>
+                <HStack
+                  w={'85%'}
+                  justifyContent={'space-around'}
+                  alignItems={'center'}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(22))}
+                    bold
+                    color={'#1a1b1c'}>
+                    약관에 전체 동의합니다.
+                  </Text>
+                </HStack>
+              </Checkbox>
+              <Divider />
+              <Checkbox
+                value="2"
+                colorScheme={'rgb(15,239,189)'}
+                onChange={() => setPrivacy(!privacy)}
+                isChecked={privacy}>
+                <HStack
+                  w={'85%'}
+                  justifyContent={'space-around'}
+                  alignItems={'center'}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(15))}
+                    bold
+                    color={'#a5a8ae'}>
+                    개인정보 수집•이용 동의{'('}필수{')'}
+                  </Text>
+                  <TouchableOpacity>
+                    <Image
+                      alt={' '}
+                      source={ExternalLinkIcon}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </TouchableOpacity>
+                </HStack>
+              </Checkbox>
+              <Checkbox
+                value="3"
+                colorScheme={'rgb(15,239,189)'}
+                onChange={() => setTerms(!terms)}
+                isChecked={terms}>
+                <HStack
+                  w={'85%'}
+                  justifyContent={'space-around'}
+                  alignItems={'center'}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(15))}
+                    bold
+                    color={'#a5a8ae'}>
+                    서비스 이용약관 동의{'('}필수{')'}
+                  </Text>
+                  <TouchableOpacity>
+                    <Image
+                      alt={' '}
+                      source={ExternalLinkIcon}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </TouchableOpacity>
+                </HStack>
+              </Checkbox>
+              <Checkbox
+                value="4"
+                colorScheme={'rgb(15,239,189)'}
+                onChange={() => setMarketing(!marketing)}
+                isChecked={marketing === '0' ? false : true}>
+                <HStack
+                  w={'85%'}
+                  justifyContent={'space-around'}
+                  alignItems={'center'}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(15))}
+                    bold
+                    color={'#a5a8ae'}>
+                    광고•마케팅 수신 동의{'('}선택{')'}
+                  </Text>
+                  <TouchableOpacity>
+                    <Image
+                      alt={' '}
+                      source={ExternalLinkIcon}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </TouchableOpacity>
+                </HStack>
+              </Checkbox>
+            </VStack>
+            <Center style={{marginTop: responsiveHeight(heightPersentage(45))}}>
+              <Gbutton
+                wp={220}
+                hp={40}
+                fs={18}
+                fw={600}
+                rounded={8}
+                disable={false}
+                text={'동의'}
+                onPress={handleAgreement}
+              />
+            </Center>
+          </Box>
+        </Box>
+      </ScrollView>
+    </Box>
   );
 };
 export default Agreement;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    justifyContent: 'center',
-  },
-
-  bgimg1: {
-    height: responsiveHeight(heightPersentage(620)),
-    borderRadius: 8,
-    backgroundColor: '#ffffff',
-    shadowColor: 'rgba(0, 0, 0, 0.14)',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 1,
-    shadowOpacity: 1,
-    marginLeft: 17,
-    marginRight: 18,
-  },
-  txt1: {
-    fontSize: 17,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-    textAlign: 'center',
-    color: '#1a1b1c',
-    marginBottom: 32,
-    marginLeft: 109,
-  },
-  imgsize: {
-    width: responsiveWidth(widthPersentage(36)),
-    height: responsiveHeight(heightPersentage(36)),
-  },
-
-  iconsize: {
-    width: responsiveWidth(widthPersentage(24)),
-    height: responsiveHeight(heightPersentage(24)),
-  },
-
-  txt: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    letterSpacing: -0.1,
-    color: '#a5a8ae',
-  },
-
-  TextStyle: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    letterSpacing: -0.15,
-    color: '#1a1b1c',
-    marginTop: 67,
-    marginBottom: 95,
-    marginLeft: 20,
-  },
-
-  TextStyle2: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    letterSpacing: -0.15,
-    color: '#1a1b1c',
-    marginBottom: 40,
-  },
-
-  buttonStyle: {
-    width: responsiveWidth(widthPersentage(220)),
-    height: responsiveHeight(heightPersentage(40)),
-    borderRadius: 8,
-    backgroundColor: '#a5a8ae',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-
-  btntxt: {
-    fontSize: 18,
-    fontWeight: '600',
-    letterSpacing: 0,
-    color: 'white',
-    marginTop: 9,
-  },
-});

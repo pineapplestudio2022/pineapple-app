@@ -17,7 +17,45 @@ import BadgeIcon10 from '../Assets/Image/Top_music/top_music_badge_10.png';
 import BadgeIconCrown from '../Assets/Image/Top_music/top_music_badge_crown.png';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {widthPersentage} from '../Commons/DeviceWHPersentage';
-
+import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
+import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
+import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
+import Cover4 from '../Assets/Image/Top_music/top_music_4.jpg';
+import Cover5 from '../Assets/Image/Top_music/top_music_5.jpg';
+import Cover6 from '../Assets/Image/Top_music/top_music_6.jpg';
+import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
+import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
+import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
+import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
+import CoverAll from '../Assets/Image/Top_music/top_music_all.jpg';
+const getCover = number => {
+  switch (number) {
+    case 1:
+      return Cover1;
+    case 2:
+      return Cover2;
+    case 3:
+      return Cover3;
+    case 4:
+      return Cover4;
+    case 5:
+      return Cover5;
+    case 6:
+      return Cover6;
+    case 7:
+      return Cover7;
+    case 8:
+      return Cover8;
+    case 9:
+      return Cover9;
+    case 10:
+      return Cover10;
+    case 11:
+      return CoverAll;
+    default:
+      return undefined;
+  }
+};
 const getBadge = number => {
   switch (number) {
     case 1:
@@ -64,7 +102,10 @@ function MusicAlbumComponent(props) {
           onPress={
             props.nextView === undefined
               ? () => {}
-              : () => props.navigation.navigate(props.nextView)
+              : () =>
+                  props.navigation.navigate(props.nextView, {
+                    musicId: props.id, //음악 id 전달
+                  })
           }
           borderRadius={9.5}
           overflow={'hidden'}
@@ -74,7 +115,7 @@ function MusicAlbumComponent(props) {
           marginTop={3}>
           {/* 앨범이미지 */}
           <ImageBackground
-            source={TopMusicAll}
+            source={getCover(props.cover)}
             resizeMode="cover"
             style={{
               width: responsiveWidth(widthPersentage(100)),
@@ -93,11 +134,17 @@ function MusicAlbumComponent(props) {
           </ImageBackground>
         </Pressable>
       </Box>
-      <Box marginLeft={3} marginRight={3}>
-        <Text color={'#14163e'} fontSize={15}>
+      <Box
+        marginLeft={3}
+        marginRight={3}
+        overflow={'hidden'}
+        style={{
+          width: responsiveWidth(widthPersentage(100)),
+        }}>
+        <Text color={'#14163e'} fontSize={15} noOfLines={1}>
           {props.title === undefined ? '음원제목' : props.title}
         </Text>
-        <Text color={'#a4acb4'} fontSize={12}>
+        <Text color={'#a4acb4'} fontSize={12} noOfLines={1}>
           {props.subtitle === undefined ? '소유자' : props.subtitle}
         </Text>
       </Box>

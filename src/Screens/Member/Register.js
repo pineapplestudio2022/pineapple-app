@@ -30,6 +30,7 @@ import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
+
 const Register = props => {
   const [email, setEmail] = React.useState(''); //이메일 주소
   const [password, setPassword] = React.useState(''); //첫번째 비밀번호
@@ -46,11 +47,14 @@ const Register = props => {
   const [authBtn, setAuthBtn] = React.useState(false); //인증번호 요청 버튼 활성화
   const [authCheckBtn, setAuthCheckBtn] = React.useState(false); //인증번호 확인 버튼 활성화
 
+  const {marketing} = props.route.params; //마케팅 동의 여부
+
   const payload = {
     email: email,
     password: password,
-    phoneNumber: phoneNum,
-    job: job,
+    phone: phoneNum,
+    uType: job,
+    marketingPolicy: marketing,
   };
 
   const onSuccess = ({data}) => {
@@ -75,10 +79,27 @@ const Register = props => {
     setPhoneNum(value);
   };
 
+  const payl = {
+    phoneNo: phoneNum,
+  };
+
   //인증번호 요청
-  const onAuthRequest = () => {
+  const onAuthRequest = async () => {
     //인증번호 확인 버튼 활성화
     setAuthCheckBtn(true);
+    try {
+      console.log('phone : ' + phoneNum);
+      APIKit.post('/auth/phone', payl)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      console.log('tett');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   //email valid check
@@ -129,7 +150,7 @@ const Register = props => {
     <Box flex={1}>
       <MenuComponent
         name={'Mypage'}
-        titleName={'마이페이지'}
+        titleName={'회원가입'}
         navigation={props.navigation}
         notGB
       />
@@ -428,7 +449,7 @@ const Register = props => {
                 </VStack>
               </Radio.Group>
               <Center>
-                {authEmail && authPW && authPhone ? (
+                {authEmail && authPW ? (
                   <Gbutton
                     wp={220}
                     hp={40}

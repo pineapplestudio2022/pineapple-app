@@ -10,16 +10,12 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import React from 'react';
-import CdDumpImage from '../Assets/Image/img_dump_cd.png';
-import HeartIcon from '../Assets/Image/icon_musicplayer_heart_green.png';
-import FireIcon from '../Assets/Image/icon_musicplayer_fire_green.png';
-import MicIcon from '../Assets/Image/icon_musicplayer_mic_green.png';
-
-import MusicPlayBarComponent from '../Components/MusicPlayBarComponent';
+import {Pressable} from 'react-native';
+import React, {useState, useContext, useEffect, useRef} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
+  responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
@@ -27,8 +23,98 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
-import {Pressable} from 'react-native';
+
+import CdDumpImage from '../Assets/Image/img_dump_cd.png';
+import HeartIcon from '../Assets/Image/icon_musicplayer_heart_green.png';
+import FireIcon from '../Assets/Image/icon_musicplayer_fire_green.png';
+import MicIcon from '../Assets/Image/icon_musicplayer_mic_green.png';
+
+import MusicPlayBarComponent from '../Components/MusicPlayBarComponent';
+
+import APIKit from '../API/APIkit';
+import {UserDispatch} from '../Commons/UserDispatchProvider';
+import Gbutton from './GbuttonComponent';
+
 function MusicPlayerFull(props) {
+  const {userId, dispatch} = useContext(UserDispatch);
+  const [replyList, setReplyList] = useState();
+  const [replyUpdateCheck, setReplyUpdateCheck] = useState(false); //댓글 업데이트 체크
+  const [comment, setComment] = useState('');
+
+  const scrollEnd = useRef(); //scrollview
+
+  useEffect(() => {
+    const payload = {challengeId: props.id};
+
+    const onSuccess = response => {
+      console.log(response);
+      setReplyList(response.data.IBparams.rows);
+      setReplyUpdateCheck(false);
+    };
+
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const getReply = async () => {
+      await APIKit.post('/challenge/getSongReply', payload)
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    if (props.id) {
+      getReply();
+    }
+    return () => {
+      console.log('api unmount');
+    };
+  }, [props.id, replyUpdateCheck]);
+  // server api수정 되면 다시 수정 필요
+  // const addCheeringCount = () => {
+  //   APIKit.post('/challenge/addCheeringCount', 1)
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+  // const addLikesCount = () => {
+  //   APIKit.post('/challenge/addLikesCount', 1)
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+  // const addGetTogetherCount = () => {
+  //   APIKit.post('/challenge/addGetTogetherCount', 1)
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
+  //댓글 입력
+  const submitComment = async () => {
+    const payload = {userId: userId, reply: comment, challengeId: props.id};
+    console.log(payload);
+    await APIKit.post('/challenge/AddSongReply', payload)
+      .then(response => {
+        console.log(response);
+        setReplyUpdateCheck(true);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleScrollEnd = () => {
+    scrollEnd.current.scrollToEnd({animated: false});
+  };
+
   return (
     <BlurView
       style={{
@@ -60,13 +146,13 @@ function MusicPlayerFull(props) {
             bold
             color={'#1a1b1c'}
             noOfLines={1}>
-            곡 제목이 들어갈 공간입니다
+            {props.title ? props.title : '제 목'}
           </Text>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(20))}
             bold
             color={'#858c92'}>
-            참여자 이름
+            {props.owner ? props.owner : '소유자'}
           </Text>
         </VStack>
         {/* 슬라이더 */}
@@ -94,7 +180,7 @@ function MusicPlayerFull(props) {
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
                 color={'#a5a8ae'}>
-                555
+                {props.cheering}
               </Text>
               <Image
                 source={FireIcon}
@@ -125,7 +211,7 @@ function MusicPlayerFull(props) {
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
                 color={'#a5a8ae'}>
-                555
+                {props.likes}
               </Text>
               <Image
                 source={HeartIcon}
@@ -156,7 +242,7 @@ function MusicPlayerFull(props) {
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
                 color={'#a5a8ae'}>
-                555
+                {props.together}
               </Text>
               <Image
                 source={MicIcon}
@@ -184,25 +270,32 @@ function MusicPlayerFull(props) {
               height: responsiveHeight(heightPersentage(90)),
             }}>
             <ScrollView
+              ref={scrollEnd}
               showsVerticalScrollIndicator={false}
               onTouchStart={() => props.onScroll(false)}
               onTouchEnd={() => props.onScroll(true)}
-              onTouchCancel={() => props.onScroll(false)}>
-              {['1', '2', '3', '4', '5', '6', '7'].map((name, index) => (
-                <HStack space={8} my={1} key={name + index}>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(14))}
-                    bold
-                    color={'#1a1b1c'}>
-                    작성자
-                  </Text>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(14))}
-                    fontWeight={500}>
-                    댓글
-                  </Text>
-                </HStack>
-              ))}
+              onTouchCancel={() => props.onScroll(false)}
+              onContentSizeChange={handleScrollEnd}>
+              {replyList &&
+                replyList.map(rows => (
+                  <HStack justifyContent={'space-around'} my={1} key={rows.id}>
+                    <Text
+                      width={responsiveScreenWidth(widthPersentage(90))}
+                      fontSize={responsiveFontSize(fontSizePersentage(14))}
+                      bold
+                      color={'#1a1b1c'}
+                      textAlign={'right'}
+                      noOfLines={1}>
+                      {rows.email}
+                    </Text>
+                    <Text
+                      width={responsiveScreenWidth(widthPersentage(200))}
+                      fontSize={responsiveFontSize(fontSizePersentage(14))}
+                      fontWeight={500}>
+                      {rows.reply}
+                    </Text>
+                  </HStack>
+                ))}
             </ScrollView>
           </Box>
           <Input
@@ -211,29 +304,21 @@ function MusicPlayerFull(props) {
             borderColor={'#a5a8ae4c'}
             backgroundColor={'#fafafab3'}
             placeholder={'응원의 한 줄을 남겨주세요~'}
+            onChangeText={text => setComment(text)}
             fontSize={responsiveFontSize(fontSizePersentage(16))}
             w={responsiveWidth(widthPersentage(320))}
             InputRightElement={
-              <Pressable
-                style={{
-                  width: responsiveWidth(widthPersentage(70)),
-                  height: responsiveHeight(heightPersentage(24)),
-                  borderRadius: 4,
-                  backgroundColor: '#0fefbd',
-                  shadowColor: '#00000020',
-                  shadowOffset: {
-                    width: 0,
-                    height: 0,
-                  },
-                  shadowRadius: 10,
-                  shadowOpacity: 1,
-                  marginRight: 10,
-                }}
-                justifyContent={'center'}>
-                <Text textAlign={'center'} color={'#ffffff'}>
-                  등록
-                </Text>
-              </Pressable>
+              <Box mr={3}>
+                <Gbutton
+                  wp={70}
+                  hp={24}
+                  fs={18}
+                  fw={600}
+                  rounded={4}
+                  onPress={submitComment}
+                  text={'등록'}
+                />
+              </Box>
             }
           />
         </Center>

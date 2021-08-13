@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -29,18 +29,19 @@ import MusicPlayerFull from '../Components/MusicPlayerFull';
 import MusicPlayerSmall from '../Components/MusicPlayerSmall';
 import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
+import {useRef} from 'react';
 
-function pineappleMusic(props) {
-  const [scroll, setScroll] = React.useState(true);
+function PineappleMusic(props) {
+  const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [playerOpen, setPlayerOpen] = React.useState(false);
-  const [isBottom, setIsBottom] = React.useState(true);
-
+  const [playerOpen, setPlayerOpen] = useState(false);
+  const [isBottom, setIsBottom] = useState(true);
+  const panel = useRef();
   const openFullPlayer = () => {
     setPlayerOpen(true);
     setIsBottom(false);
-    this._panel.show();
+    panel.current.show();
   };
 
   return (
@@ -140,7 +141,7 @@ function pineappleMusic(props) {
       </ScrollView>
 
       <SlidingUpPanel
-        ref={c => (this._panel = c)}
+        ref={panel}
         allowDragging={scroll}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
@@ -160,4 +161,4 @@ function pineappleMusic(props) {
   );
 }
 
-export default pineappleMusic;
+export default PineappleMusic;

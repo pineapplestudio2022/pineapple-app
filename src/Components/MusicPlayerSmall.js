@@ -44,18 +44,20 @@ function MusicPlayerSmall(props) {
             style={{
               fontSize: responsiveFontSize(fontSizePersentage(14)),
               color: '#1a1b1c',
+              textAlign: 'right',
             }}
             noOfLines={1}
             bold>
-            곡 제목이 들어갈 공간입니다.
+            {props.title}
           </Text>
           <Text
+            noOfLines={1}
             style={{
               fontSize: responsiveFontSize(fontSizePersentage(12)),
               color: '#858c92',
               textAlign: 'right',
             }}>
-            참여자 이름
+            {props.owner}
           </Text>
           <HStack justifyContent={'space-between'} my={4} alignItems={'center'}>
             <Pressable

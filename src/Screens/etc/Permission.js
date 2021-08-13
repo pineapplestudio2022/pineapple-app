@@ -76,7 +76,7 @@ function MicPermission() {
     </Box>
   );
 }
-``;
+('');
 export default MicPermission;
 
 const styles = StyleSheet.create({

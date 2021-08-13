@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Image} from 'react-native';
-import MenuComponent from './MenuComponents';
 import {
   Text,
   Button,
@@ -12,7 +11,7 @@ import {
   ImageBackground,
 } from 'native-base';
 
-export default function MenuComponent() {
+const Splash = props => {
   return (
     <ScrollView>
       <ImageBackground
@@ -61,7 +60,8 @@ export default function MenuComponent() {
       </ImageBackground>
     </ScrollView>
   );
-}
+};
+export default Splash;
 const styles = StyleSheet.create({
   bgimg: {
     width: '100%',
