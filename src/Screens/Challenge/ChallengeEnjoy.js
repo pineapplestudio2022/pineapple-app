@@ -1,17 +1,17 @@
 //파인애플 뮤직 화면
 import {
   Box,
+  Button,
   Center,
+  Flex,
   HStack,
   Image,
   Input,
-  Pressable,
   ScrollView,
   Text,
   VStack,
 } from 'native-base';
-import React from 'react';
-
+import React, {useRef, useState, useEffect} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -26,23 +26,65 @@ import {
 import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayer from '../../Components/MusicPlayer';
-import MusicPlayerSmall from '../../Components/MusicPlayerSmall';
 import SearchIcon from '../../Assets/Image/icon_main_search.png';
 import MusicBox from '../../Components/MusicBoxComponent';
+import Gbutton from '../../Components/GbuttonComponent';
+import APIKit from '../../API/APIkit';
+import {useCallback} from 'react';
 
 function ChallengeEnjoy(props) {
-  const [scroll, setScroll] = React.useState(true);
+  const panel = useRef();
+  const [scroll, setScroll] = useState(true);
+  const [isBottom, setIsBottom] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [isBottom, setIsBottom] = React.useState(true);
-  const [playerOpen, setPlayerOpen] = React.useState(false);
+  const [tag, setTag] = useState(1); //태그 선택 1:노래, 2:영상, 3:연주, 4:편곡
 
-  const openFullPlayer = () => {
-    setPlayerOpen(true);
+  const [musicList, setMusicList] = useState();
+  const [id, setId] = useState(); //id
+
+  const openFullPlayer = index => {
+    setId(musicList.rows[index].id);
     setIsBottom(false);
-    this._panel.show();
+    panel.current.show();
   };
 
+  useEffect(() => {
+    console.log('api get');
+
+    const onSuccess = response => {
+      setMusicList(response.data.IBparams);
+    };
+
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const payload = {cType: tag};
+    const getAllChallenges = async () => {
+      await APIKit.post('/challenge/getAllChallenges', payload)
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    getAllChallenges();
+
+    return () => {
+      console.log('api unmount');
+    };
+  }, [tag]);
+
+  const [playing, setPlaying] = useState(false);
+
+  const onStateChange = useCallback(state => {
+    if (state === 'ended') {
+      setPlaying(false);
+      alert('video has finished playing!');
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => !prev);
+  }, []);
   return (
     <Box flex={1}>
       <MenuComponent
@@ -87,119 +129,107 @@ function ChallengeEnjoy(props) {
           </Center>
         </VStack>
         {/* Search Box end */}
-        <VStack>
+        <VStack mb={5}>
           {/* HashTag start */}
-          <Box>
-            <HStack justifyContent={'center'} space={2}>
-              <Pressable
-                style={{
-                  paddingLeft: 11,
-                  paddingRight: 11,
-                  height: responsiveHeight(heightPersentage(26)),
-                  borderRadius: 4,
-                  backgroundColor: '#0fefbd',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(13))}
-                  fontWeight={500}
-                  color={'#fafafa'}
-                  textAlign={'center'}>
-                  # 노래
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  paddingLeft: 11,
-                  paddingRight: 11,
-                  height: responsiveHeight(heightPersentage(26)),
-                  borderRadius: 4,
-                  backgroundColor: '#0fefbd',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(13))}
-                  fontWeight={500}
-                  color={'#fafafa'}
-                  textAlign={'center'}>
-                  # 영상
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  paddingLeft: 11,
-                  paddingRight: 11,
-                  height: responsiveHeight(heightPersentage(26)),
-                  borderRadius: 4,
-                  backgroundColor: '#0fefbd',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(13))}
-                  fontWeight={500}
-                  color={'#fafafa'}
-                  textAlign={'center'}>
-                  # 연주
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  paddingLeft: 11,
-                  paddingRight: 11,
-                  height: responsiveHeight(heightPersentage(26)),
-                  borderRadius: 4,
-                  backgroundColor: '#0fefbd',
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(13))}
-                  fontWeight={500}
-                  color={'#fafafa'}
-                  textAlign={'center'}>
-                  # 편곡
-                </Text>
-              </Pressable>
-            </HStack>
-          </Box>
-        </VStack>
-        {/* HashTag end */}
-        {/* 앨범 리스트 start  */}
-        <VStack space={8} alignItems={'center'} my={4}>
-          <HStack space={8}>
-            <MusicBox
-              badge={true}
-              music={'버터'}
-              owner={'bts'}
-              onPress={openFullPlayer}
+          <HStack justifyContent={'center'} space={2}>
+            <Gbutton
+              wp={56}
+              hp={26}
+              fs={13}
+              fw={500}
+              rounded={4}
+              text={'# 노래'}
+              disable={tag === 1 ? false : true}
+              onPressActive={true}
+              onPress={() => setTag(1)}
             />
-            <MusicBox
-              badge={false}
-              music={'음원제목'}
-              owner={'소유자'}
-              onPress={openFullPlayer}
+            <Gbutton
+              wp={56}
+              hp={26}
+              fs={13}
+              fw={500}
+              rounded={4}
+              text={'# 영상'}
+              disable={tag === 2 ? false : true}
+              onPressActive={true}
+              onPress={() => setTag(2)}
+            />
+            <Gbutton
+              wp={56}
+              hp={26}
+              fs={13}
+              fw={500}
+              rounded={4}
+              text={'# 연주'}
+              onPressActive
+              onPress={() => alert('준비중입니다')}
+              disable
+            />
+            <Gbutton
+              wp={56}
+              hp={26}
+              fs={13}
+              fw={500}
+              rounded={4}
+              text={'# 편곡'}
+              onPressActive
+              onPress={() => alert('준비중입니다')}
+              disable
             />
           </HStack>
         </VStack>
-        {/* 앨범 리스트 end */}
+        {/* HashTag end */}
+        {/* 노래 리스트 start  */}
+        {tag === 1 ? (
+          <Center>
+            <Flex
+              width={'82%'}
+              flexWrap={'wrap'}
+              direction={'row'}
+              justifyContent={'space-between'}>
+              {musicList &&
+                musicList.rows.map((rows, index) => (
+                  <Box my={5} key={rows.id}>
+                    <MusicBox
+                      id={rows.id}
+                      badge={index + 1}
+                      cover={index + 1}
+                      music={rows.title}
+                      owner={rows.participant}
+                      onPress={() => openFullPlayer(index)}
+                    />
+                  </Box>
+                ))}
+            </Flex>
+          </Center>
+        ) : (
+          <></>
+        )}
+        {/* 노래 리스트 end */}
+        {/* 영상 리스트 start  */}
+        {tag === 2 ? <Box /> : <></>}
+        {/* 영상 리스트 end */}
       </ScrollView>
-
-      <SlidingUpPanel
-        ref={c => (this._panel = c)}
-        allowDragging={scroll}
-        friction={0.2}
-        draggableRange={{
-          top: responsiveHeight(heightPersentage(740)),
-          bottom: responsiveHeight(heightPersentage(157)),
-        }}
-        onMomentumDragStart={() => setIsBottom(false)}
-        onBottomReached={() => setIsBottom(true)}
-        animatedValue={this._draggedValue}
-        showBackdrop={false}>
-        <MusicPlayer
-          onScroll={HandlerScroll}
-          playerSize={isBottom ? false : true}
-        />
-      </SlidingUpPanel>
+      {tag === 1 ? (
+        <SlidingUpPanel
+          ref={panel}
+          allowDragging={scroll}
+          draggableRange={{
+            top: responsiveHeight(heightPersentage(740)),
+            bottom: responsiveHeight(heightPersentage(157)),
+          }}
+          onMomentumDragStart={() => setIsBottom(false)}
+          onBottomReached={() => setIsBottom(true)}
+          showBackdrop={false}>
+          <MusicPlayer
+            onScroll={HandlerScroll}
+            id={id}
+            playerSize={isBottom ? false : true}
+          />
+        </SlidingUpPanel>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 }

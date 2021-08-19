@@ -75,7 +75,13 @@ class Gbutton extends React.Component {
     };
     return (
       <Pressable
-        onPress={this.props.disable ? () => {} : this.props.onPress}
+        onPress={
+          this.props.disable
+            ? this.props.onPressActive
+              ? this.props.onPress
+              : () => {}
+            : this.props.onPress
+        }
         onPressIn={this.props.disable ? () => {} : pressIn}
         onPressOut={this.props.disable ? () => {} : pressOut}
         style={{
@@ -138,6 +144,7 @@ Gbutton.defaultProps = {
   hp: 843, //height
   rounded: 0, //borderRadius
   disable: false, //disalbe
+  onPressActive: false, //onPress 활성화
 };
 
 export default Gbutton;

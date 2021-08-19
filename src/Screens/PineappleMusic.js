@@ -26,7 +26,6 @@ import {
 import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayer from '../Components/MusicPlayer';
-import MusicPlayerSmall from '../Components/MusicPlayerSmall';
 import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
 import {useRef} from 'react';

@@ -11,21 +11,16 @@ import MusicPlayer from '../Components/MusicPlayer';
 import MusicBox from '../Components/MusicBoxComponent';
 import APIKit from '../API/APIkit';
 function MusicRacking(props) {
+  const panel = useRef();
   const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
-
-  const [playerOpen, setPlayerOpen] = useState(false);
   const [isBottom, setIsBottom] = useState(true);
-  const panel = useRef();
 
   //음원 랭킹 리스트 10
   const [musicList, setMusicList] = useState();
 
   //플레이어
   const [id, setId] = useState(); //id
-  const [title, setTitile] = useState(''); //곡 제목
-  const [participant, setParticipant] = useState(''); // 참여자 이름
-  const [cover, setCover] = useState(); //앨범 이미지
   const [fileName, setFileName] = useState('');
 
   //임시
@@ -34,10 +29,8 @@ function MusicRacking(props) {
   const openFullPlayer = index => {
     setId(musicList.rows[index].id);
     // setFileName(musicList.rows[index].fileName);
-    setFileName(fn[0].fileName);
+    setFileName(fn[0].fileName); //임시
 
-    setCover(index);
-    setPlayerOpen(true);
     setIsBottom(false);
     panel.current.show();
   };
@@ -51,7 +44,6 @@ function MusicRacking(props) {
       //음악 직접 선택해서 진입시 플레이어 바로 오픈
       if (props.route.params.id !== undefined) {
         setId(props.route.params.id);
-        setPlayerOpen(true);
         setIsBottom(false);
         panel.current.show();
       }
@@ -80,8 +72,8 @@ function MusicRacking(props) {
         titleName={'Ranking'}
         navigation={props.navigation}
       />
+      {/* 앨범 리스트 start  */}
       <ScrollView>
-        {/* 앨범 리스트 start  */}
         <Center>
           <Flex
             width={'82%'}

@@ -13,7 +13,6 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import {BlurView} from '@react-native-community/blur';
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';
@@ -36,6 +35,10 @@ import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 const getCover = number => {
+  //랜덤 이미지
+  if (number === 100) {
+    number = Math.floor(Math.random() * 10) + 1;
+  }
   switch (number) {
     case 1:
       return Cover1;
