@@ -30,6 +30,7 @@ import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
+import {Alert} from 'react-native';
 
 const Register = props => {
   const [email, setEmail] = React.useState(''); //이메일 주소
@@ -42,7 +43,8 @@ const Register = props => {
   const [authPhone, setAuthPhone] = React.useState(false); //번호인증 유효성 체크
 
   const [phoneNum, setPhoneNum] = React.useState(''); //핸드폰 번호
-  const [job, setJob] = React.useState('1'); //default = 일반인
+  const [authNo, setAuthNo] = React.useState(''); //인증번호
+  const [job, setJob] = React.useState('0'); //default = 일반인
 
   const [authBtn, setAuthBtn] = React.useState(false); //인증번호 요청 버튼 활성화
   const [authCheckBtn, setAuthCheckBtn] = React.useState(false); //인증번호 확인 버튼 활성화
@@ -57,15 +59,21 @@ const Register = props => {
     marketingPolicy: marketing,
   };
 
-  const onSuccess = ({data}) => {
+  const onSuccess = response => {
     // Set JSON Web Token on success
-    console.log(data);
+    console.log(response);
+    if (response.data.IBcode === '1000') {
+      Alert.alert('회원가입 완료', '로그인 화면으로 이동합니다', [
+        {text: '확인', onPress: () => props.navigation.navigate('Login')},
+      ]);
+    }
   };
   const onFailure = error => {
     console.log(error && error.response);
   };
   //회원가입 api 요청
   const submit = async () => {
+    console.log(payload);
     APIKit.post('/login/signup', payload).then(onSuccess).catch(onFailure);
   };
 
@@ -79,16 +87,12 @@ const Register = props => {
     setPhoneNum(value);
   };
 
-  const payl = {
-    phoneNo: phoneNum,
-  };
-
   //인증번호 요청
   const onAuthRequest = async () => {
     //인증번호 확인 버튼 활성화
     setAuthCheckBtn(true);
+    const payl = {phoneNo: '+82' + phoneNum.substring(1)};
     try {
-      console.log('phone : ' + phoneNum);
       APIKit.post('/auth/phone', payl)
         .then(response => {
           console.log(response.data);
@@ -96,10 +100,25 @@ const Register = props => {
         .catch(error => {
           console.log(error);
         });
-      console.log('tett');
     } catch (e) {
       console.log(e);
     }
+  };
+
+  //인증번호 유효성 체크
+  const onAuthCheck = async () => {
+    const payl = {authNo: authNo};
+    console.log(payl);
+    APIKit.post('/auth/submitAuthNo', payl)
+      .then(response => {
+        console.log(response.data);
+        if (response.data.IBcode === '2000') {
+          setAuthPhone(true);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   //email valid check
@@ -307,6 +326,7 @@ const Register = props => {
                         rounded={4}
                         text={'인증번호'}
                         onPress={onAuthRequest}
+                        disable={authPhone}
                       />
                     ) : (
                       <></>
@@ -316,8 +336,11 @@ const Register = props => {
                 <Input
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
+                  keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
                   borderWidth={0}
+                  onChangeText={setAuthNo}
+                  value={authNo}
                   placeholder={'인증번호'}
                   InputLeftElement={
                     <Image
@@ -339,7 +362,8 @@ const Register = props => {
                         fw={800}
                         rounded={4}
                         text={'확인'}
-                        onPress={() => {}}
+                        onPress={onAuthCheck}
+                        disable={authPhone}
                       />
                     ) : (
                       <></>
@@ -360,16 +384,17 @@ const Register = props => {
               </Text>
               <Radio.Group
                 colorScheme={'rgb(15,239,189)'}
-                defaultValue="1"
+                defaultValue={job}
                 name="jobGroup"
                 alignItems={'center'}
+                onChange={setJob}
                 style={{marginBottom: 20}}>
                 <VStack
                   w={'72%'}
                   h={responsiveHeight(heightPersentage(88))}
                   justifyContent={'space-between'}>
                   <HStack w="100%" space={4}>
-                    <Radio value="1">
+                    <Radio value="0">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -378,7 +403,7 @@ const Register = props => {
                         일반인
                       </Text>
                     </Radio>
-                    <Radio value="2">
+                    <Radio value="1">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -387,7 +412,7 @@ const Register = props => {
                         실연자
                       </Text>
                     </Radio>
-                    <Radio value="3">
+                    <Radio value="2">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -398,7 +423,7 @@ const Register = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={4}>
-                    <Radio value="4">
+                    <Radio value="3">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -407,7 +432,7 @@ const Register = props => {
                         작사가
                       </Text>
                     </Radio>
-                    <Radio value="5">
+                    <Radio value="4">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -416,7 +441,7 @@ const Register = props => {
                         연습생
                       </Text>
                     </Radio>
-                    <Radio value="6">
+                    <Radio value="5">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -427,7 +452,7 @@ const Register = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={2}>
-                    <Radio value="7">
+                    <Radio value="6">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -436,7 +461,7 @@ const Register = props => {
                         퍼포먼서
                       </Text>
                     </Radio>
-                    <Radio value="8">
+                    <Radio value="7">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -449,7 +474,7 @@ const Register = props => {
                 </VStack>
               </Radio.Group>
               <Center>
-                {authEmail && authPW ? (
+                {authEmail && authPW && authPhone ? (
                   <Gbutton
                     wp={220}
                     hp={40}
