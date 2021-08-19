@@ -1,14 +1,12 @@
 //파인애플 뮤직 화면
 import {
   Box,
-  Button,
   Center,
   Flex,
   HStack,
   Image,
   Input,
   ScrollView,
-  Text,
   VStack,
 } from 'native-base';
 import React, {useRef, useState, useEffect} from 'react';
@@ -30,24 +28,45 @@ import SearchIcon from '../../Assets/Image/icon_main_search.png';
 import MusicBox from '../../Components/MusicBoxComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
-import {useCallback} from 'react';
+import VideoBox from '../../Components/VideoBoxComponent';
+import VideoPlayer from '../../Components/VideoPlayer';
 
 function ChallengeEnjoy(props) {
-  const panel = useRef();
+  const musicPanel = useRef();
+  const videoPanel = useRef();
   const [scroll, setScroll] = useState(true);
+
   const [isBottom, setIsBottom] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [tag, setTag] = useState(1); //태그 선택 1:노래, 2:영상, 3:연주, 4:편곡
+  const [cType, setCType] = useState(1); //태그 선택 1:노래, 2:영상, 3:연주, 4:편곡
 
-  const [musicList, setMusicList] = useState();
-  const [id, setId] = useState(); //id
+  const [musicList, setMusicList] = useState(); //노래 챌린지 리스트
+  const [videoList, setVideoList] = useState(); //노래 챌린지 리스트
 
-  const openFullPlayer = index => {
-    setId(musicList.rows[index].id);
+  const [id, setId] = useState(''); //id
+
+  const openMusicPlayer = index => {
+    setId(musicList.rows[index].id.toString());
     setIsBottom(false);
-    panel.current.show();
+    musicPanel.current.show();
   };
+
+  const openVideoPlayer = index => {
+    // setId(videoList.rows[index].id.toString());
+    setIsBottom(false);
+    videoPanel.current.show();
+  };
+
+  useEffect(() => {
+    if (cType === 2) {
+      setIsBottom(true);
+      videoPanel.current.hide();
+    }
+    return () => {
+      console.log('api unmount');
+    };
+  }, [cType]);
 
   useEffect(() => {
     console.log('api get');
@@ -60,7 +79,7 @@ function ChallengeEnjoy(props) {
       console.log(error && error.response);
     };
 
-    const payload = {cType: tag};
+    const payload = {cType: cType.toString()};
     const getAllChallenges = async () => {
       await APIKit.post('/challenge/getAllChallenges', payload)
         .then(onSuccess)
@@ -71,20 +90,8 @@ function ChallengeEnjoy(props) {
     return () => {
       console.log('api unmount');
     };
-  }, [tag]);
+  }, [cType]);
 
-  const [playing, setPlaying] = useState(false);
-
-  const onStateChange = useCallback(state => {
-    if (state === 'ended') {
-      setPlaying(false);
-      alert('video has finished playing!');
-    }
-  }, []);
-
-  const togglePlaying = useCallback(() => {
-    setPlaying(prev => !prev);
-  }, []);
   return (
     <Box flex={1}>
       <MenuComponent
@@ -139,9 +146,9 @@ function ChallengeEnjoy(props) {
               fw={500}
               rounded={4}
               text={'# 노래'}
-              disable={tag === 1 ? false : true}
+              disable={cType === 1 ? false : true}
               onPressActive={true}
-              onPress={() => setTag(1)}
+              onPress={() => setCType(1)}
             />
             <Gbutton
               wp={56}
@@ -150,9 +157,9 @@ function ChallengeEnjoy(props) {
               fw={500}
               rounded={4}
               text={'# 영상'}
-              disable={tag === 2 ? false : true}
+              disable={cType === 2 ? false : true}
               onPressActive={true}
-              onPress={() => setTag(2)}
+              onPress={() => setCType(2)}
             />
             <Gbutton
               wp={56}
@@ -180,7 +187,7 @@ function ChallengeEnjoy(props) {
         </VStack>
         {/* HashTag end */}
         {/* 노래 리스트 start  */}
-        {tag === 1 ? (
+        {cType === 1 ? (
           <Center>
             <Flex
               width={'82%'}
@@ -196,7 +203,7 @@ function ChallengeEnjoy(props) {
                       cover={index + 1}
                       music={rows.title}
                       owner={rows.participant}
-                      onPress={() => openFullPlayer(index)}
+                      onPress={() => openMusicPlayer(index)}
                     />
                   </Box>
                 ))}
@@ -207,12 +214,26 @@ function ChallengeEnjoy(props) {
         )}
         {/* 노래 리스트 end */}
         {/* 영상 리스트 start  */}
-        {tag === 2 ? <Box /> : <></>}
+        {cType === 2 ? (
+          <Center>
+            {/* {musicList &&
+              musicList.rows.map((rows, index) => (
+                <VideoBox onPress={() => openVideoPlayer()} />
+              ))} */}
+            <VideoBox
+              id={1}
+              onScroll={HandlerScroll}
+              onPress={() => openVideoPlayer()}
+            />
+          </Center>
+        ) : (
+          <></>
+        )}
         {/* 영상 리스트 end */}
       </ScrollView>
-      {tag === 1 ? (
+      {cType === 1 ? (
         <SlidingUpPanel
-          ref={panel}
+          ref={musicPanel}
           allowDragging={scroll}
           draggableRange={{
             top: responsiveHeight(heightPersentage(740)),
@@ -224,6 +245,26 @@ function ChallengeEnjoy(props) {
           <MusicPlayer
             onScroll={HandlerScroll}
             id={id}
+            playerSize={isBottom ? false : true}
+          />
+        </SlidingUpPanel>
+      ) : (
+        <></>
+      )}
+      {cType === 2 ? (
+        <SlidingUpPanel
+          ref={videoPanel}
+          allowDragging={scroll}
+          backdropOpacity={0.98}
+          draggableRange={{
+            top: responsiveHeight(heightPersentage(740)),
+            bottom: responsiveHeight(heightPersentage(0)),
+          }}
+          onMomentumDragStart={() => setIsBottom(false)}
+          onBottomReached={() => setIsBottom(true)}
+          showBackdrop={false}>
+          <VideoPlayer
+            onScroll={HandlerScroll}
             playerSize={isBottom ? false : true}
           />
         </SlidingUpPanel>

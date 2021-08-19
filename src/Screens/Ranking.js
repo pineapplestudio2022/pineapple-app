@@ -20,14 +20,14 @@ function MusicRacking(props) {
   const [musicList, setMusicList] = useState();
 
   //플레이어
-  const [id, setId] = useState(); //id
+  const [id, setId] = useState(''); //id
   const [fileName, setFileName] = useState('');
 
   //임시
   const fn = [{fileName: 'futurehouse1-2.mp3'}, {fileName: '210708_folk.mp3'}];
 
   const openFullPlayer = index => {
-    setId(musicList.rows[index].id);
+    setId(musicList.rows[index].id.toString());
     // setFileName(musicList.rows[index].fileName);
     setFileName(fn[0].fileName); //임시
 
@@ -54,7 +54,7 @@ function MusicRacking(props) {
     };
 
     const getRankedChallenges = async () => {
-      await APIKit.get('/challenge/getRankedChallenges')
+      await APIKit.post('/challenge/getRankedChallenges')
         .then(onSuccess)
         .catch(onFailure);
     };

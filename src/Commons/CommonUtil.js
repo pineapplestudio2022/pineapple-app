@@ -15,3 +15,7 @@ export const emailRegex = email => {
   );
   return re.test(email);
 };
+
+export const YouTubeAPIKey = () => {
+  return 'AIzaSyBHW-5vq9n_z0bvS3CsV3wDotDTZUpXxbY';
+};

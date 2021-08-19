@@ -52,7 +52,7 @@ function MainScreen(props) {
     };
 
     const getRankedChallenges = async () => {
-      await APIKit.get('/challenge/getRankedChallenges')
+      await APIKit.post('/challenge/getRankedChallenges')
         .then(onSuccess)
         .catch(onFailure);
     };

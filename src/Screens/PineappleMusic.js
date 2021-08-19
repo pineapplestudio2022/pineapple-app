@@ -148,7 +148,6 @@ function PineappleMusic(props) {
         }}
         onMomentumDragStart={() => setIsBottom(false)}
         onBottomReached={() => setIsBottom(true)}
-        // animatedValue={this._draggedValue}
         showBackdrop={false}>
         <MusicPlayer
           onScroll={HandlerScroll}

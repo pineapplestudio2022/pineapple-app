@@ -70,15 +70,18 @@ function MusicPlayer(props) {
   const ARPlayer = useRef(AudioRecorderPlayer);
 
   useEffect(() => {
-    const payload = {challengeId: props.id, userId: userId};
-
+    const payload = {
+      challengeId: props.id,
+      userId: userId,
+    };
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getReply = async () => {
-      await APIKit.post('/challenge/getSongReply', payload)
+      await APIKit.post('/challenge/getChallengeReply', payload)
         .then(response => {
+          console.log(response);
           setReplyList(response.data.IBparams.rows);
           setReplyUpdateCheck(false);
         })
@@ -190,9 +193,13 @@ function MusicPlayer(props) {
       alert('로그인 후 사용 가능합니다.');
       return;
     }
-    const payload = {userId: userId, reply: comment, challengeId: props.id};
+    const payload = {
+      userId: userId,
+      reply: comment,
+      challengeId: props.id,
+    };
     console.log(payload);
-    await APIKit.post('/challenge/AddSongReply', payload)
+    await APIKit.post('/challenge/AddChallengeReply', payload)
       .then(response => {
         console.log(response);
         setReplyUpdateCheck(true);

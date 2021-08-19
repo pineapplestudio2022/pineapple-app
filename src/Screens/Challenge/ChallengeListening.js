@@ -185,7 +185,7 @@ function ChallengeListening(props) {
               noOfLines={1}>
               곡 제목 들어갈 공간
             </Text>
-            <Text></Text>
+            <Text />
           </Center>
           {/* 제목 end */}
           {/* 자곡가, 작사가 start */}
