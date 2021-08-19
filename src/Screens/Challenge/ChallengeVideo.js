@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     fontStyle: 'normal',
-    letterSpacing: 0,
     color: '#858c92',
   },
 

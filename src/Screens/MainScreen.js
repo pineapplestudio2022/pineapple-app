@@ -99,7 +99,6 @@ function MainScreen(props) {
                   navigation={props.navigation}
                   title={rows.title}
                   subtitle={rows.participant}
-                  badge={rows.index}
                   nextView={'Ranking'}
                 />
               ))}

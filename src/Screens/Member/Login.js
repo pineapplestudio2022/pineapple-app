@@ -163,7 +163,7 @@ const Login = props => {
               </VStack>
               <HStack justifyContent={'space-around'} mt={4} mx={10}>
                 <TouchableOpacity
-                  onPress={() => props.navigation.navigate('Register')}>
+                  onPress={() => props.navigation.navigate('MemberScreen')}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(16))}
                     fontWeight={600}

@@ -104,7 +104,7 @@ function MusicAlbumComponent(props) {
               ? () => {}
               : () =>
                   props.navigation.navigate(props.nextView, {
-                    musicId: props.id, //음악 id 전달
+                    id: props.id,
                   })
           }
           borderRadius={9.5}
@@ -122,7 +122,7 @@ function MusicAlbumComponent(props) {
               height: responsiveWidth(widthPersentage(100)),
             }}>
             <Image
-              source={getBadge(props.badge)}
+              source={getBadge(props.index)}
               resizeMode="cover"
               position="absolute"
               width={25}

@@ -7,8 +7,7 @@ import {heightPersentage} from '../Commons/DeviceWHPersentage';
 
 import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import MusicPlayerFull from '../Components/MusicPlayerFull';
-import MusicPlayerSmall from '../Components/MusicPlayerSmall';
+import MusicPlayer from '../Components/MusicPlayer';
 import MusicBox from '../Components/MusicBoxComponent';
 import APIKit from '../API/APIkit';
 function MusicRacking(props) {
@@ -26,31 +25,36 @@ function MusicRacking(props) {
   const [id, setId] = useState(); //id
   const [title, setTitile] = useState(''); //곡 제목
   const [participant, setParticipant] = useState(''); // 참여자 이름
-  const [cover, setCover] = useState();
-  const [cheering, setCheering] = useState(0); //응원해요
-  const [likes, setLikes] = useState(0); //찜
-  const [getTogether, setGetTogether] = useState(0); //함께해요
+  const [cover, setCover] = useState(); //앨범 이미지
+  const [fileName, setFileName] = useState('');
+
+  //임시
+  const fn = [{fileName: 'futurehouse1-2.mp3'}, {fileName: '210708_folk.mp3'}];
 
   const openFullPlayer = index => {
     setId(musicList.rows[index].id);
-    setTitile(musicList.rows[index].title);
-    setParticipant(musicList.rows[index].participant);
-    setCheering(musicList.rows[index].cheering);
-    setLikes(musicList.rows[index].likes);
-    setGetTogether(musicList.rows[index].getTogether);
+    // setFileName(musicList.rows[index].fileName);
+    setFileName(fn[0].fileName);
+
     setCover(index);
     setPlayerOpen(true);
     setIsBottom(false);
     panel.current.show();
   };
 
-  console.log('musicid : ' + props.route.params.musicId);
-
+  console.log('id : ' + props.route.params.id);
   useEffect(() => {
     console.log('api get');
 
     const onSuccess = response => {
       setMusicList(response.data.IBparams);
+      //음악 직접 선택해서 진입시 플레이어 바로 오픈
+      if (props.route.params.id !== undefined) {
+        setId(props.route.params.id);
+        setPlayerOpen(true);
+        setIsBottom(false);
+        panel.current.show();
+      }
     };
 
     const onFailure = error => {
@@ -63,10 +67,11 @@ function MusicRacking(props) {
         .catch(onFailure);
     };
     getRankedChallenges();
+
     return () => {
       console.log('api unmount');
     };
-  }, []);
+  }, [props.route.params.id]);
 
   return (
     <Box flex={1}>
@@ -85,9 +90,9 @@ function MusicRacking(props) {
             justifyContent={'space-between'}>
             {musicList &&
               musicList.rows.map((rows, index) => (
-                <Box my={5}>
+                <Box my={5} key={rows.id}>
                   <MusicBox
-                    key={rows.id}
+                    id={rows.id}
                     badge={index + 1}
                     cover={index + 1}
                     music={rows.title}
@@ -111,20 +116,12 @@ function MusicRacking(props) {
         onMomentumDragStart={() => setIsBottom(false)}
         onBottomReached={() => setIsBottom(true)}
         showBackdrop={false}>
-        {isBottom ? (
-          <MusicPlayerSmall id={id} title={title} owner={participant} />
-        ) : (
-          <MusicPlayerFull
-            onScroll={HandlerScroll}
-            id={id}
-            cover={cover}
-            title={title}
-            owner={participant}
-            cheering={cheering}
-            likes={likes}
-            together={getTogether}
-          />
-        )}
+        <MusicPlayer
+          onScroll={HandlerScroll}
+          id={id}
+          fileName={fileName}
+          playerSize={isBottom ? false : true}
+        />
       </SlidingUpPanel>
     </Box>
   );

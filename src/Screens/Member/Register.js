@@ -66,7 +66,7 @@ const Register = props => {
   };
   //회원가입 api 요청
   const submit = async () => {
-    APIKit.post('/signup', payload).then(onSuccess).catch(onFailure);
+    APIKit.post('/login/signup', payload).then(onSuccess).catch(onFailure);
   };
 
   //인증번호 전송 버튼 활성화

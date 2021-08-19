@@ -75,7 +75,7 @@ export const LoginScreen = () => {
         <LoginStack.Screen name={'FindAccount3'} component={FindAccount3} />
         <LoginStack.Screen name={'FindAccount4'} component={FindAccount4} />
         <LoginStack.Screen name={'FindAccount5'} component={FindAccount5} />
-        <LoginStack.Screen name={'Register'} component={Register} />
+        <LoginStack.Screen name={'MemberScreen'} component={MemberScreen} />
       </LoginStack.Navigator>
     </>
   );
