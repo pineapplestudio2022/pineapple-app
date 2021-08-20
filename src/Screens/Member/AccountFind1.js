@@ -25,7 +25,45 @@ import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
+import APIKit from '../../API/APIkit';
 const FindAccountOne = props => {
+  const [phoneNum, setPhoneNum] = useState(); //핸드폰번호
+  const [authNum, setAuthNum] = useState(); //인증번호
+  const [authPhone, setAuthPhone] = useState(false); //번호인증 완료 체크
+  const [nextBtn, setNextBtn] = useState(false);
+
+  //인증번호 요청
+  const onAuthRequest = async () => {
+    const payload = {phoneNo: '+82' + phoneNum.substring(1)};
+    try {
+      APIKit.post('/auth/getAuthNo', payload)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //인증번호 유효성 체크
+  const onAuthCheck = async () => {
+    const payload = {authNo: authNum, phone: '+82' + phoneNum.substring(1)};
+    console.log(payload);
+    APIKit.post('/auth/submitAuthNo', payload)
+      .then(response => {
+        console.log(response.data);
+        if (response.data.IBcode === '1000') {
+          setAuthPhone(true);
+          setNextBtn(true);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   return (
     <Box flex={1}>
       <MenuComponent
@@ -100,6 +138,9 @@ const FindAccountOne = props => {
                   keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
                   borderWidth={0}
+                  value={phoneNum}
+                  isDisabled={nextBtn}
+                  onChangeText={setPhoneNum}
                   placeholder={'전화번호'}
                   InputLeftElement={
                     <Image
@@ -120,6 +161,7 @@ const FindAccountOne = props => {
                       fw={800}
                       rounded={4}
                       text={'인증번호'}
+                      onPress={onAuthRequest}
                     />
                   }
                 />
@@ -128,6 +170,9 @@ const FindAccountOne = props => {
                   rounded={8}
                   backgroundColor={'#fafafab3'}
                   borderWidth={0}
+                  value={authNum}
+                  isDisabled={nextBtn}
+                  onChangeText={setAuthNum}
                   placeholder={'인증번호'}
                   InputLeftElement={
                     <Image
@@ -148,7 +193,8 @@ const FindAccountOne = props => {
                       fw={800}
                       rounded={4}
                       text={'확인'}
-                      onPress={() => {}}
+                      disable={nextBtn}
+                      onPress={onAuthCheck}
                     />
                   }
                 />
@@ -161,7 +207,13 @@ const FindAccountOne = props => {
                   fw={600}
                   rounded={8}
                   text={'다음'}
-                  onPress={() => props.navigation.navigate('FindAccount2')}
+                  disable={!nextBtn}
+                  onPress={() =>
+                    props.navigation.navigate('FindAccount2', {
+                      authNo: authNum,
+                      phone: '+82' + phoneNum.substring(1),
+                    })
+                  }
                 />
               </Center>
             </BlurView>

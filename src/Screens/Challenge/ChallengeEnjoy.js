@@ -59,19 +59,13 @@ function ChallengeEnjoy(props) {
   };
 
   useEffect(() => {
+    console.log('api get');
     if (cType === 2) {
       setIsBottom(true);
       videoPanel.current.hide();
     }
-    return () => {
-      console.log('api unmount');
-    };
-  }, [cType]);
-
-  useEffect(() => {
-    console.log('api get');
-
     const onSuccess = response => {
+      console.log(response.data.IBparams);
       setMusicList(response.data.IBparams);
     };
 
