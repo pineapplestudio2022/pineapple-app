@@ -13,7 +13,6 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import {BlurView} from '@react-native-community/blur';
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';
@@ -25,7 +24,46 @@ import BadgeIcon7 from '../Assets/Image/Top_music/badge_ranking_green_7.png';
 import BadgeIcon8 from '../Assets/Image/Top_music/badge_ranking_green_8.png';
 import BadgeIcon9 from '../Assets/Image/Top_music/badge_ranking_green_9.png';
 import BadgeIcon10 from '../Assets/Image/Top_music/badge_ranking_green_10.png';
-
+import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
+import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
+import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
+import Cover4 from '../Assets/Image/Top_music/top_music_4.jpg';
+import Cover5 from '../Assets/Image/Top_music/top_music_5.jpg';
+import Cover6 from '../Assets/Image/Top_music/top_music_6.jpg';
+import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
+import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
+import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
+import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
+const getCover = number => {
+  //랜덤 이미지
+  if (number === 100) {
+    number = Math.floor(Math.random() * 10) + 1;
+  }
+  switch (number) {
+    case 1:
+      return Cover1;
+    case 2:
+      return Cover2;
+    case 3:
+      return Cover3;
+    case 4:
+      return Cover4;
+    case 5:
+      return Cover5;
+    case 6:
+      return Cover6;
+    case 7:
+      return Cover7;
+    case 8:
+      return Cover8;
+    case 9:
+      return Cover9;
+    case 10:
+      return Cover10;
+    default:
+      return undefined;
+  }
+};
 const getBadge = number => {
   switch (number) {
     case 1:
@@ -64,7 +102,7 @@ function MusicBoxComponent(props) {
         overflow: 'hidden',
       }}>
       <ImageBackground
-        source={DumpImage}
+        source={getCover(props.cover)}
         style={{width: '100%', height: '100%'}}>
         <BlurView
           style={{
@@ -94,19 +132,23 @@ function MusicBoxComponent(props) {
           )}
 
           <Text
+            noOfLines={1}
             style={{
+              width: responsiveWidth(widthPersentage(100)),
               position: 'absolute',
               top: 8,
               right: 4,
-              textAlign: 'center',
+              textAlign: 'right',
               color: '#4be3ac',
               fontSize: responsiveFontSize(fontSizePersentage(15)),
             }}
             bold>
-            {props.music === undefined ? '' : props.music}
+            {props.music === '미상' ? '' : props.music}
           </Text>
           <Text
+            noOfLines={1}
             style={{
+              width: responsiveWidth(widthPersentage(80)),
               position: 'absolute',
               top: 26,
               right: 4,
@@ -115,7 +157,7 @@ function MusicBoxComponent(props) {
               fontSize: responsiveFontSize(fontSizePersentage(15)),
             }}
             fontSize={responsiveFontSize(fontSizePersentage(15))}>
-            {props.owner === undefined ? '' : props.owner}
+            {props.owner === '미상' ? '' : props.owner}
           </Text>
         </BlurView>
       </ImageBackground>

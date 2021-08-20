@@ -4,18 +4,13 @@ import {
   VStack,
   Text,
   Divider,
-  Center,
   HStack,
   Image,
-  Button,
   TextArea,
   ScrollView,
-  View,
-  KeyboardAvoidingView,
   Input,
   Pressable,
 } from 'native-base';
-import {StyleSheet, ImageBackground} from 'react-native';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -145,6 +140,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
+                      alt={''}
                       resizeMode={'contain'}
                     />
                     <Text
@@ -181,6 +177,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
+                      alt={''}
                       resizeMode={'contain'}
                     />
                     <Text

@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Box,
   Center,
   Input,
   SearchIcon,
-  Icon,
   Stack,
   HStack,
   VStack,
@@ -14,13 +13,11 @@ import {
 } from 'native-base';
 import {ScrollView} from 'react-native';
 import {
-  responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import {
   widthPersentage,
-  heightPersentage,
   fontSizePersentage,
 } from '../Commons/DeviceWHPersentage';
 import MusicAlbumComponent from '../Components/MusicAlbumComponent';
@@ -31,8 +28,40 @@ import PhotoIcon from '../Assets/Image/btn_main_photo.png';
 import BgmStudioIcon from '../Assets/Image/btn_main_bgm_studio.png';
 import WriteMusicIcon from '../Assets/Image/btn_main_write_music.png';
 import MusicNoteIcon from '../Assets/Image/btn_main_music_note.png';
+import APIKit from '../API/APIkit';
+import {useEffect} from 'react';
+import {useContext} from 'react/cjs/react.development';
+import {UserDispatch} from '../Commons/UserDispatchProvider';
+import {useState} from 'react';
 
 function MainScreen(props) {
+  //랭킹 음원 10개 가져오기
+  const [musicList, setMusicList] = useState();
+  const {userId} = useContext(UserDispatch);
+
+  //로그인, 로그아웃시에 api호출
+  useEffect(() => {
+    console.log('api get');
+
+    const onSuccess = response => {
+      setMusicList(response.data.IBparams.rows);
+    };
+
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const getRankedChallenges = async () => {
+      await APIKit.post('/challenge/getRankedChallenges')
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    getRankedChallenges();
+    return () => {
+      console.log('api unmount');
+    };
+  }, [userId]);
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -52,23 +81,27 @@ function MainScreen(props) {
               paddingEnd: 5,
             }}>
             {/* 음원 리스트 보여주는 로직 수정 필요*/}
+
             <MusicAlbumComponent
               navigation={props.navigation}
               nextView={'Ranking'}
               title={'인기음원'}
               subtitle={'전체보기'}
               badge={11}
+              cover={11}
             />
-            <MusicAlbumComponent
-              navigation={props.navigation}
-              title={'음원제목'}
-              subtitle={'소유자'}
-              badge={1}
-            />
-            <MusicAlbumComponent />
-            <MusicAlbumComponent />
-            <MusicAlbumComponent />
-            <MusicAlbumComponent />
+            {musicList &&
+              musicList.map((rows, index) => (
+                <MusicAlbumComponent
+                  key={rows.id}
+                  id={rows.id}
+                  cover={index + 1}
+                  navigation={props.navigation}
+                  title={rows.title}
+                  subtitle={rows.participant}
+                  nextView={'Ranking'}
+                />
+              ))}
           </ScrollView>
         </Box>
         {/* 가로스크롤 뷰 시작, 인기 음원 순위 end*/}
@@ -111,6 +144,7 @@ function MainScreen(props) {
                       source={ChallengeIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -136,6 +170,7 @@ function MainScreen(props) {
                       source={WriteMusicIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -152,6 +187,9 @@ function MainScreen(props) {
                   justifyContent={'center'}>
                   {/* 추억의 사진으로 노래 만들기 버튼 start */}
                   <Pressable
+                    onPress={() => {
+                      console.log(musicList);
+                    }}
                     borderWidth={1}
                     w={responsiveWidth(widthPersentage(140))}
                     h={responsiveWidth(widthPersentage(140))}
@@ -171,6 +209,7 @@ function MainScreen(props) {
                       source={PhotoIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -203,6 +242,7 @@ function MainScreen(props) {
                       source={BgmStudioIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -239,6 +279,7 @@ function MainScreen(props) {
                       source={MagazineIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"
@@ -271,6 +312,7 @@ function MainScreen(props) {
                       source={MusicNoteIcon}
                       resizeMode={'contain'}
                       style={{width: responsiveWidth(widthPersentage(48))}}
+                      alt={''}
                     />
                     <Text
                       marginTop="2"

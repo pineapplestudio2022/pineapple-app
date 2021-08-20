@@ -17,6 +17,7 @@ import SkipBackIcon from '../Assets/Image/icon_musicplayer_skip_back.png';
 import SkipForwordIcon from '../Assets/Image/icon_musicplayer_skip_forword.png';
 import RewindLeftIcon from '../Assets/Image/icon_musicplayer_rewind_left.png';
 import RewindRightIcon from '../Assets/Image/icon_musicplayer_rewind_right.png';
+import PlayIcon from '../Assets/Image/icon_musicplayer_play_green.png';
 
 function MusicPlayBarComponent(props) {
   const [onChangeValue, setOnChangeValue] = React.useState('00:00');
@@ -83,7 +84,7 @@ function MusicPlayBarComponent(props) {
             height: responsiveHeight(heightPersentage(48)),
           }}>
           <Image
-            source={PulseIcon}
+            source={PlayIcon}
             resizeMode={'contain'}
             alt={' '}
             style={{width: '100%', height: '100%'}}

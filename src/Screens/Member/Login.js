@@ -1,214 +1,191 @@
-import React, {useState} from 'react';
+import React from 'react';
+
 import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-  SafeAreaView,
-} from 'react-native';
-import {
+  responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
+  fontSizePersentage,
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {HStack} from 'native-base';
+import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
+import {BlurView} from '@react-native-community/blur';
+import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
+import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
+import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
+import Gbutton from '../../Components/GbuttonComponent';
+import {TouchableOpacity} from 'react-native';
+import APIKit, {cleanClientToken, setClientToken} from '../../API/APIkit';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {useContext} from 'react';
 
-const Findch = props => {
-  // const [userEmail, setUserEmail] = useState('');
-  // const [userPassword, setUserPassword] = useState('');
+const Login = props => {
+  const [signInEmail, setSignInEmail] = React.useState('');
+  const [signInPassword, setSignInPassword] = React.useState('');
+
+  const payload = {
+    email: signInEmail,
+    password: signInPassword,
+  };
+
+  const {userId, dispatch} = useContext(UserDispatch);
+
+  const onSuccess = ({data}) => {
+    if (data.IBcode == '2001') {
+      //db data 없음
+      console.log('회원정보 없음');
+      return;
+    }
+    if (data.IBcode == '2001') {
+      //db data 없음
+      console.log('회원정보 틀림');
+      return;
+    }
+    // Set JSON Web Token on success
+    setClientToken(data.IBparams.token);
+    dispatch({type: 'SIGN_IN', userId: data.IBparams.userId});
+    props.navigation.navigate('MainScreen');
+  };
+  const onFailure = error => {
+    console.log(error && error.response);
+  };
+
+  const submit = async () => {
+    await APIKit.post('/login/signIn', payload)
+      .then(onSuccess)
+      .catch(onFailure);
+  };
 
   return (
-    <View>
-      <View>
-        <MenuComponent
-          name={'Login'}
-          titleName={'파인애플스튜디오'}
-          navigation={props.navigation}
-          notGB
-        />
-        <ImageBackground
-          source={require('../../Assets/Image/member/NewLogin.png')}
-          style={styles.bgimg1}>
-          <View style={styles.bgimg1}>
-            <Image
-              source={require('../../Assets/Image/member/ppap.png')}
-              style={styles.bgimg2}
-            />
-            <HStack>
-              <Text style={styles.TextStyle}>
-                {' '}
-                당신만의 음악세상을 {'\n'} 선물합니다{' '}
-              </Text>
-            </HStack>
-
-            <View style={styles.SectionStyle}>
-              <Image
-                source={require('../../Assets/Image/member/0224Email.png')}
-                style={styles.buttonImageIconStyle}
-              />
-              <TextInput
-                style={{flex: 1}}
-                placeholder="Email"
-                placeholderTextColor="#a5a8ae"
-                autoCapitalize="none"
-                underlineColorIos="transparent"
-              />
-            </View>
-            <View style={styles.SectionStyle}>
-              <Image
-                source={require('../../Assets/Image/member/key.png')}
-                style={styles.buttonImageIconStyle}
-              />
-              <TextInput
-                style={{flex: 1}}
-                placeholder="PW check"
-                placeholderTextColor="#a5a8ae"
-                autoCapitalize="none"
-                secureTextEntry={true}
-                underlineColorIos="transparent"
-              />
-            </View>
-            <SafeAreaView>
-              <TouchableOpacity style={styles.buttonStyle}>
-                <Text style={styles.buttonTextStyle}> LogIn </Text>
-              </TouchableOpacity>
-            </SafeAreaView>
-
-            <HStack padding={5}>
-              <Text style={styles.Tbtn1}> 회원가입 </Text>
-              <Image
-                source={require('../../Assets/Image/member/grRightArrow.png')}
-                style={styles.aimg}
-              />
-
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('FindAccount1')}>
-                <Text style={styles.Tbtn2}>계정찾기</Text>
-              </TouchableOpacity>
-              <Image source={require('../../Assets/Image/member/fill.png')} />
-            </HStack>
-          </View>
-        </ImageBackground>
-      </View>
-    </View>
+    <Box flex={1}>
+      <MenuComponent
+        name={'Login'}
+        titleName={'파인애플스튜디오'}
+        navigation={props.navigation}
+        notGB
+      />
+      <ScrollView>
+        <Box
+          alignItems={'center'}
+          style={{
+            marginTop: 50,
+            shadowColor: '#858c9233',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowRadius: 4,
+            shadowOpacity: 1,
+          }}>
+          <Box
+            style={{
+              width: responsiveWidth(widthPersentage(350)),
+              height: responsiveHeight(heightPersentage(500)),
+              borderRadius: 20,
+              overflow: 'hidden',
+            }}>
+            <BlurView
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              blurType="xlight"
+              blurAmount={100}
+              reducedTransparencyFallbackColor="white">
+              <VStack alignItems={'center'} space={6}>
+                <Image
+                  source={CharacterIcon}
+                  resizeMode={'contain'}
+                  style={{width: responsiveWidth(widthPersentage(50))}}
+                  alt={' '}
+                  mt={8}
+                />
+                <Text
+                  textAlign={'center'}
+                  fontSize={responsiveFontSize(fontSizePersentage(17))}
+                  color={'#000000'}>
+                  당신만의 음악세상을 {'\n'} 선물합니다.
+                </Text>
+                <Input
+                  width={responsiveWidth(widthPersentage(300))}
+                  rounded={8}
+                  backgroundColor={'#fafafab3'}
+                  borderWidth={0}
+                  placeholder={'Email'}
+                  autoFocus
+                  onChangeText={text => setSignInEmail(text)}
+                  value={signInEmail}
+                  InputLeftElement={
+                    <Image
+                      alt={' '}
+                      source={EmailIcon}
+                      resizeMode={'contain'}
+                      style={{
+                        width: responsiveWidth(widthPersentage(25)),
+                        marginLeft: 13,
+                      }}
+                    />
+                  }
+                />
+                <Input
+                  width={responsiveWidth(widthPersentage(300))}
+                  rounded={8}
+                  backgroundColor={'#fafafab3'}
+                  borderWidth={0}
+                  type={'password'}
+                  placeholder={'PW'}
+                  onChangeText={text => setSignInPassword(text)}
+                  value={signInPassword}
+                  InputLeftElement={
+                    <Image
+                      alt={' '}
+                      source={KeyIcon}
+                      resizeMode={'contain'}
+                      style={{
+                        width: responsiveWidth(widthPersentage(25)),
+                        marginLeft: 13,
+                      }}
+                    />
+                  }
+                />
+                <Gbutton
+                  wp={220}
+                  hp={40}
+                  fs={18}
+                  fw={600}
+                  rounded={8}
+                  text={'LOG IN'}
+                  onPress={submit}
+                />
+              </VStack>
+              <HStack justifyContent={'space-around'} mt={4} mx={10}>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('MemberScreen')}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={600}
+                    color={'#0fefbd'}>
+                    회원가입 →
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('FindAccount1')}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={600}
+                    color={'#0fefbd'}>
+                    계정찾기 →
+                  </Text>
+                </TouchableOpacity>
+              </HStack>
+            </BlurView>
+          </Box>
+        </Box>
+      </ScrollView>
+    </Box>
   );
 };
-export default Findch;
-
-const styles = StyleSheet.create({
-  mainBody: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-
-  bgimg1: {
-    width: responsiveWidth(widthPersentage(350)),
-    height: responsiveHeight(heightPersentage(500)),
-    alignItems: 'center',
-    marginLeft: 20,
-    marginRight: 20,
-    shadowColor: 'rgba(133, 140, 146, 0.2)',
-    shadowRadius: 10,
-    shadowOpacity: 1,
-    borderRadius: 20,
-    overflow: 'hidden',
-  },
-
-  bgimg2: {
-    alignContent: 'center',
-  },
-
-  txt1: {
-    fontSize: 20,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-    marginTop: 70,
-    marginLeft: 109,
-    marginBottom: 100,
-  },
-
-  SectionStyle: {
-    width: responsiveWidth(widthPersentage(290)),
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 12,
-    borderRadius: 6,
-    backgroundColor: '#fafafab3',
-  },
-
-  TextStyle: {
-    flexDirection: 'row',
-    marginTop: 50,
-    fontSize: 17,
-    fontWeight: '600',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-  },
-
-  buttonImageIconStyle: {
-    padding: 12,
-    margin: 7,
-    width: responsiveWidth(widthPersentage(20)), //20,
-    height: 2,
-    alignItems: 'center',
-  },
-
-  buttonStyle: {
-    width: responsiveWidth(widthPersentage(240)),
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: '#0fefbd',
-    marginTop: 20,
-  },
-
-  buttonTextStyle: {
-    fontSize: 18,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    letterSpacing: 2,
-    textAlign: 'center',
-    color: '#fafafa',
-    paddingVertical: 10,
-  },
-
-  dot: {
-    width: 10,
-    height: 10,
-    opacity: 0.3,
-    backgroundColor: '#0fefbd',
-    borderRadius: 6,
-    overflow: 'hidden',
-    marginTop: 20,
-  },
-
-  Tbtn1: {
-    color: '#0fefbd',
-    fontSize: 16,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    textAlign: 'right',
-    color: '#0fefbd',
-  },
-  Tbtn2: {
-    color: 'grey',
-    fontSize: 16,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    textAlign: 'right',
-  },
-
-  aimg: {
-    marginRight: 92,
-  },
-});
+export default Login;

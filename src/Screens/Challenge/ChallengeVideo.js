@@ -1,15 +1,7 @@
 import React from 'react';
 import {StyleSheet, Image, ImageBackground} from 'react-native';
 
-import {
-  Text,
-  Button,
-  Heading,
-  Container,
-  Center,
-  Box,
-  ScrollView,
-} from 'native-base';
+import {Text, Button, Container, Center, Box, ScrollView} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 
 /*윤호님 카드 컴포넌트 작성법 참조해서 상단에 배경화면들 임포트하기*/
@@ -37,6 +29,7 @@ export default function ChallengeVideo(props) {
                 <Image
                   source={require('../../Assets/Image/challenge/02PlayBtn.png')}
                   style={styles.imgbtn}
+                  alt={' '}
                 />
               </ImageBackground>
             </Box>
@@ -61,6 +54,7 @@ export default function ChallengeVideo(props) {
                 <Image
                   source={require('../../Assets/Image/challenge/02PlayBtn.png')}
                   style={styles.imgbtn}
+                  alt={' '}
                 />
               </ImageBackground>
             </Box>
@@ -125,7 +119,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     fontStyle: 'normal',
-    letterSpacing: 0,
     color: '#858c92',
   },
 

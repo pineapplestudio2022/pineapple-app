@@ -42,6 +42,7 @@ function MicPermission() {
                     width: responsiveWidth(widthPersentage(26)),
                     height: responsiveHeight(heightPersentage(26)),
                   }}
+                  alt={' '}
                   resizeMode={'contain'}
                 />
               </Box>
@@ -75,7 +76,7 @@ function MicPermission() {
     </Box>
   );
 }
-``;
+('');
 export default MicPermission;
 
 const styles = StyleSheet.create({

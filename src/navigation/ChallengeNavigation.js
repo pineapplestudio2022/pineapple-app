@@ -10,6 +10,7 @@ import ChallengePlaying from '../Screens/Challenge/ChallengePlaying';
 import ChallengePlayingDetail from '../Screens/Challenge/ChallengePlayingDetail';
 import MyChallengeScreen from './MyChallengeNavigation';
 import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
+import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
 
 const ChallengeStack = createStackNavigator();
 const SingingStack = createStackNavigator();
@@ -106,12 +107,17 @@ export default ChallengeScreen = () => {
       }}>
       <ChallengeStack.Screen name={'Challenge'} component={Challenge} />
       <ChallengeStack.Screen name={'SingingScreen'} component={SingingScreen} />
+      <ChallengeStack.Screen name={'VideoScreen'} component={VideoScreen} />
+      <ChallengeStack.Screen name={'PlayingScreen'} component={PlayingScreen} />
       <ChallengeStack.Screen
         name={'ComposingScreen'}
         component={ComposingScreen}
       />
-      <SingingStack.Screen name={'PlayingScreen'} component={PlayingScreen} />
-      <ChallengeStack.Screen name={'VideoScreen'} component={VideoScreen} />
+      <ChallengeStack.Screen
+        name={'ChallengeEnjoy'}
+        component={ChallengeEnjoy}
+        options={{playerOpen: 'true'}}
+      />
     </ChallengeStack.Navigator>
   );
 };

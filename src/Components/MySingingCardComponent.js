@@ -56,6 +56,7 @@ export default class MySingingCardComponent extends Component {
                 width="100%"
                 height="100%"
                 resizeMode={'cover'}
+                alt={' '}
               />
             </Box>
             <VStack space={1}>
@@ -78,6 +79,7 @@ export default class MySingingCardComponent extends Component {
                     width="100%"
                     height="100%"
                     resizeMode={'contain'}
+                    alt={' '}
                   />
                 </Pressable>
               </HStack>
@@ -125,6 +127,7 @@ export default class MySingingCardComponent extends Component {
                         width: responsiveWidth(widthPersentage(16)),
                         marginLeft: 7,
                       }}
+                      alt={' '}
                     />
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(12))}
@@ -149,6 +152,7 @@ export default class MySingingCardComponent extends Component {
                         width: responsiveWidth(widthPersentage(16)),
                         marginLeft: 7,
                       }}
+                      alt={' '}
                     />
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(12))}

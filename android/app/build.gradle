@@ -137,6 +137,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    aaptOptions {
+        noCompress 'mp3', 'wav'
+    }
     splits {
         abi {
             reset()
