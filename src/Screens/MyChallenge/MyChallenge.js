@@ -131,7 +131,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
-            onPress={() => props.navigation.navigate('MyPlaying')}
+            // onPress={() => props.navigation.navigate('MyPlaying')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}
@@ -139,6 +139,15 @@ function MyChallenge(props) {
             width="100%"
             height="100%">
             <HStack>
+              <Text
+                w={'100%'}
+                textAlign={'center'}
+                mt={2}
+                fontSize={14}
+                color={'#858c92'}
+                bold>
+                2차 챌린지 오픈 예정
+              </Text>
               <Image
                 position={'absolute'}
                 left={responsiveWidth(widthPersentage(56))}
@@ -176,7 +185,7 @@ function MyChallenge(props) {
           blurAmount={15}
           reducedTransparencyFallbackColor="white">
           <Pressable
-            onPress={() => props.navigation.navigate('MyComposing')}
+            // onPress={() => props.navigation.navigate('MyComposing')}
             borderWidth={1}
             borderColor={'#0fefbd'}
             rounded={8}
@@ -184,6 +193,15 @@ function MyChallenge(props) {
             width="100%"
             height="100%">
             <HStack>
+              <Text
+                w={'100%'}
+                textAlign={'center'}
+                mt={2}
+                fontSize={14}
+                color={'#858c92'}
+                bold>
+                2차 챌린지 오픈 예정
+              </Text>
               <Image
                 position={'absolute'}
                 left={responsiveWidth(widthPersentage(56))}

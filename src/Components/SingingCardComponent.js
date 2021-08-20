@@ -40,7 +40,7 @@ function SingingCardComponent(props) {
             fontWeight={800}
             color={'#1a1b1c'}
             noOfLines={1}>
-            곡 제목
+            {props.title}곡 제목
           </Text>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(11))}
@@ -49,20 +49,21 @@ function SingingCardComponent(props) {
             곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡
             설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명
           </Text>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(11))}
-            fontWeight={800}
-            color={'#000000'}
-            noOfLines={1}>
-            작곡가:
-          </Text>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(11))}
-            fontWeight={800}
-            color={'#000000'}
-            noOfLines={1}>
-            작사가:
-          </Text>
+
+          <HStack space={3}>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(11))}
+              fontWeight={500}
+              color={'#000000'}>
+              장르:
+            </Text>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(11))}
+              fontWeight={500}
+              color={'#858c92'}>
+              일렉트로닉
+            </Text>
+          </HStack>
           <HStack space={5} mt={1}>
             <Pressable
               onPress={() => props.navigation.navigate('Lyrics')}

@@ -93,7 +93,7 @@ const Register = props => {
     setAuthCheckBtn(true);
     const payl = {phoneNo: '+82' + phoneNum.substring(1)};
     try {
-      APIKit.post('/auth/phone', payl)
+      APIKit.post('/auth/getAuthNo', payl)
         .then(response => {
           console.log(response.data);
         })
@@ -107,12 +107,12 @@ const Register = props => {
 
   //인증번호 유효성 체크
   const onAuthCheck = async () => {
-    const payl = {authNo: authNo};
+    const payl = {authNo: authNo, phone: '+82' + phoneNum.substring(1)};
     console.log(payl);
     APIKit.post('/auth/submitAuthNo', payl)
       .then(response => {
         console.log(response.data);
-        if (response.data.IBcode === '2000') {
+        if (response.data.IBcode === '1000') {
           setAuthPhone(true);
         }
       })
