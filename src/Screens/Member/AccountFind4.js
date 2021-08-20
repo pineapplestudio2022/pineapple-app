@@ -25,8 +25,10 @@ import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';
+import APIKit from '../../API/APIkit';
 
 const FindAccounFour = props => {
+  const {email} = props.route.params;
   const [password, setPassword] = React.useState(''); //첫번째 비밀번호
   const [rePassword, setRePassword] = React.useState(''); //두번째 비밀번호
   const [pMessage, setpMessage] = React.useState(''); //유효성 체크 메시지
@@ -59,6 +61,25 @@ const FindAccounFour = props => {
       setpMessage('');
       setAuthPW(true);
     }
+  };
+  const payload = {
+    email: email,
+    password: password,
+  };
+
+  const onSuccess = response => {
+    console.log(response);
+    if (response.data.IBcode === '1000') {
+      props.navigation.navigate('AccountFind4');
+    }
+  };
+  const onFailure = error => {
+    console.log(error && error.response);
+  };
+  const resetPassword = () => {
+    APIKit.post('/login/resetPassword', payload)
+      .then(onSuccess)
+      .catch(onFailure);
   };
 
   return (
@@ -188,9 +209,9 @@ const FindAccounFour = props => {
                   fs={18}
                   fw={600}
                   rounded={8}
-                  disable={false}
+                  disable={!authPW}
                   text={'완료'}
-                  onPress={() => props.navigation.navigate('FindAccount5')}
+                  onPress={resetPassword}
                 />
               </Center>
             </BlurView>

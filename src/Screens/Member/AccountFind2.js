@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -13,8 +13,34 @@ import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
+import APIKit from '../../API/APIkit';
 
 const FindAccountTwo = props => {
+  const [email, setEmail] = useState(''); //이메일
+
+  useEffect(() => {
+    const payload = {
+      authNo: props.route.params.authNo,
+      phone: props.route.params.phone,
+    };
+
+    const onSuccess = response => {
+      console.log(response);
+      if (response.data.IBcode === '1000') {
+        setEmail(response.data.IBparams.email);
+      }
+    };
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const findEmailId = async () => {
+      await APIKit.post('auth/findEmailId', payload)
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    findEmailId();
+  }, [props.route.params.authNo, props.route.params.phone]);
   return (
     <Box flex={1}>
       <MenuComponent
@@ -98,7 +124,7 @@ const FindAccountTwo = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(17))}
                     fontWeight={600}
                     color={'#fafafa'}>
-                    user@gmail.com
+                    {email}
                   </Text>
                 </Box>
                 <Text
@@ -125,7 +151,11 @@ const FindAccountTwo = props => {
                       fw={800}
                       rounded={6}
                       text={'다음'}
-                      onPress={() => props.navigation.navigate('FindAccount3')}
+                      onPress={() =>
+                        props.navigation.navigate('FindAccount3', {
+                          email: email,
+                        })
+                      }
                     />
                   </HStack>
                 </Center>

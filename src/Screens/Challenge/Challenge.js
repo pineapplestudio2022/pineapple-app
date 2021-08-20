@@ -68,7 +68,7 @@ function Challenge(props) {
           <VStack space={5} alignItems="center">
             <HStack space={5} alignItems="center">
               <Pressable
-                onPress={() => props.navigation.navigate('ComposingScreen')}
+                // onPress={() => props.navigation.navigate('ComposingScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -76,6 +76,16 @@ function Challenge(props) {
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
+                <Text
+                  position={'absolute'}
+                  top={2}
+                  w={'100%'}
+                  textAlign={'center'}
+                  fontSize={14}
+                  color={'#858c92'}
+                  bold>
+                  2차 챌린지 오픈 예정
+                </Text>
                 <Image
                   source={PlayingMusicIcon}
                   resizeMode={'contain'}
@@ -86,7 +96,7 @@ function Challenge(props) {
                 </Text>
               </Pressable>
               <Pressable
-                onPress={() => props.navigation.navigate('PlayingScreen')}
+                // onPress={() => props.navigation.navigate('PlayingScreen')}
                 size={responsiveWidth(widthPersentage(140))}
                 alignItems="center"
                 justifyContent="center"
@@ -94,6 +104,16 @@ function Challenge(props) {
                 borderWidth="1"
                 borderColor="#0fefbd"
                 backgroundColor="#fafafa80">
+                <Text
+                  position={'absolute'}
+                  top={2}
+                  w={'100%'}
+                  textAlign={'center'}
+                  fontSize={14}
+                  color={'#858c92'}
+                  bold>
+                  2차 챌린지 오픈 예정
+                </Text>
                 <Image source={PreviewIcon} resizeMode={'contain'} alt=" " />
                 <Text marginTop="2" color="#0fefbd" bold>
                   작곡 참여
