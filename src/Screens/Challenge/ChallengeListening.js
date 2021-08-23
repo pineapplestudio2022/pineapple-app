@@ -80,7 +80,7 @@ function ChallengeListening(props) {
       const msg = await ARPlayer.current.startPlayer(
         path + playlist[currentTrack].path,
       );
-      const volume = await ARPlayer.current.setVolume(1.0);
+      const volume = await ARPlayer.current.setVolume(2.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsAlreadyPlay(true);
 
@@ -175,10 +175,10 @@ function ChallengeListening(props) {
         '-i',
         `${path}music4.mp4`,
         '-filter_complex',
-        '[1]adelay=0s|0s[a1];[0:a][a1]amix=inputs=2[a]',
+        '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
         '-map',
         '[a]',
-        `${path}output.mp4`,
+        `${path}output_${new Date().getTime().toString()}.mp4`,
         // '-acodec',
         // 'libmp3lame',
       ];
