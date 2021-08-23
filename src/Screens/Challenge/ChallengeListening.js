@@ -35,6 +35,8 @@ import {BlurView} from '@react-native-community/blur';
 import {Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
+import {RNFFmpeg} from 'react-native-ffmpeg';
+
 function ChallengeListening(props) {
   const [currentTrack, setCurrentTrack] = React.useState(1); //음악 트랙에 대한 인덱스
   const [isAlreadyPlay, setIsAlreadyPlay] = React.useState(false); //재생 | 일시정지 상태
@@ -45,6 +47,7 @@ function ChallengeListening(props) {
   const [recordBtn, setRecordBtn] = React.useState(false); //녹음 시작 버튼 활성화
   const [stopRecordBtn, setStopRecordBtn] = React.useState(false); // 녹음 중지 버튼 활성화
   const ARPlayer = React.useRef(AudioRecorderPlayer);
+  const [uri, setUri] = React.useState('');
 
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer();
@@ -139,15 +142,15 @@ function ChallengeListening(props) {
       });
 
       //녹음 시작
-      const uri = await ARPlayer.current.startRecorder(
-        path + 'recording.m4a',
-        audioSet,
+      setUri(
+        await ARPlayer.current.startRecorder(path + 'recording.m4a', audioSet),
       );
       console.log('recording file name : ' + path + 'recording.mp3');
       ARPlayer.current.addRecordBackListener();
 
       setStopRecordBtn(true);
       console.log(`uri: ${uri}`);
+      console.log();
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +162,30 @@ function ChallengeListening(props) {
       const result = await ARPlayer.current.stopRecorder();
       ARPlayer.current.removeRecordBackListener();
       setStopRecordBtn(false);
+      console.log('[onStopRecord] handler is started');
       console.log(result);
+      console.log(`[input file 1]: ${uri}`);
+      console.log(`[input file 2]: ${path}music4.mp4`);
+      console.log(`[output file name] : ${path}output.mp3`);
+
+      // here's code start to audio mix.
+      const options = [
+        '-i',
+        uri,
+        '-i',
+        `${path}music4.mp4`,
+        '-filter_complex',
+        '[1]adelay=0s|0s[a1];[0:a][a1]amix=inputs=2[a]',
+        '-map',
+        '[a]',
+        `${path}output.mp4`,
+        // '-acodec',
+        // 'libmp3lame',
+      ];
+      console.log(`[options]: ${options}`);
+      RNFFmpeg.executeWithArguments(options).then(result =>
+        console.log(`FFmpeg process exited with rc=${result}.`),
+      );
     } catch (error) {
       console.log(error);
     }
