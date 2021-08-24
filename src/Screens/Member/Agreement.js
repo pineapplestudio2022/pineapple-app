@@ -125,6 +125,7 @@ const Agreement = props => {
                     source={ExternalLinkIcon}
                     style={{width: responsiveWidth(widthPersentage(24))}}
                   />
+                  <Modal1 />
                 </HStack>
               </Checkbox>
               <Divider />
@@ -144,24 +145,12 @@ const Agreement = props => {
                     개인정보 수집•이용 동의{'('}필수{')'}
                   </Text>
 
-                  {/* <Image
+                  <Image
                     alt={' '}
                     source={ExternalLinkIcon}
                     style={{width: responsiveWidth(widthPersentage(24))}}
-                  /> */}
-                  <Modal1>
-
-                    <Image
-                      alt={' '}
-                      source={ExternalLinkIcon}
-                      style={{width: responsiveWidth(widthPersentage(24))}}
-                    />
-                  </Modal1>
-                  <Modal1
-                    alt={''}
-                    source={ExternalLinkIcon}
-                    style={{width: responsiveWidth(widthPersentage(24))}}
                   />
+                  <Modal1 />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -186,6 +175,7 @@ const Agreement = props => {
                       style={{width: responsiveWidth(widthPersentage(24))}}
                     />
                   </TouchableOpacity>
+                  <Modal1 />
                 </HStack>
               </Checkbox>
               <Checkbox
