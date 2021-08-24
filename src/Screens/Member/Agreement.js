@@ -25,8 +25,7 @@ import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import {Alert, TouchableOpacity} from 'react-native';
-import Modal4 from './Modal4';
-
+import Modal1 from './Modal1';
 const Agreement = props => {
   const [allCheck, setAllCheck] = React.useState(false); //전체동의
   const [privacy, setPrivacy] = React.useState(false); //개인정보
@@ -39,10 +38,12 @@ const Agreement = props => {
       setPrivacy(true);
       setTerms(true);
       setMarketing('1');
+      setAllCheck(true);
     } else {
       setPrivacy(false);
       setTerms(false);
       setMarketing('0');
+      setAllCheck(false);
     }
   };
 
@@ -118,6 +119,12 @@ const Agreement = props => {
                     color={'#1a1b1c'}>
                     약관에 전체 동의합니다.
                   </Text>
+
+                  <Image
+                    alt={' '}
+                    source={ExternalLinkIcon}
+                    style={{width: responsiveWidth(widthPersentage(24))}}
+                  />
                 </HStack>
               </Checkbox>
               <Divider />
@@ -136,13 +143,25 @@ const Agreement = props => {
                     color={'#a5a8ae'}>
                     개인정보 수집•이용 동의{'('}필수{')'}
                   </Text>
-                  <TouchableOpacity>
+
+                  {/* <Image
+                    alt={' '}
+                    source={ExternalLinkIcon}
+                    style={{width: responsiveWidth(widthPersentage(24))}}
+                  /> */}
+                  <Modal1>
+
                     <Image
                       alt={' '}
                       source={ExternalLinkIcon}
                       style={{width: responsiveWidth(widthPersentage(24))}}
                     />
-                  </TouchableOpacity>
+                  </Modal1>
+                  <Modal1
+                    alt={''}
+                    source={ExternalLinkIcon}
+                    style={{width: responsiveWidth(widthPersentage(24))}}
+                  />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -191,7 +210,7 @@ const Agreement = props => {
                       style={{width: responsiveWidth(widthPersentage(24))}}
                     />
                   </TouchableOpacity>
-                  <Modal4 />
+                  <Modal1 />
                 </HStack>
               </Checkbox>
             </VStack>

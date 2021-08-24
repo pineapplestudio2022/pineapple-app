@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 
-const App = () => {
+const Modal2 = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -60,12 +60,6 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: 'pink',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
@@ -77,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Modal2;
