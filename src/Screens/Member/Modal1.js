@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/styles';
-import Modal from '@material-ui/core/Modal';
+import {Modal} from 'react-native';
 import {Backdrop} from '@material-ui/core';
 import {Fade} from '@material-ui/core';
 import {Box, Button} from '@material-ui/core';

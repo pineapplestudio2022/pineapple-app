@@ -25,8 +25,6 @@ import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import {Alert, TouchableOpacity} from 'react-native';
-//import Modal1 from './Modal1';
-import Modal2 from './Modal2';
 
 const Agreement = props => {
   const [allCheck, setAllCheck] = React.useState(false); //전체동의
