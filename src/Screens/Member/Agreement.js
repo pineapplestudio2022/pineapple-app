@@ -31,6 +31,7 @@ const Agreement = props => {
   const [privacy, setPrivacy] = React.useState(false); //개인정보
   const [terms, setTerms] = React.useState(false); //이용약관
   const [marketing, setMarketing] = React.useState('0'); //마케팅 0:거부, 1:수신
+  const [state, setUseState] = React.useState(false);
 
   //전체동의
   const handelAllCheck = value => {
@@ -120,12 +121,7 @@ const Agreement = props => {
                     약관에 전체 동의합니다.
                   </Text>
 
-                  <Image
-                    alt={' '}
-                    source={ExternalLinkIcon}
-                    style={{width: responsiveWidth(widthPersentage(24))}}
-                  />
-                  <Modal1 />
+                  <Modal1 Image source={ExternalLinkIcon} />
                 </HStack>
               </Checkbox>
               <Divider />
@@ -145,12 +141,13 @@ const Agreement = props => {
                     개인정보 수집•이용 동의{'('}필수{')'}
                   </Text>
 
-                  <Image
-                    alt={' '}
-                    source={ExternalLinkIcon}
-                    style={{width: responsiveWidth(widthPersentage(24))}}
-                  />
-                  <Modal1 />
+                  <Box>
+                    <Modal1
+                      src={''}
+                      source={ExternalLinkIcon}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </Box>
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -168,14 +165,8 @@ const Agreement = props => {
                     color={'#a5a8ae'}>
                     서비스 이용약관 동의{'('}필수{')'}
                   </Text>
-                  <TouchableOpacity>
-                    <Image
-                      alt={' '}
-                      source={ExternalLinkIcon}
-                      style={{width: responsiveWidth(widthPersentage(24))}}
-                    />
-                  </TouchableOpacity>
                   <Modal1 />
+                  <TouchableOpacity />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -194,13 +185,11 @@ const Agreement = props => {
                     광고•마케팅 수신 동의{'('}선택{')'}
                   </Text>
                   <TouchableOpacity>
-                    <Image
+                    <Modal1
                       alt={' '}
-                      source={ExternalLinkIcon}
                       style={{width: responsiveWidth(widthPersentage(24))}}
                     />
                   </TouchableOpacity>
-                  <Modal1 />
                 </HStack>
               </Checkbox>
             </VStack>
