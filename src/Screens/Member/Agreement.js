@@ -25,6 +25,7 @@ import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import {Alert, TouchableOpacity} from 'react-native';
+import Modal4 from './Modal4';
 
 const Agreement = props => {
   const [allCheck, setAllCheck] = React.useState(false); //전체동의
@@ -190,6 +191,7 @@ const Agreement = props => {
                       style={{width: responsiveWidth(widthPersentage(24))}}
                     />
                   </TouchableOpacity>
+                  <Modal4 />
                 </HStack>
               </Checkbox>
             </VStack>
