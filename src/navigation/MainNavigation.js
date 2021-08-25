@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
-import {ImageBackground} from 'react-native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
@@ -43,25 +43,112 @@ function CustomDrawerContent(props) {
         blurAmount={10}
         reducedTransparencyFallbackColor="white">
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
-          {props.state.routeNames.map((name, index) =>
-            index > 3 ? (
-              <Pressable
-                key={name + index}
-                w="100%"
-                onPress={() => props.navigation.navigate(name)}>
-                <Center>
-                  <Text
-                    color={'#fafafa'}
-                    bold
-                    fontSize={responsiveFontSize(fontSizePersentage(18))}>
-                    {name}
-                  </Text>
-                </Center>
-              </Pressable>
-            ) : (
-              null || undefined
-            ),
-          )}
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('PineappleIntro')}>
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              Pineapple Studio 소개
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('PinappleMusic')}>
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              PinappleMusic [준비중]
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            onPress={() => props.navigation.navigate('MyChallenge')}>
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              My Challenge
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            onPress={() => props.navigation.navigate('MyLyrics')}>
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              My Lyrics
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('MyPhotoAlbum')}
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              My Photo Album [준비중]
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('MyMusic')}
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              내가 만든 음원 [준비중]
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('MyBGM')}
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              My BGM [준비중]
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('FavoriteList')}
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              Favorite List [준비중]
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            w="100%"
+            // onPress={() => props.navigation.navigate('Price')}
+          >
+            <Text
+              textAlign={'center'}
+              color={'#fafafa'}
+              bold
+              fontSize={responsiveFontSize(fontSizePersentage(18))}>
+              Price [준비중]
+            </Text>
+          </TouchableOpacity>
         </VStack>
         <VStack space={5} alignItems={'center'} safeAreaBottom mb={4}>
           {/* 로그인 시 마이페이지, 로그아웃으로 변경 */}
@@ -143,18 +230,15 @@ const MainNavigation = props => {
         <Drawer.Screen name="MemberScreen" component={MemberScreen} />
         <Drawer.Screen name="LoginScreen" component={LoginScreen} />
         <Drawer.Screen name="MypageScreen" component={MypageScreen} />
-        <Drawer.Screen name="Pineapple Studio 소개" component={Intro} />
-        <Drawer.Screen
-          name="PinappleMusic [준비중]"
-          component={PineappleMusic}
-        />
-        <Drawer.Screen name="My Challenge" component={MyChallengeNavigation} />
-        <Drawer.Screen name="My Lyrics" component={LyricsScreen} />
-        <Drawer.Screen name="My Photo Album [준비중]" component={MainScreen} />
-        <Drawer.Screen name="내가 만든 음원 [준비중]" component={MainScreen} />
-        <Drawer.Screen name="My BGM [준비중]" component={MainScreen} />
-        <Drawer.Screen name="Favorite List [준비중]" component={MainScreen} />
-        <Drawer.Screen name="Price [준비중]" component={MainScreen} />
+        <Drawer.Screen name="PineappleIntro" component={Intro} />
+        <Drawer.Screen name="PinappleMusic" component={PineappleMusic} />
+        <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
+        <Drawer.Screen name="MyLyrics" component={LyricsScreen} />
+        <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
+        <Drawer.Screen name="MyMusic" component={MainScreen} />
+        <Drawer.Screen name="MyBGM" component={MainScreen} />
+        <Drawer.Screen name="FavoriteList" component={MainScreen} />
+        <Drawer.Screen name="Price" component={MainScreen} />
       </Drawer.Navigator>
     </ImageBackground>
   );
