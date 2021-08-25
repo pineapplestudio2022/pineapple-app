@@ -1,38 +1,13 @@
-import React from 'react';
-import {
-  Box,
-  Center,
-  Input,
-  SearchIcon,
-  Stack,
-  HStack,
-  VStack,
-  Text,
-  Pressable,
-  Image,
-} from 'native-base';
+import React, {useEffect, useContext, useState} from 'react';
+import {Box, HStack, VStack} from 'native-base';
 import {ScrollView} from 'react-native';
-import {
-  responsiveWidth,
-  responsiveFontSize,
-} from 'react-native-responsive-dimensions';
-import {
-  widthPersentage,
-  fontSizePersentage,
-} from '../Commons/DeviceWHPersentage';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {widthPersentage} from '../Commons/DeviceWHPersentage';
 import MusicAlbumComponent from '../Components/MusicAlbumComponent';
 import MenuComponent from '../Components/MenuComponent';
-import ChallengeIcon from '../Assets/Image/btn_main_speaker.png';
-import MagazineIcon from '../Assets/Image/btn_main_magazine.png';
-import PhotoIcon from '../Assets/Image/btn_main_photo.png';
-import BgmStudioIcon from '../Assets/Image/btn_main_bgm_studio.png';
-import WriteMusicIcon from '../Assets/Image/btn_main_write_music.png';
-import MusicNoteIcon from '../Assets/Image/btn_main_music_note.png';
 import APIKit from '../API/APIkit';
-import {useEffect} from 'react';
-import {useContext} from 'react/cjs/react.development';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
-import {useState} from 'react';
+import Wbutton from '../Components/WbuttonComponent';
 
 function MainScreen(props) {
   //랭킹 음원 10개 가져오기
@@ -108,7 +83,8 @@ function MainScreen(props) {
 
         <Box>
           {/* Search Box start */}
-          <Center backgroundColor="#fafafa80" marginBottom={14}>
+          {/* 검색기능 추후 추가 예정 */}
+          {/* <Center backgroundColor="#fafafa80" marginBottom={14}>
             <Box w={responsiveWidth(widthPersentage(300))}>
               <Input
                 InputLeftElement={<SearchIcon size="4" color="#a5a8ae" />}
@@ -120,213 +96,92 @@ function MainScreen(props) {
                 borderBottomColor="#0fefbd"
               />
             </Box>
-          </Center>
+          </Center> */}
           {/* Search Box end */}
           {/* 버튼 메뉴 start */}
-          <Box w="100%">
-            <Stack>
-              <VStack space={responsiveWidth(widthPersentage(28))}>
-                <HStack
-                  space={responsiveWidth(widthPersentage(28))}
-                  justifyContent={'center'}>
-                  {/* Challenge 버튼 start */}
-                  <Pressable
-                    onPress={() => props.navigation.navigate('ChallengeScreen')}
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Image
-                      source={ChallengeIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold>
-                      Challenge
-                    </Text>
-                  </Pressable>
-                  {/* Challenge 버튼 end */}
-                  {/* 가사 쓰기 버튼 start */}
-                  <Pressable
-                    onPress={() => props.navigation.navigate('LyricsScreen')}
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Image
-                      source={WriteMusicIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold>
-                      가사 쓰기
-                    </Text>
-                  </Pressable>
-                  {/* 가사 쓰기 버튼 end */}
-                </HStack>
-                <HStack
-                  space={responsiveWidth(widthPersentage(28))}
-                  justifyContent={'center'}>
-                  {/* 추억의 사진으로 노래 만들기 버튼 start */}
-                  <Pressable
-                    onPress={() => {
-                      console.log(musicList);
-                    }}
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Text
-                      marginBottom="2"
-                      color="#858c92"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      bold>
-                      준비중
-                    </Text>
-                    <Image
-                      source={PhotoIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold
-                      textAlign={'center'}>
-                      추억의 사진으로 {'\n'} 노래만들기
-                    </Text>
-                  </Pressable>
-                  {/* 추억의 사진으로 노래 만들기 버튼 end */}
-                  {/* BGM Studio 버튼 start */}
-                  <Pressable
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Text
-                      marginBottom="2"
-                      color="#858c92"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      bold>
-                      준비중
-                    </Text>
-                    <Image
-                      source={BgmStudioIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold
-                      textAlign={'center'}>
-                      BGM Studio
-                    </Text>
-                  </Pressable>
-                  {/* BGM Studio 버튼 end */}
-                </HStack>
-                <HStack
-                  space={responsiveWidth(widthPersentage(28))}
-                  justifyContent={'center'}>
-                  {/* 매거진 버튼 start */}
-                  <Pressable
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Text
-                      marginBottom="2"
-                      color="#858c92"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      bold>
-                      준비중
-                    </Text>
-                    <Image
-                      source={MagazineIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold
-                      textAlign={'center'}>
-                      매거진
-                    </Text>
-                  </Pressable>
-                  {/* 매거진 버튼 end */}
-                  {/* 함께 만드는 우리의 Music 버튼 start */}
-                  <Pressable
-                    borderWidth={1}
-                    w={responsiveWidth(widthPersentage(140))}
-                    h={responsiveWidth(widthPersentage(140))}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    borderColor="#0fefbd"
-                    backgroundColor="#fafafa80"
-                    rounded={8}>
-                    <Text
-                      marginBottom="2"
-                      color="#858c92"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      bold>
-                      준비중
-                    </Text>
-                    <Image
-                      source={MusicNoteIcon}
-                      resizeMode={'contain'}
-                      style={{width: responsiveWidth(widthPersentage(48))}}
-                      alt={''}
-                    />
-                    <Text
-                      marginTop="2"
-                      fontSize={responsiveFontSize(fontSizePersentage(14))}
-                      color="#0fefbd"
-                      bold
-                      textAlign={'center'}>
-                      함께 만드는 {'\n'} 우리의 Music
-                    </Text>
-                  </Pressable>
-                  {/* 함께 만드는 우리의 Music 버튼 end */}
-                </HStack>
-              </VStack>
-            </Stack>
+          <Box w="100%" mt={4}>
+            <VStack space={responsiveWidth(widthPersentage(28))}>
+              <HStack
+                space={responsiveWidth(widthPersentage(28))}
+                justifyContent={'center'}>
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'challenge'}
+                  rounded={8}
+                  text={'Challenge'}
+                  onPress={() => props.navigation.navigate('ChallengeScreen')}
+                />
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'lyrics'}
+                  rounded={8}
+                  text={'가사 쓰기'}
+                  onPress={() => props.navigation.navigate('LyricsScreen')}
+                />
+              </HStack>
+              <HStack
+                space={responsiveWidth(widthPersentage(28))}
+                justifyContent={'center'}>
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'photo'}
+                  rounded={8}
+                  text={'추억의 사진으로' + '\n' + '노래만들기'}
+                  ready={'준비중'}
+                  disable
+                  onPress={() => {}}
+                />
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'bgm'}
+                  rounded={8}
+                  text={'BGM Studio'}
+                  ready={'준비중'}
+                  disable
+                  onPress={() => {}}
+                />
+              </HStack>
+              <HStack
+                space={responsiveWidth(widthPersentage(28))}
+                justifyContent={'center'}>
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'magazine'}
+                  rounded={8}
+                  text={'매거진'}
+                  ready={'준비중'}
+                  disable
+                  onPress={() => {}}
+                />
+                <Wbutton
+                  wp={140}
+                  hp={140}
+                  fs={14}
+                  fw={600}
+                  imgName={'musicNote'}
+                  rounded={8}
+                  text={'함께 만드는' + '\n' + '우리의 Music'}
+                  ready={'준비중'}
+                  disable
+                  onPress={() => {}}
+                />
+              </HStack>
+            </VStack>
           </Box>
           {/* 버튼 메뉴 end */}
         </Box>
