@@ -49,6 +49,7 @@ function ChallengeListening(props) {
   const ARPlayer = React.useRef(AudioRecorderPlayer);
   const [uri, setUri] = React.useState('');
 
+  const id = props.route.params.id;
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer();
     ARPlayer.current.setSubscriptionDuration(0.1);

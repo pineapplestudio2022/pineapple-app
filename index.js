@@ -24,4 +24,5 @@ https://github.com/react-native-seoul/react-native-naver-login/issues/66
 youtube pod install시 오류나면
 https://github.com/CocoaPods/CocoaPods/issues/10723
 참조
+arch -x86_64 pod install
 */

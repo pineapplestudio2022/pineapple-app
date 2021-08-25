@@ -1,24 +1,10 @@
 // Challenge 화면
 
 import React from 'react';
-import {Box, VStack, HStack, Text, Stack, Image, Pressable} from 'native-base';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+import {Box, VStack, HStack, Stack, Image} from 'native-base';
+
 import MenuComponent from '../../Components/MenuComponent';
 import ChallengeDancer from '../../Assets/Image/challenge/image_challenge_dancer.png';
-import HeadPhoneIcon from '../../Assets/Image/challenge/btn_challenge_headphones.png';
-import SingingIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
-import PlayingMusicIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
-import PreviewIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
-import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
 import Wbutton from '../../Components/WbuttonComponent';
 
 function Challenge(props) {

@@ -1,16 +1,53 @@
 //Challenge -> 가사보기 뷰
 
-import React from 'react';
-import {Box, Center, Text, VStack, HStack, TextArea, Image} from 'native-base';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../../Commons/DeviceWHPersentage';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Box, Center, Text, VStack, HStack, TextArea} from 'native-base';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  heightPersentage,
+  widthPersentage,
+} from '../../Commons/DeviceWHPersentage';
+import {ImageBackground} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
-import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
-import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
+import APIKit from '../../API/APIkit';
+import Gbutton from '../../Components/GbuttonComponent';
 
 function LyricsView(props) {
+  const [title, setTitle] = useState();
+  const [genre, setGenre] = useState();
+  const [lyrics, setLyrics] = useState();
+
+  useEffect(() => {
+    console.log('api get');
+    const payload = {id: props.route.params.id.toString()};
+
+    const onSuccess = response => {
+      if (response.data.IBcode === '1000') {
+        setTitle(response.data.IBparams.rows[0].title);
+        setGenre(response.data.IBparams.rows[0].genre);
+        setLyrics(response.data.IBparams.rows[0].lyrics);
+      }
+    };
+    const onFailure = error => {
+      console.log(error && error.response);
+    };
+
+    const getOriginalSong = () => {
+      APIKit.post('/originalWorks/getOriginalSong', payload)
+        .then(onSuccess)
+        .catch(onFailure);
+    };
+    getOriginalSong();
+
+    return () => {
+      console.log('api unmount');
+    };
+  }, [props.route.params.id]);
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -28,35 +65,25 @@ function LyricsView(props) {
               lineHeight={28}
               px={2}
               noOfLines={1}>
-              곡 제목 들어갈 공간
+              {title}
             </Text>
-            <Text></Text>
+            <Text />
           </Center>
           <HStack space={10} justifyContent={'center'} p={2}>
-            <HStack>
-              <Text color={'#4be3ac'} fontSize={17} bold>
-                작곡가 :{'  '}
-              </Text>
-              <Text color={'#1a1b1c'} fontSize={17} bold>
-                뮤지아
-              </Text>
-            </HStack>
-            <HStack>
-              <Text color={'#4be3ac'} fontSize={17} bold>
-                작사가 :{'  '}
-              </Text>
-              <Text color={'#1a1b1c'} fontSize={17} bold>
-                김하나
-              </Text>
-            </HStack>
+            <Text color={'#4be3ac'} fontSize={17} bold noOfLines={1}>
+              장르 :
+            </Text>
+            <Text color={'#1a1b1c'} fontSize={17} bold noOfLines={1}>
+              {genre}
+            </Text>
           </HStack>
           <Box
-            h="75%"
             style={{
               shadowColor: '#858c9233',
               shadowOffset: {width: 0, height: 2},
               shadowRadius: 4,
               shadowOpacity: 1,
+              height: responsiveHeight(heightPersentage(440)),
             }}>
             <Box borderRadius={20} overflow={'hidden'}>
               <ImageBackground
@@ -67,7 +94,12 @@ function LyricsView(props) {
                   height: '100%',
                 }}>
                 <Center>
-                  <Box bg={'#fafafa80'} w="70%" h="90%" my={5} rounded={16}>
+                  <Box
+                    bg={'#fafafa80'}
+                    w={responsiveWidth(widthPersentage(240))}
+                    h={responsiveHeight(heightPersentage(408))}
+                    my={5}
+                    rounded={16}>
                     <TextArea
                       h="100%"
                       fontSize={13}
@@ -77,112 +109,37 @@ function LyricsView(props) {
                       editable={false}
                       px={8}
                       pt={2}>
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
+                      {lyrics}
                     </TextArea>
                   </Box>
                 </Center>
               </ImageBackground>
             </Box>
             <HStack space={5} justifyContent={'space-around'} mt={4}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: '40%',
-                  padding: 12,
-                }}>
-                <HStack space={4} justifyContent={'center'}>
-                  <Image
-                    source={XIcon}
-                    resizeMode={'contain'}
-                    alt={' '}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text fontSize={13} fontWeight={800} color={'white'}>
-                    닫 기
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: '40%',
-                  padding: 12,
-                }}>
-                <HStack space={4} justifyContent={'center'}>
-                  <Image
-                    source={CheckIcon}
-                    resizeMode={'contain'}
-                    alt={' '}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text fontSize={13} fontWeight={800} color={'white'}>
-                    참 여
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                imgName={'x'}
+                text={'닫 기'}
+                rounded={6}
+                onPress={() => props.navigation.goBack()}
+              />
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                imgName={'check'}
+                text={'참 여'}
+                rounded={6}
+                onPress={() =>
+                  props.navigation.navigate('Listening', {
+                    id: props.route.params.id,
+                  })
+                }
+              />
             </HStack>
           </Box>
         </VStack>
