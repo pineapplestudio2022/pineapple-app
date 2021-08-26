@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: -16,
   },
   modalView: {
-    margin: 20,
+    // margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    // padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -36,12 +36,10 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    // padding: 1,
+    // elevation: 2,
   },
-  // buttonOpen: {
-  //   backgroundColor:
-  // },
+
   buttonClose: {
     backgroundColor: '#2196F3',
   },
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
+    // marginBottom: 15,
     textAlign: 'center',
   },
 });
