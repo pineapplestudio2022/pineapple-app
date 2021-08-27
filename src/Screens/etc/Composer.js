@@ -11,7 +11,7 @@ import {
   ImageBackground,
 } from 'native-base';
 
-const Splash = props => {
+const Composer = props => {
   return (
     <ScrollView>
       <ImageBackground
@@ -61,7 +61,7 @@ const Splash = props => {
     </ScrollView>
   );
 };
-export default Splash;
+export default Composer;
 const styles = StyleSheet.create({
   bgimg: {
     width: '100%',

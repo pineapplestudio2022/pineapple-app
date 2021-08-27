@@ -26,6 +26,13 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = pineapple;
 		};
+		FC31373926D77AF2004CC9FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C52C2953216240578E6DD880 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -45,9 +52,9 @@
 		64D588FC26B2810400D42EA5 /* SwiftBrige.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBrige.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = pineapple/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		894C0D40ECAF9E23EC38E96A /* Pods-pineapple-pineappleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple-pineappleTests.debug.xcconfig"; path = "Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8DBF2B9F30B245968082BD1E /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = archive.ar; name = libSplashScreen.a; path = libSplashScreen.a; sourceTree = "<group>"; };
+		8DBF2B9F30B245968082BD1E /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = "wrapper.pb-project"; fileEncoding = 9; includeInIndex = 0; path = libSplashScreen.a; sourceTree = "<group>"; };
 		90026A56213F6FE8ACBAA791 /* Pods-pineapple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.release.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.release.xcconfig"; sourceTree = "<group>"; };
-		C52C2953216240578E6DD880 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		C52C2953216240578E6DD880 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		CB8DB3696D0D26B793D9D872 /* Pods-pineapple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.debug.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -143,6 +150,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				6DC52127B5D6734ABB95861A /* Pods */,
 				64D588FB26B2810300D42EA5 /* pineapple-Bridging-Header.h */,
+				FC31373526D77AF1004CC9FA /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -154,6 +162,22 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* pineapple.app */,
 				00E356EE1AD99517003FC87E /* pineappleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC31373526D77AF1004CC9FA /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				8DBF2B9F30B245968082BD1E /* libSplashScreen.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		FC31373626D77AF2004CC9FA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC31373A26D77AF2004CC9FA /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,6 +256,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FC31373626D77AF2004CC9FA /* Products */;
+					ProjectRef = C52C2953216240578E6DD880 /* SplashScreen.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* pineapple */,
@@ -239,6 +269,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FC31373A26D77AF2004CC9FA /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = "wrapper.pb-project";
+			path = libSplashScreen.a;
+			remoteRef = FC31373926D77AF2004CC9FA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
