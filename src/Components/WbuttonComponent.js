@@ -27,8 +27,8 @@ import CameraGreenIcon from '../Assets/Image/challenge/btn_challenge_camera.png'
 import CameraWhiteIcon from '../Assets/Image/challenge/btn_challenge_camera_white.png';
 import PlayingMusicGreenIcon from '../Assets/Image/challenge/btn_challenge_playingmusic.png';
 import PreviewGreenIcon from '../Assets/Image/challenge/btn_challenge_preview.png';
-import HeadphoneGreen from '../Assets/Image/challenge/btn_challenge_headphones.png';
-import HeadphoneWhite from '../Assets/Image/challenge/icon_challenge_headphones_white.png';
+import HeadPhoneWhiteIcon from '../Assets/Image/challenge/icon_challenge_headphones_white.png';
+import HeadPhoneGreenIcon from '../Assets/Image/challenge/icon_challenge_headphones_green.png';
 class Wbutton extends React.Component {
   constructor(props) {
     super(props);
@@ -77,9 +77,9 @@ class Wbutton extends React.Component {
         case 'playingMusic-reverse':
           return PlayingMusicGreenIcon;
         case 'headphone':
-          return HeadphoneGreen;
+          return HeadPhoneGreenIcon;
         case 'headphone-reverse':
-          return HeadphoneWhite;
+          return HeadPhoneWhiteIcon;
         default:
           return undefined;
       }

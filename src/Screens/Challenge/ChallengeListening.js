@@ -1,6 +1,6 @@
 //Challenge -> 15초감상 View
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Box,
   Center,
@@ -36,52 +36,118 @@ import {Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
+import APIKit from '../../API/APIkit';
 
 function ChallengeListening(props) {
-  const [currentTrack, setCurrentTrack] = React.useState(1); //음악 트랙에 대한 인덱스
-  const [isAlreadyPlay, setIsAlreadyPlay] = React.useState(false); //재생 | 일시정지 상태
-  const [duration, setDuration] = React.useState('00:00:00'); //트랙 길이
-  const [timeElapsed, setTimeElapsed] = React.useState('00:00:00'); //트랙 경과 시간
-  const [percent, setPercent] = React.useState(0); //트랙 경과시간에 따른 slider 표시
+  const [currentTrack, setCurrentTrack] = useState(1); //음악 트랙에 대한 인덱스
+  const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
+  const [duration, setDuration] = useState('00:00:00'); //트랙 길이
+  const [timeElapsed, setTimeElapsed] = useState('00:00:00'); //트랙 경과 시간
+  const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
 
-  const [recordBtn, setRecordBtn] = React.useState(false); //녹음 시작 버튼 활성화
-  const [stopRecordBtn, setStopRecordBtn] = React.useState(false); // 녹음 중지 버튼 활성화
-  const ARPlayer = React.useRef(AudioRecorderPlayer);
-  const [uri, setUri] = React.useState('');
+  const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
+  const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
+  const ARPlayer = useRef(AudioRecorderPlayer);
+  const ARRecord = useRef(AudioRecorderPlayer);
 
-  const id = props.route.params.id;
+  const [uri, setUri] = useState('');
+
+  const [title, setTitle] = useState(''); //제목
+  const [genre, setGenre] = useState(''); //장르
+  const [lyrics, setLyrics] = useState(''); //가사
+  const [filepath, setFilePath] = useState(''); //파일 저장 경로
+  const [fileName, setFileName] = useState(''); //파일 이름
+
   useEffect(() => {
-    ARPlayer.current = new AudioRecorderPlayer();
+    ARPlayer.current = new AudioRecorderPlayer(); //재생
     ARPlayer.current.setSubscriptionDuration(0.1);
+    ARRecord.current = new AudioRecorderPlayer(); //녹음
+    ARRecord.current.setSubscriptionDuration(0.1);
+
+    const getOriginalSong = async () => {
+      const payload = {id: props.route.params.id.toString()};
+
+      await APIKit.post('originalWorks/getOriginalSong', payload)
+        .then(response => {
+          console.log(response);
+          setTitle(response.data.IBparams.rows[0].title);
+          setLyrics(response.data.IBparams.rows[0].lyrics);
+          setGenre(response.data.IBparams.rows[0].genre);
+
+          const keyname = response.data.IBparams.rows[0].musicKey.toString();
+          const splitKey = keyname.split('/');
+          const length = splitKey.length;
+          const filename = splitKey[length - 1];
+
+          const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+          const path = dirs + '/';
+          RNFetchBlob.fs //로컬 파일 체크
+            .exists(path + filename)
+            .then(async exist => {
+              if (!exist) {
+                //없으면 다운로드
+                await APIKit.post('aws/getS3SignedUrl', {musicKey: keyname})
+                  .then(res => {
+                    const s3Path = res.data;
+                    RNFetchBlob.config({
+                      fileCache: true,
+                      path: path + filename,
+                    })
+                      .fetch('GET', s3Path)
+                      .progress((received, total) => {
+                        const percentage =
+                          Math.floor((received / total) * 100) + '%';
+                        console.log(percentage);
+                      })
+                      .then(resp => {
+                        console.log('The file saved to ', resp.path());
+                      });
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }
+              setFilePath(path);
+              setFileName(filename);
+              console.log('setfilepath : ' + path + filename);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+
+          // getS3SignedUrl(response.data.IBparams.rows[0].musicKey);
+        })
+        .catch(error => {
+          console.log(error && error.response);
+        });
+    };
+    getOriginalSong();
+
     return () => {
       //재생, 녹음중 다른화면으로 나갈시 해제
       ARPlayer.current.stopPlayer();
       ARPlayer.current.removePlayBackListener();
-      ARPlayer.current.stopRecorder();
-      ARPlayer.current.removeRecordBackListener();
+      ARRecord.current.stopRecorder();
+      ARRecord.current.removeRecordBackListener();
     };
-  }, []);
-  //임시 데이터
-  const playlist = [
-    {title: 'test tilte', path: 'futurehouse1-2.mp3', cover: ''},
-    {title: 'test tilte2', path: '210708_folk.mp3', cover: ''},
-    {title: 'test tilte3', path: '210719_5.mp3', cover: ''},
-    {title: 'test tilte4', path: 'trap_1.mp3', cover: ''},
-  ];
+  }, [props.route.params.id]);
 
-  const dirs = RNFetchBlob.fs.dirs.DocumentDir;
-  const path = Platform.select({
-    ios: 'file://' + dirs + '/',
-    android: 'file://' + dirs + '/',
+  //재생파일 경로
+  const playPath = Platform.select({
+    ios: 'file://' + filepath + fileName,
+    android: 'file://' + filepath + fileName,
   });
-  console.log('path: ' + path);
+
+  //녹음파일 저장 경로
+  const recordPath = Platform.select({
+    ios: 'file://' + filepath + 'recording.m4a',
+    android: 'file://' + filepath + 'recording.mp4',
+  });
 
   const onStartPlay = async () => {
     try {
-      const msg = await ARPlayer.current.startPlayer(
-        path + playlist[currentTrack].path,
-      );
-      const volume = await ARPlayer.current.setVolume(2.0);
+      const msg = await ARPlayer.current.startPlayer(playPath);
+      const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsAlreadyPlay(true);
 
@@ -90,11 +156,11 @@ function ChallengeListening(props) {
           ARPlayer.current.stopPlayer();
           setIsAlreadyPlay(false);
         }
-        let percent = Math.round(
+        let percentage = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
         setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
-        setPercent(percent);
+        setPercent(percentage);
         setDuration(ARPlayer.current.mmssss(e.duration));
 
         return;
@@ -122,34 +188,28 @@ function ChallengeListening(props) {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-
     console.log('audioSet', audioSet);
-
     try {
       //음악 재생
-      const msg = await ARPlayer.current.startPlayer(
-        path + playlist[currentTrack].path,
-      );
+      const msg = await ARPlayer.current.startPlayer(playPath);
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
 
       ARPlayer.current.addPlayBackListener(e => {
-        let percent = Math.round(
+        let percentage = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
         setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
-        setPercent(percent);
+        setPercent(percentage);
         setDuration(ARPlayer.current.mmssss(e.duration));
       });
 
       //녹음 시작
-      setUri(
-        await ARPlayer.current.startRecorder(path + 'recording.m4a', audioSet),
-      );
-      console.log('recording file name : ' + path + 'recording.mp3');
-      ARPlayer.current.addRecordBackListener();
-
+      setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
+      console.log('recording file name : ' + uri);
+      ARRecord.current.addRecordBackListener();
       setStopRecordBtn(true);
+
       console.log(`uri: ${uri}`);
       console.log();
     } catch (error) {
@@ -160,26 +220,30 @@ function ChallengeListening(props) {
   const onStopRecord = async () => {
     try {
       onStopPlay();
-      const result = await ARPlayer.current.stopRecorder();
-      ARPlayer.current.removeRecordBackListener();
+      const result = await ARRecord.current.stopRecorder();
+      ARRecord.current.removeRecordBackListener();
       setStopRecordBtn(false);
       console.log('[onStopRecord] handler is started');
       console.log(result);
       console.log(`[input file 1]: ${uri}`);
-      console.log(`[input file 2]: ${path}music4.mp4`);
-      console.log(`[output file name] : ${path}output.mp3`);
+      console.log(`[input file 2]: ${filepath + fileName}`);
+      console.log(
+        `[output file name] : ${fileName}output_${new Date()
+          .getTime()
+          .toString()}.mp4`,
+      );
 
       // here's code start to audio mix.
       const options = [
+        '-i', //input
+        uri, //recordingfile
         '-i',
-        uri,
-        '-i',
-        `${path}music4.mp4`,
+        filepath + fileName, //originalMusic
         '-filter_complex',
         '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
         '-map',
         '[a]',
-        `${path}output_${new Date().getTime().toString()}.mp4`,
+        `${filepath}/${fileName}output_${new Date().getTime().toString()}.mp4`,
         // '-acodec',
         // 'libmp3lame',
       ];
@@ -190,6 +254,12 @@ function ChallengeListening(props) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //참여버튼
+  const handlerJoin = () => {
+    setRecordBtn(true);
+    onStopPlay();
   };
 
   return (
@@ -210,7 +280,7 @@ function ChallengeListening(props) {
               lineHeight={28}
               px={2}
               noOfLines={1}>
-              곡 제목 들어갈 공간
+              {title}
             </Text>
             <Text />
           </Center>
@@ -228,7 +298,7 @@ function ChallengeListening(props) {
                 color={'#1a1b1c'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                일렉트로닉
+                {genre}
               </Text>
             </HStack>
           </HStack>
@@ -303,39 +373,15 @@ function ChallengeListening(props) {
                     </Text>
                   </HStack>
                   {recordBtn ? (
-                    stopRecordBtn ? (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        imgName={'pulse'}
-                        onPress={onStopRecord}
-                        text={'RECORD'}
-                      />
-                    ) : (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        imgName={'mic'}
-                        onPress={onStartRecord}
-                        text={'RECORD'}
-                      />
-                    )
-                  ) : isAlreadyPlay ? (
                     <Gbutton
                       wp={220}
                       hp={40}
                       fs={18}
                       fw={600}
                       rounded={8}
-                      imgName={'stop'}
-                      text={'15초 듣기'}
-                      onPress={onStopPlay}
+                      imgName={stopRecordBtn ? 'pulse' : 'mic'}
+                      onPress={stopRecordBtn ? onStopRecord : onStartRecord}
+                      text={'RECORD'}
                     />
                   ) : (
                     <Gbutton
@@ -344,9 +390,9 @@ function ChallengeListening(props) {
                       fs={18}
                       fw={600}
                       rounded={8}
-                      imgName={'headphone'}
+                      imgName={isAlreadyPlay ? 'stop' : 'headphone'}
                       text={'15초 듣기'}
-                      onPress={onStartPlay}
+                      onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
                     />
                   )}
 
@@ -367,48 +413,7 @@ function ChallengeListening(props) {
                       editable={false}
                       px={8}
                       pt={2}>
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
+                      {lyrics}
                     </TextArea>
                   </Box>
                 </Center>
@@ -433,7 +438,7 @@ function ChallengeListening(props) {
                 rounded={6}
                 imgName={'check'}
                 text={'참여'}
-                onPress={() => setRecordBtn(true)}
+                onPress={handlerJoin}
               />
             </HStack>
           </Box>

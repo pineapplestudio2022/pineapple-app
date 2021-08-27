@@ -11,8 +11,10 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-import HeadPhoneIcon from '../Assets/Image/challenge/icon_challenge_headphones_white.png';
-import StopIcon from '../Assets/Image/challenge/icon_challenge_stop_green.png';
+import HeadPhoneWhiteIcon from '../Assets/Image/challenge/icon_challenge_headphones_white.png';
+import HeadPhoneGreenIcon from '../Assets/Image/challenge/icon_challenge_headphones_green.png';
+import StopGreenIcon from '../Assets/Image/challenge/icon_challenge_stop_green.png';
+import StopWhiteIcon from '../Assets/Image/challenge/icon_challenge_stop_white.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic_white.png';
 import PulseIcon from '../Assets/Image/challenge/icon_challenge_pulse_green.png';
 import XgreenIcon from '../Assets/Image/challenge/icon_challenge_x_green.png';
@@ -34,8 +36,9 @@ class Gbutton extends React.Component {
     const getImage = name => {
       switch (name) {
         case 'headphone':
+          return HeadPhoneWhiteIcon;
         case 'headphone-reverse':
-          return HeadPhoneIcon;
+          return HeadPhoneGreenIcon;
         case 'mic':
         case 'mic-reverse':
           return MicIcon;
@@ -51,8 +54,9 @@ class Gbutton extends React.Component {
         case 'pulse-reverse':
           return PulseIcon;
         case 'stop':
+          return StopWhiteIcon;
         case 'stop-reverse':
-          return StopIcon;
+          return StopGreenIcon;
         default:
           return undefined;
       }

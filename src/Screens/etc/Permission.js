@@ -76,7 +76,6 @@ function MicPermission() {
     </Box>
   );
 }
-('');
 export default MicPermission;
 
 const styles = StyleSheet.create({
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: -0.11,
     textAlign: 'center',
-    fontSize: 17,
     fontStyle: 'normal',
     lineHeight: 22,
     color: '#000000',
