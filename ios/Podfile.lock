@@ -60,6 +60,7 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - glog (0.3.5)
   - libevent (2.1.12)
+  - mobile-ffmpeg-https (4.4)
   - OpenSSL-Universal (1.1.180)
   - Permission-SpeechRecognition (3.0.5):
     - RNPermissions
@@ -261,8 +262,16 @@ PODS:
   - React-jsinspector (0.64.2)
   - react-native-blur (0.8.0):
     - React
+  - react-native-ffmpeg (0.5.1):
+    - React
+    - react-native-ffmpeg/https (= 0.5.1)
+  - react-native-ffmpeg/https (0.5.1):
+    - mobile-ffmpeg-https (= 4.4)
+    - React
   - react-native-safe-area-context (3.2.0):
     - React-Core
+  - react-native-splash-screen (3.2.0):
+    - React
   - React-perflogger (0.64.2)
   - React-RCTActionSheet (0.64.2):
     - React-Core/RCTActionSheetHeaders (= 0.64.2)
@@ -417,7 +426,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-ffmpeg (from `../node_modules/react-native-ffmpeg`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -452,6 +463,7 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - libevent
+    - mobile-ffmpeg-https
     - OpenSSL-Universal
     - YogaKit
     - YoutubePlayer-in-WKWebView
@@ -495,8 +507,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-ffmpeg:
+    :path: "../node_modules/react-native-ffmpeg"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -556,6 +572,7 @@ SPEC CHECKSUMS:
   FlipperKit: 8a20b5c5fcf9436cac58551dc049867247f64b00
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  mobile-ffmpeg-https: 311fc4a8f671cf36d1d6b8f421e8246b790978d9
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-SpeechRecognition: fb67f19ecfd3de245833d2c1fc0ba00278f90cac
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
@@ -571,7 +588,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
+  react-native-ffmpeg: 9fbe53d5afd6f35978804756f58238cf9340d1d8
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
   React-RCTAnimation: 6a2e76ab50c6f25b428d81b76a5a45351c4d77aa
@@ -596,6 +615,6 @@ SPEC CHECKSUMS:
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
   YoutubePlayer-in-WKWebView: cfbf46da51d7370662a695a8f351e5fa1d3e1008
 
-PODFILE CHECKSUM: d9fde3c44ea67292bb1cf21fb6919eaa52d96359
+PODFILE CHECKSUM: 7c1bc511c1cfc7c3a358255641d8313e730d2537
 
 COCOAPODS: 1.10.1

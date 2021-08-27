@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import MainNavigation from './src/navigation/MainNavigation';
 import UserDispatchProvider from './src/Commons/UserDispatchProvider';
+import SplashScreen from 'react-native-splash-screen';
 // import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 
 const App = () => {
@@ -21,6 +22,9 @@ const App = () => {
   // React.useEffect(() => {
   //   checkRecord();
   // }, []);
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <UserDispatchProvider>
