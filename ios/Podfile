@@ -30,6 +30,6 @@ target 'pineapple' do
   end
   
   permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/MicroPhone"
 
 end
