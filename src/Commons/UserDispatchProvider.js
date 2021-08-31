@@ -5,6 +5,7 @@ import {cleanClientToken} from '../API/APIkit';
 export const UserDispatch = createContext();
 const initialState = {
   userId: '',
+  token: '',
 };
 
 const reducer = (state, action) => {
@@ -12,11 +13,13 @@ const reducer = (state, action) => {
     case 'SIGN_IN':
       return {
         userId: action.userId.toString(),
+        token: action.token.toString(),
       };
     case 'SIGN_OUT':
       cleanClientToken();
       return {
         userId: '',
+        token: '',
       };
     default:
       return state;
@@ -26,7 +29,8 @@ const reducer = (state, action) => {
 const UserDispatchProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <UserDispatch.Provider value={{userId: state.userId, dispatch}}>
+    <UserDispatch.Provider
+      value={{userId: state.userId, token: state.token, dispatch}}>
       {props.children}
     </UserDispatch.Provider>
   );

@@ -16,11 +16,14 @@ import HeadPhoneGreenIcon from '../Assets/Image/challenge/icon_challenge_headpho
 import StopGreenIcon from '../Assets/Image/challenge/icon_challenge_stop_green.png';
 import StopWhiteIcon from '../Assets/Image/challenge/icon_challenge_stop_white.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic_white.png';
-import PulseIcon from '../Assets/Image/challenge/icon_challenge_pulse_green.png';
+import PulseGreenIcon from '../Assets/Image/challenge/icon_challenge_pulse_green.png';
+import PulseWhiteIcon from '../Assets/Image/challenge/icon_challenge_pulse_white.png';
 import XgreenIcon from '../Assets/Image/challenge/icon_challenge_x_green.png';
 import XIcon from '../Assets/Image/challenge/icon_challenge_x_white.png';
 import CheckIcon from '../Assets/Image/challenge/icon_challenge_check_white.png';
 import CheckgreenIcon from '../Assets/Image/challenge/icon_challenge_check_green.png';
+import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_green.png';
+import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
 class Gbutton extends React.Component {
   constructor(props) {
     super(props);
@@ -51,12 +54,17 @@ class Gbutton extends React.Component {
         case 'check-reverse':
           return CheckgreenIcon;
         case 'pulse':
+          return PulseWhiteIcon;
         case 'pulse-reverse':
-          return PulseIcon;
+          return PulseGreenIcon;
         case 'stop':
           return StopWhiteIcon;
         case 'stop-reverse':
           return StopGreenIcon;
+        case 'upload':
+          return UploadWhiteIcon;
+        case 'upload-reverse':
+          return UploadGreenIcon;
         default:
           return undefined;
       }

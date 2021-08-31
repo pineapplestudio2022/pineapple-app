@@ -111,7 +111,6 @@ function MusicRacking(props) {
         <MusicPlayer
           onScroll={HandlerScroll}
           id={id}
-          fileName={fileName}
           playerSize={isBottom ? false : true}
         />
       </SlidingUpPanel>

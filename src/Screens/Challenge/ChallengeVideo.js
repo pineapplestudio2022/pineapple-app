@@ -1,145 +1,167 @@
-import React from 'react';
-import {StyleSheet, Image, ImageBackground} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
-import {Text, Button, Container, Center, Box, ScrollView} from 'native-base';
+import {Text, Center, Box, ScrollView, HStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
+import APIKit from '../../API/APIkit';
+import YouTube from 'react-native-youtube';
+import {YouTubeAPIKey} from '../../Commons/CommonUtil';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  heightPersentage,
+  widthPersentage,
+} from '../../Commons/DeviceWHPersentage';
+import Gbutton from '../../Components/GbuttonComponent';
 
 /*윤호님 카드 컴포넌트 작성법 참조해서 상단에 배경화면들 임포트하기*/
 export default function ChallengeVideo(props) {
+  const [challengeList, setChallengeList] = useState();
+
+  useEffect(() => {
+    const getAllOriginalVideo = () => {
+      APIKit.post('originalWorks/getAllOriginalVideo', {
+        offset: '0',
+        limit: '10',
+      })
+        .then(({data}) => {
+          if (data.IBcode === '1000') {
+            setChallengeList(data.IBparams);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+
+    getAllOriginalVideo();
+
+    return () => {
+      console.log('api unmount');
+    };
+  }, []);
+
   return (
-    <Box>
+    <Box flex={1}>
       <MenuComponent
         name={props.route.name}
         titleName={'15초 영상챌린지'}
         navigation={props.navigation}
       />
-      <ScrollView>
-        <Container>
-          <Center>
-            <Button
-              backgroundColor={'#0fefbd'}
-              onPress={() => props.navigation.navigate('MyChallenge')}>
-              MY CHANLLENGE
-            </Button>
-            <Text style={styles.Fo}>귀요미 챌린지</Text>
-            <Box>
-              <ImageBackground
-                source={require('../../Assets/Image/challenge/15challenge1.png')}
-                style={styles.img}>
-                <Image
-                  source={require('../../Assets/Image/challenge/02PlayBtn.png')}
-                  style={styles.imgbtn}
-                  alt={' '}
+      <ScrollView safeAreaBottom>
+        <Center>
+          <Gbutton
+            wp={220}
+            hp={40}
+            fw={800}
+            fs={18}
+            rounded={8}
+            text={'MY CHANLLENGE'}
+            onPress={() => props.navigation.navigate('MyChallenge')}
+          />
+          {challengeList &&
+            challengeList.rows.map(rows => (
+              <>
+                <Text
+                  mt={5}
+                  mb={3}
+                  bold
+                  color={'#1a1b1c'}
+                  fontSize={responsiveFontSize(fontSizePersentage(22))}>
+                  {rows.title}
+                </Text>
+                <Box
+                  rounded={8}
+                  overflow={'hidden'}
+                  style={{
+                    width: responsiveWidth(widthPersentage(320)),
+                    height: responsiveHeight(heightPersentage(274)),
+                  }}>
+                  <YouTube
+                    videoId={rows.videoUrl}
+                    apiKey={YouTubeAPIKey}
+                    play={false}
+                    fullscreen={false}
+                    loop={false}
+                    controls={0}
+                    onReady={e => console.log('onReady')}
+                    onChangeState={e => console.log('onChangeState:', e.state)}
+                    onChangeQuality={e =>
+                      console.log('onChangeQuality: ', e.quality)
+                    }
+                    onError={e => console.log('onError: ', e.error)}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </Box>
+                <HStack
+                  my={1}
+                  justifyContent={'space-around'}
+                  style={{width: responsiveWidth(widthPersentage(320))}}>
+                  <HStack space={1}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={800}
+                      color={'#858c92'}>
+                      작곡 :
+                    </Text>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={500}
+                      color={'#858c92'}
+                      noOfLines={1}
+                      style={{maxWidth: responsiveWidth(widthPersentage(58))}}>
+                      {rows.songWriter}
+                    </Text>
+                  </HStack>
+                  <HStack space={1}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={800}
+                      color={'#858c92'}>
+                      편곡 :
+                    </Text>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={500}
+                      color={'#858c92'}
+                      noOfLines={1}
+                      style={{maxWidth: responsiveWidth(widthPersentage(58))}}>
+                      {rows.songComposer}
+                    </Text>
+                  </HStack>
+                  <HStack space={1}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={800}
+                      color={'#858c92'}>
+                      안무 :
+                    </Text>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={500}
+                      color={'#858c92'}
+                      noOfLines={1}
+                      style={{maxWidth: responsiveWidth(widthPersentage(58))}}>
+                      {rows.danceCreator}
+                    </Text>
+                  </HStack>
+                </HStack>
+                <Gbutton
+                  wp={220}
+                  hp={40}
+                  fw={800}
+                  fs={18}
+                  rounded={8}
+                  text={'참여신청'}
                 />
-              </ImageBackground>
-            </Box>
-            <Box>
-              <Text style={styles.txt}>
-                <Text style={styles.txt1}>작곡:</Text> 뮤지아{'  '}
-                <Text style={styles.txt1}>편곡:</Text> 뮤지아{'  '}
-                <Text style={styles.txt1}>안무:</Text> 뮤지아
-              </Text>
-              <Box>
-                <Button backgroundColor={'#0fefbd'} style={styles.mbody}>
-                  참여신청
-                </Button>
-              </Box>
-            </Box>
-
-            <Text style={styles.Fo}> 우리아이 챌린지</Text>
-            <Box>
-              <ImageBackground
-                source={require('../../Assets/Image/challenge/15challenge2.png')}
-                style={styles.img}>
-                <Image
-                  source={require('../../Assets/Image/challenge/02PlayBtn.png')}
-                  style={styles.imgbtn}
-                  alt={' '}
-                />
-              </ImageBackground>
-            </Box>
-            <Box>
-              <Text style={styles.txt}>
-                <Text style={styles.txt1}>작곡:</Text> 뮤지아{'  '}
-                <Text style={styles.txt1}>편곡:</Text> 뮤지아{'  '}
-                <Text style={styles.txt1}>안무:</Text> 뮤지아
-              </Text>
-              <Box>
-                <Button backgroundColor={'#0fefbd'} style={styles.mbody}>
-                  참여신청
-                </Button>
-              </Box>
-            </Box>
-          </Center>
-        </Container>
+              </>
+            ))}
+        </Center>
+        <Box h={100} />
       </ScrollView>
     </Box>
   );
 }
-const styles = StyleSheet.create({
-  bgimg: {
-    width: '100%',
-    height: 800,
-  },
-  mbody: {
-    width: 220,
-    height: 40,
-    marginBottom: 20,
-    marginLeft: 100,
-    marginRight: 80,
-  },
-  imgbtn: {
-    width: 44,
-    height: 46,
-    marginTop: 128,
-    marginLeft: 138,
-    marginRight: 138,
-    // justifyContent:'center',
-    // alignItems:'center',
-  },
-
-  Fo: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    lineHeight: 48,
-    letterSpacing: -0.11,
-    color: '#1a1b1c',
-  },
-
-  img: {
-    width: 310,
-    height: 320,
-  },
-
-  txt: {
-    marginLeft: 60,
-    marginRight: 50,
-    letterSpacing: 0,
-    fontSize: 16,
-    fontWeight: '500',
-    fontStyle: 'normal',
-    color: '#858c92',
-  },
-
-  txt1: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#858c92',
-  },
-
-  txt2: {
-    fontSize: 17,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-    color: '#1a1b1c',
-  },
-
-  himg: {
-    marginLeft: 300,
-  },
-});
