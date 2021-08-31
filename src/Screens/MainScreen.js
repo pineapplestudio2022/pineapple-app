@@ -13,7 +13,6 @@ function MainScreen(props) {
   //랭킹 음원 10개 가져오기
   const [musicList, setMusicList] = useState();
   const {userId} = useContext(UserDispatch);
-
   //로그인, 로그아웃시에 api호출
   useEffect(() => {
     console.log('api get');

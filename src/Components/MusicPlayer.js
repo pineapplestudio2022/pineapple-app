@@ -54,6 +54,7 @@ function MusicPlayer(props) {
   const [title, setTitle] = useState(''); //노래 제목
   const [participant, setParticipant] = useState(''); //소유자
   const [cheeringCount, setCheeringCount] = useState(0); //응원해요
+  const [musicKey, setMusicKey] = useState(); //음악 키
   const [cheeringEnalbe, setCheeringEnable] = useState(false); //응원해요 버튼 활성화
   const [likesCount, setLikesCount] = useState(0); //찜
   const [likesEnable, setLikesEnable] = useState(false); //찜 버튼 활성화
@@ -71,8 +72,8 @@ function MusicPlayer(props) {
 
   useEffect(() => {
     const payload = {
-      challengeId: props.id,
-      userId: userId,
+      challengeId: props.id.toString(),
+      userId: userId.toString(),
     };
     const onFailure = error => {
       console.log(error && error.response);
@@ -89,20 +90,33 @@ function MusicPlayer(props) {
     };
 
     const getChallenge = async () => {
-      await APIKit.post('/challenge/getChallenge', payload)
-        .then(response => {
-          console.log(response);
-          setTitle(response.data.IBparams.title);
-          setParticipant(response.data.IBparams.participant);
-          setCheeringCount(response.data.IBparams.cheering);
-          setLikesCount(response.data.IBparams.likes);
-          setTogetherCount(response.data.IBparams.getTogether);
-          setCheeringEnable(response.data.IBparams.enableAddCheeringCount);
-          setLikesEnable(response.data.IBparams.enableAddLikesCount);
-          setTogetherEnalbe(response.data.IBparams.enableAddGetTogetherCount);
+      const gc = await APIKit.post('/challenge/getChallenge', payload)
+        .then(({data}) => {
+          console.log(data);
+          setTitle(data.IBparams.title);
+          setParticipant(data.IBparams.participant);
+          setMusicKey(data.IBparams.musicKey);
+          setCheeringCount(data.IBparams.cheering);
+          setLikesCount(data.IBparams.likes);
+          setTogetherCount(data.IBparams.getTogether);
+          setCheeringEnable(data.IBparams.enableAddCheeringCount);
+          setLikesEnable(data.IBparams.enableAddLikesCount);
+          setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
+
+          // getS3SignedUrl();
         })
         .catch(onFailure);
+      console.log(gc);
     };
+
+    const getS3SignedUrl = async () => {
+      await APIKit.post('aws/getS3SignedUrl', {musicKey: musicKey}).then(
+        ({data}) => {
+          // set;
+        },
+      );
+    };
+
     if (props.id) {
       getReply();
       getChallenge();
@@ -129,8 +143,8 @@ function MusicPlayer(props) {
       return;
     }
     const payload = {
-      challengeId: props.id,
-      userId: userId,
+      challengeId: props.id.toString(),
+      userId: userId.toString(),
       likeTypeString: name,
     };
     await APIKit.post('/challenge/addLikeCount', payload).catch(error => {
@@ -148,19 +162,7 @@ function MusicPlayer(props) {
 
   const onStartPlay = async () => {
     try {
-      // const msg = await ARPlayer.current.startPlayer(path + fileName);
-      RNFetchBlob.fs
-        .exists(filePath)
-        .then(exist => {
-          console.log(`file ${exist ? '' : 'not'} exists`);
-          return;
-        })
-        .catch(() => {
-          console.log('error');
-        });
       const msg = await ARPlayer.current.startPlayer(path);
-      // const msg = await ARPlayer.current.startPlayer(assetPath);
-      console.log(msg);
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsAlreadyPlay(true);

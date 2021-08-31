@@ -1,6 +1,6 @@
 //Challenge -> 15초감상 View
 
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   Box,
   Center,
@@ -8,8 +8,8 @@ import {
   VStack,
   HStack,
   TextArea,
-  Image,
   Slider,
+  Spinner,
 } from 'native-base';
 import {
   responsiveFontSize,
@@ -32,32 +32,37 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
 import {BlurView} from '@react-native-community/blur';
-import {Platform} from 'react-native';
+import {ImageBackground, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
 import APIKit from '../../API/APIkit';
+import LinearGradient from 'react-native-linear-gradient';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
 function ChallengeListening(props) {
-  const [currentTrack, setCurrentTrack] = useState(1); //음악 트랙에 대한 인덱스
+  const {userId, token} = useContext(UserDispatch);
+
   const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
   const [duration, setDuration] = useState('00:00:00'); //트랙 길이
   const [timeElapsed, setTimeElapsed] = useState('00:00:00'); //트랙 경과 시간
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
+  const [spinner, setSpinner] = useState(false); //로딩 중 표시
 
   const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
   const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
+  const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
   const ARPlayer = useRef(AudioRecorderPlayer);
   const ARRecord = useRef(AudioRecorderPlayer);
 
-  const [uri, setUri] = useState('');
-
+  const [uri, setUri] = useState(''); //녹음 파일 경로
   const [title, setTitle] = useState(''); //제목
   const [genre, setGenre] = useState(''); //장르
   const [lyrics, setLyrics] = useState(''); //가사
   const [filepath, setFilePath] = useState(''); //파일 저장 경로
   const [fileName, setFileName] = useState(''); //파일 이름
-
+  const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer(); //재생
     ARPlayer.current.setSubscriptionDuration(0.1);
@@ -114,8 +119,6 @@ function ChallengeListening(props) {
             .catch(error => {
               console.log(error);
             });
-
-          // getS3SignedUrl(response.data.IBparams.rows[0].musicKey);
         })
         .catch(error => {
           console.log(error && error.response);
@@ -220,37 +223,39 @@ function ChallengeListening(props) {
   const onStopRecord = async () => {
     try {
       onStopPlay();
-      const result = await ARRecord.current.stopRecorder();
+      await ARRecord.current.stopRecorder();
       ARRecord.current.removeRecordBackListener();
       setStopRecordBtn(false);
-      console.log('[onStopRecord] handler is started');
-      console.log(result);
-      console.log(`[input file 1]: ${uri}`);
-      console.log(`[input file 2]: ${filepath + fileName}`);
-      console.log(
-        `[output file name] : ${fileName}output_${new Date()
-          .getTime()
-          .toString()}.mp4`,
-      );
+
+      const outputFileName =
+        fileName.substring(0, fileName.lastIndexOf('.')) +
+        `_${new Date().getTime().toString()}.mp4`;
 
       // here's code start to audio mix.
       const options = [
-        '-i', //input
-        uri, //recordingfile
         '-i',
-        filepath + fileName, //originalMusic
+        uri,
+        '-i',
+        filepath + fileName,
         '-filter_complex',
         '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
         '-map',
         '[a]',
-        `${filepath}/${fileName}output_${new Date().getTime().toString()}.mp4`,
+        `${filepath}/${outputFileName}`,
         // '-acodec',
         // 'libmp3lame',
       ];
+      console.log('[onStopRecord] handler is started');
+      console.log(`[input file 1]: ${uri}`);
+      console.log(`[input file 2]: ${filepath + fileName}`);
+      console.log(`[output file name] : ${outputFileName}`);
       console.log(`[options]: ${options}`);
-      RNFFmpeg.executeWithArguments(options).then(result =>
-        console.log(`FFmpeg process exited with rc=${result}.`),
-      );
+
+      RNFFmpeg.executeWithArguments(options).then(result => {
+        console.log(`FFmpeg process exited with rc=${result}.`);
+        setUploadBtn(true);
+        setOutputFile(outputFileName);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -262,6 +267,37 @@ function ChallengeListening(props) {
     onStopPlay();
   };
 
+  //업로드 버튼       //////////////수정중
+  const onFileUpload = () => {
+    const fileInfo = {
+      filename: '노래 파일명(mandatory)',
+      fileType: 'mp4',
+      contents: RNFetchBlob.wrap(filepath + outputFile),
+    };
+    const foo = {
+      title: '노래 제목(mandatory)',
+      fileInfo: {
+        filename: '노래 파일명(mandatory)',
+        fileType: 'mp4',
+        contents: RNFetchBlob.wrap(filepath + outputFile),
+      },
+    };
+    console.log(typeof RNFetchBlob.wrap(filepath + outputFile));
+    RNFetchBlob.fetch(
+      'POST',
+      APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      foo,
+    )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(JSON.stringify(err));
+      });
+  };
   return (
     <Box flex={1}>
       <MenuComponent
@@ -331,28 +367,53 @@ function ChallengeListening(props) {
                     rounded={8}
                     overflow={'hidden'}
                     mt={5}>
-                    <Image
+                    <ImageBackground
                       source={DumpImg}
-                      w="100%"
-                      h="100%"
                       resizeMode="center"
                       alt={' '}
-                    />
-                    {recordBtn ? (
-                      <Slider
-                        style={{
-                          position: 'absolute',
-                          bottom: '-5%',
-                        }}
-                        defaultValue={0}
-                        value={percent}>
-                        <Slider.Track bg={'#a5a8ae'}>
-                          <Slider.FilledTrack bg={'#0fefbd'} />
-                        </Slider.Track>
-                      </Slider>
-                    ) : (
-                      undefined || null
-                    )}
+                      style={{width: '100%', height: '100%'}}>
+                      {recordBtn ? (
+                        <BlurView
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                          }}
+                          blurType="light"
+                          blurAmount={2}
+                          reducedTransparencyFallbackColor="white">
+                          <LinearGradient
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 0}}
+                            colors={['#0fefbd4c', '#f9fbce4c']}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              backgroundColor: 'transparent',
+                            }}>
+                            {spinner ? (
+                              <Center h={'100%'}>
+                                <Spinner color="white" />
+                              </Center>
+                            ) : (
+                              <></>
+                            )}
+                            <Slider
+                              style={{
+                                position: 'absolute',
+                                bottom: '-5%',
+                              }}
+                              defaultValue={0}
+                              value={percent}>
+                              <Slider.Track bg={'#a5a8ae'}>
+                                <Slider.FilledTrack bg={'#0fefbd'} />
+                              </Slider.Track>
+                            </Slider>
+                          </LinearGradient>
+                        </BlurView>
+                      ) : (
+                        <></>
+                      )}
+                    </ImageBackground>
                   </Box>
                   <HStack
                     style={{
@@ -373,16 +434,29 @@ function ChallengeListening(props) {
                     </Text>
                   </HStack>
                   {recordBtn ? (
-                    <Gbutton
-                      wp={220}
-                      hp={40}
-                      fs={18}
-                      fw={600}
-                      rounded={8}
-                      imgName={stopRecordBtn ? 'pulse' : 'mic'}
-                      onPress={stopRecordBtn ? onStopRecord : onStartRecord}
-                      text={'RECORD'}
-                    />
+                    uploadBtn ? (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={'upload'}
+                        text={'Upload'}
+                        onPress={onFileUpload}
+                      />
+                    ) : (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={stopRecordBtn ? 'pulse' : 'mic'}
+                        onPress={stopRecordBtn ? onStopRecord : onStartRecord}
+                        text={'RECORD'}
+                      />
+                    )
                   ) : (
                     <Gbutton
                       wp={220}
@@ -428,7 +502,8 @@ function ChallengeListening(props) {
                 imgName={'x'}
                 text={'닫기'}
                 rounded={6}
-                onPress={() => props.navigation.goBack()}
+                // onPress={() => props.navigation.goBack()}
+                onPress={onFileUpload}
               />
               <Gbutton
                 wp={120}

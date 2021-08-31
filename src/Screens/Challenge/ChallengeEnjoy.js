@@ -42,12 +42,12 @@ function ChallengeEnjoy(props) {
   const [cType, setCType] = useState(1); //태그 선택 1:노래, 2:영상, 3:연주, 4:편곡
 
   const [musicList, setMusicList] = useState(); //노래 챌린지 리스트
-  const [videoList, setVideoList] = useState(); //노래 챌린지 리스트
+  const [videoList, setVideoList] = useState(); //비디오 챌린지 리스트
 
   const [id, setId] = useState(''); //id
 
   const openMusicPlayer = index => {
-    setId(musicList.rows[index].id.toString());
+    setId(musicList.rows[index].id);
     setIsBottom(false);
     musicPanel.current.show();
   };
@@ -190,7 +190,7 @@ function ChallengeEnjoy(props) {
               justifyContent={'space-between'}>
               {musicList &&
                 musicList.rows.map((rows, index) => (
-                  <Box my={5} key={rows.id}>
+                  <Box my={5} key={rows.id + index}>
                     <MusicBox
                       id={rows.id}
                       badge={index + 1}

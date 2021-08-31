@@ -46,7 +46,11 @@ const Login = props => {
     }
     // Set JSON Web Token on success
     setClientToken(data.IBparams.token);
-    dispatch({type: 'SIGN_IN', userId: data.IBparams.userId});
+    dispatch({
+      type: 'SIGN_IN',
+      userId: data.IBparams.userId,
+      token: data.IBparams.token,
+    });
     props.navigation.navigate('MainScreen');
   };
   const onFailure = error => {
