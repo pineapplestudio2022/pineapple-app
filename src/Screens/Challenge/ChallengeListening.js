@@ -269,34 +269,56 @@ function ChallengeListening(props) {
 
   //업로드 버튼       //////////////수정중
   const onFileUpload = () => {
-    const fileInfo = {
-      filename: '노래 파일명(mandatory)',
-      fileType: 'mp4',
-      contents: RNFetchBlob.wrap(filepath + outputFile),
-    };
-    const foo = {
-      title: '노래 제목(mandatory)',
-      fileInfo: {
-        filename: '노래 파일명(mandatory)',
-        fileType: 'mp4',
-        contents: RNFetchBlob.wrap(filepath + outputFile),
-      },
-    };
-    console.log(typeof RNFetchBlob.wrap(filepath + outputFile));
-    RNFetchBlob.fetch(
-      'POST',
-      APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
-      {
-        Authorization: `Bearer ${token}`,
-      },
-      foo,
-    )
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(JSON.stringify(err));
-      });
+    const payload = new FormData();
+    const title = '노래 제목(mandatory)';
+    const fileName = '노래 파일명(mandatory)';
+    const userId = 1;
+    const originalSongId = 1;
+    // console.log(`uri:${filepath + outputFile}`);
+
+    payload.append('title', title);
+    payload.append('fileName', fileName);
+    payload.append('userId', userId);
+    payload.append('originSongId', originalSongId);
+    payload.append('fileContents', {
+      name: outputFile,
+      type: 'video/mp4',
+      uri: `${filepath}${outputFile}`,
+    });
+
+    APIKit.post('/challenge/updateMyChallengeSong', payload, {
+      headers: {'content-type': 'multipart/form-data'},
+    }).then(response => {
+      console.log(JSON.stringify(response.data, null, 2));
+    });
+
+    // const fileInfo = {
+    //   filename: '노래 파일명(mandatory)',
+    //   fileType: 'mp4',
+    //   contents: RNFetchBlob.wrap(filepath + outputFile),
+    // };
+    // const foo = {
+    //   title: '노래 제목(mandatory)',
+    //   fileInfo: {
+    //     filename: '노래 파일명(mandatory)',
+    //     fileType: 'mp4',
+    //     contents: RNFetchBlob.wrap(filepath + outputFile),
+    //   },
+    // };
+    // RNFetchBlob.fetch(
+    //   'POST',
+    //   APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
+    //   {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   foo,
+    // )
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(JSON.stringify(err));
+    //   });
   };
   return (
     <Box flex={1}>

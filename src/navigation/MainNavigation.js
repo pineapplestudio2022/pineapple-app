@@ -227,7 +227,7 @@ const MainNavigation = props => {
         overlayColor={'transparent'}
         sceneContainerStyle={{backgroundColor: 'transparent'}}
         drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Screen name="Permission" component={Permission} />
+        {/* <Drawer.Screen name="Permission" component={Permission} /> */}
         <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
         <Drawer.Screen name="MemberScreen" component={MemberScreen} />
         <Drawer.Screen name="LoginScreen" component={LoginScreen} />
