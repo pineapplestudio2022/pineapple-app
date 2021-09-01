@@ -26,6 +26,7 @@
     "react-image-lightbox": "^5.1.4",
     "react-native": "0.64.2",
     "react-native-audio-recorder-player": "3.1.1",
+    "react-native-ffmpeg": "^0.5.1",
     "react-native-gesture-handler": "1.10.3",
     "react-native-image-modal": "^2.0.3",
     "react-native-linear-gradient": "2.5.6",
