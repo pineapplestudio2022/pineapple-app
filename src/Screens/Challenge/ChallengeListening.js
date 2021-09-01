@@ -267,51 +267,104 @@ function ChallengeListening(props) {
     onStopPlay();
   };
 
+  // blob test code
+  // const uploadFile = (apiUri, userId, originalSongId, uri, mime) => {
+  //   return new Promise((resolve, reject) => {
+  //     const uploadUri =
+  //       Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+
+  //     let uploadBlob = null;
+  //     const Blob = RNFetchBlob.polyfill.Blob;
+  //     const fs = RNFetchBlob.fs;
+
+  //     console.log(`uri:${uri}`);
+  //     console.log(uploadUri);
+  //     fs.readFile(uploadUri, 'base64')
+  //       .then(data => {
+  //         return Blob.build(data, {type: `${mime};BASE64`});
+  //       })
+  //       .then(blob => {
+  //         const payload = new FormData();
+  //         payload.append('title', title);
+  //         payload.append('fileName', fileName);
+  //         payload.append('userId', userId);
+  //         payload.append('originSongId', originalSongId);
+  //         payload.append('mimeType', 'video/mp4');
+  //         // payload.append('fileContents', {
+  //         //   name: outputFile,
+  //         //   type: 'video/mp4',
+  //         //   uri: `${filepath}${outputFile}`,
+  //         // });
+  //         payload.append('fileContents', blob);
+
+  //         console.log(blob);
+
+  //         APIKit.post(apiUri, payload, {
+  //           headers: {'Content-Type': 'multipart/form-data'},
+  //         }).then(response => {
+  //           // console.log(JSON.stringify(response.data, null, 2));
+  //           resolve(response.data);
+  //         });
+  //       })
+  //       .catch(error => {
+  //         reject(error);
+  //       });
+  //   });
+  // };
+
   //업로드 버튼       //////////////수정중
-  const onFileUpload = () => {
-    const payload = new FormData();
-    const title = '노래 제목(mandatory)';
-    const fileName = '노래 파일명(mandatory)';
+  const onFileUpload = async () => {
+    const title = '제목';
+    const fileName = '파일명';
     const userId = 1;
     const originalSongId = 1;
-    // console.log(`uri:${filepath + outputFile}`);
+    const mimeType = 'video/mp4';
 
+    const payload = new FormData();
     payload.append('title', title);
     payload.append('fileName', fileName);
     payload.append('userId', userId);
     payload.append('originSongId', originalSongId);
+    payload.append('mimeType', mimeType);
     payload.append('fileContents', {
       name: outputFile,
-      type: 'video/mp4',
+      // type: 'video/mp4',
       uri: `${filepath}${outputFile}`,
     });
 
-    APIKit.post('/challenge/updateMyChallengeSong', payload, {
-      headers: {'content-type': 'multipart/form-data'},
-    }).then(response => {
-      console.log(JSON.stringify(response.data, null, 2));
-    });
+    const {data: resData} = await APIKit.post(
+      '/challenge/updateMyChallengeSong',
+      payload,
+      {
+        headers: {'Content-Type': 'multipart/form-data'},
+      },
+    );
 
-    // const fileInfo = {
-    //   filename: '노래 파일명(mandatory)',
-    //   fileType: 'mp4',
-    //   contents: RNFetchBlob.wrap(filepath + outputFile),
-    // };
-    // const foo = {
-    //   title: '노래 제목(mandatory)',
-    //   fileInfo: {
-    //     filename: '노래 파일명(mandatory)',
-    //     fileType: 'mp4',
-    //     contents: RNFetchBlob.wrap(filepath + outputFile),
-    //   },
-    // };
+    console.log(`
+    resData:
+    ${JSON.stringify(resData, null, 2)}`);
+
     // RNFetchBlob.fetch(
     //   'POST',
     //   APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
     //   {
     //     Authorization: `Bearer ${token}`,
+    //     'Content-Type': 'multipart/form-data',
     //   },
-    //   foo,
+    //   [
+    //     {name: 'title', data: title},
+    //     {
+    //       name: 'fileName',
+    //       data: fileName,
+    //     },
+    //     {name: 'userId', data: userId},
+    //     {name: 'originSongId', data: originalSongId},
+    //     {
+    //       name: 'fileContents',
+    //       data: RNFetchBlob.wrap(filepath + outputFile),
+    //       type: 'video/mp4',
+    //     },
+    //   ],
     // )
     //   .then(res => {
     //     console.log(res);
