@@ -16,7 +16,6 @@ import {BlurView} from '@react-native-community/blur';
 class VideoBox extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {};
   }
 
   render() {

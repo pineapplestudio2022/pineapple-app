@@ -1,5 +1,5 @@
 // 랭킹, 파인애플 뮤직 등 음악 앨범 카드 컴포넌트
-import {Box, Image, Pressable, Text, VStack} from 'native-base';
+import {Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
 import {
@@ -116,7 +116,7 @@ function MusicBoxComponent(props) {
           blurAmount={2}
           reducedTransparencyFallbackColor="white">
           {props.badge === undefined ? (
-            {}
+            <></>
           ) : (
             <Image
               source={getBadge(props.badge)}

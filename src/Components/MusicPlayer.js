@@ -11,7 +11,7 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import {Platform, Pressable, TouchableOpacity} from 'react-native';
+import {Pressable, TouchableOpacity} from 'react-native';
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import {
   responsiveFontSize,
@@ -45,7 +45,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 function MusicPlayer(props) {
   const {userId, dispatch} = useContext(UserDispatch);
-  const [playerSize, setPlayerSize] = useState(true); //플레이어 사이즈 true: full, false: small
+  const scrollEnd = useRef(); //scrollview
 
   const [replyList, setReplyList] = useState(); //댓글 리스트
   const [replyUpdateCheck, setReplyUpdateCheck] = useState(false); //댓글 업데이트 체크
@@ -54,32 +54,34 @@ function MusicPlayer(props) {
   const [title, setTitle] = useState(''); //노래 제목
   const [participant, setParticipant] = useState(''); //소유자
   const [cheeringCount, setCheeringCount] = useState(0); //응원해요
-  const [musicKey, setMusicKey] = useState(); //음악 키
+  const [musicUrl, setMusicUrl] = useState(); //음악 주소
   const [cheeringEnalbe, setCheeringEnable] = useState(false); //응원해요 버튼 활성화
   const [likesCount, setLikesCount] = useState(0); //찜
   const [likesEnable, setLikesEnable] = useState(false); //찜 버튼 활성화
   const [togetherCount, setTogetherCount] = useState(0); //함께해요
   const [togetherEnable, setTogetherEnalbe] = useState(false); //함께해요 버튼 활성화
 
-  const scrollEnd = useRef(); //scrollview
+  const [isPlay, setIsPlay] = useState(false); //재생 여부
+  const [isPause, setIsPause] = useState(false); //일시정지 여부
+  const [currentPositionSec, setCurrentPositionSec] = useState('0'); //트랙 재생 시간
+  const [currentDurationSec, setCurrentDurationSec] = useState('0'); //트랙 길이
+  const [playTime, setPlayTime] = useState('00:00:00'); //트랙 재생 시간(시간)
+  const [duration, setDuration] = useState('00:00:00'); //트랙 길이(시간)
 
-  const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
-  const [duration, setDuration] = useState('00:00:00'); //트랙 길이
-  const [timeElapsed, setTimeElapsed] = useState('00:00:00'); //트랙 경과 시간
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
 
   const ARPlayer = useRef(AudioRecorderPlayer);
 
   useEffect(() => {
-    const payload = {
-      challengeId: props.id.toString(),
-      userId: userId.toString(),
-    };
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getReply = async () => {
+      const payload = {
+        challengeId: props.id.toString(),
+        userId: userId.toString(),
+      };
       await APIKit.post('/challenge/getChallengeReply', payload)
         .then(response => {
           console.log(response);
@@ -90,34 +92,45 @@ function MusicPlayer(props) {
     };
 
     const getChallenge = async () => {
-      const gc = await APIKit.post('/challenge/getChallenge', payload)
+      const payload = {
+        userId: userId.toString(),
+        challengeId: props.id.toString(),
+      };
+
+      if (userId === '' || userId === undefined) {
+        delete payload.userId;
+      }
+
+      await APIKit.post('/challenge/getChallenge', payload)
         .then(({data}) => {
           console.log(data);
           setTitle(data.IBparams.title);
           setParticipant(data.IBparams.participant);
-          setMusicKey(data.IBparams.musicKey);
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
           setTogetherCount(data.IBparams.getTogether);
           setCheeringEnable(data.IBparams.enableAddCheeringCount);
           setLikesEnable(data.IBparams.enableAddLikesCount);
           setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
-
-          // getS3SignedUrl();
+          getS3SignedUrl(data.IBparams.musicKey);
         })
         .catch(onFailure);
-      console.log(gc);
     };
 
-    const getS3SignedUrl = async () => {
+    const getS3SignedUrl = async musicKey => {
+      if (musicKey === '' || musicKey === undefined) {
+        return;
+      }
       await APIKit.post('aws/getS3SignedUrl', {musicKey: musicKey}).then(
         ({data}) => {
-          // set;
+          setMusicUrl(data);
         },
       );
     };
 
     if (props.id) {
+      // nextMusic={nextMusic}
+      //       previousMusic={previousMusic}
       getReply();
       getChallenge();
     }
@@ -133,6 +146,13 @@ function MusicPlayer(props) {
       ARPlayer.current.removePlayBackListener();
       ARPlayer.current.stopRecorder();
       ARPlayer.current.removeRecordBackListener();
+      setCurrentPositionSec('0');
+      setCurrentDurationSec('0');
+      setDuration('00:00:00');
+      setPlayTime('00:00:00');
+      setPercent(0);
+      setIsPlay(false);
+      setIsPause(false);
     };
   }, [props.id, replyUpdateCheck, userId]);
 
@@ -145,34 +165,34 @@ function MusicPlayer(props) {
     const payload = {
       challengeId: props.id.toString(),
       userId: userId.toString(),
-      likeTypeString: name,
+      likeTypeString: name.toString(),
     };
     await APIKit.post('/challenge/addLikeCount', payload).catch(error => {
       console.log(error);
     });
   };
 
-  const dirs = RNFetchBlob.fs.dirs.DocumentDir;
-  const fileName = props.fileName;
-  const filePath = dirs + '/' + fileName;
-  const path = Platform.select({
-    ios: 'file://' + filePath,
-    android: 'file://' + filePath,
-  });
-
   const onStartPlay = async () => {
     try {
-      const msg = await ARPlayer.current.startPlayer(path);
+      const msg = await ARPlayer.current.startPlayer(
+        'https://pineappleresources.s3.ap-northeast-2.amazonaws.com/works/music/music4.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX4TL5GZU76DSEP7D%2F20210901%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T073823Z&X-Amz-Expires=3600&X-Amz-Signature=df73a6940e7c3185d61c145b318bb491c8ce9b110dd65c3b116831ab1684e2cb&X-Amz-SignedHeaders=host&x-id=GetObject',
+      );
+      // const msg = await ARPlayer.current.startPlayer(musicUrl);
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
-      setIsAlreadyPlay(true);
+      setIsPlay(true);
       ARPlayer.current.addPlayBackListener(e => {
-        let percent = Math.round(
+        if (e.currentPosition === e.duration) {
+          console.log('끝');
+        }
+        let per = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
-        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
-        setPercent(percent);
+        setCurrentDurationSec(e.duration);
+        setCurrentPositionSec(e.currentPosition);
+        setPlayTime(ARPlayer.current.mmssss(e.currentPosition));
         setDuration(ARPlayer.current.mmssss(e.duration));
+        setPercent(per);
         return;
       });
     } catch (error) {
@@ -180,14 +200,50 @@ function MusicPlayer(props) {
     }
   };
 
-  const onStopPlay = async e => {
-    setTimeElapsed('00:00:00');
-    setDuration('00:00:00');
-    setPercent(0);
-    ARPlayer.current.stopPlayer();
-    ARPlayer.current.removePlayBackListener();
-    setIsAlreadyPlay(false);
+  //일시정지
+  const onPausePlay = async () => {
+    await ARPlayer.current.pausePlayer();
+    setIsPause(true);
   };
+
+  //다시시작
+  const onResumePlay = async () => {
+    await ARPlayer.current.resumePlayer();
+    setIsPause(false);
+  };
+
+  //앞으로(10초)
+  const rewindRight = async () => {
+    const currentPosition = Math.round(currentPositionSec);
+    const addSecs = Math.round(currentPosition + 10000);
+    await ARPlayer.current.seekToPlayer(addSecs);
+  };
+
+  //뒤로(10초)
+  const rewindLeft = async () => {
+    const currentPosition = Math.round(currentPositionSec);
+    const addSecs = Math.round(currentPosition - 10000);
+    await ARPlayer.current.seekToPlayer(addSecs);
+  };
+
+  //slider bar 직접 컨트롤
+  const changeTime = async value => {
+    const currentDuration = Math.round(currentDurationSec);
+    let seekTime = value * currentDuration * 0.01;
+    await ARPlayer.current.seekToPlayer(seekTime);
+  };
+
+  // const onStopPlay = async e => {
+  //   setCurrentPositionSec('0');
+  //   setCurrentDurationSec('0');
+  //   setDuration('00:00:00');
+  //   setPlayTime('00:00:00');
+  //   setPercent(0);
+  //   setIsPlay(false);
+  //   setIsPause(false);
+  //   ARPlayer.current.stopPlayer();
+  //   ARPlayer.current.removePlayBackListener();
+  // };
 
   //댓글 입력
   const submitComment = async () => {
@@ -196,9 +252,9 @@ function MusicPlayer(props) {
       return;
     }
     const payload = {
-      userId: userId,
-      reply: comment,
-      challengeId: props.id,
+      userId: userId.toString(),
+      reply: comment.toString(),
+      challengeId: props.id.toString(),
     };
     console.log(payload);
     await APIKit.post('/challenge/AddChallengeReply', payload)
@@ -257,7 +313,6 @@ function MusicPlayer(props) {
               {participant}
             </Text>
           </VStack>
-          {/* 슬라이더 */}
           <Center>
             <Box
               style={{
@@ -266,10 +321,19 @@ function MusicPlayer(props) {
               }}
               mb={1}>
               <Box>
-                <Slider defaultValue={0} value={percent}>
+                <Slider
+                  defaultValue={0}
+                  value={percent}
+                  onChange={value => {
+                    changeTime(value);
+                  }}
+                  onTouchStart={() => props.onScroll(false)}
+                  onTouchEnd={() => props.onScroll(true)}
+                  onTouchCancel={() => props.onScroll(false)}>
                   <Slider.Track bg={'#a5a8ae'}>
                     <Slider.FilledTrack bg={'#0fefbd'} />
                   </Slider.Track>
+                  <Slider.Thumb bg={'#0fefbd'} />
                 </Slider>
                 <Box>
                   <HStack justifyContent={'space-between'}>
@@ -277,7 +341,7 @@ function MusicPlayer(props) {
                       fontSize={responsiveFontSize(fontSizePersentage(12))}
                       fontWeight={500}
                       color={'#0fefbd'}>
-                      {timeElapsed}
+                      {playTime}
                     </Text>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(12))}
@@ -288,7 +352,7 @@ function MusicPlayer(props) {
                   </HStack>
                 </Box>
                 <HStack justifyContent={'space-around'} alignItems={'center'}>
-                  <Pressable
+                  <TouchableOpacity
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),
@@ -299,60 +363,56 @@ function MusicPlayer(props) {
                       style={{width: '100%', height: '100%'}}
                       alt={' '}
                     />
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),
-                    }}>
+                    }}
+                    onPress={rewindLeft}>
                     <Image
                       source={RewindLeftIcon}
                       resizeMode={'contain'}
                       style={{width: '100%', height: '100%'}}
                       alt={' '}
                     />
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
                       width: responsiveWidth(widthPersentage(48)),
                       height: responsiveHeight(heightPersentage(48)),
                     }}
-                    onPress={onStartPlay}>
+                    onPress={
+                      isPlay
+                        ? isPause
+                          ? onResumePlay
+                          : onPausePlay
+                        : onStartPlay
+                    }>
                     <Image
-                      source={PlayIcon}
+                      source={
+                        isPlay ? (isPause ? PlayIcon : PulseIcon) : PlayIcon
+                      }
                       resizeMode={'contain'}
                       alt={' '}
                       w={'100%'}
                       h={'100%'}
                     />
-                  </Pressable>
-                  <Pressable
-                    style={{
-                      width: responsiveWidth(widthPersentage(48)),
-                      height: responsiveHeight(heightPersentage(48)),
-                    }}
-                    onPress={onStopPlay}>
-                    <Image
-                      source={PulseIcon}
-                      resizeMode={'contain'}
-                      alt={' '}
-                      w={'100%'}
-                      h={'100%'}
-                    />
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),
-                    }}>
+                    }}
+                    onPress={rewindRight}>
                     <Image
                       source={RewindRightIcon}
                       resizeMode={'contain'}
                       alt={' '}
                       style={{width: '100%', height: '100%'}}
                     />
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),
@@ -363,12 +423,11 @@ function MusicPlayer(props) {
                       alt={' '}
                       style={{width: '100%', height: '100%'}}
                     />
-                  </Pressable>
+                  </TouchableOpacity>
                 </HStack>
               </Box>
             </Box>
           </Center>
-          {/* 슬라이더 */}
           <HStack justifyContent={'center'} space={10} mb={4}>
             <VStack>
               <TouchableOpacity
@@ -580,19 +639,22 @@ function MusicPlayer(props) {
                   alt={' '}
                 />
               </Pressable>
-              <Pressable
-                onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
+              <TouchableOpacity
                 style={{
-                  width: responsiveWidth(widthPersentage(38)),
-                  height: responsiveHeight(heightPersentage(38)),
-                }}>
+                  width: responsiveWidth(widthPersentage(48)),
+                  height: responsiveHeight(heightPersentage(48)),
+                }}
+                onPress={
+                  isPlay ? (isPause ? onResumePlay : onPausePlay) : onStartPlay
+                }>
                 <Image
-                  source={isAlreadyPlay ? PulseIcon : PlayIcon}
+                  source={isPlay ? (isPause ? PlayIcon : PulseIcon) : PlayIcon}
                   resizeMode={'contain'}
-                  style={{width: '100%', height: '100%'}}
                   alt={' '}
+                  w={'100%'}
+                  h={'100%'}
                 />
-              </Pressable>
+              </TouchableOpacity>
               <Pressable
                 style={{
                   width: responsiveWidth(widthPersentage(36)),
