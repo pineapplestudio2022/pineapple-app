@@ -1,7 +1,17 @@
 //CHallenge > 노래부르기 참여 > 카드 컴포넌트
 import React from 'react';
-import {Image, Text, Box, VStack, HStack, Pressable} from 'native-base';
+import {Image, Text, Box, VStack, HStack} from 'native-base';
 import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
+import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
+import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
+import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
+import Cover4 from '../Assets/Image/Top_music/top_music_4.jpg';
+import Cover5 from '../Assets/Image/Top_music/top_music_5.jpg';
+import Cover6 from '../Assets/Image/Top_music/top_music_6.jpg';
+import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
+import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
+import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
+import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -12,8 +22,36 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
+import Gbutton from './GbuttonComponent';
 
 function SingingCardComponent(props) {
+  const getImage = () => {
+    const number = Math.floor(Math.random() * 10) + 1;
+    switch (number) {
+      case 1:
+        return Cover1;
+      case 2:
+        return Cover2;
+      case 3:
+        return Cover3;
+      case 4:
+        return Cover4;
+      case 5:
+        return Cover5;
+      case 6:
+        return Cover6;
+      case 7:
+        return Cover7;
+      case 8:
+        return Cover8;
+      case 9:
+        return Cover9;
+      case 10:
+        return Cover10;
+      default:
+        return DumpImage;
+    }
+  };
   return (
     <Box my={2}>
       <HStack
@@ -27,10 +65,11 @@ function SingingCardComponent(props) {
         alignItems={'center'}>
         <Box m={4} rounded={4} overflow={'hidden'}>
           <Image
-            source={DumpImage}
+            source={getImage()}
             resizeMode={'center'}
             width={responsiveWidth(widthPersentage(110))}
             height={responsiveWidth(widthPersentage(110))}
+            alt={' '}
           />
         </Box>
         <VStack space={1} w={responsiveWidth(widthPersentage(190))}>
@@ -39,64 +78,54 @@ function SingingCardComponent(props) {
             fontWeight={800}
             color={'#1a1b1c'}
             noOfLines={1}>
-            곡 제목
+            {props.title}
           </Text>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(11))}
             color={'#858c92'}
+            h={responsiveHeight(heightPersentage(32))}
             noOfLines={2}>
-            곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡
-            설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명 곡 설명
+            {props.detail}
           </Text>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(11))}
-            fontWeight={800}
-            color={'#000000'}
-            noOfLines={1}>
-            작곡가:
-          </Text>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(11))}
-            fontWeight={800}
-            color={'#000000'}
-            noOfLines={1}>
-            작사가:
-          </Text>
+          <HStack space={3}>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(11))}
+              fontWeight={500}
+              color={'#000000'}
+              noOfLines={1}>
+              장르:
+            </Text>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(11))}
+              fontWeight={500}
+              noOfLines={1}
+              color={'#858c92'}>
+              {props.genre}
+            </Text>
+          </HStack>
           <HStack space={5} mt={1}>
-            <Pressable
-              onPress={() => props.navigation.navigate('Lyrics')}
-              backgroundColor={'#0fefbd'}
+            <Gbutton
+              wp={70}
+              hp={24}
+              fs={12}
+              fw={800}
               rounded={4}
-              pt={1}
-              pb={1}
-              pl={4}
-              pr={4}>
-              <Text
-                fontSize={responsiveFontSize(fontSizePersentage(12))}
-                lineHeight={16}
-                textAlign={'center'}
-                bold
-                color="white">
-                가사보기
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => props.navigation.navigate('Listening')}
-              backgroundColor={'#0fefbd'}
+              text={'가사보기'}
+              onPress={() =>
+                props.navigation.navigate('Lyrics', {id: props.id})
+              }
+            />
+            <Gbutton
+              wp={70}
+              hp={24}
+              fs={12}
+              fw={800}
               rounded={4}
-              pt={1}
-              pb={1}
-              pl={4}
-              pr={4}>
-              <Text
-                fontSize={responsiveFontSize(fontSizePersentage(12))}
-                lineHeight={16}
-                textAlign={'center'}
-                bold
-                color="white">
-                15초감상
-              </Text>
-            </Pressable>
+              text={'15초 감상'}
+              onPress={() =>
+                props.navigation.navigate('Listening', {id: props.id})
+              }
+            />
           </HStack>
         </VStack>
       </HStack>

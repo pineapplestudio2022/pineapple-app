@@ -1,6 +1,6 @@
 //Challenge -> 15초감상 View
 
-import React from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   Box,
   Center,
@@ -8,8 +8,8 @@ import {
   VStack,
   HStack,
   TextArea,
-  Icon,
-  Image,
+  Slider,
+  Spinner,
 } from 'native-base';
 import {
   responsiveFontSize,
@@ -21,15 +21,358 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {ImageBackground, TouchableOpacity} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
-import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
-import HeadPhoneIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
-import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
-import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.png';
+import Gbutton from '../../Components/GbuttonComponent';
+
+import AudioRecorderPlayer, {
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+  AVEncoderAudioQualityIOSType,
+  AVEncodingOption,
+} from 'react-native-audio-recorder-player';
+import {BlurView} from '@react-native-community/blur';
+import {ImageBackground, Platform} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
+
+import {RNFFmpeg} from 'react-native-ffmpeg';
+import APIKit from '../../API/APIkit';
+import LinearGradient from 'react-native-linear-gradient';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
 function ChallengeListening(props) {
+  const {userId, token} = useContext(UserDispatch);
+
+  const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
+  const [duration, setDuration] = useState('00:00:00'); //트랙 길이
+  const [timeElapsed, setTimeElapsed] = useState('00:00:00'); //트랙 경과 시간
+  const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
+  const [spinner, setSpinner] = useState(false); //로딩 중 표시
+
+  const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
+  const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
+  const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
+  const ARPlayer = useRef(AudioRecorderPlayer);
+  const ARRecord = useRef(AudioRecorderPlayer);
+
+  const [uri, setUri] = useState(''); //녹음 파일 경로
+  const [title, setTitle] = useState(''); //제목
+  const [genre, setGenre] = useState(''); //장르
+  const [lyrics, setLyrics] = useState(''); //가사
+  const [filepath, setFilePath] = useState(''); //파일 저장 경로
+  const [fileName, setFileName] = useState(''); //파일 이름
+  const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
+  useEffect(() => {
+    ARPlayer.current = new AudioRecorderPlayer(); //재생
+    ARPlayer.current.setSubscriptionDuration(0.1);
+    ARRecord.current = new AudioRecorderPlayer(); //녹음
+    ARRecord.current.setSubscriptionDuration(0.1);
+
+    const getOriginalSong = async () => {
+      const payload = {id: props.route.params.id.toString()};
+
+      await APIKit.post('originalWorks/getOriginalSong', payload)
+        .then(response => {
+          console.log(response);
+          setTitle(response.data.IBparams.rows[0].title);
+          setLyrics(response.data.IBparams.rows[0].lyrics);
+          setGenre(response.data.IBparams.rows[0].genre);
+
+          const keyname = response.data.IBparams.rows[0].musicKey.toString();
+          const splitKey = keyname.split('/');
+          const length = splitKey.length;
+          const filename = splitKey[length - 1];
+
+          const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+          const path = dirs + '/';
+          RNFetchBlob.fs //로컬 파일 체크
+            .exists(path + filename)
+            .then(async exist => {
+              if (!exist) {
+                //없으면 다운로드
+                await APIKit.post('aws/getS3SignedUrl', {musicKey: keyname})
+                  .then(res => {
+                    const s3Path = res.data;
+                    RNFetchBlob.config({
+                      fileCache: true,
+                      path: path + filename,
+                    })
+                      .fetch('GET', s3Path)
+                      .progress((received, total) => {
+                        const percentage =
+                          Math.floor((received / total) * 100) + '%';
+                        console.log(percentage);
+                      })
+                      .then(resp => {
+                        console.log('The file saved to ', resp.path());
+                      });
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              }
+              setFilePath(path);
+              setFileName(filename);
+              console.log('setfilepath : ' + path + filename);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(error => {
+          console.log(error && error.response);
+        });
+    };
+    getOriginalSong();
+
+    return () => {
+      //재생, 녹음중 다른화면으로 나갈시 해제
+      ARPlayer.current.stopPlayer();
+      ARPlayer.current.removePlayBackListener();
+      ARRecord.current.stopRecorder();
+      ARRecord.current.removeRecordBackListener();
+    };
+  }, [props.route.params.id]);
+
+  //재생파일 경로
+  const playPath = Platform.select({
+    ios: 'file://' + filepath + fileName,
+    android: 'file://' + filepath + fileName,
+  });
+
+  //녹음파일 저장 경로
+  const recordPath = Platform.select({
+    ios: 'file://' + filepath + 'recording.m4a',
+    android: 'file://' + filepath + 'recording.mp4',
+  });
+
+  const onStartPlay = async () => {
+    try {
+      const msg = await ARPlayer.current.startPlayer(playPath);
+      const volume = await ARPlayer.current.setVolume(1.0);
+      console.log(`file: ${msg}`, `volume: ${volume}`);
+      setIsAlreadyPlay(true);
+
+      ARPlayer.current.addPlayBackListener(e => {
+        if (ARPlayer.current.mmssss(e.currentPosition) >= '00:15:00') {
+          ARPlayer.current.stopPlayer();
+          setIsAlreadyPlay(false);
+        }
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmssss(e.duration));
+
+        return;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onStopPlay = async e => {
+    setTimeElapsed('00:00:00');
+    setDuration('00:00:00');
+    setPercent(0);
+    ARPlayer.current.stopPlayer();
+    ARPlayer.current.removePlayBackListener();
+    setIsAlreadyPlay(false);
+  };
+
+  //녹음 시작
+  const onStartRecord = async () => {
+    const audioSet = {
+      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+      AudioSourceAndroid: AudioSourceAndroidType.MIC,
+      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+      AVNumberOfChannelsKeyIOS: 2,
+      AVFormatIDKeyIOS: AVEncodingOption.aac,
+    };
+    console.log('audioSet', audioSet);
+    try {
+      //음악 재생
+      const msg = await ARPlayer.current.startPlayer(playPath);
+      const volume = await ARPlayer.current.setVolume(1.0);
+      console.log(`file: ${msg}`, `volume: ${volume}`);
+
+      ARPlayer.current.addPlayBackListener(e => {
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmssss(e.duration));
+      });
+
+      //녹음 시작
+      setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
+      console.log('recording file name : ' + uri);
+      ARRecord.current.addRecordBackListener();
+      setStopRecordBtn(true);
+
+      console.log(`uri: ${uri}`);
+      console.log();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onStopRecord = async () => {
+    try {
+      onStopPlay();
+      await ARRecord.current.stopRecorder();
+      ARRecord.current.removeRecordBackListener();
+      setStopRecordBtn(false);
+
+      const outputFileName =
+        fileName.substring(0, fileName.lastIndexOf('.')) +
+        `_${new Date().getTime().toString()}.mp4`;
+
+      // here's code start to audio mix.
+      const options = [
+        '-i',
+        uri,
+        '-i',
+        filepath + fileName,
+        '-filter_complex',
+        '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
+        '-map',
+        '[a]',
+        `${filepath}/${outputFileName}`,
+        // '-acodec',
+        // 'libmp3lame',
+      ];
+      console.log('[onStopRecord] handler is started');
+      console.log(`[input file 1]: ${uri}`);
+      console.log(`[input file 2]: ${filepath + fileName}`);
+      console.log(`[output file name] : ${outputFileName}`);
+      console.log(`[options]: ${options}`);
+
+      RNFFmpeg.executeWithArguments(options).then(result => {
+        console.log(`FFmpeg process exited with rc=${result}.`);
+        setUploadBtn(true);
+        setOutputFile(outputFileName);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //참여버튼
+  const handlerJoin = () => {
+    setRecordBtn(true);
+    onStopPlay();
+  };
+
+  // blob test code
+  // const uploadFile = (apiUri, userId, originalSongId, uri, mime) => {
+  //   return new Promise((resolve, reject) => {
+  //     const uploadUri =
+  //       Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+
+  //     let uploadBlob = null;
+  //     const Blob = RNFetchBlob.polyfill.Blob;
+  //     const fs = RNFetchBlob.fs;
+
+  //     console.log(`uri:${uri}`);
+  //     console.log(uploadUri);
+  //     fs.readFile(uploadUri, 'base64')
+  //       .then(data => {
+  //         return Blob.build(data, {type: `${mime};BASE64`});
+  //       })
+  //       .then(blob => {
+  //         const payload = new FormData();
+  //         payload.append('title', title);
+  //         payload.append('fileName', fileName);
+  //         payload.append('userId', userId);
+  //         payload.append('originSongId', originalSongId);
+  //         payload.append('mimeType', 'video/mp4');
+  //         // payload.append('fileContents', {
+  //         //   name: outputFile,
+  //         //   type: 'video/mp4',
+  //         //   uri: `${filepath}${outputFile}`,
+  //         // });
+  //         payload.append('fileContents', blob);
+
+  //         console.log(blob);
+
+  //         APIKit.post(apiUri, payload, {
+  //           headers: {'Content-Type': 'multipart/form-data'},
+  //         }).then(response => {
+  //           // console.log(JSON.stringify(response.data, null, 2));
+  //           resolve(response.data);
+  //         });
+  //       })
+  //       .catch(error => {
+  //         reject(error);
+  //       });
+  //   });
+  // };
+
+  //업로드 버튼       //////////////수정중
+  const onFileUpload = async () => {
+    const title = '제목';
+    const fileName = '파일명';
+    const userId = 1;
+    const originalSongId = 1;
+    const mimeType = 'video/mp4';
+
+    const payload = new FormData();
+    payload.append('title', title);
+    payload.append('fileName', fileName);
+    payload.append('userId', userId);
+    payload.append('originSongId', originalSongId);
+    payload.append('mimeType', mimeType);
+    payload.append('fileContents', {
+      name: outputFile,
+      // type: 'video/mp4',
+      uri: `${filepath}${outputFile}`,
+    });
+
+    const {data: resData} = await APIKit.post(
+      '/challenge/updateMyChallengeSong',
+      payload,
+      {
+        headers: {'Content-Type': 'multipart/form-data'},
+      },
+    );
+
+    console.log(`
+    resData:
+    ${JSON.stringify(resData, null, 2)}`);
+
+    // RNFetchBlob.fetch(
+    //   'POST',
+    //   APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
+    //   {
+    //     Authorization: `Bearer ${token}`,
+    //     'Content-Type': 'multipart/form-data',
+    //   },
+    //   [
+    //     {name: 'title', data: title},
+    //     {
+    //       name: 'fileName',
+    //       data: fileName,
+    //     },
+    //     {name: 'userId', data: userId},
+    //     {name: 'originSongId', data: originalSongId},
+    //     {
+    //       name: 'fileContents',
+    //       data: RNFetchBlob.wrap(filepath + outputFile),
+    //       type: 'video/mp4',
+    //     },
+    //   ],
+    // )
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(JSON.stringify(err));
+    //   });
+  };
   return (
     <Box flex={1}>
       <MenuComponent
@@ -39,6 +382,7 @@ function ChallengeListening(props) {
       />
       <Box safeAreaBottom alignItems="center">
         <VStack space={2} w={responsiveWidth(widthPersentage(345))}>
+          {/* 제목 start */}
           <Center>
             <Text
               fontSize={responsiveFontSize(fontSizePersentage(20))}
@@ -47,40 +391,30 @@ function ChallengeListening(props) {
               lineHeight={28}
               px={2}
               noOfLines={1}>
-              곡 제목 들어갈 공간
+              {title}
             </Text>
-            <Text></Text>
+            <Text />
           </Center>
+          {/* 제목 end */}
+          {/* 자곡가, 작사가 start */}
           <HStack space={10} justifyContent={'center'} p={2}>
             <HStack>
               <Text
                 color={'#4be3ac'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                작곡가 :{'  '}
+                장르 :{'  '}
               </Text>
               <Text
                 color={'#1a1b1c'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                뮤지아
-              </Text>
-            </HStack>
-            <HStack>
-              <Text
-                color={'#4be3ac'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                작사가 :{'  '}
-              </Text>
-              <Text
-                color={'#1a1b1c'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                김하나
+                {genre}
               </Text>
             </HStack>
           </HStack>
+          {/* 자곡가, 작사가 end */}
+          {/* GlassBox start */}
           <Box
             style={{
               height: responsiveHeight(heightPersentage(440)),
@@ -90,70 +424,127 @@ function ChallengeListening(props) {
               shadowOpacity: 1,
             }}>
             <Box borderRadius={20} overflow={'hidden'}>
-              <ImageBackground
-                source={LyricsViewBackground}
-                resizeMode={'cover'}
+              <BlurView
                 style={{
                   width: '100%',
                   height: '100%',
-                }}>
+                  backgroundColor: '#ededed59',
+                }}
+                blurType="light"
+                blurAmount={12}
+                reducedTransparencyFallbackColor="white">
                 <Center>
                   <Box
-                    backgroundColor={'#aabbcc'}
                     style={{
                       width: responsiveWidth(widthPersentage(209)),
                       height: responsiveHeight(heightPersentage(188)),
                     }}
                     rounded={8}
                     overflow={'hidden'}
-                    my={5}>
-                    <Image
+                    mt={5}>
+                    <ImageBackground
                       source={DumpImg}
-                      w="100%"
-                      h="100%"
                       resizeMode="center"
-                    />
+                      alt={' '}
+                      style={{width: '100%', height: '100%'}}>
+                      {recordBtn ? (
+                        <BlurView
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                          }}
+                          blurType="light"
+                          blurAmount={2}
+                          reducedTransparencyFallbackColor="white">
+                          <LinearGradient
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 0}}
+                            colors={['#0fefbd4c', '#f9fbce4c']}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              backgroundColor: 'transparent',
+                            }}>
+                            {spinner ? (
+                              <Center h={'100%'}>
+                                <Spinner color="white" />
+                              </Center>
+                            ) : (
+                              <></>
+                            )}
+                            <Slider
+                              style={{
+                                position: 'absolute',
+                                bottom: '-5%',
+                              }}
+                              defaultValue={0}
+                              value={percent}>
+                              <Slider.Track bg={'#a5a8ae'}>
+                                <Slider.FilledTrack bg={'#0fefbd'} />
+                              </Slider.Track>
+                            </Slider>
+                          </LinearGradient>
+                        </BlurView>
+                      ) : (
+                        <></>
+                      )}
+                    </ImageBackground>
                   </Box>
-                  <TouchableOpacity
+                  <HStack
                     style={{
-                      backgroundColor: '#0fefbd',
-                      borderRadius: 6,
-                      shadowColor: '#00000033',
-                      shadowOffset: {
-                        width: 0,
-                        height: 2,
-                      },
-                      shadowRadius: 4,
-                      shadowOpacity: 1,
-                      width: responsiveWidth(widthPersentage(220)),
-                      height: responsiveHeight(heightPersentage(40)),
+                      width: responsiveWidth(widthPersentage(209)),
+                      justifyContent: 'space-between',
                     }}>
-                    <HStack space={1}>
-                      <Image
-                        source={HeadPhoneIcon}
-                        style={{
-                          position: 'absolute',
-                          top: responsiveHeight(heightPersentage(8)),
-                          left: responsiveWidth(widthPersentage(15)),
-                          width: responsiveWidth(widthPersentage(24)),
-                          height: responsiveHeight(heightPersentage(24)),
-                        }}
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(12))}
+                      fontWeight={500}
+                      color={'#0fefbd'}>
+                      {timeElapsed}
+                    </Text>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(12))}
+                      fontWeight={500}
+                      color={'#0fefbd'}>
+                      {duration}
+                    </Text>
+                  </HStack>
+                  {recordBtn ? (
+                    uploadBtn ? (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={'upload'}
+                        text={'Upload'}
+                        onPress={onFileUpload}
                       />
-                      <Text
-                        style={{
-                          position: 'absolute',
-                          top: responsiveHeight(heightPersentage(8)),
-                          left: responsiveWidth(widthPersentage(44)),
-                          width: responsiveWidth(widthPersentage(162)),
-                        }}
-                        fontSize={responsiveFontSize(fontSizePersentage(18))}
-                        fontWeight={600}
-                        textAlign={'center'}
-                        color={'white'}>
-                        15초 듣기
-                      </Text>
-                    </HStack>
-                  </TouchableOpacity>
+                    ) : (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        imgName={stopRecordBtn ? 'pulse' : 'mic'}
+                        onPress={stopRecordBtn ? onStopRecord : onStartRecord}
+                        text={'RECORD'}
+                      />
+                    )
+                  ) : (
+                    <Gbutton
+                      wp={220}
+                      hp={40}
+                      fs={18}
+                      fw={600}
+                      rounded={8}
+                      imgName={isAlreadyPlay ? 'stop' : 'headphone'}
+                      text={'15초 듣기'}
+                      onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
+                    />
+                  )}
+
                   <Box
                     bg={'#fafafa80'}
                     style={{
@@ -171,122 +562,34 @@ function ChallengeListening(props) {
                       editable={false}
                       px={8}
                       pt={2}>
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
-                      If you’ve ever been in love before {'\n'}I know you feel
-                      this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}If you’ve ever been in love
-                      before {'\n'}I know you feel this beat {'\n'}
-                      If you know it {'\n'}
-                      Don’t be shy and sing along {'\n'}
-                      울지 마 이미 지난 일이야 {'\n'}
+                      {lyrics}
                     </TextArea>
                   </Box>
                 </Center>
-              </ImageBackground>
+              </BlurView>
             </Box>
             <HStack space={5} justifyContent={'space-around'} mt={4}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(40)),
-                }}>
-                <HStack
-                  space={4}
-                  justifyContent={'center'}
-                  alignItems={'center'}>
-                  <Image
-                    source={XIcon}
-                    resizeMode={'contain'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(13))}
-                    fontWeight={800}
-                    color={'white'}>
-                    닫 기
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#0fefbd',
-                  borderRadius: 6,
-                  shadowColor: '#00000033',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 4,
-                  shadowOpacity: 1,
-                  justifyContent: 'center',
-                  width: responsiveWidth(widthPersentage(120)),
-                  height: responsiveHeight(heightPersentage(40)),
-                }}>
-                <HStack
-                  space={4}
-                  justifyContent={'center'}
-                  alignItems={'center'}>
-                  <Image
-                    source={CheckIcon}
-                    resizeMode={'contain'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(21)),
-                    }}
-                  />
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(13))}
-                    fontWeight={800}
-                    color={'white'}>
-                    참 여
-                  </Text>
-                </HStack>
-              </TouchableOpacity>
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                imgName={'x'}
+                text={'닫기'}
+                rounded={6}
+                // onPress={() => props.navigation.goBack()}
+                onPress={onFileUpload}
+              />
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                rounded={6}
+                imgName={'check'}
+                text={'참여'}
+                onPress={handlerJoin}
+              />
             </HStack>
           </Box>
         </VStack>

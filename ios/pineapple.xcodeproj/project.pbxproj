@@ -11,10 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		35E57E2C6EB87699EDA083FF /* libPods-pineapple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346054DF54284E09B02CEC9A /* libPods-pineapple.a */; };
-		4D77F9BCCA5CDAFD71DEEECC /* libPods-pineapple-pineappleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE109155B3FD9F953FD07FB9 /* libPods-pineapple-pineappleTests.a */; };
-		645F056E2696E6690092F0FB /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 645F056D2696E6690092F0FB /* Fonts */; };
+		4D89C69BB0E613CF7A9203E6 /* libPods-pineapple.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BC117A42CDA085D5F8A9326 /* libPods-pineapple.a */; };
+		64D588FD26B2810400D42EA5 /* SwiftBrige.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D588FC26B2810400D42EA5 /* SwiftBrige.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D06F1C4C31F014DB156827FD /* libPods-pineapple-pineappleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C8A8203A954B0715A6A45B /* libPods-pineapple-pineappleTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,14 +37,15 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = pineapple/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = pineapple/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = pineapple/main.m; sourceTree = "<group>"; };
-		346054DF54284E09B02CEC9A /* libPods-pineapple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pineapple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		55C678C8D7BCFCFB17FFB4D9 /* Pods-pineapple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.release.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.release.xcconfig"; sourceTree = "<group>"; };
-		60D8D99E1BEBB5F5039A4E5B /* Pods-pineapple-pineappleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple-pineappleTests.debug.xcconfig"; path = "Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		612043AB64CA9560D1A49BA8 /* Pods-pineapple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.debug.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.debug.xcconfig"; sourceTree = "<group>"; };
-		645F056D2696E6690092F0FB /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		1D5C0EDA23BEE0EDAA5B0C0C /* Pods-pineapple-pineappleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple-pineappleTests.release.xcconfig"; path = "Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests.release.xcconfig"; sourceTree = "<group>"; };
+		2BC117A42CDA085D5F8A9326 /* libPods-pineapple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pineapple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33C8A8203A954B0715A6A45B /* libPods-pineapple-pineappleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pineapple-pineappleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E682133CC92E2EE8C02B576 /* Pods-pineapple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.release.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.release.xcconfig"; sourceTree = "<group>"; };
+		64D588FB26B2810300D42EA5 /* pineapple-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pineapple-Bridging-Header.h"; sourceTree = "<group>"; };
+		64D588FC26B2810400D42EA5 /* SwiftBrige.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBrige.swift; sourceTree = "<group>"; };
+		6808D14902E200D5D146194F /* Pods-pineapple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple.debug.xcconfig"; path = "Target Support Files/Pods-pineapple/Pods-pineapple.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = pineapple/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A0AD2EB9E801D791C480F9A4 /* Pods-pineapple-pineappleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple-pineappleTests.release.xcconfig"; path = "Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests.release.xcconfig"; sourceTree = "<group>"; };
-		DE109155B3FD9F953FD07FB9 /* libPods-pineapple-pineappleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pineapple-pineappleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		85B190A4F815101C085F8666 /* Pods-pineapple-pineappleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pineapple-pineappleTests.debug.xcconfig"; path = "Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -53,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D77F9BCCA5CDAFD71DEEECC /* libPods-pineapple-pineappleTests.a in Frameworks */,
+				D06F1C4C31F014DB156827FD /* libPods-pineapple-pineappleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35E57E2C6EB87699EDA083FF /* libPods-pineapple.a in Frameworks */,
+				4D89C69BB0E613CF7A9203E6 /* libPods-pineapple.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				346054DF54284E09B02CEC9A /* libPods-pineapple.a */,
-				DE109155B3FD9F953FD07FB9 /* libPods-pineapple-pineappleTests.a */,
+				2BC117A42CDA085D5F8A9326 /* libPods-pineapple.a */,
+				33C8A8203A954B0715A6A45B /* libPods-pineapple-pineappleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,10 +112,10 @@
 		6DC52127B5D6734ABB95861A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				612043AB64CA9560D1A49BA8 /* Pods-pineapple.debug.xcconfig */,
-				55C678C8D7BCFCFB17FFB4D9 /* Pods-pineapple.release.xcconfig */,
-				60D8D99E1BEBB5F5039A4E5B /* Pods-pineapple-pineappleTests.debug.xcconfig */,
-				A0AD2EB9E801D791C480F9A4 /* Pods-pineapple-pineappleTests.release.xcconfig */,
+				6808D14902E200D5D146194F /* Pods-pineapple.debug.xcconfig */,
+				3E682133CC92E2EE8C02B576 /* Pods-pineapple.release.xcconfig */,
+				85B190A4F815101C085F8666 /* Pods-pineapple-pineappleTests.debug.xcconfig */,
+				1D5C0EDA23BEE0EDAA5B0C0C /* Pods-pineapple-pineappleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -129,13 +130,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				645F056D2696E6690092F0FB /* Fonts */,
+				64D588FC26B2810400D42EA5 /* SwiftBrige.swift */,
 				13B07FAE1A68108700A75B9A /* pineapple */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* pineappleTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				6DC52127B5D6734ABB95861A /* Pods */,
+				64D588FB26B2810300D42EA5 /* pineapple-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -158,12 +160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "pineappleTests" */;
 			buildPhases = (
-				DEF0A031A32A318911E21BF0 /* [CP] Check Pods Manifest.lock */,
+				21B26800BDB210F95BD3D6FB /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				825090A3D810D53380F95E78 /* [CP] Embed Pods Frameworks */,
-				FC5E2884DDD03BA3203848A6 /* [CP] Copy Pods Resources */,
+				C6E8839ADF25BBC9EA32D8CB /* [CP] Embed Pods Frameworks */,
+				A75418790D62A16569D2403A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -179,14 +181,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "pineapple" */;
 			buildPhases = (
-				40F0248E4A8555DD3880EF82 /* [CP] Check Pods Manifest.lock */,
+				42C8C92D0E40C4E4232A6098 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				0E5EFFD043BF9AA7DA795D4D /* [CP] Embed Pods Frameworks */,
-				7146FFD01E8E585CA6668C86 /* [CP] Copy Pods Resources */,
+				9C3ED2384612B93EA27E6D36 /* [CP] Embed Pods Frameworks */,
+				F9F8C2DF032121144CBB27F5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -210,7 +212,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -245,7 +247,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				645F056E2696E6690092F0FB /* Fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -268,80 +269,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0E5EFFD043BF9AA7DA795D4D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		40F0248E4A8555DD3880EF82 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-pineapple-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7146FFD01E8E585CA6668C86 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		825090A3D810D53380F95E78 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DEF0A031A32A318911E21BF0 /* [CP] Check Pods Manifest.lock */ = {
+		21B26800BDB210F95BD3D6FB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -363,7 +291,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FC5E2884DDD03BA3203848A6 /* [CP] Copy Pods Resources */ = {
+		42C8C92D0E40C4E4232A6098 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-pineapple-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9C3ED2384612B93EA27E6D36 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A75418790D62A16569D2403A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -378,6 +345,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6E8839ADF25BBC9EA32D8CB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple-pineappleTests/Pods-pineapple-pineappleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9F8C2DF032121144CBB27F5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pineapple/Pods-pineapple-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -415,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				64D588FD26B2810400D42EA5 /* SwiftBrige.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,8 +434,9 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60D8D99E1BEBB5F5039A4E5B /* Pods-pineapple-pineappleTests.debug.xcconfig */;
+			baseConfigurationReference = 85B190A4F815101C085F8666 /* Pods-pineapple-pineappleTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -459,8 +462,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0AD2EB9E801D791C480F9A4 /* Pods-pineapple-pineappleTests.release.xcconfig */;
+			baseConfigurationReference = 1D5C0EDA23BEE0EDAA5B0C0C /* Pods-pineapple-pineappleTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = pineappleTests/Info.plist;
@@ -483,12 +487,13 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 612043AB64CA9560D1A49BA8 /* Pods-pineapple.debug.xcconfig */;
+			baseConfigurationReference = 6808D14902E200D5D146194F /* Pods-pineapple.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = pineapple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -501,6 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = pineapple;
+				SWIFT_OBJC_BRIDGING_HEADER = "pineapple-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -509,16 +515,18 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55C678C8D7BCFCFB17FFB4D9 /* Pods-pineapple.release.xcconfig */;
+			baseConfigurationReference = 3E682133CC92E2EE8C02B576 /* Pods-pineapple.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = pineapple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -526,6 +534,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = pineapple;
+				SWIFT_OBJC_BRIDGING_HEADER = "pineapple-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -19,7 +19,7 @@ import {
 
 function MenuComponent(props) {
   return (
-    <Box safeAreaTop mb={responsiveHeight(heightPersentage(22))}>
+    <Box safeAreaTop pt={5} mb={responsiveHeight(heightPersentage(22))}>
       {/* 상단 그라데이션 && 블러 효과 start */}
       {props.notGB ? null : (
         <LinearGradient
@@ -59,6 +59,7 @@ function MenuComponent(props) {
                 size="100%"
                 source={HamburgerIcon}
                 resizeMode={'contain'}
+                alt=" "
               />
             </Pressable>
           ) : (
@@ -70,6 +71,7 @@ function MenuComponent(props) {
                 size="100%"
                 source={LeftArrowIcon}
                 resizeMode={'contain'}
+                alt=" "
               />
             </Pressable>
           )}
@@ -95,7 +97,12 @@ function MenuComponent(props) {
               onPress={() => props.navigation.navigate('MainScreen')}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
-              <Image size="100%" source={HomeIcon} resizeMode={'contain'} />
+              <Image
+                size="100%"
+                source={HomeIcon}
+                resizeMode={'contain'}
+                alt=" "
+              />
             </Pressable>
           </Box>
         )}

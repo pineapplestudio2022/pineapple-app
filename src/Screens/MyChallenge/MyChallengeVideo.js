@@ -60,6 +60,7 @@ function MyChallengeVideo(props) {
                 source={LinkIcon}
                 style={{width: responsiveWidth(widthPersentage(24))}}
                 ml={3}
+                alt={''}
               />
             }
             InputRightElement={
@@ -123,6 +124,7 @@ function MyChallengeVideo(props) {
                 source={LinkIcon}
                 style={{width: responsiveWidth(widthPersentage(24))}}
                 ml={3}
+                alt={''}
               />
             }
             InputRightElement={

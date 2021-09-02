@@ -118,6 +118,7 @@ function ChallengePlayingDetail(props) {
                   source={IconHeaphone}
                   size={responsiveWidth(widthPersentage(21))}
                   resizeMode={'contain'}
+                  alt={' '}
                 />
                 <Text
                   pt={0.5}
@@ -150,6 +151,7 @@ function ChallengePlayingDetail(props) {
                   source={IconClose}
                   size={responsiveWidth(widthPersentage(21))}
                   resizeMode={'contain'}
+                  alt={' '}
                 />
                 <Text
                   pt={0.5}

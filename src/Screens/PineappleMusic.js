@@ -7,11 +7,10 @@ import {
   Input,
   Pressable,
   ScrollView,
-  Slide,
   Text,
   VStack,
 } from 'native-base';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -26,17 +25,23 @@ import {
 
 import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import MusicPlayerFull from '../Components/MusicPlayerFull';
-import MusicPlayerSmall from '../Components/MusicPlayerSmall';
+import MusicPlayer from '../Components/MusicPlayer';
 import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
+import {useRef} from 'react';
+
 function PineappleMusic(props) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isBottom, setIsBottom] = React.useState(true);
-  const [scroll, setScroll] = React.useState(true);
+  const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
-  const HandlerOpen = () => setIsOpen(!isOpen);
-  let btnStr = `${isOpen ? 'hide' : 'show'}`;
+
+  const [playerOpen, setPlayerOpen] = useState(false);
+  const [isBottom, setIsBottom] = useState(true);
+  const panel = useRef();
+  const openFullPlayer = () => {
+    setPlayerOpen(true);
+    setIsBottom(false);
+    panel.current.show();
+  };
 
   return (
     <Box flex={1}>
@@ -70,6 +75,7 @@ function PineappleMusic(props) {
                   <Image
                     source={SearchIcon}
                     resizeMode={'contain'}
+                    alt={''}
                     style={{
                       width: responsiveWidth(widthPersentage(25)),
                       height: responsiveHeight(heightPersentage(24)),
@@ -120,38 +126,34 @@ function PineappleMusic(props) {
               badge={true}
               music={'버터'}
               owner={'bts'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
             <MusicBox
               badge={false}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={HandlerOpen}
+              onPress={openFullPlayer}
             />
           </HStack>
         </VStack>
         {/* 앨범 리스트 end */}
       </ScrollView>
 
-      <Slide in={isOpen}>
-        <SlidingUpPanel
-          ref={c => (this._panel = c)}
-          allowDragging={scroll}
-          draggableRange={{
-            top: responsiveHeight(heightPersentage(740)),
-            bottom: responsiveHeight(heightPersentage(157)),
-          }}
-          onMomentumDragStart={() => setIsBottom(false)}
-          onBottomReached={() => setIsBottom(true)}
-          animatedValue={this._draggedValue}
-          showBackdrop={false}>
-          {isBottom ? (
-            <MusicPlayerSmall />
-          ) : (
-            <MusicPlayerFull onScroll={HandlerScroll} />
-          )}
-        </SlidingUpPanel>
-      </Slide>
+      <SlidingUpPanel
+        ref={panel}
+        allowDragging={scroll}
+        draggableRange={{
+          top: responsiveHeight(heightPersentage(740)),
+          bottom: responsiveHeight(heightPersentage(157)),
+        }}
+        onMomentumDragStart={() => setIsBottom(false)}
+        onBottomReached={() => setIsBottom(true)}
+        showBackdrop={false}>
+        <MusicPlayer
+          onScroll={HandlerScroll}
+          playerSize={isBottom ? false : true}
+        />
+      </SlidingUpPanel>
     </Box>
   );
 }

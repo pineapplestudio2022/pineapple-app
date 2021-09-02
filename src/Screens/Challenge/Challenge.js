@@ -1,24 +1,11 @@
 // Challenge 화면
 
 import React from 'react';
-import {Box, VStack, HStack, Text, Stack, Image, Pressable} from 'native-base';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+import {Box, VStack, HStack, Stack, Image} from 'native-base';
+
 import MenuComponent from '../../Components/MenuComponent';
 import ChallengeDancer from '../../Assets/Image/challenge/image_challenge_dancer.png';
-import HeadPhoneIcon from '../../Assets/Image/challenge/btn_challenge_headphones.png';
-import SingingIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
-import PlayingMusicIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
-import PreviewIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
-import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
+import Wbutton from '../../Components/WbuttonComponent';
 
 function Challenge(props) {
   return (
@@ -32,87 +19,71 @@ function Challenge(props) {
         <Stack space={5} alignItems="center">
           <VStack space={5} alignItems="center">
             <HStack space={5}>
-              <Pressable
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={800}
+                blur={15}
+                imgName={'singing'}
+                rounded={8}
+                text={'노래 부르기 참여'}
                 onPress={() => props.navigation.navigate('SingingScreen')}
-                size={responsiveWidth(widthPersentage(140))}
-                alignItems="center"
-                justifyContent="center"
-                rounded="8"
-                borderWidth="1"
-                borderColor="#0fefbd">
-                <Image source={SingingIcon} resizeMode={'contain'} />
-                <Text
-                  marginTop="2"
-                  color="#0fefbd"
-                  fontSize={responsiveFontSize(fontSizePersentage(14))}
-                  bold>
-                  노래 부르기 참여
-                </Text>
-              </Pressable>
-              <Pressable
+              />
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={800}
+                blur={15}
+                imgName={'camera'}
+                rounded={8}
+                text={'15초 영상 챌린지'}
                 onPress={() => props.navigation.navigate('VideoScreen')}
-                size={responsiveWidth(widthPersentage(140))}
-                alignItems="center"
-                justifyContent="center"
-                rounded="8"
-                borderWidth="1"
-                borderColor="#0fefbd"
-                backgroundColor="#fafafa80">
-                <Image source={CameraIcon} resizeMode={'contain'} />
-                <Text marginTop="2" color="#0fefbd" textAlign={'center'} bold>
-                  15초 영상 챌린지
-                </Text>
-              </Pressable>
+              />
             </HStack>
           </VStack>
           <VStack space={5} alignItems="center">
             <HStack space={5} alignItems="center">
-              <Pressable
-                onPress={() => props.navigation.navigate('ComposingScreen')}
-                size={responsiveWidth(widthPersentage(140))}
-                alignItems="center"
-                justifyContent="center"
-                rounded="xl"
-                borderWidth="1"
-                borderColor="#0fefbd"
-                backgroundColor="#fafafa80">
-                <Image source={PlayingMusicIcon} resizeMode={'contain'} />
-                <Text marginTop="2" color="#0fefbd" bold>
-                  연주 참여
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => props.navigation.navigate('PlayingScreen')}
-                size={responsiveWidth(widthPersentage(140))}
-                alignItems="center"
-                justifyContent="center"
-                rounded="xl"
-                borderWidth="1"
-                borderColor="#0fefbd"
-                backgroundColor="#fafafa80">
-                <Image source={PreviewIcon} resizeMode={'contain'} />
-                <Text marginTop="2" color="#0fefbd" bold>
-                  작곡 참여
-                </Text>
-              </Pressable>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={800}
+                blur={15}
+                imgName={'playingMusic'}
+                rounded={8}
+                text={'연주 참여'}
+                ready={'2차 챌린지 오픈 예정'}
+                disable
+                // onPress={() => props.navigation.navigate('ComposingScreen')}
+              />
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={800}
+                blur={15}
+                imgName={'preview'}
+                rounded={8}
+                text={'편곡 참여'}
+                ready={'2차 챌린지 오픈 예정'}
+                disable
+                // onPress={() => props.navigation.navigate('PlayingScreen')}
+              />
             </HStack>
           </VStack>
-          <Pressable
-            onPress={() => props.navigation.navigate('ListeningScreen')}
-            w={responsiveWidth(widthPersentage(320))}
-            borderWidth={1}
-            borderColor="#0fefbd"
-            alignItems="center"
-            pt="35"
-            pb="35"
-            rounded="xl">
-            <HStack space={5} alignItems="center">
-              <Image source={HeadPhoneIcon} resizeMode={'contain'} />
-              <Text fontSize="28" color={'#0fefbd'} bold>
-                챌린지 감상
-              </Text>
-            </HStack>
-          </Pressable>
+          <Wbutton
+            wp={320}
+            hp={104}
+            fs={28}
+            fw={800}
+            blur={15}
+            leftImgName={'headphone'}
+            rounded={8}
+            text={'챌린지 감상'}
+            onPress={() => props.navigation.navigate('ChallengeEnjoy')}
+          />
         </Stack>
       </Box>
       <Box mt="7" flex={1} safeAreaBottom>
@@ -122,6 +93,7 @@ function Challenge(props) {
           position={'absolute'}
           right={3}
           h="100%"
+          alt=" "
         />
       </Box>
     </Box>
