@@ -20,7 +20,7 @@ import {MemberScreen, LoginScreen, MypageScreen} from './MemberNavigation';
 import LyricsScreen from '../navigation/LyricsNavigation';
 import {useContext} from 'react/cjs/react.development';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
-import Permission from '../Screens/etc/Permission';
+import Authority1 from '../Screens/etc/Authority1';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -227,7 +227,7 @@ const MainNavigation = props => {
         overlayColor={'transparent'}
         sceneContainerStyle={{backgroundColor: 'transparent'}}
         drawerContent={props => <CustomDrawerContent {...props} />}>
-        {/* <Drawer.Screen name="Permission" component={Permission} /> */}
+        {/* <Drawer.Screen name="Authority1" component={Authority1} /> */}
         <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
         <Drawer.Screen name="MemberScreen" component={MemberScreen} />
         <Drawer.Screen name="LoginScreen" component={LoginScreen} />

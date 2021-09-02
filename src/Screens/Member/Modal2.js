@@ -25,7 +25,7 @@ import Gbutton from '../../Components/GbuttonComponent';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import {Alert, TouchableOpacity} from 'react-native';
 import Modal1 from './Modal1';
-const Agreement = props => {
+const Modal2 = props => {
   const [allCheck, setAllCheck] = React.useState(false); //전체동의
   const [privacy, setPrivacy] = React.useState(false); //개인정보
   const [terms, setTerms] = React.useState(false); //이용약관
@@ -117,9 +117,9 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(22))}
                     bold
                     color={'#1a1b1c'}>
-                    {'   '}
                     약관에 전체 동의합니다.
                   </Text>
+
                   <Modal1 Image source={ExternalLinkIcon} />
                 </HStack>
               </Checkbox>
@@ -137,17 +137,23 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
-                    개인정보수집•이용 동의{'('}필수{')'}
+                    개인정보 수집•이용 동의{'('}필수{')'}
                   </Text>
-                  <Modal1 />
+
+                  <Box>
+                    <Modal1
+                      src={''}
+                      source={ExternalLinkIcon}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </Box>
                 </HStack>
               </Checkbox>
               <Checkbox
-                value="2"
+                value="3"
                 colorScheme={'rgb(15,239,189)'}
-                onChange={() => setPrivacy(!privacy)}
-                isChecked={privacy}>
+                onChange={() => setTerms(!terms)}
+                isChecked={terms}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-around'}
@@ -156,11 +162,10 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
                     서비스 이용약관 동의{'('}필수{')'}
-                    {'   '}
                   </Text>
                   <Modal1 />
+                  <TouchableOpacity />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -176,10 +181,14 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
-                    광고•마케팅 수신 동의{'('}선택{')'}{' '}
+                    광고•마케팅 수신 동의{'('}선택{')'}
                   </Text>
-                  <Modal1 />
+                  <TouchableOpacity>
+                    <Modal1
+                      alt={' '}
+                      style={{width: responsiveWidth(widthPersentage(24))}}
+                    />
+                  </TouchableOpacity>
                 </HStack>
               </Checkbox>
             </VStack>
@@ -201,4 +210,4 @@ const Agreement = props => {
     </Box>
   );
 };
-export default Agreement;
+export default Modal2;
