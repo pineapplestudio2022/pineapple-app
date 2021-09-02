@@ -25,4 +25,19 @@ youtube pod install시 오류나면
 https://github.com/CocoaPods/CocoaPods/issues/10723
 참조
 arch -x86_64 pod install
+
+
+[3]
+rn-fetch-blob 에서 cycle warning 나오는 경우
+node-module 폴더 > rn-fetch-blob 폴더 안에 Blob.js, Fetch.js, FileReader.js, XMLHttpRequest.js
+네개 파일들의 내용 수정
+----------------------------------------------------------
+ import RNFetchBlob from '../index.js'
+----------------------------------------------------------
+위 부분을 아래처럼
+----------------------------------------------------------
+// import RNFetchBlob from '../index.js'
+import {NativeModules} from 'react-native';
+const RNFetchBlob = NativeModules.RNFetchBlob
+----------------------------------------------------------
 */

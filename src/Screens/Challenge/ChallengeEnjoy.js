@@ -266,12 +266,9 @@ function ChallengeEnjoy(props) {
           onMomentumDragStart={() => setIsBottom(false)}
           onBottomReached={() => setIsBottom(true)}
           showBackdrop={false}>
-          {/* 수정중 */}
           <MusicPlayer
             onScroll={HandlerScroll}
             id={id}
-            nextMusic={nextMusic}
-            previousMusic={previousMusic}
             playerSize={isBottom ? false : true}
           />
         </SlidingUpPanel>

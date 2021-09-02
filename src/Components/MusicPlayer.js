@@ -41,7 +41,6 @@ import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import RNFetchBlob from 'rn-fetch-blob';
 
 function MusicPlayer(props) {
   const {userId, dispatch} = useContext(UserDispatch);
@@ -128,12 +127,8 @@ function MusicPlayer(props) {
       );
     };
 
-    if (props.id) {
-      // nextMusic={nextMusic}
-      //       previousMusic={previousMusic}
-      getReply();
-      getChallenge();
-    }
+    getReply();
+    getChallenge();
 
     //플레이어 초기화
     ARPlayer.current = new AudioRecorderPlayer();
