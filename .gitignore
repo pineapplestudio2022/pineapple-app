@@ -57,5 +57,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+/ios/pineapple.xcodeproj/xcuserdata/
+/ios/pineapple.xcodeproj/project.pbxproj
 
 *.lock
+package-lock.json
