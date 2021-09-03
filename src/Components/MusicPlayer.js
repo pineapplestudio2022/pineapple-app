@@ -82,10 +82,12 @@ function MusicPlayer(props) {
         userId: userId.toString(),
       };
       await APIKit.post('/challenge/getChallengeReply', payload)
-        .then(response => {
-          console.log(response);
-          setReplyList(response.data.IBparams.rows);
-          setReplyUpdateCheck(false);
+        .then(({data}) => {
+          console.log(data);
+          if (data.IBcode === '1000') {
+            setReplyList(data.IBparams.rows);
+            setReplyUpdateCheck(false);
+          }
         })
         .catch(onFailure);
     };
@@ -103,15 +105,17 @@ function MusicPlayer(props) {
       await APIKit.post('/challenge/getChallenge', payload)
         .then(({data}) => {
           console.log(data);
-          setTitle(data.IBparams.title);
-          setParticipant(data.IBparams.participant);
-          setCheeringCount(data.IBparams.cheering);
-          setLikesCount(data.IBparams.likes);
-          setTogetherCount(data.IBparams.getTogether);
-          setCheeringEnable(data.IBparams.enableAddCheeringCount);
-          setLikesEnable(data.IBparams.enableAddLikesCount);
-          setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
-          getS3SignedUrl(data.IBparams.musicKey);
+          if (data.IBcode === '1000') {
+            setTitle(data.IBparams.title);
+            setParticipant(data.IBparams.participant);
+            setCheeringCount(data.IBparams.cheering);
+            setLikesCount(data.IBparams.likes);
+            setTogetherCount(data.IBparams.getTogether);
+            setCheeringEnable(data.IBparams.enableAddCheeringCount);
+            setLikesEnable(data.IBparams.enableAddLikesCount);
+            setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
+            getS3SignedUrl(data.IBparams.musicKey);
+          }
         })
         .catch(onFailure);
     };
@@ -169,10 +173,10 @@ function MusicPlayer(props) {
 
   const onStartPlay = async () => {
     try {
-      const msg = await ARPlayer.current.startPlayer(
-        'https://pineappleresources.s3.ap-northeast-2.amazonaws.com/works/music/music4.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX4TL5GZU76DSEP7D%2F20210901%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T073823Z&X-Amz-Expires=3600&X-Amz-Signature=df73a6940e7c3185d61c145b318bb491c8ce9b110dd65c3b116831ab1684e2cb&X-Amz-SignedHeaders=host&x-id=GetObject',
-      );
-      // const msg = await ARPlayer.current.startPlayer(musicUrl);
+      // const msg = await ARPlayer.current.startPlayer(
+      //   'https://pineappleresources.s3.ap-northeast-2.amazonaws.com/works/music/music4.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX4TL5GZU76DSEP7D%2F20210901%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T073823Z&X-Amz-Expires=3600&X-Amz-Signature=df73a6940e7c3185d61c145b318bb491c8ce9b110dd65c3b116831ab1684e2cb&X-Amz-SignedHeaders=host&x-id=GetObject',
+      // );
+      const msg = await ARPlayer.current.startPlayer(musicUrl);
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsPlay(true);
@@ -348,6 +352,11 @@ function MusicPlayer(props) {
                 </Box>
                 <HStack justifyContent={'space-around'} alignItems={'center'}>
                   <TouchableOpacity
+                    onPress={
+                      props.onPreviousMusic
+                        ? () => props.onPreviousMusic()
+                        : () => {}
+                    }
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),
@@ -408,6 +417,9 @@ function MusicPlayer(props) {
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
+                    onPress={
+                      props.onNextMusic ? () => props.onNextMusic() : () => {}
+                    }
                     style={{
                       width: responsiveWidth(widthPersentage(36)),
                       height: responsiveHeight(heightPersentage(36)),

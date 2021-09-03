@@ -36,22 +36,31 @@ function ChallengeEnjoy(props) {
   const [videoList, setVideoList] = useState(); //비디오 챌린지 리스트
 
   const [id, setId] = useState(''); //challenge id
-  const [nextMusic, setNextMusic] = useState(0); //다음곡 id
-  const [previousMusic, setPreviousMusic] = useState(0); // 이전곡 id
+
+  const [currentMusicIndex, setCurrentMusicIndex] = useState(0); //현재 재생 중인 곡 index
+
+  //다음곡
+  const handlerNextMusic = () => {
+    if (currentMusicIndex + 1 === musicList.length) {
+      return;
+    }
+    setId(musicList[currentMusicIndex + 1].id);
+    setCurrentMusicIndex(currentMusicIndex + 1);
+  };
+
+  //이전곡
+  const handlerPreviousMusic = () => {
+    if (currentMusicIndex === 0) {
+      return;
+    }
+    setId(musicList[currentMusicIndex - 1].id);
+    setCurrentMusicIndex(currentMusicIndex - 1);
+  };
 
   const openMusicPlayer = index => {
     setId(musicList[index].id);
-    if (index === musicList.length - 1) {
-      setNextMusic(musicList[index].id);
-    } else {
-      setNextMusic(musicList[index + 1].id);
-    }
-    if (index === 0) {
-      setPreviousMusic(musicList[index].id);
-    } else {
-      setPreviousMusic(musicList[index - 1].id);
-    }
-
+    setCurrentMusicIndex(index);
+    console.log(`setCurrent music index : ${index}`);
     setIsBottom(false);
     musicPanel.current.show();
   };
@@ -268,6 +277,9 @@ function ChallengeEnjoy(props) {
           showBackdrop={false}>
           <MusicPlayer
             onScroll={HandlerScroll}
+            onNextMusic={handlerNextMusic}
+            onPreviousMusic={handlerPreviousMusic}
+            onPriMusic={handlerNextMusic}
             id={id}
             playerSize={isBottom ? false : true}
           />
