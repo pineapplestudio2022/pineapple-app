@@ -281,7 +281,6 @@ function ChallengeEnjoy(props) {
             onScroll={HandlerScroll}
             onNextMusic={handlerNextMusic}
             onPreviousMusic={handlerPreviousMusic}
-            onPriMusic={handlerNextMusic}
             id={id}
             playerSize={isBottom ? false : true}
           />

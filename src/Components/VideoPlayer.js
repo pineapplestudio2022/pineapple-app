@@ -41,10 +41,12 @@ function VideoPlayer(props) {
 
   const [replyList, setReplyList] = useState(); //댓글 리스트
   const [replyUpdateCheck, setReplyUpdateCheck] = useState(false); //댓글 업데이트 체크
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(''); //댓글 입력
 
-  const [title, setTitle] = useState(''); //노래 제목
+  const [title, setTitle] = useState(''); //영상 제목
   const [participant, setParticipant] = useState(''); //소유자
+  const [shareLink, setShareLink] = useState(''); //youtube 링크
+
   const [cheeringCount, setCheeringCount] = useState(0); //응원해요
   const [cheeringEnalbe, setCheeringEnable] = useState(false); //응원해요 버튼 활성화
   const [likesCount, setLikesCount] = useState(0); //찜
@@ -55,40 +57,54 @@ function VideoPlayer(props) {
   const scrollEnd = useRef(); //scrollview
 
   useEffect(() => {
-    const payload = {challengeId: props.id, userId: userId};
-
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getReply = async () => {
+      const payload = {
+        challengeId: props.id.toString(),
+        userId: userId.toString(),
+      };
       await APIKit.post('/challenge/getChallengeReply', payload)
-        .then(response => {
-          setReplyList(response.data.IBparams.rows);
-          setReplyUpdateCheck(false);
+        .then(({data}) => {
+          if (data.IBcode === '1000') {
+            setReplyList(data.IBparams.rows);
+            setReplyUpdateCheck(false);
+          }
         })
         .catch(onFailure);
     };
 
     const getChallenge = async () => {
+      const payload = {
+        userId: userId.toString(),
+        challengeId: props.id.toString(),
+      };
+
+      if (userId === '' || userId === undefined) {
+        delete payload.userId;
+      }
+
       await APIKit.post('/challenge/getChallenge', payload)
-        .then(response => {
-          console.log(response);
-          setTitle(response.data.IBparams.title);
-          setParticipant(response.data.IBparams.participant);
-          setCheeringCount(response.data.IBparams.cheering);
-          setLikesCount(response.data.IBparams.likes);
-          setTogetherCount(response.data.IBparams.getTogether);
-          setCheeringEnable(response.data.IBparams.enableAddCheeringCount);
-          setLikesEnable(response.data.IBparams.enableAddLikesCount);
-          setTogetherEnalbe(response.data.IBparams.enableAddGetTogetherCount);
+        .then(({data}) => {
+          console.log();
+          setTitle(data.IBparams.title);
+          setParticipant(data.IBparams.participant);
+          setShareLink(data.IBparams.shareLink);
+
+          setCheeringCount(data.IBparams.cheering);
+          setLikesCount(data.IBparams.likes);
+          setTogetherCount(data.IBparams.getTogether);
+          setCheeringEnable(data.IBparams.enableAddCheeringCount);
+          setLikesEnable(data.IBparams.enableAddLikesCount);
+          setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
         })
         .catch(onFailure);
     };
-    if (props.id) {
-      getReply();
-      getChallenge();
-    }
+
+    getChallenge();
+    getReply();
 
     return () => {
       console.log('api unmount');
@@ -102,13 +118,45 @@ function VideoPlayer(props) {
       return;
     }
     const payload = {
-      challengeId: props.id,
-      userId: userId,
-      likeTypeString: name,
+      challengeId: props.id.toString(),
+      userId: userId.toString(),
+      likeTypeString: name.toString(),
     };
-    await APIKit.post('/challenge/addLikeCount', payload).catch(error => {
-      console.log(error);
-    });
+
+    await APIKit.post('/challenge/addLikeCount', payload)
+      .then(({data}) => {
+        if (data.IBcode === '1000') {
+          getLikeCount();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  //응원,찜,함께해요 업데이트
+  const getLikeCount = async () => {
+    const payload = {
+      userId: userId.toString(),
+      challengeId: props.id.toString(),
+    };
+    console.log(payload);
+    await APIKit.post('/challenge/getChallenge', payload)
+      .then(({data}) => {
+        console.log(data);
+        if (data.IBcode === '1000') {
+          setCheeringCount(data.IBparams.cheering);
+          setLikesCount(data.IBparams.likes);
+          setTogetherCount(data.IBparams.getTogether);
+
+          setCheeringEnable(data.IBparams.enableAddCheeringCount);
+          setLikesEnable(data.IBparams.enableAddLikesCount);
+          setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   //댓글 입력
@@ -117,9 +165,13 @@ function VideoPlayer(props) {
       defaultAlertMessage('로그인 후 사용 가능합니다.');
       return;
     }
-    const payload = {userId: userId, reply: comment, challengeId: props.id};
+    const payload = {
+      userId: userId.toString(),
+      reply: comment.toString(),
+      challengeId: props.id.toString(),
+    };
     console.log(payload);
-    await APIKit.post('/challenge/AddSongReply', payload)
+    await APIKit.post('/challenge/addChallengeReply', payload)
       .then(response => {
         console.log(response);
         setReplyUpdateCheck(true);
@@ -141,10 +193,9 @@ function VideoPlayer(props) {
           style={{
             width: '100%',
             height: responsiveHeight(heightPersentage(214)),
-          }}
-          borderWidth={1}>
+          }}>
           <YouTube
-            videoId="KVZ-P-ZI6W4"
+            videoId={shareLink}
             apiKey={YouTubeAPIKey}
             play={false}
             fullscreen={false}
@@ -179,22 +230,24 @@ function VideoPlayer(props) {
             bold
             w={'100%'}
             noOfLines={1}>
-            {title}곡 제목이 들어갈 공간입니다
+            {title}
           </Text>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(20))}
             color={'#858c92'}
             w={'100%'}
             noOfLines={1}>
-            {participant}참여자 이름
+            {participant}
           </Text>
         </Box>
         <Divider />
         {/* 응원해요, 찜, 함꼐해요 start */}
-        <HStack justifyContent={'center'} space={10}>
+        <HStack justifyContent={'center'} space={10} mb={4}>
           <VStack>
             <TouchableOpacity
-              onPress={handleCount}
+              onPress={
+                cheeringEnalbe ? () => handleCount('cheering') : () => {}
+              }
               style={{
                 width: responsiveWidth(widthPersentage(60)),
                 height: responsiveHeight(heightPersentage(80)),
@@ -219,13 +272,14 @@ function VideoPlayer(props) {
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
-                color={'#0fefbd'}>
+                color={cheeringEnalbe ? '#0fefbd' : '#a1b1c1'}>
                 응원해요
               </Text>
             </TouchableOpacity>
           </VStack>
           <VStack>
-            <Pressable
+            <TouchableOpacity
+              onPress={likesEnable ? () => handleCount('likes') : () => {}}
               style={{
                 width: responsiveWidth(widthPersentage(60)),
                 height: responsiveHeight(heightPersentage(80)),
@@ -250,13 +304,16 @@ function VideoPlayer(props) {
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
-                color={'#0fefbd'}>
+                color={likesEnable ? '#0fefbd' : '#a1b1c1'}>
                 찜
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </VStack>
           <VStack>
-            <Pressable
+            <TouchableOpacity
+              onPress={
+                togetherEnable ? () => handleCount('getTogether') : () => {}
+              }
               style={{
                 width: responsiveWidth(widthPersentage(60)),
                 height: responsiveHeight(heightPersentage(80)),
@@ -281,10 +338,10 @@ function VideoPlayer(props) {
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(16))}
                 fontWeight={500}
-                color={'#0fefbd'}>
+                color={togetherEnable ? '#0fefbd' : '#a1b1c1'}>
                 함께해요
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </VStack>
         </HStack>
         {/* 응원해요, 찜, 함꼐해요 end */}

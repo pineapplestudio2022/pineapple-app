@@ -49,7 +49,7 @@ function MusicPlayer(props) {
 
   const [replyList, setReplyList] = useState(); //댓글 리스트
   const [replyUpdateCheck, setReplyUpdateCheck] = useState(false); //댓글 업데이트 체크
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(''); //댓글 입력
 
   const [title, setTitle] = useState(''); //노래 제목
   const [participant, setParticipant] = useState(''); //소유자
