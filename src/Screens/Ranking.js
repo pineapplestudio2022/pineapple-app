@@ -11,7 +11,7 @@ import MusicPlayer from '../Components/MusicPlayer';
 import MusicBox from '../Components/MusicBoxComponent';
 import APIKit from '../API/APIkit';
 function MusicRacking(props) {
-  const panel = useRef();
+  const musicPanel = useRef();
   const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
   const [isBottom, setIsBottom] = useState(true);
@@ -26,36 +26,56 @@ function MusicRacking(props) {
   //임시
   const fn = [{fileName: 'futurehouse1-2.mp3'}, {fileName: '210708_folk.mp3'}];
 
-  const openFullPlayer = index => {
-    setId(musicList.rows[index].id.toString());
-    // setFileName(musicList.rows[index].fileName);
-    setFileName(fn[0].fileName); //임시
-
-    setIsBottom(false);
-    panel.current.show();
+  const [currentMusicIndex, setCurrentMusicIndex] = useState(0); //현재 재생 중인 곡 index
+  //다음곡
+  const handlerNextMusic = () => {
+    if (currentMusicIndex + 1 === musicList.length) {
+      return;
+    }
+    setId(musicList[currentMusicIndex + 1].id);
+    setCurrentMusicIndex(currentMusicIndex + 1);
   };
 
-  console.log('id : ' + props.route.params.id);
+  //이전곡
+  const handlerPreviousMusic = () => {
+    if (currentMusicIndex === 0) {
+      return;
+    }
+    setId(musicList[currentMusicIndex - 1].id);
+    setCurrentMusicIndex(currentMusicIndex - 1);
+  };
+  const openMusicPlayer = index => {
+    setId(musicList[index].id);
+    setCurrentMusicIndex(index);
+    setIsBottom(false);
+    musicPanel.current.show();
+  };
+
+  // const openFullPlayer = index => {
+  //   setId(musicList.rows[index].id.toString());
+  //   // setFileName(musicList.rows[index].fileName);
+  //   setFileName(fn[0].fileName); //임시
+
+  //   setIsBottom(false);
+  //   panel.current.show();
+  // };
+
   useEffect(() => {
-    console.log('api get');
-
-    const onSuccess = response => {
-      setMusicList(response.data.IBparams);
-      //음악 직접 선택해서 진입시 플레이어 바로 오픈
-      if (props.route.params.id !== undefined) {
-        setId(props.route.params.id);
-        setIsBottom(false);
-        panel.current.show();
-      }
-    };
-
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getRankedChallenges = async () => {
       await APIKit.post('/challenge/getRankedChallenges')
-        .then(onSuccess)
+        .then(({data}) => {
+          setMusicList(data.IBparams.rows);
+          //음악 직접 선택해서 진입시 플레이어 바로 오픈
+          if (props.route.params.id !== undefined) {
+            setId(props.route.params.id);
+            setIsBottom(false);
+            musicPanel.current.show();
+          }
+        })
         .catch(onFailure);
     };
     getRankedChallenges();
@@ -81,7 +101,7 @@ function MusicRacking(props) {
             direction={'row'}
             justifyContent={'space-between'}>
             {musicList &&
-              musicList.rows.map((rows, index) => (
+              musicList.map((rows, index) => (
                 <Box my={5} key={rows.id}>
                   <MusicBox
                     id={rows.id}
@@ -89,7 +109,7 @@ function MusicRacking(props) {
                     cover={index + 1}
                     music={rows.title}
                     owner={rows.participant}
-                    onPress={() => openFullPlayer(index)}
+                    onPress={() => openMusicPlayer(index)}
                   />
                 </Box>
               ))}
@@ -99,7 +119,7 @@ function MusicRacking(props) {
       {/* 앨범 리스트 end */}
 
       <SlidingUpPanel
-        ref={panel}
+        ref={musicPanel}
         allowDragging={scroll}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
@@ -110,6 +130,8 @@ function MusicRacking(props) {
         showBackdrop={false}>
         <MusicPlayer
           onScroll={HandlerScroll}
+          onNextMusic={handlerNextMusic}
+          onPreviousMusic={handlerPreviousMusic}
           id={id}
           playerSize={isBottom ? false : true}
         />

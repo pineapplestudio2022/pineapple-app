@@ -33,7 +33,7 @@ import ArrowDownIcon from '../Assets/Image/icon_musicplayer_arrow_down.png';
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
-import {YouTubeAPIKey} from '../Commons/CommonUtil';
+import {defaultAlertMessage, YouTubeAPIKey} from '../Commons/CommonUtil';
 import YouTube from 'react-native-youtube';
 
 function VideoPlayer(props) {
@@ -98,7 +98,7 @@ function VideoPlayer(props) {
   //응원,찜,함께해요 handler
   const handleCount = async name => {
     if (userId === '') {
-      alert('로그인 후 사용가능합니다.');
+      defaultAlertMessage('로그인 후 사용가능합니다.');
       return;
     }
     const payload = {
@@ -114,7 +114,7 @@ function VideoPlayer(props) {
   //댓글 입력
   const submitComment = async () => {
     if (userId === '') {
-      alert('로그인 후 사용 가능합니다.');
+      defaultAlertMessage('로그인 후 사용 가능합니다.');
       return;
     }
     const payload = {userId: userId, reply: comment, challengeId: props.id};

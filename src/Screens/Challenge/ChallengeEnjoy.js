@@ -21,6 +21,7 @@ import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
 import VideoBox from '../../Components/VideoBoxComponent';
 import VideoPlayer from '../../Components/VideoPlayer';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 function ChallengeEnjoy(props) {
   const musicPanel = useRef();
@@ -194,7 +195,7 @@ function ChallengeEnjoy(props) {
             rounded={4}
             text={'# 연주'}
             onPressActive
-            onPress={() => alert('준비중입니다')}
+            onPress={() => defaultAlertMessage('준비중입니다')}
             disable
           />
           <Gbutton
@@ -205,7 +206,7 @@ function ChallengeEnjoy(props) {
             rounded={4}
             text={'# 편곡'}
             onPressActive
-            onPress={() => alert('준비중입니다')}
+            onPress={() => defaultAlertMessage('준비중입니다')}
             disable
           />
         </HStack>
@@ -213,10 +214,11 @@ function ChallengeEnjoy(props) {
       {/* HashTag end */}
       {/* 노래 리스트 start  */}
       {cType === 1 ? (
-        <Center>
+        <Center
+          flex={1}
+          style={{paddingBottom: responsiveHeight(heightPersentage(157))}}>
           <FlatList
             numColumns={2}
-            style={{height: responsiveHeight(heightPersentage(480))}}
             data={musicList}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={1}
@@ -240,7 +242,7 @@ function ChallengeEnjoy(props) {
       {/* 노래 리스트 end */}
       {/* 영상 리스트 start  */}
       {cType === 2 ? (
-        <Center>
+        <Center flex={1}>
           <FlatList
             data={videoList}
             // onEndReached={handleLoadMore}
@@ -248,11 +250,11 @@ function ChallengeEnjoy(props) {
             renderItem={({item, index}) => (
               <Box my={5}>
                 <VideoBox
-                  id={1}
+                  id={item.id}
                   title={item.title}
                   participant={item.participant}
                   onScroll={HandlerScroll}
-                  onPress={() => openVideoPlayer()}
+                  onPress={() => openVideoPlayer(index)}
                 />
               </Box>
             )}

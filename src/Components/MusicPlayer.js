@@ -41,6 +41,7 @@ import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import {defaultAlertMessage} from '../Commons/CommonUtil';
 
 function MusicPlayer(props) {
   const {userId, dispatch} = useContext(UserDispatch);
@@ -83,7 +84,6 @@ function MusicPlayer(props) {
       };
       await APIKit.post('/challenge/getChallengeReply', payload)
         .then(({data}) => {
-          console.log(data);
           if (data.IBcode === '1000') {
             setReplyList(data.IBparams.rows);
             setReplyUpdateCheck(false);
@@ -104,7 +104,6 @@ function MusicPlayer(props) {
 
       await APIKit.post('/challenge/getChallenge', payload)
         .then(({data}) => {
-          console.log(data);
           if (data.IBcode === '1000') {
             setTitle(data.IBparams.title);
             setParticipant(data.IBparams.participant);
@@ -158,7 +157,7 @@ function MusicPlayer(props) {
   //응원,찜,함께해요 handler
   const handleCount = async name => {
     if (userId === '') {
-      alert('로그인 후 사용가능합니다.');
+      defaultAlertMessage('로그인 후 사용가능합니다.');
       return;
     }
     const payload = {
@@ -166,11 +165,42 @@ function MusicPlayer(props) {
       userId: userId.toString(),
       likeTypeString: name.toString(),
     };
-    await APIKit.post('/challenge/addLikeCount', payload).catch(error => {
-      console.log(error);
-    });
+
+    await APIKit.post('/challenge/addLikeCount', payload)
+      .then(({data}) => {
+        if (data.IBcode === '1000') {
+          getLikeCount();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
+  //응원,찜,함께해요 업데이트
+  const getLikeCount = async () => {
+    const payload = {
+      userId: userId.toString(),
+      challengeId: props.id.toString(),
+    };
+    console.log(payload);
+    await APIKit.post('/challenge/getChallenge', payload)
+      .then(({data}) => {
+        console.log(data);
+        if (data.IBcode === '1000') {
+          setCheeringCount(data.IBparams.cheering);
+          setLikesCount(data.IBparams.likes);
+          setTogetherCount(data.IBparams.getTogether);
+
+          setCheeringEnable(data.IBparams.enableAddCheeringCount);
+          setLikesEnable(data.IBparams.enableAddLikesCount);
+          setTogetherEnalbe(data.IBparams.enableAddGetTogetherCount);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const onStartPlay = async () => {
     try {
       // const msg = await ARPlayer.current.startPlayer(
@@ -232,22 +262,10 @@ function MusicPlayer(props) {
     await ARPlayer.current.seekToPlayer(seekTime);
   };
 
-  // const onStopPlay = async e => {
-  //   setCurrentPositionSec('0');
-  //   setCurrentDurationSec('0');
-  //   setDuration('00:00:00');
-  //   setPlayTime('00:00:00');
-  //   setPercent(0);
-  //   setIsPlay(false);
-  //   setIsPause(false);
-  //   ARPlayer.current.stopPlayer();
-  //   ARPlayer.current.removePlayBackListener();
-  // };
-
   //댓글 입력
   const submitComment = async () => {
     if (userId === '') {
-      alert('로그인 후 사용 가능합니다.');
+      defaultAlertMessage('로그인 후 사용 가능합니다.');
       return;
     }
     const payload = {
@@ -255,7 +273,6 @@ function MusicPlayer(props) {
       reply: comment.toString(),
       challengeId: props.id.toString(),
     };
-    console.log(payload);
     await APIKit.post('/challenge/AddChallengeReply', payload)
       .then(response => {
         console.log(response);
@@ -438,7 +455,9 @@ function MusicPlayer(props) {
           <HStack justifyContent={'center'} space={10} mb={4}>
             <VStack>
               <TouchableOpacity
-                onPress={handleCount}
+                onPress={
+                  cheeringEnalbe ? () => handleCount('cheering') : () => {}
+                }
                 style={{
                   width: responsiveWidth(widthPersentage(60)),
                   height: responsiveHeight(heightPersentage(80)),
@@ -463,13 +482,14 @@ function MusicPlayer(props) {
                 <Text
                   fontSize={responsiveFontSize(fontSizePersentage(16))}
                   fontWeight={500}
-                  color={'#0fefbd'}>
+                  color={cheeringEnalbe ? '#0fefbd' : '#a1b1c1'}>
                   응원해요
                 </Text>
               </TouchableOpacity>
             </VStack>
             <VStack>
-              <Pressable
+              <TouchableOpacity
+                onPress={likesEnable ? () => handleCount('likes') : () => {}}
                 style={{
                   width: responsiveWidth(widthPersentage(60)),
                   height: responsiveHeight(heightPersentage(80)),
@@ -494,13 +514,16 @@ function MusicPlayer(props) {
                 <Text
                   fontSize={responsiveFontSize(fontSizePersentage(16))}
                   fontWeight={500}
-                  color={'#0fefbd'}>
+                  color={likesEnable ? '#0fefbd' : '#a1b1c1'}>
                   찜
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </VStack>
             <VStack>
-              <Pressable
+              <TouchableOpacity
+                onPress={
+                  togetherEnable ? () => handleCount('getTogether') : () => {}
+                }
                 style={{
                   width: responsiveWidth(widthPersentage(60)),
                   height: responsiveHeight(heightPersentage(80)),
@@ -525,10 +548,10 @@ function MusicPlayer(props) {
                 <Text
                   fontSize={responsiveFontSize(fontSizePersentage(16))}
                   fontWeight={500}
-                  color={'#0fefbd'}>
+                  color={togetherEnable ? '#0fefbd' : '#a1b1c1'}>
                   함께해요
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </VStack>
           </HStack>
           {/* 댓글 start */}

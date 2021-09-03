@@ -1,5 +1,7 @@
 //공통으로 사용되는 util 함수들
 
+import {Alert} from 'react-native';
+
 //password vaild check
 export const passwordRegex = password => {
   //숫자, 영문, 특수문자 각 1자리 이상 ( 그외 글자 X )
@@ -18,4 +20,8 @@ export const emailRegex = email => {
 
 export const YouTubeAPIKey = () => {
   return 'AIzaSyBHW-5vq9n_z0bvS3CsV3wDotDTZUpXxbY';
+};
+
+export const defaultAlertMessage = msg => {
+  return Alert.alert('Pineapple', msg, [{text: '확인'}]);
 };
