@@ -92,7 +92,6 @@ function VideoPlayer(props) {
           setTitle(data.IBparams.title);
           setParticipant(data.IBparams.participant);
           setShareLink(data.IBparams.shareLink);
-
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
           setTogetherCount(data.IBparams.getTogether);
@@ -133,7 +132,16 @@ function VideoPlayer(props) {
         console.log(error);
       });
   };
-
+  const authMessage = () => {
+    if (userId === '') {
+      defaultAlertMessage('로그인 후 사용가능합니다.');
+      return;
+    }
+    if (!cheeringEnalbe || !likesEnable || !togetherEnable) {
+      defaultAlertMessage('1번만 추천 가능합니다.');
+      return;
+    }
+  };
   //응원,찜,함께해요 업데이트
   const getLikeCount = async () => {
     const payload = {
@@ -175,6 +183,7 @@ function VideoPlayer(props) {
       .then(response => {
         console.log(response);
         setReplyUpdateCheck(true);
+        setComment('');
       })
       .catch(error => {
         console.log(error);
@@ -201,10 +210,7 @@ function VideoPlayer(props) {
             fullscreen={false}
             loop={false}
             // controls={0}
-            onReady={e => console.log('onReady')}
-            onChangeState={e => console.log('onChangeState:', e.state)}
-            onChangeQuality={e => console.log('onChangeQuality: ', e.quality)}
-            onError={e => console.log('onError: ', e.error)}
+
             style={{width: '100%', height: '100%'}}
           />
         </Box>
@@ -246,7 +252,7 @@ function VideoPlayer(props) {
           <VStack>
             <TouchableOpacity
               onPress={
-                cheeringEnalbe ? () => handleCount('cheering') : () => {}
+                cheeringEnalbe ? () => handleCount('cheering') : authMessage
               }
               style={{
                 width: responsiveWidth(widthPersentage(60)),
@@ -279,7 +285,7 @@ function VideoPlayer(props) {
           </VStack>
           <VStack>
             <TouchableOpacity
-              onPress={likesEnable ? () => handleCount('likes') : () => {}}
+              onPress={likesEnable ? () => handleCount('likes') : authMessage}
               style={{
                 width: responsiveWidth(widthPersentage(60)),
                 height: responsiveHeight(heightPersentage(80)),
@@ -312,7 +318,7 @@ function VideoPlayer(props) {
           <VStack>
             <TouchableOpacity
               onPress={
-                togetherEnable ? () => handleCount('getTogether') : () => {}
+                togetherEnable ? () => handleCount('getTogether') : authMessage
               }
               style={{
                 width: responsiveWidth(widthPersentage(60)),
@@ -402,6 +408,7 @@ function VideoPlayer(props) {
             borderColor={'#a5a8ae4c'}
             backgroundColor={'#fafafab3'}
             placeholder={'응원의 한 줄을 남겨주세요~'}
+            value={comment}
             onChangeText={text => setComment(text)}
             fontSize={responsiveFontSize(fontSizePersentage(16))}
             w={responsiveWidth(widthPersentage(320))}
