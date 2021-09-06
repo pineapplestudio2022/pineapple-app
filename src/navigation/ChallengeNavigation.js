@@ -97,7 +97,7 @@ const SingingScreen = () => {
 // Challenge > 15초 영상 챌린지
 
 // Challenge nav
-export default ChallengeScreen = () => {
+const ChallengeScreen = () => {
   return (
     <ChallengeStack.Navigator
       screenOptions={{
@@ -116,8 +116,9 @@ export default ChallengeScreen = () => {
       <ChallengeStack.Screen
         name={'ChallengeEnjoy'}
         component={ChallengeEnjoy}
-        options={{playerOpen: 'true'}}
       />
     </ChallengeStack.Navigator>
   );
 };
+
+export default ChallengeScreen;

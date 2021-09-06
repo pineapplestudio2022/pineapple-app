@@ -65,7 +65,7 @@ function SingingCardComponent(props) {
         alignItems={'center'}>
         <Box m={4} rounded={4} overflow={'hidden'}>
           <Image
-            source={getImage()}
+            source={getImage}
             resizeMode={'center'}
             width={responsiveWidth(widthPersentage(110))}
             height={responsiveWidth(widthPersentage(110))}

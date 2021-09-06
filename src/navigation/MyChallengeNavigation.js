@@ -1,5 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
+import ChallengeListening from '../Screens/Challenge/ChallengeListening';
 import MyChallenge from '../Screens/MyChallenge/MyChallenge';
 import MyChallengeComposing from '../Screens/MyChallenge/MyChallengeComposing';
 import MyChallengePlay from '../Screens/MyChallenge/MyChallengePlay';
@@ -24,6 +26,14 @@ const MySingingScreen = () => {
       <MySingingStack.Screen
         name={'MySinging'}
         component={MyChallengeSinging}
+      />
+      <MySingingStack.Screen
+        name={'ChallengeEnjoy'}
+        component={ChallengeEnjoy}
+      />
+      <MySingingStack.Screen
+        name={'Listening'}
+        component={ChallengeListening}
       />
     </MySingingStack.Navigator>
   );
@@ -74,7 +84,7 @@ const MyComposingScreen = () => {
   );
 };
 
-export default MyChallengeScreen = () => {
+const MyChallengeScreen = () => {
   return (
     <MyChallengeStack.Navigator
       screenOptions={{
@@ -93,3 +103,5 @@ export default MyChallengeScreen = () => {
     </MyChallengeStack.Navigator>
   );
 };
+
+export default MyChallengeScreen;

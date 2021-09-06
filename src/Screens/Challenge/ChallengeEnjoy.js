@@ -74,6 +74,8 @@ function ChallengeEnjoy(props) {
 
   useEffect(() => {
     console.log('api get');
+    const propsId = props.route.params.id;
+
     if (cType === 2) {
       setIsBottom(true);
       videoPanel.current.hide();
@@ -92,6 +94,13 @@ function ChallengeEnjoy(props) {
           }
           if (cType === 1) {
             setMusicList(data.IBparams.rows);
+            //challengeId 값이 있으면 MusicPlayer Open
+            if (propsId === undefined || propsId === '' || propsId === null) {
+              return;
+            }
+            setId(propsId);
+            setIsBottom(false);
+            musicPanel.current.show();
           }
         })
         .catch(onFailure);
@@ -101,9 +110,10 @@ function ChallengeEnjoy(props) {
     return () => {
       setOffset(10);
       setMusicList();
+      setVideoList();
       console.log('api unmount');
     };
-  }, [cType]);
+  }, [cType, props.route.params.id]);
 
   const handleLoadMore = async () => {
     const payload = {cType: cType.toString(), offset: offset.toString()};

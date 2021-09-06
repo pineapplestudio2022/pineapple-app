@@ -388,7 +388,6 @@ function ChallengeListening(props) {
               fontSize={responsiveFontSize(fontSizePersentage(20))}
               bold
               color={'#1a1b1c'}
-              lineHeight={28}
               px={2}
               noOfLines={1}>
               {title}
@@ -556,7 +555,6 @@ function ChallengeListening(props) {
                     <TextArea
                       h="100%"
                       fontSize={responsiveFontSize(fontSizePersentage(13))}
-                      lineHeight={18}
                       textAlign={'center'}
                       borderWidth={0}
                       editable={false}

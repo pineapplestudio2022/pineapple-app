@@ -82,7 +82,9 @@ function Challenge(props) {
             leftImgName={'headphone'}
             rounded={8}
             text={'챌린지 감상'}
-            onPress={() => props.navigation.navigate('ChallengeEnjoy')}
+            onPress={() =>
+              props.navigation.navigate('ChallengeEnjoy', {id: ''})
+            }
           />
         </Stack>
       </Box>

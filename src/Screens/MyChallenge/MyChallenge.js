@@ -1,27 +1,22 @@
 // My Challenge View
 
-import React from 'react';
-import {Box, VStack, HStack, Text, Image, Pressable} from 'native-base';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
-import MenuComponent from '../../Components/MenuComponent';
+import React, {useContext} from 'react';
+import {Box, VStack} from 'native-base';
 
-import SingingIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
-import PlayingMusicIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
-import PreviewIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
-import CameraIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
-import {BlurView} from '@react-native-community/blur';
+import MenuComponent from '../../Components/MenuComponent';
 import Wbutton from '../../Components/WbuttonComponent';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 function MyChallenge(props) {
+  const {userId} = useContext(UserDispatch);
+  const loginChecktoMove = navigation => {
+    if (userId === '' || userId === undefined) {
+      defaultAlertMessage('로그인 후 사용가능합니다.');
+      return;
+    }
+    props.navigation.navigate(navigation);
+  };
   return (
     <Box flex={1}>
       <MenuComponent
@@ -39,7 +34,7 @@ function MyChallenge(props) {
           leftImgName={'singing'}
           rounded={8}
           text={'노래 챌린지'}
-          onPress={() => props.navigation.navigate('MySinging')}
+          onPress={() => loginChecktoMove('MySinging')}
         />
         <Wbutton
           wp={320}
@@ -50,7 +45,7 @@ function MyChallenge(props) {
           leftImgName={'camera'}
           rounded={8}
           text={'영상 챌린지'}
-          onPress={() => props.navigation.navigate('MyVideo')}
+          onPress={() => loginChecktoMove('MyVideo')}
         />
         <Wbutton
           wp={320}

@@ -1,11 +1,37 @@
 // My Challenge > 노래챌린지 화면
 
-import React from 'react';
-import {Box, ScrollView, VStack} from 'native-base';
+import React, {useContext, useState} from 'react';
+import {Box, Center, FlatList, ScrollView, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import MySingingCardComponent from '../../Components/MySingingCardComponent';
+import {useEffect} from 'react/cjs/react.development';
+import APIKit from '../../API/APIkit';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
 function MyChallengeSinging(props) {
+  const [myChallengeList, setMyChallengeList] = useState();
+  const {userId} = useContext(UserDispatch);
+
+  useEffect(() => {
+    const getMyChallengeSongs = () => {
+      const payload = {userId: userId.toString()};
+      APIKit.post('challenge/getMyChallengeSongs', payload)
+        .then(({data}) => {
+          console.log(data);
+          if (data.IBcode === '1000') {
+            setMyChallengeList(data.IBparams.rows);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+    getMyChallengeSongs();
+    return () => {
+      console.log('unmount');
+    };
+  }, [userId]);
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -13,17 +39,26 @@ function MyChallengeSinging(props) {
         titleName={'My Challenge/노래챌린지'}
         navigation={props.navigation}
       />
-      <ScrollView>
-        <VStack alignItems={'center'} space={2.5}>
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-          <MySingingCardComponent />
-        </VStack>
-      </ScrollView>
+      <Center flex={1}>
+        <FlatList
+          data={myChallengeList}
+          // onEndReached={handleLoadMore}
+          // onEndReachedThreshold={1}
+          renderItem={({item, index}) => (
+            <Box my={2}>
+              <MySingingCardComponent
+                navigation={props.navigation}
+                id={item.id}
+                originalSongId={item.originalSongId}
+                title={item.title}
+                genre={item.genre}
+                detail={item.detail}
+              />
+            </Box>
+          )}
+          keyExtractor={item => item.id}
+        />
+      </Center>
     </Box>
   );
 }

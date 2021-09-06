@@ -34,11 +34,9 @@ function PineappleMusic(props) {
   const [scroll, setScroll] = useState(true);
   const HandlerScroll = bool => setScroll(bool);
 
-  const [playerOpen, setPlayerOpen] = useState(false);
   const [isBottom, setIsBottom] = useState(true);
   const panel = useRef();
   const openFullPlayer = () => {
-    setPlayerOpen(true);
     setIsBottom(false);
     panel.current.show();
   };
