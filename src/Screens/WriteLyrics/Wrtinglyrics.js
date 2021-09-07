@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Box,
   VStack,
@@ -25,14 +25,66 @@ import MenuComponent from '../../Components/MenuComponent';
 import AIIcon from '../../Assets/Image/Close.png';
 import CloseIcon from '../../Assets/Image/icon_lyrics_close.png';
 import {BlurView} from '@react-native-community/blur';
+import RNFetchBlob from 'rn-fetch-blob';
+import {TouchableOpacity} from 'react-native';
 
 function Wlyrics(props) {
+  const [lyrics, setLyrics] = useState({
+    title: '',
+    content: '',
+  });
+
+  const writeFiletoLocal = () => {
+    const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+    const filename = props.route.params.filename;
+    let path;
+    if (filename === '' || filename === undefined || filename === null) {
+      path = `${dirs}/lyrics/${lyrics.title}_${new Date()
+        .getTime()
+        .toString()}.text`;
+    } else {
+      path = `${dirs}/lyrics/${filename}`;
+    }
+    RNFetchBlob.fs.writeFile(path, JSON.stringify(lyrics), 'utf8').then(() => {
+      console.log(`path: ${path}`);
+      console.log(JSON.stringify(lyrics));
+      props.navigation.goBack();
+    });
+  };
+
+  useEffect(() => {
+    const readFiletoLocal = () => {
+      const filename = props.route.params.filename;
+      if (filename === '' || filename === undefined || filename === null) {
+        return;
+      }
+      const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+      const path = `${dirs}/lyrics/${filename}`;
+      RNFetchBlob.fs.exists(path).then(async exist => {
+        if (!exist) {
+          return;
+        }
+        RNFetchBlob.fs.readFile(path, 'utf8').then(data => {
+          const {title, content} = JSON.parse(data);
+          setLyrics({title: title, content: content});
+          console.log(JSON.parse(data));
+        });
+      });
+    };
+
+    readFiletoLocal();
+
+    return () => {
+      console.log('unmount');
+    };
+  }, [props.route.params.filename]);
   return (
     <Box flex={1}>
       <MenuComponent
         name={props.route.name}
         titleName={'가사 쓰기'}
         navigation={props.navigation}
+        onSave={writeFiletoLocal}
       />
       <ScrollView>
         <Box alignItems={'center'}>
@@ -67,7 +119,10 @@ function Wlyrics(props) {
                 textAlign={'center'}
                 borderWidth={0}
                 bold
-                color={'#4be3ac'}></Input>
+                color={'#4be3ac'}
+                value={lyrics.title}
+                onChangeText={text => setLyrics({...lyrics, title: text})}
+              />
               <Divider
                 bgColor={'#4be3ac'}
                 w={responsiveWidth(widthPersentage(320))}
@@ -84,38 +139,14 @@ function Wlyrics(props) {
                   color={'#000000'}
                   borderWidth={0}
                   w="100%"
-                  h="100%">
-                  울지 마 이미 지난 일이야 {'\n'}
-                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
-                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
-                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
-                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
-                  되는 울지 마 이미 지난 일이야 {'\n'}
-                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
-                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
-                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
-                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
-                  되는 울지 마 이미 지난 일이야 {'\n'}
-                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
-                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
-                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
-                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
-                  되는 울지 마 이미 지난 일이야 {'\n'}
-                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
-                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
-                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
-                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
-                  되는 울지 마 이미 지난 일이야 {'\n'}
-                  삶의 반직선 위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는
-                  일이야 {'\n'}어른이 되는 단지 과정일뿐이야 {'\n'}Uh 단지
-                  과정일뿐이야 {'\n'}울지 마 이미 지난 일이야 {'\n'}삶의 반직선
-                  위에 점일 뿐이야 {'\n'}살아가면서 누구나 겪는 일이야 어른이
-                  되는{' '}
-                </TextArea>
+                  h="100%"
+                  value={lyrics.content}
+                  onChangeText={text => setLyrics({...lyrics, content: text})}
+                />
               </Box>
 
               <HStack w={'100%'} justifyContent={'space-around'}>
-                <Pressable
+                <TouchableOpacity
                   style={{
                     width: responsiveWidth(widthPersentage(120)),
                     height: responsiveHeight(heightPersentage(40)),
@@ -140,7 +171,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
-                      alt={''}
+                      alt={' '}
                       resizeMode={'contain'}
                     />
                     <Text
@@ -150,8 +181,8 @@ function Wlyrics(props) {
                       AI 작곡-준비중
                     </Text>
                   </HStack>
-                </Pressable>
-                <Pressable
+                </TouchableOpacity>
+                <TouchableOpacity
                   onPress={() => props.navigation.goBack()}
                   style={{
                     width: responsiveWidth(widthPersentage(120)),
@@ -177,7 +208,7 @@ function Wlyrics(props) {
                         width: responsiveWidth(widthPersentage(21)),
                         height: responsiveHeight(heightPersentage(20)),
                       }}
-                      alt={''}
+                      alt={' '}
                       resizeMode={'contain'}
                     />
                     <Text
@@ -187,7 +218,7 @@ function Wlyrics(props) {
                       닫 기
                     </Text>
                   </HStack>
-                </Pressable>
+                </TouchableOpacity>
               </HStack>
             </VStack>
           </BlurView>

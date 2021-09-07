@@ -4,6 +4,9 @@ import {Box, Center, HStack, Image, Pressable, Text} from 'native-base';
 import HomeIcon from '../Assets/Image/icon_home.png';
 import HamburgerIcon from '../Assets/Image/icon_main_hamburg.png';
 import LeftArrowIcon from '../Assets/Image/icon_main_left_arrow.png';
+import AddLyricsIcon from '../Assets/Image/icon_menu_addLyrics.png';
+import SaveLyricsIcon from '../Assets/Image/icon_menu_saveLyrics.png';
+import LyricsGoBackIcon from '../Assets/Image/icon_menu_lyrics_goback.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';
 import {
@@ -16,6 +19,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
+import {TouchableOpacity} from 'react-native';
 
 function MenuComponent(props) {
   return (
@@ -69,7 +73,11 @@ function MenuComponent(props) {
               h={responsiveHeight(heightPersentage(25))}>
               <Image
                 size="100%"
-                source={LeftArrowIcon}
+                source={
+                  props.name === 'WriteLyrics'
+                    ? LyricsGoBackIcon
+                    : LeftArrowIcon
+                }
                 resizeMode={'contain'}
                 alt=" "
               />
@@ -90,7 +98,40 @@ function MenuComponent(props) {
           <Box
             w={responsiveWidth(widthPersentage(25))}
             h={responsiveHeight(heightPersentage(25))}
-            mr={responsiveWidth(widthPersentage(30))}></Box>
+            mr={responsiveWidth(widthPersentage(30))}
+          />
+        ) : props.name === 'Lyrics' ? (
+          <Box mr={responsiveWidth(widthPersentage(30))}>
+            <Pressable
+              onPress={() =>
+                props.navigation.navigate('WriteLyrics', {filename: ''})
+              }
+              w={responsiveWidth(widthPersentage(25))}
+              h={responsiveHeight(heightPersentage(25))}>
+              <Image
+                size="100%"
+                source={AddLyricsIcon}
+                resizeMode={'contain'}
+                alt=" "
+              />
+            </Pressable>
+          </Box>
+        ) : props.name === 'WriteLyrics' ? (
+          <Box mr={responsiveWidth(widthPersentage(30))}>
+            <TouchableOpacity
+              onPress={() => props.onSave()}
+              style={{
+                width: responsiveWidth(widthPersentage(25)),
+                height: responsiveHeight(heightPersentage(25)),
+              }}>
+              <Image
+                size="100%"
+                source={SaveLyricsIcon}
+                resizeMode={'contain'}
+                alt=" "
+              />
+            </TouchableOpacity>
+          </Box>
         ) : (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable

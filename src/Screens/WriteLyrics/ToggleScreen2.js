@@ -1,232 +1,194 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
-import {Divider} from 'native-base';
+import {Box, Text, Pressable, HStack, Image} from 'native-base';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import MenuComponent from '../../Components/MenuComponent';
 import {
+  responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
+  fontSizePersentage,
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
+import RNFetchBlob from 'rn-fetch-blob';
+import LeftArrowIcon from '../../Assets/Image/icon_main_left_arrow.png';
+import {Alert} from 'react-native';
+function Basic(props) {
+  const [fileList, setFileList] = useState();
+  const [refreshing, setRefreshing] = useState(false);
 
-import {SwipeListView} from 'react-native-swipe-list-view';
-import MenuComponent from '../../Components/MenuComponent';
+  useEffect(() => {
+    getLyricsList();
 
-const ToggleC = [
-  {
-    id: 1,
-    title: '가사 제목입니다              〉',
-    details: '가사 미리보기 내용입니다',
-  },
-  {
-    id: 1,
-    title: '가사 제목입니다               〉 ',
-    details: '가사 미리보기 내용입니다',
-  },
-  {
-    id: 1,
-    title: '가사 제목입니다              〉',
-    details: '가사 미리보기 내용입니다',
-  },
-  {
-    id: 1,
-    title: '가사 제목입니다              〉',
-    details: '가사 미리보기 내용입니다',
-  },
-];
+    return () => {
+      console.log('unmount');
+    };
+  }, []);
+  //가사 파일 목록 가져오기
+  const getLyricsList = () => {
+    const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+    const path = `${dirs}/lyrics/`;
 
-function Swipe(props) {
-  const [listData] = useState(
-    ToggleC.map(ToggleCItem => ({
-      key: '${index}',
-      title: ToggleCItem.title,
-      details: ToggleCItem.details,
-    })),
-  );
+    RNFetchBlob.fs.ls(path).then(files => {
+      // eslint-disable-next-line no-extra-boolean-cast
+      if (!!files) {
+        files.splice(files.indexOf('.DS_Store'), 1);
+      }
+      setFileList(
+        files.map((title, index) => ({
+          key: `${index}`,
+          title: `${title}`,
+        })),
+      );
+    });
+  };
+  //파일 삭제
+  const deleteLyrics = filename => {
+    const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+    const path = `${dirs}/lyrics/${filename}`;
+    RNFetchBlob.fs.exists(path).then(async exist => {
+      if (!exist) {
+        return;
+      }
+      RNFetchBlob.fs.unlink(path).catch(error => {
+        console.log(error);
+      });
+    });
+  };
+
+  //당겨서 새로고침
+  const onRefresh = async () => {
+    setRefreshing(true);
+    getLyricsList();
+    setRefreshing(false);
+  };
+
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
-  const deleteRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].deleteRow();
-    }
-  };
-  const VisibleItem = props => {
-    const {data} = props;
-    return (
-      <View>
-        <View style={styles.imgbg}>
-          <TouchableOpacity
-            style={styles.Text1}
-            onPress={() => props.navigation.navigate('WriteLyrics')}>
-            <View>
-              <Text style={styles.title} numberOfLines={1}>
-                {data.item.title}
-              </Text>
-              <Text style={styles.details} numberOfLines={1}>
-                {data.item.details}
-              </Text>
-              <Divider
-                width={responsiveWidth(widthPersentage(420))}
-                bordercolor={'#3c3c435c'}
-                style={styles.dd}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-  const renderItem = data => {
-    return <VisibleItem data={data} navigation={props.navigation} />;
-  };
-  const HiddenItemwithActions = props => {
-    const {onClose, onDelete} = props;
-    return (
-      <View style={styles.Text3}>
-        <TouchableOpacity
-          style={[styles.backBtn, styles.backRbtn]}
-          onPress={onClose}>
-          <Text>Action</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.backBtn, styles.backLbtn]}
-          onPress={onDelete}>
-          <Text>Delete</Text>
-        </TouchableOpacity>
-      </View>
-    );
+
+  const deleteRow = (rowMap, rowKey, title) => {
+    closeRow(rowMap, rowKey);
+    const newData = [...fileList];
+    const prevIndex = fileList.findIndex(item => item.key === rowKey);
+    newData.splice(prevIndex, 1);
+    deleteLyrics(title);
+    setFileList(newData);
   };
 
-  const renderHiddenItem = (data, rowMap) => {
-    return (
-      <HiddenItemwithActions
-        data={data}
-        rowMap={rowMap}
-        onClose={() => closeRow(rowMap, data.item.key)}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
-      />
-    );
-  };
+  const renderItem = ({item, index}) => (
+    <Box>
+      <Pressable
+        style={{height: responsiveHeight(heightPersentage(60))}}
+        onPress={() =>
+          props.navigation.navigate('WriteLyrics', {filename: item.title})
+        }
+        alignItems="center"
+        bg="white"
+        borderBottomColor="trueGray.200"
+        borderBottomWidth={1}
+        justifyContent="center"
+        underlayColor={'#AAA'}
+        _pressed={{
+          bg: 'trueGray.200',
+        }}>
+        <HStack
+          width="100%"
+          height="100%"
+          px={4}
+          alignItems={'center'}
+          justifyContent={'space-between'}>
+          <Text
+            color={'#1a1b1c'}
+            style={{fontSize: responsiveFontSize(fontSizePersentage(17))}}
+            fontWeight={600}>
+            {item.title.substring(0, item.title.lastIndexOf('_'))}
+          </Text>
+          <Image
+            source={LeftArrowIcon}
+            alt=" "
+            resizeMode={'contain'}
+            style={{width: responsiveWidth(widthPersentage(20))}}
+          />
+        </HStack>
+      </Pressable>
+    </Box>
+  );
+
+  const renderHiddenItem = (data, rowMap) => (
+    <HStack flex={1} pl={2}>
+      <Pressable
+        px={4}
+        ml="auto"
+        bg="#8e8e93"
+        justifyContent="center"
+        onPress={() =>
+          props.navigation.navigate('WriteLyrics', {filename: data.item.title})
+        }
+        _pressed={{
+          opacity: 0.5,
+        }}>
+        <Text
+          color={'white'}
+          bold
+          style={{fontSize: responsiveFontSize(fontSizePersentage(15))}}>
+          Action
+        </Text>
+      </Pressable>
+      <Pressable
+        px={4}
+        bg="#ff3b30"
+        justifyContent="center"
+        onPress={() =>
+          Alert.alert('Pineapple', '삭제하시겠습니까?', [
+            {
+              text: '취소',
+              onPress: () => {},
+            },
+            {
+              text: '확인',
+              onPress: () => deleteRow(rowMap, data.item.key, data.item.title),
+            },
+          ])
+        }
+        _pressed={{
+          opacity: 0.5,
+        }}>
+        <Text
+          color={'white'}
+          bold
+          style={{fontSize: responsiveFontSize(fontSizePersentage(15))}}>
+          Delete
+        </Text>
+      </Pressable>
+    </HStack>
+  );
+
   return (
-    <View>
+    <Box flex={1}>
       <MenuComponent
         name={props.route.name}
         titleName={'가사 쓰기'}
         navigation={props.navigation}
       />
-      <View style={styles.container}>
-        <View style={styles.imgbg1}>
-          <SwipeListView
-            data={listData}
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            leftOpenValue={100}
-            rightOpenValue={-200}
-          />
-        </View>
-      </View>
-    </View>
+      <SwipeListView
+        data={fileList && fileList}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-165}
+        previewRowKey={'0'}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
+      />
+    </Box>
   );
 }
 
-export default Swipe;
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-  },
-  imgbg: {
-    width: responsiveWidth(widthPersentage(385)), //'100%'
-    height: responsiveHeight(heightPersentage(80)), //80,
-    backgroundColor: '#fafafa',
-  },
-  dd: {
-    marginTop: 11,
-  },
-  imgbg1: {
-    width: responsiveWidth(widthPersentage(400)), //389.5,
-    height: responsiveHeight(heightPersentage(670)), //664,
-    borderRadius: 8,
-    backgroundColor: 'rgba(250, 250, 250, 0.65)',
-    shadowColor: 'rgba(133, 140, 146, 0.2)',
-    shadowOpacity: 1,
-  },
-  backText: {
-    color: '#fff',
-  },
-  /*rowFront*/
-  Text1: {
-    borderRadius: 5,
-    margin: 25,
-    marginBottom: 15,
-  },
-  /*rowFrontvisible*/
-  Text2: {
-    borderRadius: 5,
-    marginBottom: 15,
-  },
-  /*rowBack*/
-  Text3: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 5,
-    borderRadius: 5,
-  },
-  /*backRightbtn*/
-  backBtn: {
-    alignItems: 'flex-end',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: responsiveWidth(widthPersentage(75)), //75,
-    paddingRight: 11,
-  },
-  /*backRightbtn Left*/
-  backRbtn: {
-    backgroundColor: '#8e8e93',
-    right: 100,
-  },
-  /*backRightbtn Right*/
-  backLbtn: {
-    backgroundColor: '#ff3b30',
-    right: 20,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-    color: 'white',
-  },
-
-  trash: {
-    width: responsiveWidth(widthPersentage(25)), //25,
-    height: responsiveHeight(heightPersentage(25)), //25,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '800',
-    fontStyle: 'normal',
-    lineHeight: 22,
-    letterSpacing: -0.11,
-    color: '#1a1b1c',
-  },
-  details: {
-    fontSize: 15,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 20,
-    letterSpacing: -0.1,
-    color: '#858c92',
-  },
-});
+export default Basic;
