@@ -11,7 +11,7 @@ import {
   Center,
   Checkbox,
 } from 'native-base';
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -28,7 +28,91 @@ import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
+import APIKit from '../../API/APIkit';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {passwordRegex} from '../../Commons/CommonUtil';
 const Mypage = props => {
+  const {userId} = useContext(UserDispatch);
+  const [email, setEmail] = useState('');
+  const [uType, setUType] = useState('1');
+  const [marketingPolicy, setMarketingPolicy] = useState(['1', '2']);
+
+  const [password, setPassword] = useState(''); //첫번째 비밀번호
+  const [rePassword, setRePassword] = useState(''); //두번째 비밀번호
+  const [pMessage, setpMessage] = useState(''); //유효성 체크 메시지
+  const [authPW, setAuthPW] = useState(false); //비밀번호 유효성 체크
+
+  useEffect(() => {
+    const getAccountInfo = async () => {
+      const payload = {userId: userId.toString()};
+      await APIKit.post('login/getAccountInfo', payload)
+        .then(({data}) => {
+          if (data.IBcode === '1000') {
+            setEmail(data.IBparams.user.email);
+            setUType(data.IBparams.user.uType.toString());
+            if (data.IBparams.user.marketing_policy.toString() === '1') {
+              setMarketingPolicy(['1', '2', '3']);
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+
+    getAccountInfo();
+    return () => {
+      console.log('unmount');
+    };
+  }, [userId]);
+
+  const modifyAccountInfo = () => {
+    const payload = {
+      email: email.toString(),
+      uType: uType.toString(),
+      marketingPolicy: marketingPolicy.indexOf('3') === -1 ? '0' : '1',
+      password: password,
+    };
+    console.log(payload);
+    APIKit.post('/login/modifyAccountInfo', payload)
+      .then(({data}) => {
+        console.log(data);
+        props.navigation.goBack();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  //password valid check
+  const handlePassword = value => {
+    setPassword(value);
+    if (value === '' || value === undefined || value === null) {
+      setpMessage('');
+      setAuthPW(false);
+    } else if (passwordRegex(value)) {
+      setpMessage('');
+    } else {
+      setpMessage('영문,숫자,특수문자 1개 이상 포함');
+      setAuthPW(false);
+    }
+  };
+
+  //password check
+  const handleRePassword = value => {
+    setRePassword(value);
+    if (value === '' || value === undefined || value === null) {
+      setpMessage('');
+      setAuthPW(false);
+    } else if (value !== password) {
+      setpMessage('비밀번호가 일치하지 않습니다.');
+      setAuthPW(false);
+    } else {
+      setpMessage('');
+      setAuthPW(true);
+    }
+  };
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -82,7 +166,7 @@ const Mypage = props => {
                   isDisabled
                   backgroundColor={'#fafafab3'}
                   borderWidth={0}
-                  placeholder={'abdf@gmail.com'}
+                  placeholder={email}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -102,6 +186,8 @@ const Mypage = props => {
                   borderWidth={0}
                   type={'password'}
                   placeholder={'변경할 암호를 입력해주세요'}
+                  value={password}
+                  onChangeText={handlePassword}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -121,6 +207,8 @@ const Mypage = props => {
                   borderWidth={0}
                   type={'password'}
                   placeholder={'변경할 암호를 재확인해주세요'}
+                  value={rePassword}
+                  onChangeText={handleRePassword}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -133,6 +221,15 @@ const Mypage = props => {
                     />
                   }
                 />
+                <Box h={responsiveHeight(heightPersentage(15))}>
+                  <Text
+                    h={'100%'}
+                    color={'#ff0000'}
+                    bold
+                    fontSize={responsiveFontSize(fontSizePersentage(14))}>
+                    {pMessage}
+                  </Text>
+                </Box>
               </VStack>
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
@@ -140,23 +237,27 @@ const Mypage = props => {
                 color={'#000000'}
                 style={{
                   marginLeft: 54,
-                  marginTop: 27,
+                  marginTop: 10,
                   marginBottom: 14,
                 }}>
                 회원 구분
               </Text>
               <Radio.Group
                 colorScheme={'rgb(15,239,189)'}
-                defaultValue="1"
+                accessibilityLabel={'pick a job'}
                 name="jobGroup"
+                value={uType}
+                onChange={nextValue => {
+                  setUType(nextValue);
+                }}
                 alignItems={'center'}
                 style={{marginBottom: 35}}>
                 <VStack
-                  w={'72%'}
+                  w={responsiveWidth(widthPersentage(270))}
                   h={responsiveHeight(heightPersentage(88))}
                   justifyContent={'space-between'}>
                   <HStack w="100%" space={4}>
-                    <Radio value="1">
+                    <Radio value="0">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -165,7 +266,7 @@ const Mypage = props => {
                         일반인
                       </Text>
                     </Radio>
-                    <Radio value="2">
+                    <Radio value="1">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -174,7 +275,7 @@ const Mypage = props => {
                         실연자
                       </Text>
                     </Radio>
-                    <Radio value="3">
+                    <Radio value="2">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -185,7 +286,7 @@ const Mypage = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={4}>
-                    <Radio value="4">
+                    <Radio value="3">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -194,7 +295,7 @@ const Mypage = props => {
                         작사가
                       </Text>
                     </Radio>
-                    <Radio value="5">
+                    <Radio value="4">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -203,7 +304,7 @@ const Mypage = props => {
                         연습생
                       </Text>
                     </Radio>
-                    <Radio value="6">
+                    <Radio value="5">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -214,7 +315,7 @@ const Mypage = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={2}>
-                    <Radio value="7">
+                    <Radio value="6">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -223,7 +324,7 @@ const Mypage = props => {
                         퍼포먼서
                       </Text>
                     </Radio>
-                    <Radio value="8">
+                    <Radio value="7">
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -235,76 +336,82 @@ const Mypage = props => {
                   </HStack>
                 </VStack>
               </Radio.Group>
-              <VStack space={4} alignItems={'center'}>
-                <Checkbox
-                  value="1"
-                  isDisabled
-                  defaultIsChecked
-                  colorScheme={'rgb(15,239,189)'}>
-                  <HStack
-                    w={'85%'}
-                    justifyContent={'space-around'}
-                    alignItems={'center'}>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(15))}
-                      bold
-                      color={'#a5a8ae'}>
-                      개인정보 수집•이용 동의{'('}필수{')'}
-                    </Text>
-                    <TouchableOpacity>
-                      <Image
-                        alt={' '}
-                        source={ExternalLinkIcon}
-                        style={{width: responsiveWidth(widthPersentage(24))}}
-                      />
-                    </TouchableOpacity>
-                  </HStack>
-                </Checkbox>
-                <Checkbox
-                  value="2"
-                  defaultIsChecked
-                  isDisabled
-                  colorScheme={'rgb(15,239,189)'}>
-                  <HStack
-                    w={'85%'}
-                    justifyContent={'space-around'}
-                    alignItems={'center'}>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(15))}
-                      bold
-                      color={'#a5a8ae'}>
-                      서비스 이용약관 동의{'('}필수{')'}
-                    </Text>
-                    <TouchableOpacity>
-                      <Image
-                        alt={' '}
-                        source={ExternalLinkIcon}
-                        style={{width: responsiveWidth(widthPersentage(24))}}
-                      />
-                    </TouchableOpacity>
-                  </HStack>
-                </Checkbox>
-                <Checkbox value="3" colorScheme={'rgb(15,239,189)'}>
-                  <HStack
-                    w={'85%'}
-                    justifyContent={'space-around'}
-                    alignItems={'center'}>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(15))}
-                      bold
-                      color={'#a5a8ae'}>
-                      광고•마케팅 수신 동의{'('}선택{')'}
-                    </Text>
-                    <TouchableOpacity>
-                      <Image
-                        alt={' '}
-                        source={ExternalLinkIcon}
-                        style={{width: responsiveWidth(widthPersentage(24))}}
-                      />
-                    </TouchableOpacity>
-                  </HStack>
-                </Checkbox>
-              </VStack>
+              <Center>
+                <VStack space={4} alignItems={'center'} w={'76%'}>
+                  <Checkbox.Group
+                    colorScheme={'rgb(15,239,189)'}
+                    value={marketingPolicy}
+                    w={'100%'}
+                    onChange={setMarketingPolicy}>
+                    <Checkbox value={'1'} isDisabled>
+                      <HStack
+                        w={'100%'}
+                        justifyContent={'space-around'}
+                        alignItems={'center'}>
+                        <Text
+                          fontSize={responsiveFontSize(fontSizePersentage(15))}
+                          bold
+                          color={'#a5a8ae'}>
+                          개인정보 수집•이용 동의{'('}필수{')'}
+                        </Text>
+                        <TouchableOpacity>
+                          <Image
+                            alt={' '}
+                            source={ExternalLinkIcon}
+                            style={{
+                              width: responsiveWidth(widthPersentage(24)),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </HStack>
+                    </Checkbox>
+                    <Checkbox value={'2'} isDisabled>
+                      <HStack
+                        w={'100%'}
+                        justifyContent={'space-around'}
+                        alignItems={'center'}>
+                        <Text
+                          fontSize={responsiveFontSize(fontSizePersentage(15))}
+                          bold
+                          color={'#a5a8ae'}>
+                          서비스 이용약관 동의{'('}필수{')'}
+                        </Text>
+                        <TouchableOpacity>
+                          <Image
+                            alt={' '}
+                            source={ExternalLinkIcon}
+                            style={{
+                              width: responsiveWidth(widthPersentage(24)),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </HStack>
+                    </Checkbox>
+                    <Checkbox value={'3'}>
+                      <HStack
+                        w={'100%'}
+                        justifyContent={'space-around'}
+                        alignItems={'center'}>
+                        <Text
+                          fontSize={responsiveFontSize(fontSizePersentage(15))}
+                          bold
+                          color={'#a5a8ae'}>
+                          광고•마케팅 수신 동의{'('}선택{')'}
+                        </Text>
+                        <TouchableOpacity>
+                          <Image
+                            alt={' '}
+                            source={ExternalLinkIcon}
+                            style={{
+                              width: responsiveWidth(widthPersentage(24)),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </HStack>
+                    </Checkbox>
+                  </Checkbox.Group>
+                </VStack>
+              </Center>
               <Center mt={10}>
                 <Gbutton
                   wp={220}
@@ -312,7 +419,9 @@ const Mypage = props => {
                   fs={18}
                   fw={600}
                   rounded={8}
+                  disable={!authPW}
                   text={'저장하기'}
+                  onPress={modifyAccountInfo}
                 />
               </Center>
             </BlurView>

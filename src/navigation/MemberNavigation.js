@@ -24,7 +24,7 @@ const MemberStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const MypageStack = createStackNavigator();
 
-export const MypageScreen = () => {
+export const MypageScreen = props => {
   return (
     <>
       <ImageBackground
@@ -102,6 +102,7 @@ export const MemberScreen = () => {
         }}>
         <MemberStack.Screen name={'Agreement'} component={Agreement} />
         <MemberStack.Screen name={'Register'} component={Register} />
+        <MemberStack.Screen name={'LoginScreen'} component={LoginScreen} />
       </MemberStack.Navigator>
     </>
   );

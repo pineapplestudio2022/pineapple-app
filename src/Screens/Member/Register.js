@@ -20,7 +20,11 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {emailRegex, passwordRegex} from '../../Commons/CommonUtil';
+import {
+  defaultAlertMessage,
+  emailRegex,
+  passwordRegex,
+} from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
 import {BlurView} from '@react-native-community/blur';
@@ -52,11 +56,12 @@ const Register = props => {
   const {marketing} = props.route.params; //마케팅 동의 여부
 
   const payload = {
-    email: email,
-    password: password,
-    phone: phoneNum,
-    uType: job,
-    marketingPolicy: marketing,
+    email: email.toString(),
+    password: password.toString(),
+    phone: '+82' + phoneNum.substring(1),
+    uType: job.toString(),
+    marketingPolicy: marketing.toString(),
+    authNo: authNo.toString(),
   };
 
   const onSuccess = response => {
@@ -64,7 +69,7 @@ const Register = props => {
     console.log(response);
     if (response.data.IBcode === '1000') {
       Alert.alert('회원가입 완료', '로그인 화면으로 이동합니다', [
-        {text: '확인', onPress: () => props.navigation.navigate('Login')},
+        {text: '확인', onPress: () => props.navigation.navigate('LoginScreen')},
       ]);
     }
   };
@@ -114,6 +119,7 @@ const Register = props => {
         console.log(response.data);
         if (response.data.IBcode === '1000') {
           setAuthPhone(true);
+          defaultAlertMessage('인증되었습니다.');
         }
       })
       .catch(error => {
