@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -22,35 +22,31 @@ import {
 
 import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
-import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import {Alert, TouchableOpacity} from 'react-native';
 import Modal1 from './Modal1';
 const Agreement = props => {
-  const [allCheck, setAllCheck] = React.useState(false); //전체동의
-  const [privacy, setPrivacy] = React.useState(false); //개인정보
-  const [terms, setTerms] = React.useState(false); //이용약관
-  const [marketing, setMarketing] = React.useState('0'); //마케팅 0:거부, 1:수신
-  const [state, setUseState] = React.useState(false);
+  const [privacy, setPrivacy] = useState(false); //개인정보
+  const [terms, setTerms] = useState(false); //이용약관
+  const [marketing, setMarketing] = useState(false); //마케팅
+  const [state, setUseState] = useState(false);
 
   //전체동의
   const handelAllCheck = value => {
     if (value) {
       setPrivacy(true);
       setTerms(true);
-      setMarketing('1');
-      setAllCheck(true);
+      setMarketing(true);
     } else {
       setPrivacy(false);
       setTerms(false);
-      setMarketing('0');
-      setAllCheck(false);
+      setMarketing(false);
     }
   };
 
   const handleAgreement = () => {
     if (privacy && terms) {
       props.navigation.navigate('Register', {
-        marketing: marketing,
+        marketing: marketing ? '1' : '0',
       });
     } else {
       Alert.alert(
@@ -105,7 +101,6 @@ const Agreement = props => {
                 동의를 부탁드려요!
               </Text>
               <Checkbox
-                value="1"
                 colorScheme={'rgb(15,239,189)'}
                 size={'md'}
                 onChange={handelAllCheck}>
@@ -120,12 +115,10 @@ const Agreement = props => {
                     {'   '}
                     약관에 전체 동의합니다.
                   </Text>
-                  <Modal1 Image source={ExternalLinkIcon} />
                 </HStack>
               </Checkbox>
               <Divider />
               <Checkbox
-                value="2"
                 colorScheme={'rgb(15,239,189)'}
                 onChange={() => setPrivacy(!privacy)}
                 isChecked={privacy}>
@@ -144,10 +137,9 @@ const Agreement = props => {
                 </HStack>
               </Checkbox>
               <Checkbox
-                value="2"
                 colorScheme={'rgb(15,239,189)'}
-                onChange={() => setPrivacy(!privacy)}
-                isChecked={privacy}>
+                onChange={() => setTerms(!terms)}
+                isChecked={terms}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-around'}
@@ -164,10 +156,9 @@ const Agreement = props => {
                 </HStack>
               </Checkbox>
               <Checkbox
-                value="4"
                 colorScheme={'rgb(15,239,189)'}
                 onChange={() => setMarketing(!marketing)}
-                isChecked={marketing === '0' ? false : true}>
+                isChecked={marketing}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-around'}
