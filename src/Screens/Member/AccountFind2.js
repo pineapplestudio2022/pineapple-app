@@ -16,31 +16,7 @@ import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
 
 const FindAccountTwo = props => {
-  const [email, setEmail] = useState(''); //이메일
-
-  useEffect(() => {
-    const payload = {
-      authNo: props.route.params.authNo,
-      phone: props.route.params.phone,
-    };
-
-    const onSuccess = response => {
-      console.log(response);
-      if (response.data.IBcode === '1000') {
-        setEmail(response.data.IBparams.email);
-      }
-    };
-    const onFailure = error => {
-      console.log(error && error.response);
-    };
-
-    const findEmailId = async () => {
-      await APIKit.post('auth/findEmailId', payload)
-        .then(onSuccess)
-        .catch(onFailure);
-    };
-    findEmailId();
-  }, [props.route.params.authNo, props.route.params.phone]);
+  const email = props.route.params.email;
   return (
     <Box flex={1}>
       <MenuComponent

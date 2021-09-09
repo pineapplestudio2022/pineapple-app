@@ -26,6 +26,7 @@ import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';
 import APIKit from '../../API/APIkit';
+import {Alert} from 'react-native';
 
 const FindAccounFour = props => {
   const {email} = props.route.params;
@@ -70,7 +71,7 @@ const FindAccounFour = props => {
   const onSuccess = response => {
     console.log(response);
     if (response.data.IBcode === '1000') {
-      props.navigation.navigate('AccountFind4');
+      props.navigation.navigate('FindAccount5');
     }
   };
   const onFailure = error => {

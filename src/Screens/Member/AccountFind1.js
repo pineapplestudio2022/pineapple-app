@@ -27,6 +27,7 @@ import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
 import {Alert} from 'react-native';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 const FindAccountOne = props => {
   const [phoneNum, setPhoneNum] = useState(); //핸드폰번호
   const [authNum, setAuthNum] = useState(); //인증번호
@@ -71,6 +72,32 @@ const FindAccountOne = props => {
         console.log(error);
       });
   };
+
+  const findEmailId = async () => {
+    const payload = {
+      authNo: authNum.toString(),
+      phone: '+82' + phoneNum.substring(1),
+    };
+    await APIKit.post('auth/findEmailId', payload)
+      .then(({data}) => {
+        console.log(data);
+        if (data.IBcode === '2001') {
+          defaultAlertMessage('가입정보가 없습니다.');
+          return;
+        }
+        if (data.IBcode === '1000') {
+          // setEmail(response.data.IBparams.email);
+          props.navigation.navigate('FindAccount2', {
+            authNo: authNum,
+            email: data.IBparams.email,
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -215,12 +242,13 @@ const FindAccountOne = props => {
                   rounded={8}
                   text={'다음'}
                   disable={!nextBtn}
-                  onPress={() =>
-                    props.navigation.navigate('FindAccount2', {
-                      authNo: authNum,
-                      phone: '+82' + phoneNum.substring(1),
-                    })
-                  }
+                  onPress={findEmailId}
+                  // onPress={() =>
+                  //   props.navigation.navigate('FindAccount2', {
+                  //     authNo: authNum,
+                  //     phone: '+82' + phoneNum.substring(1),
+                  //   })
+                  // }
                 />
               </Center>
             </BlurView>
