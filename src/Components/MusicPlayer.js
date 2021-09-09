@@ -129,9 +129,10 @@ function MusicPlayer(props) {
         },
       );
     };
-
-    getReply();
-    getChallenge();
+    if (props.id !== '' && props.id !== undefined) {
+      getReply();
+      getChallenge();
+    }
 
     //플레이어 초기화
     ARPlayer.current = new AudioRecorderPlayer();
@@ -287,7 +288,7 @@ function MusicPlayer(props) {
   const handleScrollEnd = () => {
     scrollEnd.current.scrollToEnd({animated: false});
   };
-
+  console.log(`props id : ${props.id}`);
   return (
     <BlurView
       style={{

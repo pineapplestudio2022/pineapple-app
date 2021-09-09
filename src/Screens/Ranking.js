@@ -1,5 +1,5 @@
 //파인애플 뮤직 화면
-import {Box, Center, Flex, ScrollView} from 'native-base';
+import {Box, Center, FlatList, Flex, ScrollView} from 'native-base';
 import React, {useState, useRef, useEffect} from 'react';
 
 import {responsiveHeight} from 'react-native-responsive-dimensions';
@@ -21,12 +21,8 @@ function MusicRacking(props) {
 
   //플레이어
   const [id, setId] = useState(''); //id
-  const [fileName, setFileName] = useState('');
-
-  //임시
-  const fn = [{fileName: 'futurehouse1-2.mp3'}, {fileName: '210708_folk.mp3'}];
-
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0); //현재 재생 중인 곡 index
+
   //다음곡
   const handlerNextMusic = () => {
     if (currentMusicIndex + 1 === musicList.length) {
@@ -44,21 +40,13 @@ function MusicRacking(props) {
     setId(musicList[currentMusicIndex - 1].id);
     setCurrentMusicIndex(currentMusicIndex - 1);
   };
+
   const openMusicPlayer = index => {
     setId(musicList[index].id);
     setCurrentMusicIndex(index);
     setIsBottom(false);
     musicPanel.current.show();
   };
-
-  // const openFullPlayer = index => {
-  //   setId(musicList.rows[index].id.toString());
-  //   // setFileName(musicList.rows[index].fileName);
-  //   setFileName(fn[0].fileName); //임시
-
-  //   setIsBottom(false);
-  //   panel.current.show();
-  // };
 
   useEffect(() => {
     const onFailure = error => {
@@ -68,12 +56,14 @@ function MusicRacking(props) {
     const getRankedChallenges = async () => {
       await APIKit.post('/challenge/getRankedChallenges')
         .then(({data}) => {
-          setMusicList(data.IBparams.rows);
-          //음악 직접 선택해서 진입시 플레이어 바로 오픈
-          if (props.route.params.id !== undefined) {
-            setId(props.route.params.id);
-            setIsBottom(false);
-            musicPanel.current.show();
+          if (data.IBcode === '1000') {
+            setMusicList(data.IBparams.rows);
+            //음악 직접 선택해서 진입시 플레이어 바로 오픈
+            if (props.route.params.id !== undefined) {
+              setId(props.route.params.id);
+              setIsBottom(false);
+              musicPanel.current.show();
+            }
           }
         })
         .catch(onFailure);
@@ -81,6 +71,7 @@ function MusicRacking(props) {
     getRankedChallenges();
 
     return () => {
+      setMusicList();
       console.log('api unmount');
     };
   }, [props.route.params.id]);
@@ -93,29 +84,29 @@ function MusicRacking(props) {
         navigation={props.navigation}
       />
       {/* 앨범 리스트 start  */}
-      <ScrollView>
-        <Center>
-          <Flex
-            width={'82%'}
-            flexWrap={'wrap'}
-            direction={'row'}
-            justifyContent={'space-between'}>
-            {musicList &&
-              musicList.map((rows, index) => (
-                <Box my={5} key={rows.id}>
-                  <MusicBox
-                    id={rows.id}
-                    badge={index + 1}
-                    cover={index + 1}
-                    music={rows.title}
-                    owner={rows.participant}
-                    onPress={() => openMusicPlayer(index)}
-                  />
-                </Box>
-              ))}
-          </Flex>
-        </Center>
-      </ScrollView>
+      <Center
+        flex={1}
+        style={{paddingBottom: responsiveHeight(heightPersentage(157))}}>
+        <FlatList
+          numColumns={2}
+          data={musicList}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <Box m={3}>
+              <MusicBox
+                id={item.id}
+                badge={index + 1}
+                cover={index + 1}
+                music={item.title}
+                owner={item.participant}
+                onPress={() => openMusicPlayer(index)}
+              />
+            </Box>
+          )}
+          keyExtractor={item => item.id}
+        />
+      </Center>
       {/* 앨범 리스트 end */}
 
       <SlidingUpPanel

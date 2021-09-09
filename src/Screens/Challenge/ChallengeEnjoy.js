@@ -1,21 +1,12 @@
 //파인애플 뮤직 화면
 import {Box, Center, FlatList, HStack, Image, Input, VStack} from 'native-base';
 import React, {useRef, useState, useEffect} from 'react';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {heightPersentage} from '../../Commons/DeviceWHPersentage';
 
 import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayer from '../../Components/MusicPlayer';
-import SearchIcon from '../../Assets/Image/icon_main_search.png';
 import MusicBox from '../../Components/MusicBoxComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
@@ -61,7 +52,6 @@ function ChallengeEnjoy(props) {
   const openMusicPlayer = index => {
     setId(musicList[index].id);
     setCurrentMusicIndex(index);
-    console.log(`setCurrent music index : ${index}`);
     setIsBottom(false);
     musicPanel.current.show();
   };
@@ -74,8 +64,7 @@ function ChallengeEnjoy(props) {
 
   useEffect(() => {
     console.log('api get');
-    const propsId = props.route.params.id;
-
+    const propsId = props.route.params.id.toString();
     if (cType === 2) {
       setIsBottom(true);
       videoPanel.current.hide();
@@ -89,18 +78,22 @@ function ChallengeEnjoy(props) {
       const payload = {cType: cType.toString()};
       await APIKit.post('/challenge/getAllChallenges', payload)
         .then(({data}) => {
-          if (cType === 2) {
-            setVideoList(data.IBparams.rows);
-          }
-          if (cType === 1) {
-            setMusicList(data.IBparams.rows);
-            //challengeId 값이 있으면 MusicPlayer Open
-            if (propsId === undefined || propsId === '' || propsId === null) {
-              return;
+          if (data.IBcode === '1000') {
+            if (cType === 2) {
+              setVideoList(data.IBparams.rows);
             }
-            setId(propsId);
-            setIsBottom(false);
-            musicPanel.current.show();
+            if (cType === 1) {
+              musicPanel.current.hide();
+              setMusicList(data.IBparams.rows);
+              //challengeId 값이 있으면 MusicPlayer Open
+              if (propsId === undefined || propsId === '' || propsId === null) {
+                return;
+              }
+              console.log(`propsId:${propsId}`);
+              setId(propsId);
+              setIsBottom(false);
+              musicPanel.current.show();
+            }
           }
         })
         .catch(onFailure);
@@ -120,7 +113,11 @@ function ChallengeEnjoy(props) {
     console.log(payload);
     await APIKit.post('/challenge/getAllChallenges', payload)
       .then(({data}) => {
-        setMusicList([...musicList, ...data.IBparams.rows]);
+        if (cType === 1) {
+          setMusicList([...musicList, ...data.IBparams.rows]);
+        } else if (cType === 2) {
+          setVideoList([...videoList, ...data.IBparams.rows]);
+        }
         setOffset(offset + 10);
       })
       .catch(error => {
@@ -137,7 +134,7 @@ function ChallengeEnjoy(props) {
       />
       {/* <ScrollView> */}
       {/* Search Box start */}
-      <VStack>
+      {/* <VStack>
         <Center>
           <Box
             style={{
@@ -170,7 +167,7 @@ function ChallengeEnjoy(props) {
             />
           </Box>
         </Center>
-      </VStack>
+      </VStack> */}
       {/* Search Box end */}
       <VStack mb={5}>
         {/* HashTag start */}
@@ -231,7 +228,9 @@ function ChallengeEnjoy(props) {
             numColumns={2}
             data={musicList}
             onEndReached={handleLoadMore}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.2}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <Box m={3}>
                 <MusicBox
@@ -255,8 +254,10 @@ function ChallengeEnjoy(props) {
         <Center flex={1}>
           <FlatList
             data={videoList}
-            // onEndReached={handleLoadMore}
-            // onEndReachedThreshold={1}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={1}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <Box my={5}>
                 <VideoBox
@@ -310,11 +311,15 @@ function ChallengeEnjoy(props) {
           onMomentumDragStart={() => setIsBottom(false)}
           onBottomReached={() => setIsBottom(true)}
           showBackdrop={false}>
-          <VideoPlayer
-            onScroll={HandlerScroll}
-            id={id}
-            playerSize={isBottom ? false : true}
-          />
+          {isBottom ? (
+            <></>
+          ) : (
+            <VideoPlayer
+              onScroll={HandlerScroll}
+              id={id}
+              playerSize={isBottom ? false : true}
+            />
+          )}
         </SlidingUpPanel>
       ) : (
         <></>

@@ -24,6 +24,7 @@ import CheckIcon from '../Assets/Image/challenge/icon_challenge_check_white.png'
 import CheckgreenIcon from '../Assets/Image/challenge/icon_challenge_check_green.png';
 import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_green.png';
 import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
+import HomeIcon from '../Assets/Image/challenge/icon_challenge_home_white.png';
 class Gbutton extends React.Component {
   constructor(props) {
     super(props);
@@ -65,6 +66,9 @@ class Gbutton extends React.Component {
           return UploadWhiteIcon;
         case 'upload-reverse':
           return UploadGreenIcon;
+        case 'home':
+        case 'home-reverse':
+          return HomeIcon;
         default:
           return undefined;
       }

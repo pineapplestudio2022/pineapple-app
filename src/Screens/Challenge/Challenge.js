@@ -74,7 +74,7 @@ function Challenge(props) {
             </HStack>
           </VStack>
           <Wbutton
-            wp={320}
+            wp={300}
             hp={104}
             fs={28}
             fw={800}

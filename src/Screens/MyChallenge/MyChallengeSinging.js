@@ -1,7 +1,7 @@
 // My Challenge > 노래챌린지 화면
 
 import React, {useContext, useState} from 'react';
-import {Box, Center, FlatList, ScrollView, Text, VStack} from 'native-base';
+import {Box, Center, FlatList} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import MySingingCardComponent from '../../Components/MySingingCardComponent';
 import {useEffect} from 'react/cjs/react.development';
@@ -42,6 +42,8 @@ function MyChallengeSinging(props) {
       <Center flex={1}>
         <FlatList
           data={myChallengeList}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           // onEndReached={handleLoadMore}
           // onEndReachedThreshold={1}
           renderItem={({item, index}) => (
@@ -49,7 +51,7 @@ function MyChallengeSinging(props) {
               <MySingingCardComponent
                 navigation={props.navigation}
                 id={item.id}
-                originalSongId={item.originalSongId}
+                originalWorkId={item.originalWorkId}
                 title={item.title}
                 genre={item.genre}
                 detail={item.detail}

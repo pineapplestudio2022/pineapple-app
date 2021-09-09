@@ -23,22 +23,22 @@ function LyricsView(props) {
 
   useEffect(() => {
     console.log('api get');
-    const payload = {id: props.route.params.id.toString()};
 
-    const onSuccess = response => {
-      if (response.data.IBcode === '1000') {
-        setTitle(response.data.IBparams.rows[0].title);
-        setGenre(response.data.IBparams.rows[0].genre);
-        setLyrics(response.data.IBparams.rows[0].lyrics);
-      }
-    };
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getOriginalSong = () => {
+      const payload = {id: props.route.params.id.toString()};
+
       APIKit.post('/originalWorks/getOriginalSong', payload)
-        .then(onSuccess)
+        .then(({data}) => {
+          if (data.IBcode === '1000') {
+            setTitle(data.IBparams.rows[0].title);
+            setGenre(data.IBparams.rows[0].genre);
+            setLyrics(data.IBparams.rows[0].lyrics);
+          }
+        })
         .catch(onFailure);
     };
     getOriginalSong();
@@ -58,13 +58,7 @@ function LyricsView(props) {
       <Box safeAreaBottom alignItems="center">
         <VStack space={2} w="80%">
           <Center>
-            <Text
-              fontSize={20}
-              bold
-              color={'#1a1b1c'}
-              lineHeight={28}
-              px={2}
-              noOfLines={1}>
+            <Text fontSize={20} bold color={'#1a1b1c'} px={2} noOfLines={1}>
               {title}
             </Text>
             <Text />
@@ -103,7 +97,6 @@ function LyricsView(props) {
                     <TextArea
                       h="100%"
                       fontSize={13}
-                      lineHeight={18}
                       textAlign={'center'}
                       borderWidth={0}
                       editable={false}

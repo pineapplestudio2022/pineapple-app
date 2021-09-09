@@ -2,6 +2,7 @@ import axios from 'axios';
 
 let APIKit = axios.create({
   baseURL: 'http://localhost:3000',
+  // baseURL: 'https://cupping2.shop',
   // timeout: 1000,
 });
 

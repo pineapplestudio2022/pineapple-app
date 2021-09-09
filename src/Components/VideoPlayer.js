@@ -88,10 +88,14 @@ function VideoPlayer(props) {
 
       await APIKit.post('/challenge/getChallenge', payload)
         .then(({data}) => {
-          console.log();
+          console.log(data);
           setTitle(data.IBparams.title);
           setParticipant(data.IBparams.participant);
-          setShareLink(data.IBparams.shareLink);
+          setShareLink(
+            data.IBparams.shareLink.substring(
+              data.IBparams.shareLink.lastIndexOf('/') + 1,
+            ),
+          );
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
           setTogetherCount(data.IBparams.getTogether);
@@ -102,8 +106,10 @@ function VideoPlayer(props) {
         .catch(onFailure);
     };
 
-    getChallenge();
-    getReply();
+    if (props.id !== '' && props.id !== undefined) {
+      getChallenge();
+      getReply();
+    }
 
     return () => {
       console.log('api unmount');
@@ -204,13 +210,12 @@ function VideoPlayer(props) {
             height: responsiveHeight(heightPersentage(214)),
           }}>
           <YouTube
-            videoId={shareLink}
+            videoId={shareLink.substring(shareLink.lastIndexOf('/') + 1)}
             apiKey={YouTubeAPIKey}
             play={false}
             fullscreen={false}
             loop={false}
-            // controls={0}
-
+            controls={0}
             style={{width: '100%', height: '100%'}}
           />
         </Box>

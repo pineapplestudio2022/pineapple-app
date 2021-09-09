@@ -19,6 +19,7 @@ class VideoBox extends React.Component {
   }
 
   render() {
+    console.log(this.props.participant);
     return (
       <Pressable
         onPress={this.props.onPress}

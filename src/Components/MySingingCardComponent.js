@@ -190,7 +190,7 @@ function MySingingCardComponent(props) {
                 }}
                 onPress={() =>
                   props.navigation.navigate('Listening', {
-                    id: props.originalSongId,
+                    id: props.originalWorkId,
                   })
                 }>
                 <HStack>

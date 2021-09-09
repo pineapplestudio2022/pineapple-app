@@ -32,17 +32,17 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
 import {BlurView} from '@react-native-community/blur';
-import {ImageBackground, Platform} from 'react-native';
+import {ImageBackground, PermissionsAndroid, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
 import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 function ChallengeListening(props) {
-  const {userId, token} = useContext(UserDispatch);
+  const {userId} = useContext(UserDispatch);
 
   const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
   const [duration, setDuration] = useState('00:00:00'); //트랙 길이
@@ -53,6 +53,7 @@ function ChallengeListening(props) {
   const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
   const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
   const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
+  const [uploadFinish, setUploadFinish] = useState(false); //업로드 완료 유무
   const ARPlayer = useRef(AudioRecorderPlayer);
   const ARRecord = useRef(AudioRecorderPlayer);
 
@@ -184,6 +185,35 @@ function ChallengeListening(props) {
 
   //녹음 시작
   const onStartRecord = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const grants = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        ]);
+
+        console.log('write external stroage', grants);
+
+        if (
+          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.RECORD_AUDIO'] ===
+            PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          console.log('permissions granted');
+        } else {
+          console.log('All required permissions not granted');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -222,6 +252,7 @@ function ChallengeListening(props) {
 
   const onStopRecord = async () => {
     try {
+      setSpinner(true);
       onStopPlay();
       await ARRecord.current.stopRecorder();
       ARRecord.current.removeRecordBackListener();
@@ -241,7 +272,7 @@ function ChallengeListening(props) {
         '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
         '-map',
         '[a]',
-        `${filepath}/${outputFileName}`,
+        `${filepath}${outputFileName}`,
         // '-acodec',
         // 'libmp3lame',
       ];
@@ -255,6 +286,7 @@ function ChallengeListening(props) {
         console.log(`FFmpeg process exited with rc=${result}.`);
         setUploadBtn(true);
         setOutputFile(outputFileName);
+        setSpinner(false);
       });
     } catch (error) {
       console.log(error);
@@ -263,12 +295,16 @@ function ChallengeListening(props) {
 
   //참여버튼
   const handlerJoin = () => {
+    if (userId === '' || userId === undefined || userId === null) {
+      defaultAlertMessage('로그인 후 참여가능합니다.');
+      return;
+    }
     setRecordBtn(true);
     onStopPlay();
   };
 
   // blob test code
-  // const uploadFile = (apiUri, userId, originalSongId, uri, mime) => {
+  // const uploadFile = (apiUri, userId, originalWorkId, uri, mime) => {
   //   return new Promise((resolve, reject) => {
   //     const uploadUri =
   //       Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
@@ -288,7 +324,7 @@ function ChallengeListening(props) {
   //         payload.append('title', title);
   //         payload.append('fileName', fileName);
   //         payload.append('userId', userId);
-  //         payload.append('originSongId', originalSongId);
+  //         payload.append('originSongId', originalWorkId);
   //         payload.append('mimeType', 'video/mp4');
   //         // payload.append('fileContents', {
   //         //   name: outputFile,
@@ -314,17 +350,19 @@ function ChallengeListening(props) {
 
   //업로드 버튼       //////////////수정중
   const onFileUpload = async () => {
-    const title = '제목';
-    const fileName = '파일명';
-    const userId = 1;
-    const originalSongId = 1;
+    setSpinner(true);
+    console.log(`fileName : ${fileName}`);
+    const originalWorkId = props.route.params.id;
     const mimeType = 'video/mp4';
 
     const payload = new FormData();
     payload.append('title', title);
-    payload.append('fileName', fileName);
+    payload.append(
+      'fileName',
+      fileName.substring(0, fileName.lastIndexOf('.')),
+    );
     payload.append('userId', userId);
-    payload.append('originSongId', originalSongId);
+    payload.append('originalWorkId', originalWorkId);
     payload.append('mimeType', mimeType);
     payload.append('fileContents', {
       name: outputFile,
@@ -332,17 +370,26 @@ function ChallengeListening(props) {
       uri: `${filepath}${outputFile}`,
     });
 
-    const {data: resData} = await APIKit.post(
-      '/challenge/updateMyChallengeSong',
-      payload,
-      {
-        headers: {'Content-Type': 'multipart/form-data'},
-      },
-    );
+    console.log('payload : ');
+    console.log(payload);
+    // const {data: resData} = await APIKit.post(
+    //   '/challenge/updateMyChallengeSong',
+    //   payload,
+    //   {
+    //     headers: {'Content-Type': 'multipart/form-data'},
+    //   },
+    // );
+    await APIKit.post('/challenge/updateMyChallengeSong', payload, {
+      headers: {'Content-Type': 'multipart/form-data'},
+    }).then(({data}) => {
+      console.log(data);
+      setSpinner(false);
+      setUploadFinish(true);
+    });
 
-    console.log(`
-    resData:
-    ${JSON.stringify(resData, null, 2)}`);
+    // console.log(`
+    // resData:
+    // ${JSON.stringify(resData, null, 2)}`);
 
     // RNFetchBlob.fetch(
     //   'POST',
@@ -358,7 +405,7 @@ function ChallengeListening(props) {
     //       data: fileName,
     //     },
     //     {name: 'userId', data: userId},
-    //     {name: 'originSongId', data: originalSongId},
+    //     {name: 'originSongId', data: originalWorkId},
     //     {
     //       name: 'fileContents',
     //       data: RNFetchBlob.wrap(filepath + outputFile),
@@ -507,62 +554,83 @@ function ChallengeListening(props) {
                       {duration}
                     </Text>
                   </HStack>
-                  {recordBtn ? (
-                    uploadBtn ? (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        imgName={'upload'}
-                        text={'Upload'}
-                        onPress={onFileUpload}
-                      />
-                    ) : (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        imgName={stopRecordBtn ? 'pulse' : 'mic'}
-                        onPress={stopRecordBtn ? onStopRecord : onStartRecord}
-                        text={'RECORD'}
-                      />
-                    )
+                  {uploadFinish ? (
+                    <VStack w="100%" alignItems={'center'} mt={5} space={5}>
+                      <Text
+                        fontSize={responsiveFontSize(fontSizePersentage(28))}
+                        color={'#000000'}
+                        bold>
+                        업로드가 완료 되었습니다.
+                      </Text>
+                      <Text
+                        fontSize={responsiveFontSize(fontSizePersentage(20))}
+                        color={'#858c92'}
+                        bold>
+                        감사합니다
+                      </Text>
+                    </VStack>
                   ) : (
-                    <Gbutton
-                      wp={220}
-                      hp={40}
-                      fs={18}
-                      fw={600}
-                      rounded={8}
-                      imgName={isAlreadyPlay ? 'stop' : 'headphone'}
-                      text={'15초 듣기'}
-                      onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
-                    />
-                  )}
+                    <>
+                      {recordBtn ? (
+                        uploadBtn ? (
+                          <Gbutton
+                            wp={220}
+                            hp={40}
+                            fs={18}
+                            fw={600}
+                            rounded={8}
+                            imgName={'upload'}
+                            text={'Upload'}
+                            onPress={onFileUpload}
+                          />
+                        ) : (
+                          <Gbutton
+                            wp={220}
+                            hp={40}
+                            fs={18}
+                            fw={600}
+                            rounded={8}
+                            imgName={stopRecordBtn ? 'pulse' : 'mic'}
+                            onPress={
+                              stopRecordBtn ? onStopRecord : onStartRecord
+                            }
+                            text={'RECORD'}
+                          />
+                        )
+                      ) : (
+                        <Gbutton
+                          wp={220}
+                          hp={40}
+                          fs={18}
+                          fw={600}
+                          rounded={8}
+                          imgName={isAlreadyPlay ? 'stop' : 'headphone'}
+                          text={'15초 듣기'}
+                          onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
+                        />
+                      )}
 
-                  <Box
-                    bg={'#fafafa80'}
-                    style={{
-                      width: responsiveWidth(widthPersentage(240)),
-                      height: responsiveHeight(heightPersentage(136)),
-                    }}
-                    my={2}
-                    rounded={16}>
-                    <TextArea
-                      h="100%"
-                      fontSize={responsiveFontSize(fontSizePersentage(13))}
-                      textAlign={'center'}
-                      borderWidth={0}
-                      editable={false}
-                      px={8}
-                      pt={2}>
-                      {lyrics}
-                    </TextArea>
-                  </Box>
+                      <Box
+                        bg={'#fafafa80'}
+                        style={{
+                          width: responsiveWidth(widthPersentage(240)),
+                          height: responsiveHeight(heightPersentage(136)),
+                        }}
+                        my={2}
+                        rounded={16}>
+                        <TextArea
+                          h="100%"
+                          fontSize={responsiveFontSize(fontSizePersentage(13))}
+                          textAlign={'center'}
+                          borderWidth={0}
+                          editable={false}
+                          px={8}
+                          pt={2}>
+                          {lyrics}
+                        </TextArea>
+                      </Box>
+                    </>
+                  )}
                 </Center>
               </BlurView>
             </Box>
@@ -578,16 +646,29 @@ function ChallengeListening(props) {
                 // onPress={() => props.navigation.goBack()}
                 onPress={onFileUpload}
               />
-              <Gbutton
-                wp={120}
-                hp={40}
-                fs={13}
-                fw={800}
-                rounded={6}
-                imgName={'check'}
-                text={'참여'}
-                onPress={handlerJoin}
-              />
+              {uploadFinish ? (
+                <Gbutton
+                  wp={120}
+                  hp={40}
+                  fs={13}
+                  fw={800}
+                  rounded={6}
+                  imgName={'home'}
+                  text={'HOME'}
+                  onPress={() => props.navigation.navigate('MainScreen')}
+                />
+              ) : (
+                <Gbutton
+                  wp={120}
+                  hp={40}
+                  fs={13}
+                  fw={800}
+                  rounded={6}
+                  imgName={'check'}
+                  text={'참여'}
+                  onPress={handlerJoin}
+                />
+              )}
             </HStack>
           </Box>
         </VStack>

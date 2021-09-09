@@ -81,18 +81,14 @@ export default function ChallengeVideo(props) {
                     height: responsiveHeight(heightPersentage(274)),
                   }}>
                   <YouTube
-                    videoId={rows.videoUrl}
+                    videoId={rows.videoUrl.substring(
+                      rows.videoUrl.lastIndexOf('/') + 1,
+                    )}
                     apiKey={YouTubeAPIKey}
                     play={false}
                     fullscreen={false}
                     loop={false}
                     controls={0}
-                    onReady={e => console.log('onReady')}
-                    onChangeState={e => console.log('onChangeState:', e.state)}
-                    onChangeQuality={e =>
-                      console.log('onChangeQuality: ', e.quality)
-                    }
-                    onError={e => console.log('onError: ', e.error)}
                     style={{width: '100%', height: '100%'}}
                   />
                 </Box>
