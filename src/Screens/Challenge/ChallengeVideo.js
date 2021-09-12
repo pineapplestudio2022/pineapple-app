@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {Text, Center, Box, ScrollView, HStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import APIKit from '../../API/APIkit';
 import YouTube from 'react-native-youtube';
-import {YouTubeAPIKey} from '../../Commons/CommonUtil';
+import {defaultAlertMessage, YouTubeAPIKey} from '../../Commons/CommonUtil';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -16,9 +16,11 @@ import {
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import Gbutton from '../../Components/GbuttonComponent';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
 /*윤호님 카드 컴포넌트 작성법 참조해서 상단에 배경화면들 임포트하기*/
 export default function ChallengeVideo(props) {
+  const {userId} = useContext(UserDispatch);
   const [challengeList, setChallengeList] = useState();
 
   useEffect(() => {
@@ -43,6 +45,18 @@ export default function ChallengeVideo(props) {
       console.log('api unmount');
     };
   }, []);
+
+  const addChallengeTicket = id => {
+    const payload = {userId: userId.toString(), cType: '2'};
+    APIKit.post('challenge/addChallengeTicket', payload)
+      .then(({data}) => {
+        console.log(data);
+        defaultAlertMessage('참여신청이 완료되었습니다');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <Box flex={1}>
@@ -152,6 +166,7 @@ export default function ChallengeVideo(props) {
                   fs={18}
                   rounded={8}
                   text={'참여신청'}
+                  onPress={() => addChallengeTicket(rows.id)}
                 />
               </>
             ))}
