@@ -22,13 +22,13 @@ import {
 
 import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
-import {Alert, TouchableOpacity} from 'react-native';
-import Modal1 from './Modal1';
+import {Alert} from 'react-native';
+import TermsandConditionModal from './TermsandConditionModal';
+
 const Agreement = props => {
   const [privacy, setPrivacy] = useState(false); //개인정보
   const [terms, setTerms] = useState(false); //이용약관
   const [marketing, setMarketing] = useState(false); //마케팅
-  const [state, setUseState] = useState(false);
 
   //전체동의
   const handelAllCheck = value => {
@@ -133,7 +133,7 @@ const Agreement = props => {
                     {'   '}
                     개인정보수집•이용 동의{'('}필수{')'}
                   </Text>
-                  <Modal1 />
+                  <TermsandConditionModal terms={1} />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -152,7 +152,7 @@ const Agreement = props => {
                     서비스 이용약관 동의{'('}필수{')'}
                     {'   '}
                   </Text>
-                  <Modal1 />
+                  <TermsandConditionModal terms={2} />
                 </HStack>
               </Checkbox>
               <Checkbox
@@ -170,7 +170,7 @@ const Agreement = props => {
                     {'   '}
                     광고•마케팅 수신 동의{'('}선택{')'}{' '}
                   </Text>
-                  <Modal1 />
+                  <TermsandConditionModal terms={3} />
                 </HStack>
               </Checkbox>
             </VStack>

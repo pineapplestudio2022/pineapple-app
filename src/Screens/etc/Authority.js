@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Box, VStack, Text, Divider, HStack, Image, Button} from 'native-base';
+import React from 'react';
+import {Box, VStack, Text, Divider, HStack, Image} from 'native-base';
 import {StyleSheet} from 'react-native';
 import {
   responsiveHeight,
@@ -12,7 +12,8 @@ import {
   fontSizePersentage,
 } from '../../Commons/DeviceWHPersentage';
 import icon_check_close from '../../Assets/Image/Top_music/../icon_main_mic.png';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import {PERMISSIONS, request} from 'react-native-permissions';
+import Gbutton from '../../Components/GbuttonComponent';
 // import Modal from '../../Screens/etc/Modal';
 //차지하고 싶은 크기를 알고싶으면 borderwidth .
 //vstack은 아래로 내려가는 방향
@@ -109,16 +110,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function MicPermission() {
+function MicPermission(props) {
   const checkRecord = async () => {
-    try {
-      const result = await request(PERMISSIONS.IOS.MICROPHONE);
-      if (result === RESULTS.GRANTED) {
-        console.log('succese');
-      }
-    } catch (e) {
-      console.log(`error \n ${e}`);
-    }
+    const result = await request(PERMISSIONS.IOS.MICROPHONE).then(
+      props.navigation.navigate('HomeNavigation'),
+    );
   };
   // useEffect(() => {
   //   checkRecord();
@@ -171,14 +167,27 @@ function MicPermission() {
           </Text>
         </VStack>
         <Box alignItems="center" style={styles.boximg2}>
-          <HStack space={10}>
-            <Button style={styles.btn1} type="submit">
-              {' '}
-              다음에{' '}
-            </Button>
-            <Button type="submit" onPress={checkRecord} style={styles.btn}>
-              확인
-            </Button>
+          <HStack space={10} mt={6}>
+            <Gbutton
+              wp={120}
+              hp={40}
+              rounded={6}
+              text={'다음에'}
+              fs={16}
+              fw={800}
+              disable
+              onPressActive
+              onPress={() => props.navigation.navigate('HomeNavigation')}
+            />
+            <Gbutton
+              wp={120}
+              hp={40}
+              rounded={6}
+              text={'확인'}
+              fs={16}
+              fw={800}
+              onPress={checkRecord}
+            />
           </HStack>
         </Box>
       </Box>

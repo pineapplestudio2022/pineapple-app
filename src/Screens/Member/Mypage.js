@@ -31,6 +31,7 @@ import {TouchableOpacity} from 'react-native';
 import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {passwordRegex} from '../../Commons/CommonUtil';
+import TermsandConditionModal from './TermsandConditionModal';
 const Mypage = props => {
   const {userId} = useContext(UserDispatch);
   const [email, setEmail] = useState('');
@@ -354,15 +355,7 @@ const Mypage = props => {
                           color={'#a5a8ae'}>
                           개인정보 수집•이용 동의{'('}필수{')'}
                         </Text>
-                        <TouchableOpacity>
-                          <Image
-                            alt={' '}
-                            source={ExternalLinkIcon}
-                            style={{
-                              width: responsiveWidth(widthPersentage(24)),
-                            }}
-                          />
-                        </TouchableOpacity>
+                        <TermsandConditionModal terms={1} />
                       </HStack>
                     </Checkbox>
                     <Checkbox value={'2'} isDisabled>
@@ -376,15 +369,7 @@ const Mypage = props => {
                           color={'#a5a8ae'}>
                           서비스 이용약관 동의{'('}필수{')'}
                         </Text>
-                        <TouchableOpacity>
-                          <Image
-                            alt={' '}
-                            source={ExternalLinkIcon}
-                            style={{
-                              width: responsiveWidth(widthPersentage(24)),
-                            }}
-                          />
-                        </TouchableOpacity>
+                        <TermsandConditionModal terms={2} />
                       </HStack>
                     </Checkbox>
                     <Checkbox value={'3'}>
@@ -398,15 +383,7 @@ const Mypage = props => {
                           color={'#a5a8ae'}>
                           광고•마케팅 수신 동의{'('}선택{')'}
                         </Text>
-                        <TouchableOpacity>
-                          <Image
-                            alt={' '}
-                            source={ExternalLinkIcon}
-                            style={{
-                              width: responsiveWidth(widthPersentage(24)),
-                            }}
-                          />
-                        </TouchableOpacity>
+                        <TermsandConditionModal terms={3} />
                       </HStack>
                     </Checkbox>
                   </Checkbox.Group>

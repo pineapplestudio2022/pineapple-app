@@ -1,6 +1,6 @@
 //Main Drawer Navigation
 
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
@@ -18,9 +18,8 @@ import PineappleMusic from '../Screens/PineappleMusic';
 import MainScreen from '../Screens/MainScreen';
 import {MemberScreen, LoginScreen, MypageScreen} from './MemberNavigation';
 import LyricsScreen from '../navigation/LyricsNavigation';
-import {useContext} from 'react/cjs/react.development';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
-import Authority1 from '../Screens/etc/Authority1';
+import {PERMISSIONS, request} from 'react-native-permissions';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -153,7 +152,7 @@ function CustomDrawerContent(props) {
         </VStack>
         <VStack space={5} alignItems={'center'} safeAreaBottom mb={4}>
           {/* 로그인 시 마이페이지, 로그아웃으로 변경 */}
-          {userId == '' ? (
+          {userId === '' ? (
             <Pressable
               onPress={() => props.navigation.navigate('MemberScreen')}
               w="100%">
@@ -181,7 +180,7 @@ function CustomDrawerContent(props) {
             </Pressable>
           )}
 
-          {userId == '' ? (
+          {userId === '' ? (
             <Pressable
               w="100%"
               onPress={() => props.navigation.navigate('LoginScreen')}>
@@ -214,6 +213,13 @@ function CustomDrawerContent(props) {
 const Drawer = createDrawerNavigator();
 
 const MainNavigation = props => {
+  // 음성인식 권한 체크
+  const checkRecord = async () => {
+    await request(PERMISSIONS.IOS.MICROPHONE);
+  };
+  useEffect(() => {
+    checkRecord();
+  }, []);
   return (
     <ImageBackground
       source={MainBackground}
@@ -227,7 +233,6 @@ const MainNavigation = props => {
         overlayColor={'transparent'}
         sceneContainerStyle={{backgroundColor: 'transparent'}}
         drawerContent={props => <CustomDrawerContent {...props} />}>
-        {/* <Drawer.Screen name="Authority1" component={Authority1} /> */}
         <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
         <Drawer.Screen name="MemberScreen" component={MemberScreen} />
         <Drawer.Screen name="LoginScreen" component={LoginScreen} />
