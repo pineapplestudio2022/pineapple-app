@@ -28,7 +28,10 @@ function CustomDrawerContent(props) {
   //로그아웃
   const handleLogout = () => {
     dispatch({type: 'SIGN_OUT'});
-    props.navigation.navigate('MainScreen');
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: 'HomeNavigation'}],
+    });
   };
 
   return (

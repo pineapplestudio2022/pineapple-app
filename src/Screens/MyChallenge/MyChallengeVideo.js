@@ -18,7 +18,7 @@ import APIKit from '../../API/APIkit';
 import Gbutton from '../../Components/GbuttonComponent';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 function MyChallengeVideo(props) {
-  const {userId} = useContext(UserDispatch);
+  const {userId, email} = useContext(UserDispatch);
   const [originalVideoList, setOriginalVideoList] = useState();
   const [selected, setSelected] = useState();
   const [inputValue, setInputValue] = useState({
@@ -46,6 +46,7 @@ function MyChallengeVideo(props) {
     const payload = {
       shareLink: inputValue.shareLink.toString(),
       userId: userId.toString(),
+      owner: email.toString(),
       originalWorkId: inputValue.originalWorkId.toString(),
     };
 

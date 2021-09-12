@@ -25,9 +25,7 @@ import {
 import MenuComponent from '../../Components/MenuComponent';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
-import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
-import {TouchableOpacity} from 'react-native';
 import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {passwordRegex} from '../../Commons/CommonUtil';

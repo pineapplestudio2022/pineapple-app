@@ -42,7 +42,7 @@ import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 function ChallengeListening(props) {
-  const {userId} = useContext(UserDispatch);
+  const {userId, email} = useContext(UserDispatch);
 
   const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
   const [duration, setDuration] = useState('00:00:00'); //트랙 길이
@@ -92,6 +92,7 @@ function ChallengeListening(props) {
             .then(async exist => {
               if (!exist) {
                 //없으면 다운로드
+                setSpinner(true);
                 await APIKit.post('aws/getS3SignedUrl', {musicKey: keyname})
                   .then(res => {
                     const s3Path = res.data;
@@ -106,6 +107,7 @@ function ChallengeListening(props) {
                         console.log(percentage);
                       })
                       .then(resp => {
+                        setSpinner(false);
                         console.log('The file saved to ', resp.path());
                       });
                   })
@@ -362,6 +364,7 @@ function ChallengeListening(props) {
       fileName.substring(0, fileName.lastIndexOf('.')),
     );
     payload.append('userId', userId);
+    payload.append('owner', email);
     payload.append('originalWorkId', originalWorkId);
     payload.append('mimeType', mimeType);
     payload.append('fileContents', {
@@ -493,6 +496,13 @@ function ChallengeListening(props) {
                       resizeMode="center"
                       alt={' '}
                       style={{width: '100%', height: '100%'}}>
+                      {spinner ? (
+                        <Center h={'100%'}>
+                          <Spinner color="white" />
+                        </Center>
+                      ) : (
+                        <></>
+                      )}
                       {recordBtn ? (
                         <BlurView
                           style={{
@@ -511,13 +521,6 @@ function ChallengeListening(props) {
                               height: '100%',
                               backgroundColor: 'transparent',
                             }}>
-                            {spinner ? (
-                              <Center h={'100%'}>
-                                <Spinner color="white" />
-                              </Center>
-                            ) : (
-                              <></>
-                            )}
                             <Slider
                               style={{
                                 position: 'absolute',

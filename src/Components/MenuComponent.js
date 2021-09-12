@@ -135,7 +135,12 @@ function MenuComponent(props) {
         ) : (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={() => props.navigation.navigate('MainScreen')}
+              onPress={() =>
+                props.navigation.reset({
+                  index: 0,
+                  routes: [{name: 'HomeNavigation'}],
+                })
+              }
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image

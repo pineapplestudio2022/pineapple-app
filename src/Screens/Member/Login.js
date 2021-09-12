@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 
 import {
   responsiveFontSize,
@@ -20,47 +20,43 @@ import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
 import APIKit, {setClientToken} from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {useContext} from 'react';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 const Login = props => {
-  const [signInEmail, setSignInEmail] = React.useState('');
-  const [signInPassword, setSignInPassword] = React.useState('');
+  const {dispatch} = useContext(UserDispatch);
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
 
   const payload = {
-    email: signInEmail,
-    password: signInPassword,
-  };
-
-  const {dispatch} = useContext(UserDispatch);
-
-  const onSuccess = ({data}) => {
-    if (data.IBcode === '2001') {
-      //db data 없음
-      console.log('회원정보 없음');
-      return;
-    }
-    if (data.IBcode === '2001') {
-      //db data 없음
-      console.log('회원정보 틀림');
-      return;
-    }
-    // Set JSON Web Token on success
-    setClientToken(data.IBparams.token);
-    dispatch({
-      type: 'SIGN_IN',
-      userId: data.IBparams.userId,
-      token: data.IBparams.token,
-    });
-    props.navigation.navigate('MainScreen');
-  };
-  const onFailure = error => {
-    console.log(error && error.response);
+    email: signInEmail.toString(),
+    password: signInPassword.toString(),
   };
 
   const submit = async () => {
     await APIKit.post('/login/signIn', payload)
-      .then(onSuccess)
-      .catch(onFailure);
+      .then(({data}) => {
+        if (data.IBcode === '2001') {
+          //db data 없음
+          defaultAlertMessage('존재하지 않는 이메일입니다.');
+          return;
+        }
+        if (data.IBcode === '2002') {
+          //db data 없음
+          defaultAlertMessage('비밀번호가 맞지않습니다.');
+          return;
+        }
+        // Set JSON Web Token on success
+        setClientToken(data.IBparams.token);
+        dispatch({
+          type: 'SIGN_IN',
+          userId: data.IBparams.userId,
+          email: data.IBparams.email,
+        });
+        props.navigation.navigate('MainScreen');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -97,7 +93,7 @@ const Login = props => {
                 height: '100%',
               }}
               blurType="xlight"
-              blurAmount={100}
+              blurAmount={20}
               reducedTransparencyFallbackColor="white">
               <VStack alignItems={'center'} space={6}>
                 <Image
