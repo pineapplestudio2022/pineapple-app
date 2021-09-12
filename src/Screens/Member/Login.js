@@ -18,7 +18,7 @@ import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
-import APIKit, {cleanClientToken, setClientToken} from '../../API/APIkit';
+import APIKit, {setClientToken} from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {useContext} from 'react';
 
@@ -31,15 +31,15 @@ const Login = props => {
     password: signInPassword,
   };
 
-  const {userId, dispatch} = useContext(UserDispatch);
+  const {dispatch} = useContext(UserDispatch);
 
   const onSuccess = ({data}) => {
-    if (data.IBcode == '2001') {
+    if (data.IBcode === '2001') {
       //db data 없음
       console.log('회원정보 없음');
       return;
     }
-    if (data.IBcode == '2001') {
+    if (data.IBcode === '2001') {
       //db data 없음
       console.log('회원정보 틀림');
       return;

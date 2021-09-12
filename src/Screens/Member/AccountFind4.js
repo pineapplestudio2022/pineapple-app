@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   responsiveFontSize,
@@ -26,7 +26,6 @@ import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';
 import APIKit from '../../API/APIkit';
-import {Alert} from 'react-native';
 
 const FindAccounFour = props => {
   const {email} = props.route.params;

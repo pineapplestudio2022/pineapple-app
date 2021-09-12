@@ -5,23 +5,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import MainNavigation from './src/navigation/MainNavigation';
 import UserDispatchProvider from './src/Commons/UserDispatchProvider';
 import SplashScreen from 'react-native-splash-screen';
-import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 
 const App = () => {
-  // 음성인식 권한 체크
-  // const checkRecord = async () => {
-  //   try {
-  //     const result = await request(PERMISSIONS.IOS.MICROPHONE);
-  //     if (result === RESULTS.GRANTED) {
-  //       console.log('succese');
-  //     }
-  //   } catch (e) {
-  //     console.log(`error \n ${e}`);
-  //   }
-  // };
-
   useEffect(() => {
-    // checkRecord();
     SplashScreen.hide();
   }, []);
 

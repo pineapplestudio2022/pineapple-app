@@ -1,4 +1,4 @@
-import {Box, HStack, Image, Pressable, Text} from 'native-base';
+import {Box, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,

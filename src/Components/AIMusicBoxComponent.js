@@ -1,6 +1,6 @@
 //Challenge > 작곡 참여안의 카드 컴포넌트
-import {Box, HStack, Pressable, Text, View, VStack} from 'native-base';
-import React, {Component} from 'react';
+import {Box, Pressable, Text} from 'native-base';
+import React from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,

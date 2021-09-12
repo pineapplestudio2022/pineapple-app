@@ -1,6 +1,6 @@
 // 노래부르기 화면
 import React, {useEffect, useState} from 'react';
-import {Box, ScrollView, Text} from 'native-base';
+import {Box, ScrollView} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import SingingCardComponent from '../../Components/SingingCardComponent';
 import APIKit from '../../API/APIkit';

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -13,7 +13,6 @@ import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
-import APIKit from '../../API/APIkit';
 
 const FindAccountTwo = props => {
   const email = props.route.params.email;

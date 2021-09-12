@@ -1,6 +1,6 @@
 //My Challenge > 노래 챌린지 > 카드컴포넌트
 import React, {Component} from 'react';
-import {Image, Text, Box, VStack, HStack, Pressable, View} from 'native-base';
+import {Image, Text, Box, VStack, HStack, Pressable} from 'native-base';
 import {
   responsiveFontSize,
   responsiveWidth,

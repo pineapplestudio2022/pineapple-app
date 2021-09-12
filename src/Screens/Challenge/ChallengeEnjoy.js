@@ -1,5 +1,5 @@
 //파인애플 뮤직 화면
-import {Box, Center, FlatList, HStack, Image, Input, VStack} from 'native-base';
+import {Box, Center, FlatList, HStack, VStack} from 'native-base';
 import React, {useRef, useState, useEffect} from 'react';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {heightPersentage} from '../../Commons/DeviceWHPersentage';

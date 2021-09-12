@@ -3,7 +3,6 @@
 import React from 'react';
 import {Box, Text, Image, Pressable} from 'native-base';
 import {ImageBackground} from 'react-native';
-import TopMusicAll from '../Assets/Image/Top_music/top_music_all.jpg';
 import BadgeIcon1 from '../Assets/Image/Top_music/top_music_badge_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/top_music_badge_2.png';
 import BadgeIcon3 from '../Assets/Image/Top_music/top_music_badge_3.png';

@@ -1,5 +1,5 @@
 //파인애플 뮤직 화면
-import {Box, Center, FlatList, Flex, ScrollView} from 'native-base';
+import {Box, Center, FlatList} from 'native-base';
 import React, {useState, useRef, useEffect} from 'react';
 
 import {responsiveHeight} from 'react-native-responsive-dimensions';
