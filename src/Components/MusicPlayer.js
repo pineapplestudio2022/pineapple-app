@@ -1,5 +1,5 @@
 //음악플레이어 큰화면
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {
   Box,
   Center,
@@ -290,17 +290,18 @@ function MusicPlayer(props) {
   };
   console.log(`props id : ${props.id}`);
   return (
-    <BlurView
+    <Box
       style={{
         height: '100%',
         width: '100%',
         borderRadius: 16,
       }}
-      blurType="light"
-      blurAmount={10}
-      reducedTransparencyFallbackColor="white">
+      // blurType="light"
+      // blurAmount={10}
+      // reducedTransparencyFallbackColor="white"
+    >
       {props.playerSize ? (
-        <Box flex={1} backgroundColor={'#fafafacc'} borderRadius={16}>
+        <Box flex={1} backgroundColor={'#fafafa'} borderRadius={16}>
           <VStack alignItems={'center'} space={2}>
             <Box
               style={{
@@ -627,7 +628,7 @@ function MusicPlayer(props) {
             width: responsiveWidth(widthPersentage(390)),
             height: responsiveHeight(heightPersentage(157)),
           }}
-          backgroundColor={'#fafafacc'}
+          backgroundColor={'#fafafa'}
           borderRadius={16}>
           <VStack
             style={{
@@ -723,7 +724,7 @@ function MusicPlayer(props) {
         </Box>
         //small player end
       )}
-    </BlurView>
+    </Box>
   );
 }
 

@@ -55,7 +55,6 @@ function MainScreen(props) {
               paddingEnd: 5,
             }}>
             {/* 음원 리스트 보여주는 로직 수정 필요*/}
-
             <MusicAlbumComponent
               navigation={props.navigation}
               nextView={'Ranking'}

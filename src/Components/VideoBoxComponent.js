@@ -1,4 +1,4 @@
-import {Pressable, Text} from 'native-base';
+import {Box, Pressable, Text} from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
 import {
@@ -12,7 +12,7 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 import DefaultImage from '../Assets/Image/image_singing_dumpimage.jpg';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 class VideoBox extends React.Component {
   constructor(props) {
     super(props);
@@ -39,10 +39,10 @@ class VideoBox extends React.Component {
           }}
           resizeMode={'center'}
         />
-        <BlurView
-          blurType="light"
-          blurAmount={6}
-          reducedTransparencyFallbackColor="white"
+        <Box
+          // blurType="light"
+          // blurAmount={6}
+          // reducedTransparencyFallbackColor="white"
           style={{
             position: 'absolute',
             bottom: 0,
@@ -69,7 +69,7 @@ class VideoBox extends React.Component {
             textAlign={'right'}>
             {this.props.participant}
           </Text>
-        </BlurView>
+        </Box>
       </Pressable>
     );
   }

@@ -1,5 +1,5 @@
 // 랭킹, 파인애플 뮤직 등 음악 앨범 카드 컴포넌트
-import {Image, Pressable, Text} from 'native-base';
+import {Box, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
 import {
@@ -13,7 +13,7 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';
 import BadgeIcon3 from '../Assets/Image/Top_music/badge_ranking_green_3.png';
@@ -104,7 +104,7 @@ function MusicBoxComponent(props) {
       <ImageBackground
         source={getCover(props.cover)}
         style={{width: '100%', height: '100%'}}>
-        <BlurView
+        <Box
           style={{
             position: 'absolute',
             bottom: 0,
@@ -112,9 +112,10 @@ function MusicBoxComponent(props) {
             height: responsiveHeight(heightPersentage(52)),
             backgroundColor: '#1a1b1c80',
           }}
-          blurType="light"
-          blurAmount={2}
-          reducedTransparencyFallbackColor="white">
+          // blurType="light"
+          // blurAmount={2}
+          // reducedTransparencyFallbackColor="white"
+        >
           {props.badge === undefined ? (
             <></>
           ) : (
@@ -159,7 +160,7 @@ function MusicBoxComponent(props) {
             fontSize={responsiveFontSize(fontSizePersentage(15))}>
             {props.owner === '미상' ? '' : props.owner}
           </Text>
-        </BlurView>
+        </Box>
       </ImageBackground>
     </Pressable>
   );

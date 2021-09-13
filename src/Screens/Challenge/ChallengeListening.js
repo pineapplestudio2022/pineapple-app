@@ -31,7 +31,7 @@ import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {ImageBackground, PermissionsAndroid, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -40,7 +40,7 @@ import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 function ChallengeListening(props) {
   const {userId, email} = useContext(UserDispatch);
@@ -488,15 +488,16 @@ function ChallengeListening(props) {
               shadowOpacity: 1,
             }}>
             <Box borderRadius={20} overflow={'hidden'}>
-              <BlurView
+              <Box
                 style={{
                   width: '100%',
                   height: '100%',
-                  backgroundColor: '#ededed59',
+                  backgroundColor: '#f9f9f9',
                 }}
-                blurType="light"
-                blurAmount={12}
-                reducedTransparencyFallbackColor="white">
+                // blurType="light"
+                // blurAmount={12}
+                // reducedTransparencyFallbackColor="white"
+              >
                 <Center>
                   <Box
                     style={{
@@ -519,14 +520,15 @@ function ChallengeListening(props) {
                         <></>
                       )}
                       {recordBtn ? (
-                        <BlurView
+                        <Box
                           style={{
                             width: '100%',
                             height: '100%',
                           }}
-                          blurType="light"
-                          blurAmount={2}
-                          reducedTransparencyFallbackColor="white">
+                          // blurType="light"
+                          // blurAmount={2}
+                          // reducedTransparencyFallbackColor="white"
+                        >
                           <LinearGradient
                             start={{x: 0, y: 0}}
                             end={{x: 1, y: 0}}
@@ -548,7 +550,7 @@ function ChallengeListening(props) {
                               </Slider.Track>
                             </Slider>
                           </LinearGradient>
-                        </BlurView>
+                        </Box>
                       ) : (
                         <></>
                       )}
@@ -650,7 +652,7 @@ function ChallengeListening(props) {
                     </>
                   )}
                 </Center>
-              </BlurView>
+              </Box>
             </Box>
             <HStack space={5} justifyContent={'space-around'} mt={4}>
               <Gbutton

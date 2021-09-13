@@ -10,7 +10,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 
 import MagazineIcon from '../Assets/Image/btn_main_magazine.png';
 import MusicNoteIcon from '../Assets/Image/btn_main_music_note.png';

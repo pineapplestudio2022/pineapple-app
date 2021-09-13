@@ -12,7 +12,7 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
@@ -88,14 +88,16 @@ const Login = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={20}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={20}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={6}>
                 <Image
                   source={CharacterIcon}
@@ -114,7 +116,7 @@ const Login = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   placeholder={'Email'}
                   autoFocus
                   onChangeText={text => setSignInEmail(text)}
@@ -135,7 +137,7 @@ const Login = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'PW'}
                   onChangeText={text => setSignInPassword(text)}
@@ -182,7 +184,7 @@ const Login = props => {
                   </Text>
                 </TouchableOpacity>
               </HStack>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

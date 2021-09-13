@@ -12,7 +12,7 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import {Box, Center, HStack, ScrollView, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 
 const FindAccounFive = props => {
@@ -44,14 +44,16 @@ const FindAccounFive = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={25}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={3}>
                 <Box
                   alignItems={'center'}
@@ -100,7 +102,7 @@ const FindAccounFive = props => {
                   onPress={() => props.navigation.navigate('Login')}
                 />
               </Center>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

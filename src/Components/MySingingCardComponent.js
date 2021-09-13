@@ -12,7 +12,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic2.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic.png';
 import TrashIcon from '../Assets/Image/challenge/icon_challenge_trash.png';
@@ -67,17 +67,18 @@ function MySingingCardComponent(props) {
         shadowOpacity: 1,
       }}
       rounded={8}
-      backgroundColor={'#fafafa80'}
+      backgroundColor={'#fafafa'}
       width={responsiveWidth(widthPersentage(320))}
       height={responsiveHeight(heightPersentage(104))}>
-      <BlurView
+      <Box
         style={{
           width: '100%',
           height: '100%',
         }}
-        blurType="light"
-        blurAmount={5}
-        reducedTransparencyFallbackColor="white">
+        // blurType="light"
+        // blurAmount={5}
+        // reducedTransparencyFallbackColor="white"
+      >
         <HStack space={4}>
           <Box
             width={responsiveWidth(widthPersentage(95))}
@@ -215,7 +216,7 @@ function MySingingCardComponent(props) {
             </HStack>
           </VStack>
         </HStack>
-      </BlurView>
+      </Box>
     </Box>
   );
 }

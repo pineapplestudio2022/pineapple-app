@@ -27,7 +27,7 @@ import {
 } from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
@@ -179,33 +179,35 @@ const Register = props => {
         navigation={props.navigation}
         notGB
       />
-      <ScrollView>
+      <Box
+        alignItems={'center'}
+        style={{
+          shadowColor: '#858c9233',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowRadius: 4,
+          shadowOpacity: 1,
+        }}>
         <Box
-          alignItems={'center'}
           style={{
-            shadowColor: '#858c9233',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowRadius: 4,
-            shadowOpacity: 1,
+            width: responsiveWidth(widthPersentage(358)),
+            height: responsiveHeight(heightPersentage(620)),
+            borderRadius: 20,
+            overflow: 'hidden',
           }}>
           <Box
             style={{
-              width: responsiveWidth(widthPersentage(358)),
-              height: responsiveHeight(heightPersentage(620)),
-              borderRadius: 20,
-              overflow: 'hidden',
-            }}>
-            <BlurView
-              style={{
-                width: '100%',
-                height: '100%',
-              }}
-              blurType="xlight"
-              blurAmount={20}
-              reducedTransparencyFallbackColor="white">
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#f9f9f9',
+            }}
+            // blurType="xlight"
+            // blurAmount={20}
+            // reducedTransparencyFallbackColor="white"
+          >
+            <ScrollView>
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 fontWeight={600}
@@ -222,7 +224,7 @@ const Register = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   placeholder={'Email'}
                   value={email}
                   onChangeText={handleEmail}
@@ -242,7 +244,7 @@ const Register = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'PW'}
                   value={password}
@@ -263,7 +265,7 @@ const Register = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'PW check'}
                   value={rePassword}
@@ -309,7 +311,7 @@ const Register = props => {
                   onChangeText={handleAuthButoon}
                   value={phoneNum}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   placeholder={'전화번호'}
                   InputLeftElement={
                     <Image
@@ -344,7 +346,7 @@ const Register = props => {
                   rounded={8}
                   keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   onChangeText={setAuthNo}
                   value={authNo}
                   placeholder={'인증번호'}
@@ -502,10 +504,11 @@ const Register = props => {
                   />
                 )}
               </Center>
-            </BlurView>
+              <Box h={30} />
+            </ScrollView>
           </Box>
         </Box>
-      </ScrollView>
+      </Box>
     </Box>
   );
 };

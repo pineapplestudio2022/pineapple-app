@@ -21,7 +21,7 @@ import {
   VStack,
 } from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';
@@ -110,14 +110,16 @@ const FindAccounFour = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={25}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={3}>
                 <Box
                   alignItems={'center'}
@@ -154,7 +156,7 @@ const FindAccounFour = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'PW'}
                   value={password}
@@ -175,7 +177,7 @@ const FindAccounFour = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'PW check'}
                   value={rePassword}
@@ -214,7 +216,7 @@ const FindAccounFour = props => {
                   onPress={resetPassword}
                 />
               </Center>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

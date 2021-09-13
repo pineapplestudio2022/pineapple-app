@@ -14,7 +14,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 function MyChallengeComposing(props) {
   return (
     <Box flex={1}>
@@ -87,7 +87,7 @@ function MyChallengeComposing(props) {
           width={responsiveWidth(widthPersentage(320))}
           height={responsiveHeight(heightPersentage(48))}
           my={5}>
-          <BlurView
+          <Box
             style={{
               width: '100%',
               height: '100%',
@@ -96,9 +96,10 @@ function MyChallengeComposing(props) {
               justifyContent: 'center',
               borderRadius: 5,
             }}
-            blurType="light"
-            blurAmount={6}
-            reducedTransparencyFallbackColor="white">
+            // blurType="light"
+            // blurAmount={6}
+            // reducedTransparencyFallbackColor="white"
+          >
             <Input
               type={'file'}
               editable={false}
@@ -108,7 +109,7 @@ function MyChallengeComposing(props) {
               color={'#858c92'}>
               파일을 등록해주세요
             </Input>
-          </BlurView>
+          </Box>
           <HStack space={5} justifyContent={'flex-end'} my={2} mr={4}>
             <Pressable
               width={responsiveWidth(widthPersentage(70))}
@@ -209,7 +210,7 @@ function MyChallengeComposing(props) {
           width={responsiveWidth(widthPersentage(320))}
           height={responsiveHeight(heightPersentage(48))}
           my={5}>
-          <BlurView
+          <Box
             style={{
               width: '100%',
               height: '100%',
@@ -218,9 +219,10 @@ function MyChallengeComposing(props) {
               justifyContent: 'center',
               borderRadius: 5,
             }}
-            blurType="light"
-            blurAmount={6}
-            reducedTransparencyFallbackColor="white">
+            // blurType="light"
+            // blurAmount={6}
+            // reducedTransparencyFallbackColor="white"
+          >
             <Input
               type={'file'}
               editable={false}
@@ -230,7 +232,7 @@ function MyChallengeComposing(props) {
               color={'#858c92'}>
               파일을 등록해주세요
             </Input>
-          </BlurView>
+          </Box>
           <HStack space={5} justifyContent={'flex-end'} my={2} mr={4}>
             <Pressable
               width={responsiveWidth(widthPersentage(70))}

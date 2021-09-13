@@ -8,7 +8,7 @@ import AddLyricsIcon from '../Assets/Image/icon_menu_addLyrics.png';
 import SaveLyricsIcon from '../Assets/Image/icon_menu_saveLyrics.png';
 import LyricsGoBackIcon from '../Assets/Image/icon_menu_lyrics_goback.png';
 import LinearGradient from 'react-native-linear-gradient';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -35,7 +35,7 @@ function MenuComponent(props) {
             height: responsiveHeight(heightPersentage(152)),
             backgroundColor: 'transparent',
           }}>
-          <BlurView
+          {/* <BlurView
             style={{
               height: '100%',
               width: '100%',
@@ -43,7 +43,7 @@ function MenuComponent(props) {
             blurType="light"
             blurAmount={10}
             reducedTransparencyFallbackColor="white"
-          />
+          /> */}
         </LinearGradient>
       )}
       {/* 상단 그라데이션 && 블러 효과 end */}

@@ -11,7 +11,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {ImageBackground} from 'react-native';
 import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_1.jpg';
 function AIMusicBoxComponent(props) {
@@ -41,15 +41,16 @@ function AIMusicBoxComponent(props) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <BlurView
+          <Box
             style={{
               width: responsiveWidth(widthPersentage(125)),
               height: responsiveHeight(heightPersentage(109)),
               justifyContent: 'center',
             }}
-            blurType="light"
-            blurAmount={3}
-            reducedTransparencyFallbackColor="white">
+            // blurType="light"
+            // blurAmount={3}
+            // reducedTransparencyFallbackColor="white"
+          >
             <Text
               fontSize={responsiveFontSize(fontSizePersentage(16))}
               fontWeight={500}
@@ -57,7 +58,7 @@ function AIMusicBoxComponent(props) {
               textAlign={'center'}>
               Innocent
             </Text>
-          </BlurView>
+          </Box>
         </ImageBackground>
       </Pressable>
     </Box>

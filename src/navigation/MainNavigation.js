@@ -3,7 +3,7 @@
 import React, {useContext, useEffect} from 'react';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground, TouchableOpacity} from 'react-native';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   responsiveFontSize,
@@ -42,15 +42,16 @@ function CustomDrawerContent(props) {
 
   return (
     <Box flex={1}>
-      <BlurView
+      <Box
         style={{
           height: '100%',
           width: '100%',
           borderRadius: 8,
         }}
-        blurType="light"
-        blurAmount={10}
-        reducedTransparencyFallbackColor="white">
+        // blurType="light"
+        // blurAmount={10}
+        // reducedTransparencyFallbackColor="white"
+      >
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           <TouchableOpacity
             w="100%"
@@ -215,7 +216,7 @@ function CustomDrawerContent(props) {
             </Pressable>
           )}
         </VStack>
-      </BlurView>
+      </Box>
     </Box>
   );
 }

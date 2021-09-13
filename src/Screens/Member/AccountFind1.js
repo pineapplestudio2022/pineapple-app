@@ -21,7 +21,7 @@ import {
   VStack,
 } from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
@@ -58,14 +58,9 @@ const FindAccountOne = props => {
       .then(response => {
         console.log(response.data);
         if (response.data.IBcode === '1000') {
-          Alert.alert('Pineapple', '인증되었습니다.', [{text: '확인'}]);
+          defaultAlertMessage('인증되었습니다.');
           setAuthPhone(true);
           setNextBtn(true);
-        }
-        if (response.data.IBcode !== '1000') {
-          Alert.alert('Pineapple', response.data.IBdetail.toString(), [
-            {text: '확인'},
-          ]);
         }
       })
       .catch(error => {
@@ -126,14 +121,16 @@ const FindAccountOne = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={25}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={3}>
                 <Box
                   alignItems={'center'}
@@ -171,7 +168,7 @@ const FindAccountOne = props => {
                   rounded={8}
                   keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   value={phoneNum}
                   isDisabled={nextBtn}
                   onChangeText={setPhoneNum}
@@ -188,22 +185,24 @@ const FindAccountOne = props => {
                     />
                   }
                   InputRightElement={
-                    <Gbutton
-                      wp={70}
-                      hp={24}
-                      fs={12}
-                      fw={800}
-                      rounded={4}
-                      text={'인증번호'}
-                      onPress={onAuthRequest}
-                    />
+                    <Box mr={2}>
+                      <Gbutton
+                        wp={70}
+                        hp={24}
+                        fs={12}
+                        fw={800}
+                        rounded={4}
+                        text={'인증번호'}
+                        onPress={onAuthRequest}
+                      />
+                    </Box>
                   }
                 />
                 <Input
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   value={authNum}
                   isDisabled={nextBtn}
                   onChangeText={setAuthNum}
@@ -220,16 +219,18 @@ const FindAccountOne = props => {
                     />
                   }
                   InputRightElement={
-                    <Gbutton
-                      wp={70}
-                      hp={24}
-                      fs={12}
-                      fw={800}
-                      rounded={4}
-                      text={'확인'}
-                      disable={nextBtn}
-                      onPress={onAuthCheck}
-                    />
+                    <Box mr={2}>
+                      <Gbutton
+                        wp={70}
+                        hp={24}
+                        fs={12}
+                        fw={800}
+                        rounded={4}
+                        text={'확인'}
+                        disable={nextBtn}
+                        onPress={onAuthCheck}
+                      />
+                    </Box>
                   }
                 />
               </VStack>
@@ -251,7 +252,7 @@ const FindAccountOne = props => {
                   // }
                 />
               </Center>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

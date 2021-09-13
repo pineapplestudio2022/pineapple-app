@@ -21,11 +21,12 @@ import {
   VStack,
 } from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
 const FindAccountThree = props => {
   const {email} = props.route.params;
 
@@ -58,6 +59,7 @@ const FindAccountThree = props => {
       .then(response => {
         console.log(response.data);
         if (response.data.IBcode === '1000') {
+          defaultAlertMessage('인증되었습니다');
           setAuthPhone(true);
           setNextBtn(true);
         }
@@ -94,14 +96,16 @@ const FindAccountThree = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={25}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={3}>
                 <Box
                   alignItems={'center'}
@@ -139,7 +143,7 @@ const FindAccountThree = props => {
                   rounded={8}
                   keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   value={phoneNum}
                   isDisabled={nextBtn}
                   onChangeText={setPhoneNum}
@@ -156,22 +160,24 @@ const FindAccountThree = props => {
                     />
                   }
                   InputRightElement={
-                    <Gbutton
-                      wp={70}
-                      hp={24}
-                      fs={12}
-                      fw={800}
-                      rounded={4}
-                      text={'인증번호'}
-                      onPress={onAuthRequest}
-                    />
+                    <Box mr={2}>
+                      <Gbutton
+                        wp={70}
+                        hp={24}
+                        fs={12}
+                        fw={800}
+                        rounded={4}
+                        text={'인증번호'}
+                        onPress={onAuthRequest}
+                      />
+                    </Box>
                   }
                 />
                 <Input
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   placeholder={'인증번호'}
                   value={authNum}
                   isDisabled={nextBtn}
@@ -188,16 +194,18 @@ const FindAccountThree = props => {
                     />
                   }
                   InputRightElement={
-                    <Gbutton
-                      wp={70}
-                      hp={24}
-                      fs={12}
-                      fw={800}
-                      rounded={4}
-                      text={'확인'}
-                      disable={nextBtn}
-                      onPress={onAuthCheck}
-                    />
+                    <Box mr={2}>
+                      <Gbutton
+                        wp={70}
+                        hp={24}
+                        fs={12}
+                        fw={800}
+                        rounded={4}
+                        text={'확인'}
+                        disable={nextBtn}
+                        onPress={onAuthCheck}
+                      />
+                    </Box>
                   }
                 />
               </VStack>
@@ -215,7 +223,7 @@ const FindAccountThree = props => {
                   }
                 />
               </Center>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

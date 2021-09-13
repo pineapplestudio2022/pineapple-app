@@ -1,4 +1,4 @@
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import {
   Box,
   HStack,
@@ -139,14 +139,16 @@ const Mypage = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={20}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={20}
+              // reducedTransparencyFallbackColor="white"
+            >
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 fontWeight={600}
@@ -164,7 +166,7 @@ const Mypage = props => {
                   rounded={8}
                   isDisabled
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   placeholder={email}
                   InputLeftElement={
                     <Image
@@ -182,7 +184,7 @@ const Mypage = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'변경할 암호를 입력해주세요'}
                   value={password}
@@ -203,7 +205,7 @@ const Mypage = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   backgroundColor={'#fafafab3'}
-                  borderWidth={0}
+                  borderWidth={1}
                   type={'password'}
                   placeholder={'변경할 암호를 재확인해주세요'}
                   value={rePassword}
@@ -399,7 +401,7 @@ const Mypage = props => {
                   onPress={modifyAccountInfo}
                 />
               </Center>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>

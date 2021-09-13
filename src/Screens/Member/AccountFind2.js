@@ -11,7 +11,7 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-import {BlurView} from '@react-native-community/blur';
+// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 
 const FindAccountTwo = props => {
@@ -44,15 +44,17 @@ const FindAccountTwo = props => {
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <BlurView
+            <Box
               // eslint-disable-next-line react-native/no-inline-styles
               style={{
                 width: '100%',
                 height: '100%',
+                backgroundColor: '#f9f9f9',
               }}
-              blurType="xlight"
-              blurAmount={25}
-              reducedTransparencyFallbackColor="white">
+              // blurType="xlight"
+              // blurAmount={25}
+              // reducedTransparencyFallbackColor="white"
+            >
               <VStack alignItems={'center'} space={3}>
                 <Box
                   alignItems={'center'}
@@ -135,7 +137,7 @@ const FindAccountTwo = props => {
                   </HStack>
                 </Center>
               </VStack>
-            </BlurView>
+            </Box>
           </Box>
         </Box>
       </ScrollView>
