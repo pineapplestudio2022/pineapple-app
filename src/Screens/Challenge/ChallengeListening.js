@@ -303,8 +303,15 @@ function ChallengeListening(props) {
     }
     setRecordBtn(true);
     onStopPlay();
+    // const payload = {userId: userId.toString(), cType: '1'};
+    // APIKit.post('challenge/addChallengeTicket', payload)
+    //   .then(({data}) => {
+    //     defaultAlertMessage('참여신청이 완료되었습니다');
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
-
   // blob test code
   // const uploadFile = (apiUri, userId, originalWorkId, uri, mime) => {
   //   return new Promise((resolve, reject) => {
