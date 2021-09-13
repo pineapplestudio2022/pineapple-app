@@ -13,7 +13,6 @@
     "clean:ios": "cd ios && xcodebuild clean && cd ../"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.3",
     "@react-native-community/blur": "3.6.0",
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/drawer": "5.12.5",

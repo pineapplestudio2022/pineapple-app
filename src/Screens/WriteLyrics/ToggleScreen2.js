@@ -15,28 +15,64 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import RNFetchBlob from 'rn-fetch-blob';
 import LeftArrowIcon from '../../Assets/Image/icon_main_left_arrow.png';
-import {Alert} from 'react-native';
+import {Alert, PermissionsAndroid, Platform} from 'react-native';
 function Basic(props) {
   const [fileList, setFileList] = useState();
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
+    checkPermisson();
     getLyricsList();
 
     return () => {
       console.log('unmount');
     };
   }, []);
+
+  const checkPermisson = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const grants = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        ]);
+
+        console.log('write external stroage', grants);
+
+        if (
+          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          console.log('permissions granted');
+        } else {
+          console.log('All required permissions not granted');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+  };
   //가사 파일 목록 가져오기
-  const getLyricsList = () => {
+  const getLyricsList = async () => {
     const dirs = RNFetchBlob.fs.dirs.DocumentDir;
     const path = `${dirs}/lyrics/`;
 
+    const assetsDirExists = await RNFetchBlob.fs.isDir(path);
+    if (!assetsDirExists) {
+      RNFetchBlob.fs
+        .mkdir(path)
+        .then(res => {
+          console.log('App directory created..');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     RNFetchBlob.fs.ls(path).then(files => {
-      // eslint-disable-next-line no-extra-boolean-cast
-      if (!!files) {
-        files.splice(files.indexOf('.DS_Store'), 1);
-      }
       setFileList(
         files.map((title, index) => ({
           key: `${index}`,

@@ -10,6 +10,7 @@ import {
   ScrollView,
   Input,
   Pressable,
+  Center,
 } from 'native-base';
 import {
   responsiveFontSize,
@@ -53,7 +54,7 @@ function Wlyrics(props) {
   };
 
   useEffect(() => {
-    const readFiletoLocal = () => {
+    const readFiletoLocal = async () => {
       const filename = props.route.params.filename;
       if (filename === '' || filename === undefined || filename === null) {
         return;
@@ -78,6 +79,7 @@ function Wlyrics(props) {
       console.log('unmount');
     };
   }, [props.route.params.filename]);
+
   return (
     <Box flex={1}>
       <MenuComponent
@@ -87,11 +89,8 @@ function Wlyrics(props) {
         onSave={writeFiletoLocal}
       />
       <ScrollView>
-        <Box alignItems={'center'}>
-          <BlurView
-            blurType="light"
-            blurAmount={4}
-            reducedTransparencyFallbackColor="white"
+        <Center>
+          <Box
             style={{
               width: responsiveWidth(widthPersentage(350)),
               height: responsiveHeight(heightPersentage(664)),
@@ -221,8 +220,8 @@ function Wlyrics(props) {
                 </TouchableOpacity>
               </HStack>
             </VStack>
-          </BlurView>
-        </Box>
+          </Box>
+        </Center>
       </ScrollView>
     </Box>
   );

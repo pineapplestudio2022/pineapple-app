@@ -1,4 +1,4 @@
-import {Box, HStack, Image, Pressable, Text} from 'native-base';
+import {Box, Center, HStack, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -119,20 +119,8 @@ class Wbutton extends React.Component {
           borderRadius: this.props.rounded,
           borderColor: '#0fefbd',
         }}>
-        <BlurView
-          style={{
-            height: '100%',
-            width: '100%',
-            borderRadius: this.props.rounded,
-          }}
-          blurType="light"
-          blurAmount={this.props.blur}
-          reducedTransparencyFallbackColor="white">
-          <Box
-            w={'100%'}
-            h={'100%'}
-            justifyContent={'center'}
-            alignItems={'center'}>
+        <Box>
+          <Center h={'100%'}>
             {this.props.ready ? (
               <Text
                 position={'absolute'}
@@ -193,8 +181,8 @@ class Wbutton extends React.Component {
                 {this.props.text}
               </Text>
             </HStack>
-          </Box>
-        </BlurView>
+          </Center>
+        </Box>
       </Pressable>
     );
   }

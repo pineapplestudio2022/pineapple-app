@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -29,10 +29,10 @@ import APIKit from '../../API/APIkit';
 
 const FindAccounFour = props => {
   const {email} = props.route.params;
-  const [password, setPassword] = React.useState(''); //첫번째 비밀번호
-  const [rePassword, setRePassword] = React.useState(''); //두번째 비밀번호
-  const [pMessage, setpMessage] = React.useState(''); //유효성 체크 메시지
-  const [authPW, setAuthPW] = React.useState(false); //비밀번호 유효성 체크
+  const [password, setPassword] = useState(''); //첫번째 비밀번호
+  const [rePassword, setRePassword] = useState(''); //두번째 비밀번호
+  const [pMessage, setpMessage] = useState(''); //유효성 체크 메시지
+  const [authPW, setAuthPW] = useState(false); //비밀번호 유효성 체크
 
   //password valid check
   const handlePassword = value => {

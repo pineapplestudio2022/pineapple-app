@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Center,
@@ -37,21 +37,21 @@ import APIKit from '../../API/APIkit';
 import {Alert} from 'react-native';
 
 const Register = props => {
-  const [email, setEmail] = React.useState(''); //이메일 주소
-  const [password, setPassword] = React.useState(''); //첫번째 비밀번호
-  const [rePassword, setRePassword] = React.useState(''); //두번째 비밀번호
-  const [pMessage, setpMessage] = React.useState(''); //유효성 체크 메시지
+  const [email, setEmail] = useState(''); //이메일 주소
+  const [password, setPassword] = useState(''); //첫번째 비밀번호
+  const [rePassword, setRePassword] = useState(''); //두번째 비밀번호
+  const [pMessage, setpMessage] = useState(''); //유효성 체크 메시지
 
-  const [authEmail, setAuthEmail] = React.useState(false); //이메일 유효성 체크
-  const [authPW, setAuthPW] = React.useState(false); //비밀번호 유효성 체크
-  const [authPhone, setAuthPhone] = React.useState(false); //번호인증 유효성 체크
+  const [authEmail, setAuthEmail] = useState(false); //이메일 유효성 체크
+  const [authPW, setAuthPW] = useState(false); //비밀번호 유효성 체크
+  const [authPhone, setAuthPhone] = useState(false); //번호인증 유효성 체크
 
-  const [phoneNum, setPhoneNum] = React.useState(''); //핸드폰 번호
-  const [authNo, setAuthNo] = React.useState(''); //인증번호
-  const [job, setJob] = React.useState('0'); //default = 일반인
+  const [phoneNum, setPhoneNum] = useState(''); //핸드폰 번호
+  const [authNo, setAuthNo] = useState(''); //인증번호
+  const [job, setJob] = useState('0'); //default = 일반인
 
-  const [authBtn, setAuthBtn] = React.useState(false); //인증번호 요청 버튼 활성화
-  const [authCheckBtn, setAuthCheckBtn] = React.useState(false); //인증번호 확인 버튼 활성화
+  const [authBtn, setAuthBtn] = useState(false); //인증번호 요청 버튼 활성화
+  const [authCheckBtn, setAuthCheckBtn] = useState(false); //인증번호 확인 버튼 활성화
 
   const {marketing} = props.route.params; //마케팅 동의 여부
 

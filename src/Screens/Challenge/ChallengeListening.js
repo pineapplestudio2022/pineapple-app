@@ -40,6 +40,7 @@ import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 function ChallengeListening(props) {
   const {userId, email} = useContext(UserDispatch);
@@ -296,10 +297,17 @@ function ChallengeListening(props) {
   };
 
   //참여버튼
-  const handlerJoin = () => {
+  const handlerJoin = async () => {
     if (userId === '' || userId === undefined || userId === null) {
       defaultAlertMessage('로그인 후 참여가능합니다.');
       return;
+    }
+    if (Platform.OS === 'ios') {
+      const granted = await request(PERMISSIONS.IOS.MICROPHONE);
+      if (granted !== RESULTS.GRANTED) {
+        defaultAlertMessage('마이크 권한을 허용해주세요');
+        return;
+      }
     }
     setRecordBtn(true);
     onStopPlay();

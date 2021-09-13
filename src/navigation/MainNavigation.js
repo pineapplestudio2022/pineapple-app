@@ -5,8 +5,14 @@ import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
-import {fontSizePersentage} from '../Commons/DeviceWHPersentage';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  widthPersentage,
+} from '../Commons/DeviceWHPersentage';
 
 import HomeNavigation from '../navigation/HomeNavigation';
 import MyChallengeNavigation from './MyChallengeNavigation';

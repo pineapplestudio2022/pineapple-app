@@ -1,6 +1,6 @@
 //음악 재생 플레이어 컨트롤 컴포넌트
 import {Box, HStack, Image, Pressable, Slider, Text} from 'native-base';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -20,8 +20,8 @@ import RewindRightIcon from '../Assets/Image/icon_musicplayer_rewind_right.png';
 import PlayIcon from '../Assets/Image/icon_musicplayer_play_green.png';
 
 function MusicPlayBarComponent(props) {
-  const [onChangeValue, setOnChangeValue] = React.useState('00:00');
-  const [onChangeEndValue, setOnChangeEndValue] = React.useState('00:00');
+  const [onChangeValue, setOnChangeValue] = useState('00:00');
+  const [onChangeEndValue, setOnChangeEndValue] = useState('00:00');
 
   return (
     <Box>

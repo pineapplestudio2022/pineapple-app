@@ -55,6 +55,7 @@ const Login = props => {
         props.navigation.navigate('MainScreen');
       })
       .catch(error => {
+        defaultAlertMessage('아이디 또는 비밀번호가 맞지않습니다');
         console.log(error);
       });
   };

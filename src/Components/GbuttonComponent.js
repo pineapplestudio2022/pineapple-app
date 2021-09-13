@@ -1,4 +1,4 @@
-import {Box, Image, Pressable, Text} from 'native-base';
+import {Box, Center, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -115,37 +115,36 @@ class Gbutton extends React.Component {
           shadowRadius: 4,
           shadowOpacity: 1,
         }}>
-        <Box
-          w={'100%'}
-          h={'100%'}
-          justifyContent={'center'}
-          alignItems={'center'}>
-          {this.props.imgName ? (
-            <Image
-              source={
-                this.state.imgrvs
-                  ? getImage(this.props.imgName + '-reverse')
-                  : getImage(this.props.imgName)
-              }
+        <Box>
+          <Center h={'100%'}>
+            {this.props.imgName ? (
+              <Image
+                source={
+                  this.state.imgrvs
+                    ? getImage(this.props.imgName + '-reverse')
+                    : getImage(this.props.imgName)
+                }
+                style={{
+                  position: 'absolute',
+                  left: 10,
+                  height:
+                    responsiveHeight(heightPersentage(this.props.hp)) / 1.6,
+                }}
+                resizeMode={'contain'}
+                alt={' '}
+              />
+            ) : (
+              <></>
+            )}
+            <Text
+              fontWeight={this.props.fw}
               style={{
-                position: 'absolute',
-                left: 10,
-                height: responsiveHeight(heightPersentage(this.props.hp)) / 1.6,
-              }}
-              resizeMode={'contain'}
-              alt={' '}
-            />
-          ) : (
-            <></>
-          )}
-          <Text
-            fontWeight={this.props.fw}
-            style={{
-              color: this.state.textColor,
-              fontSize: responsiveFontSize(fontSizePersentage(this.props.fs)),
-            }}>
-            {this.props.text}
-          </Text>
+                color: this.state.textColor,
+                fontSize: responsiveFontSize(fontSizePersentage(this.props.fs)),
+              }}>
+              {this.props.text}
+            </Text>
+          </Center>
         </Box>
       </Pressable>
     );
