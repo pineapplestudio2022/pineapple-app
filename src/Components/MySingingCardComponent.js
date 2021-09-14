@@ -1,5 +1,5 @@
 //My Challenge > 노래 챌린지의 Card
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, Text, Box, VStack, HStack, Pressable} from 'native-base';
 import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import {
@@ -16,7 +16,7 @@ import {
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic2.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic.png';
 import TrashIcon from '../Assets/Image/challenge/icon_challenge_trash.png';
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
 import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
@@ -27,6 +27,8 @@ import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
 import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
+import APIKit from '../API/APIkit';
+import {UserDispatch} from '../Commons/UserDispatchProvider';
 function MySingingCardComponent(props) {
   const getImage = () => {
     const number = Math.floor(Math.random() * 10) + 1;
@@ -54,6 +56,24 @@ function MySingingCardComponent(props) {
       default:
         return DumpImage;
     }
+  };
+  const {userId} = useContext(UserDispatch);
+
+  const handlerDelete = () => {
+    const payload = {
+      userId: userId.toString(),
+      challengeId: props.id.toString(),
+    };
+    console.log(payload);
+    APIKit.post('challenge/deleteMyChallenge', payload)
+      .then(({data}) => {
+        if (data.IBcode === '1000') {
+          props.setRefresh(true);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   return (
     <Box
@@ -103,12 +123,26 @@ function MySingingCardComponent(props) {
                 py={1}>
                 {props.title}
               </Text>
-              <Pressable
-                position={'absolute'}
-                right={0}
-                top={2}
-                width={responsiveWidth(widthPersentage(16))}
-                height={responsiveHeight(heightPersentage(16))}>
+              <TouchableOpacity
+                onPress={() =>
+                  Alert.alert('Pineapple', '삭제하시겠습니까?', [
+                    {
+                      text: '취소',
+                      onPress: () => {},
+                    },
+                    {
+                      text: '확인',
+                      onPress: () => handlerDelete(),
+                    },
+                  ])
+                }
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 8,
+                  width: responsiveWidth(widthPersentage(16)),
+                  height: responsiveHeight(heightPersentage(16)),
+                }}>
                 <Image
                   source={TrashIcon}
                   width="100%"
@@ -116,7 +150,7 @@ function MySingingCardComponent(props) {
                   resizeMode={'contain'}
                   alt={' '}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </HStack>
 
             <Text

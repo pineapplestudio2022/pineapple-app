@@ -395,6 +395,7 @@ const Register = props => {
                 defaultValue={job}
                 name="jobGroup"
                 alignItems={'center'}
+                accessibilityLabel={'pick a job'}
                 onChange={setJob}
                 style={{marginBottom: 20}}>
                 <VStack

@@ -11,6 +11,7 @@ import {UserDispatch} from '../../Commons/UserDispatchProvider';
 function MyChallengeSinging(props) {
   const [myChallengeList, setMyChallengeList] = useState();
   const {userId} = useContext(UserDispatch);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const getMyChallengeSongs = () => {
@@ -21,6 +22,7 @@ function MyChallengeSinging(props) {
           if (data.IBcode === '1000') {
             setMyChallengeList(data.IBparams.rows);
           }
+          setRefresh(false);
         })
         .catch(error => {
           console.log(error);
@@ -30,7 +32,7 @@ function MyChallengeSinging(props) {
     return () => {
       console.log('unmount');
     };
-  }, [userId]);
+  }, [userId, refresh]);
 
   return (
     <Box flex={1}>
@@ -55,6 +57,7 @@ function MyChallengeSinging(props) {
                 title={item.title}
                 genre={item.genre}
                 detail={item.detail}
+                setRefresh={setRefresh}
               />
             </Box>
           )}
