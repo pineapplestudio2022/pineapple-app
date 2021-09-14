@@ -26,7 +26,6 @@ import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
-import {Alert} from 'react-native';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
 const FindAccountOne = props => {
   const [phoneNum, setPhoneNum] = useState(); //핸드폰번호

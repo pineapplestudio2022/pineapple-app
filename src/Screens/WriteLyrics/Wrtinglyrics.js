@@ -9,7 +9,6 @@ import {
   TextArea,
   ScrollView,
   Input,
-  Pressable,
   Center,
 } from 'native-base';
 import {

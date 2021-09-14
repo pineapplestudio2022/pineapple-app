@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ZEPLIN_DEVICE_WIDTH = 390;
 const ZEPLIN_DEVICE_HEIGHT = 843;
 

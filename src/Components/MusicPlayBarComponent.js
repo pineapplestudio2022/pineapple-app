@@ -12,7 +12,6 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-import PulseIcon from '../Assets/Image/icon_musicplayer_pulse.png';
 import SkipBackIcon from '../Assets/Image/icon_musicplayer_skip_back.png';
 import SkipForwordIcon from '../Assets/Image/icon_musicplayer_skip_forword.png';
 import RewindLeftIcon from '../Assets/Image/icon_musicplayer_rewind_left.png';

@@ -44,7 +44,7 @@ import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import {defaultAlertMessage} from '../Commons/CommonUtil';
 
 function MusicPlayer(props) {
-  const {userId, dispatch} = useContext(UserDispatch);
+  const {userId} = useContext(UserDispatch);
   const scrollEnd = useRef(); //scrollview
 
   const [replyList, setReplyList] = useState(); //댓글 리스트

@@ -19,7 +19,7 @@ export const emailRegex = email => {
 };
 
 export const YouTubeAPIKey = () => {
-  return 'AIzaSyBHW-5vq9n_z0bvS3CsV3wDotDTZUpXxbY';
+  return 'AIzaSyBiuFMJXY3vEGRrkZ00XupTLQeuY7BkyLA';
 };
 
 export const defaultAlertMessage = msg => {
