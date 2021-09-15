@@ -112,6 +112,7 @@ function MusicRacking(props) {
       <SlidingUpPanel
         ref={musicPanel}
         allowDragging={scroll}
+        friction={0.4}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
           bottom: responsiveHeight(heightPersentage(157)),

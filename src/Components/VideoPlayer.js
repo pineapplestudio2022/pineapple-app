@@ -6,7 +6,6 @@ import {
   HStack,
   Image,
   Input,
-  Pressable,
   ScrollView,
   Text,
   VStack,
@@ -33,7 +32,7 @@ import ArrowDownIcon from '../Assets/Image/icon_musicplayer_arrow_down.png';
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
-import {defaultAlertMessage, YouTubeAPIKey} from '../Commons/CommonUtil';
+import {defaultAlertMessage} from '../Commons/CommonUtil';
 import YouTube from 'react-native-youtube';
 
 function VideoPlayer(props) {
@@ -45,7 +44,6 @@ function VideoPlayer(props) {
 
   const [title, setTitle] = useState(''); //영상 제목
   const [participant, setParticipant] = useState(''); //소유자
-  const [shareLink, setShareLink] = useState(''); //youtube 링크
 
   const [cheeringCount, setCheeringCount] = useState(0); //응원해요
   const [cheeringEnalbe, setCheeringEnable] = useState(false); //응원해요 버튼 활성화
@@ -64,7 +62,6 @@ function VideoPlayer(props) {
     const getReply = async () => {
       const payload = {
         challengeId: props.id.toString(),
-        userId: userId.toString(),
       };
       await APIKit.post('/challenge/getChallengeReply', payload)
         .then(({data}) => {
@@ -91,11 +88,6 @@ function VideoPlayer(props) {
           console.log(data);
           setTitle(data.IBparams.title);
           setParticipant(data.IBparams.participant);
-          setShareLink(
-            data.IBparams.shareLink.substring(
-              data.IBparams.shareLink.lastIndexOf('/') + 1,
-            ),
-          );
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
           setTogetherCount(data.IBparams.getTogether);
@@ -210,47 +202,47 @@ function VideoPlayer(props) {
             height: responsiveHeight(heightPersentage(214)),
           }}>
           <YouTube
-            videoId={shareLink.substring(shareLink.lastIndexOf('/') + 1)}
-            apiKey={YouTubeAPIKey}
+            videoId={props.shareLink.substring(
+              props.shareLink.lastIndexOf('/') + 1,
+            )}
+            apiKey={'AIzaSyBiuFMJXY3vEGRrkZ00XupTLQeuY7BkyLA'}
             play={false}
             fullscreen={false}
             loop={false}
-            controls={0}
             style={{width: '100%', height: '100%'}}
           />
         </Box>
-        <Box pl={3} py={1}>
-          <Pressable
-            position={'absolute'}
-            right={11}
-            top={1}
-            style={{
-              width: responsiveWidth(widthPersentage(24)),
-              height: responsiveHeight(heightPersentage(24)),
-            }}>
+        <HStack justifyContent={'space-between'} px={3}>
+          <VStack>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(28))}
+              color={'#1a1b1c'}
+              bold
+              w={'100%'}
+              noOfLines={1}>
+              {title}
+            </Text>
+            <Text
+              fontSize={responsiveFontSize(fontSizePersentage(20))}
+              color={'#858c92'}
+              w={'100%'}
+              noOfLines={1}>
+              {participant}
+            </Text>
+          </VStack>
+          <TouchableOpacity onPress={() => props.videoPanel()}>
             <Image
               source={ArrowDownIcon}
               alt={' '}
-              style={{width: '100%', height: '100%'}}
+              style={{
+                width: responsiveWidth(widthPersentage(24)),
+                height: responsiveHeight(heightPersentage(24)),
+              }}
               resizeMode={'contain'}
             />
-          </Pressable>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(28))}
-            color={'#1a1b1c'}
-            bold
-            w={'100%'}
-            noOfLines={1}>
-            {title}
-          </Text>
-          <Text
-            fontSize={responsiveFontSize(fontSizePersentage(20))}
-            color={'#858c92'}
-            w={'100%'}
-            noOfLines={1}>
-            {participant}
-          </Text>
-        </Box>
+          </TouchableOpacity>
+        </HStack>
+
         <Divider />
         {/* 응원해요, 찜, 함꼐해요 start */}
         <HStack justifyContent={'center'} space={10} mb={4}>

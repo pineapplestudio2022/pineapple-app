@@ -326,16 +326,18 @@ const Register = props => {
                   }
                   InputRightElement={
                     authBtn ? (
-                      <Gbutton
-                        wp={70}
-                        hp={24}
-                        fs={12}
-                        fw={800}
-                        rounded={4}
-                        text={'인증번호'}
-                        onPress={onAuthRequest}
-                        disable={authPhone}
-                      />
+                      <Box mr={2}>
+                        <Gbutton
+                          wp={70}
+                          hp={24}
+                          fs={12}
+                          fw={800}
+                          rounded={4}
+                          text={'인증번호'}
+                          onPress={onAuthRequest}
+                          disable={authPhone}
+                        />
+                      </Box>
                     ) : (
                       <></>
                     )
@@ -363,16 +365,18 @@ const Register = props => {
                   }
                   InputRightElement={
                     authCheckBtn ? (
-                      <Gbutton
-                        wp={70}
-                        hp={24}
-                        fs={12}
-                        fw={800}
-                        rounded={4}
-                        text={'확인'}
-                        onPress={onAuthCheck}
-                        disable={authPhone}
-                      />
+                      <Box mr={2}>
+                        <Gbutton
+                          wp={70}
+                          hp={24}
+                          fs={12}
+                          fw={800}
+                          rounded={4}
+                          text={'확인'}
+                          onPress={onAuthCheck}
+                          disable={authPhone}
+                        />
+                      </Box>
                     ) : (
                       <></>
                     )

@@ -12,8 +12,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SIGN_IN':
       return {
-        userId: action.userId.toString(),
-        email: action.email.toString(),
+        userId: action.userId,
+        email: action.email,
       };
     case 'SIGN_OUT':
       cleanClientToken();

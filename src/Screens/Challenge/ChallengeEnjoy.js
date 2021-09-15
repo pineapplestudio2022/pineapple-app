@@ -31,6 +31,8 @@ function ChallengeEnjoy(props) {
 
   const [currentMusicIndex, setCurrentMusicIndex] = useState(0); //현재 재생 중인 곡 index
 
+  const [shareLink, setShareLink] = useState('');
+
   //다음곡
   const handlerNextMusic = () => {
     if (currentMusicIndex + 1 === musicList.length) {
@@ -58,12 +60,17 @@ function ChallengeEnjoy(props) {
 
   const openVideoPlayer = index => {
     setId(videoList[index].id);
+    setShareLink(videoList[index].shareLink);
     setIsBottom(false);
     videoPanel.current.show();
   };
 
+  const HandlerVideoPanel = () => {
+    videoPanel.current.hide();
+    console.log('hide?');
+  };
+
   useEffect(() => {
-    console.log('api get');
     const propsId = props.route.params.id.toString();
     if (cType === 2) {
       setIsBottom(true);
@@ -89,7 +96,6 @@ function ChallengeEnjoy(props) {
               if (propsId === undefined || propsId === '' || propsId === null) {
                 return;
               }
-              console.log(`propsId:${propsId}`);
               setId(propsId);
               setIsBottom(false);
               musicPanel.current.show();
@@ -104,13 +110,11 @@ function ChallengeEnjoy(props) {
       setOffset(10);
       setMusicList();
       setVideoList();
-      console.log('api unmount');
     };
   }, [cType, props.route.params.id]);
 
   const handleLoadMore = async () => {
     const payload = {cType: cType.toString(), offset: offset.toString()};
-    console.log(payload);
     await APIKit.post('/challenge/getAllChallenges', payload)
       .then(({data}) => {
         if (cType === 1) {
@@ -235,7 +239,7 @@ function ChallengeEnjoy(props) {
               <Box m={3}>
                 <MusicBox
                   id={item.id}
-                  cover={1}
+                  cover={(index % 10) + 1}
                   music={item.title}
                   owner={item.participant}
                   onPress={() => openMusicPlayer(index)}
@@ -263,6 +267,7 @@ function ChallengeEnjoy(props) {
                 <VideoBox
                   id={item.id}
                   title={item.title}
+                  cover={(index % 10) + 1}
                   participant={item.participant}
                   onScroll={HandlerScroll}
                   onPress={() => openVideoPlayer(index)}
@@ -281,6 +286,7 @@ function ChallengeEnjoy(props) {
         <SlidingUpPanel
           ref={musicPanel}
           allowDragging={scroll}
+          friction={0.4}
           draggableRange={{
             top: responsiveHeight(heightPersentage(740)),
             bottom: responsiveHeight(heightPersentage(157)),
@@ -308,6 +314,7 @@ function ChallengeEnjoy(props) {
             top: responsiveHeight(heightPersentage(740)),
             bottom: responsiveHeight(heightPersentage(0)),
           }}
+          friction={0.4}
           onMomentumDragStart={() => setIsBottom(false)}
           onBottomReached={() => setIsBottom(true)}
           showBackdrop={false}>
@@ -317,6 +324,8 @@ function ChallengeEnjoy(props) {
             <VideoPlayer
               onScroll={HandlerScroll}
               id={id}
+              videoPanel={HandlerVideoPanel}
+              shareLink={shareLink}
               playerSize={isBottom ? false : true}
             />
           )}

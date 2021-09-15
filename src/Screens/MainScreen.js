@@ -17,20 +17,22 @@ function MainScreen(props) {
   useEffect(() => {
     console.log('api get');
 
-    const onSuccess = response => {
-      setMusicList(response.data.IBparams.rows);
-    };
-
     const onFailure = error => {
       console.log(error && error.response);
     };
 
     const getRankedChallenges = async () => {
       await APIKit.post('/challenge/getRankedChallenges')
-        .then(onSuccess)
+        .then(({data}) => {
+          if (data.IBcode === '1000') {
+            setMusicList(data.IBparams.rows);
+          }
+        })
         .catch(onFailure);
     };
+
     getRankedChallenges();
+
     return () => {
       console.log('api unmount');
     };
