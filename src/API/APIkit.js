@@ -2,10 +2,10 @@ import axios from 'axios';
 
 let APIKit = axios.create({
   // 로컬서버
-  baseURL: 'http://localhost:3000',
+  // baseURL: 'http://localhost:3000',
 
   // 개발서버
-  // baseURL: 'https://cupping2.shop',
+  baseURL: 'https://cupping2.shop',
 
   // 운영서버
   // baseURL: 'https://pineapplestudio.app',

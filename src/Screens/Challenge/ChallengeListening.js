@@ -46,8 +46,8 @@ function ChallengeListening(props) {
   const {userId, email} = useContext(UserDispatch);
 
   const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
-  const [duration, setDuration] = useState('00:00:00'); //트랙 길이
-  const [timeElapsed, setTimeElapsed] = useState('00:00:00'); //트랙 경과 시간
+  const [duration, setDuration] = useState('00:00'); //트랙 길이
+  const [timeElapsed, setTimeElapsed] = useState('00:00'); //트랙 경과 시간
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
   const [spinner, setSpinner] = useState(false); //로딩 중 표시
 
@@ -55,6 +55,7 @@ function ChallengeListening(props) {
   const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
   const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
   const [uploadFinish, setUploadFinish] = useState(false); //업로드 완료 유무
+
   const ARPlayer = useRef(AudioRecorderPlayer);
   const ARRecord = useRef(AudioRecorderPlayer);
 
@@ -67,9 +68,9 @@ function ChallengeListening(props) {
   const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer(); //재생
-    ARPlayer.current.setSubscriptionDuration(0.1);
+    ARPlayer.current.setSubscriptionDuration(1);
     ARRecord.current = new AudioRecorderPlayer(); //녹음
-    ARRecord.current.setSubscriptionDuration(0.1);
+    ARRecord.current.setSubscriptionDuration(1);
 
     const getOriginalSong = async () => {
       const payload = {id: props.route.params.id.toString()};
@@ -157,18 +158,21 @@ function ChallengeListening(props) {
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsAlreadyPlay(true);
-
       ARPlayer.current.addPlayBackListener(e => {
-        if (ARPlayer.current.mmssss(e.currentPosition) >= '00:15:00') {
+        if (
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)) >= '00:15'
+        ) {
           ARPlayer.current.stopPlayer();
           setIsAlreadyPlay(false);
         }
         let percentage = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
-        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
+        setTimeElapsed(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
         setPercent(percentage);
-        setDuration(ARPlayer.current.mmssss(e.duration));
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
 
         return;
       });
@@ -178,8 +182,8 @@ function ChallengeListening(props) {
   };
 
   const onStopPlay = async e => {
-    setTimeElapsed('00:00:00');
-    setDuration('00:00:00');
+    setTimeElapsed('00:00');
+    // setDuration('00:00');
     setPercent(0);
     ARPlayer.current.stopPlayer();
     ARPlayer.current.removePlayBackListener();
@@ -231,23 +235,31 @@ function ChallengeListening(props) {
       const volume = await ARPlayer.current.setVolume(1.0);
       console.log(`file: ${msg}`, `volume: ${volume}`);
 
-      ARPlayer.current.addPlayBackListener(e => {
-        let percentage = Math.round(
-          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
-        );
-        setTimeElapsed(ARPlayer.current.mmssss(e.currentPosition));
-        setPercent(percentage);
-        setDuration(ARPlayer.current.mmssss(e.duration));
-      });
-
       //녹음 시작
       setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
       console.log('recording file name : ' + uri);
-      ARRecord.current.addRecordBackListener();
       setStopRecordBtn(true);
 
+      //노래 재생 리스너
+      ARPlayer.current.addPlayBackListener(e => {
+        if (e.currentPosition >= e.duration) {
+          ARPlayer.current.stopPlayer();
+          ARRecord.current.stopRecorder();
+        }
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
+      });
+
+      //녹음 리스너
+      ARRecord.current.addRecordBackListener();
+
       console.log(`uri: ${uri}`);
-      console.log();
     } catch (error) {
       console.log(error);
     }
@@ -390,13 +402,7 @@ function ChallengeListening(props) {
 
     console.log('payload : ');
     console.log(payload);
-    // const {data: resData} = await APIKit.post(
-    //   '/challenge/updateMyChallengeSong',
-    //   payload,
-    //   {
-    //     headers: {'Content-Type': 'multipart/form-data'},
-    //   },
-    // );
+
     await APIKit.post('/challenge/updateMyChallengeSong', payload, {
       headers: {'Content-Type': 'multipart/form-data'},
     }).then(({data}) => {
@@ -404,39 +410,6 @@ function ChallengeListening(props) {
       setSpinner(false);
       setUploadFinish(true);
     });
-
-    // console.log(`
-    // resData:
-    // ${JSON.stringify(resData, null, 2)}`);
-
-    // RNFetchBlob.fetch(
-    //   'POST',
-    //   APIKit.defaults.baseURL + '/challenge/updateMyChallengeSong',
-    //   {
-    //     Authorization: `Bearer ${token}`,
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    //   [
-    //     {name: 'title', data: title},
-    //     {
-    //       name: 'fileName',
-    //       data: fileName,
-    //     },
-    //     {name: 'userId', data: userId},
-    //     {name: 'originSongId', data: originalWorkId},
-    //     {
-    //       name: 'fileContents',
-    //       data: RNFetchBlob.wrap(filepath + outputFile),
-    //       type: 'video/mp4',
-    //     },
-    //   ],
-    // )
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(JSON.stringify(err));
-    //   });
   };
   return (
     <Box flex={1}>
@@ -599,6 +572,7 @@ function ChallengeListening(props) {
                             fs={18}
                             fw={600}
                             rounded={8}
+                            disable={spinner}
                             imgName={'upload'}
                             text={'Upload'}
                             onPress={onFileUpload}
@@ -610,6 +584,7 @@ function ChallengeListening(props) {
                             fs={18}
                             fw={600}
                             rounded={8}
+                            disable={spinner}
                             imgName={stopRecordBtn ? 'pulse' : 'mic'}
                             onPress={
                               stopRecordBtn ? onStopRecord : onStartRecord
@@ -624,6 +599,7 @@ function ChallengeListening(props) {
                           fs={18}
                           fw={600}
                           rounded={8}
+                          disable={spinner}
                           imgName={isAlreadyPlay ? 'stop' : 'headphone'}
                           text={'15초 듣기'}
                           onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
@@ -663,8 +639,7 @@ function ChallengeListening(props) {
                 imgName={'x'}
                 text={'닫기'}
                 rounded={6}
-                // onPress={() => props.navigation.goBack()}
-                onPress={onFileUpload}
+                onPress={() => props.navigation.goBack()}
               />
               {uploadFinish ? (
                 <Gbutton

@@ -65,8 +65,8 @@ function MusicPlayer(props) {
   const [isPause, setIsPause] = useState(false); //일시정지 여부
   const [currentPositionSec, setCurrentPositionSec] = useState('0'); //트랙 재생 시간
   const [currentDurationSec, setCurrentDurationSec] = useState('0'); //트랙 길이
-  const [playTime, setPlayTime] = useState('00:00:00'); //트랙 재생 시간(시간)
-  const [duration, setDuration] = useState('00:00:00'); //트랙 길이(시간)
+  const [playTime, setPlayTime] = useState('00:00'); //트랙 재생 시간(시간)
+  const [duration, setDuration] = useState('00:00'); //트랙 길이(시간)
 
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
 
@@ -136,7 +136,7 @@ function MusicPlayer(props) {
 
     //플레이어 초기화
     ARPlayer.current = new AudioRecorderPlayer();
-    ARPlayer.current.setSubscriptionDuration(0.1);
+    ARPlayer.current.setSubscriptionDuration(1);
 
     return () => {
       console.log('api unmount');
@@ -147,8 +147,8 @@ function MusicPlayer(props) {
       ARPlayer.current.removeRecordBackListener();
       setCurrentPositionSec('0');
       setCurrentDurationSec('0');
-      setDuration('00:00:00');
-      setPlayTime('00:00:00');
+      setDuration('00:00');
+      setPlayTime('00:00');
       setPercent(0);
       setIsPlay(false);
       setIsPause(false);
@@ -212,16 +212,15 @@ function MusicPlayer(props) {
       console.log(`file: ${msg}`, `volume: ${volume}`);
       setIsPlay(true);
       ARPlayer.current.addPlayBackListener(e => {
-        if (e.currentPosition === e.duration) {
-          console.log('끝');
-        }
         let per = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
         setCurrentDurationSec(e.duration);
         setCurrentPositionSec(e.currentPosition);
-        setPlayTime(ARPlayer.current.mmssss(e.currentPosition));
-        setDuration(ARPlayer.current.mmssss(e.duration));
+        setPlayTime(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
         setPercent(per);
         return;
       });
@@ -288,7 +287,6 @@ function MusicPlayer(props) {
   const handleScrollEnd = () => {
     scrollEnd.current.scrollToEnd({animated: false});
   };
-  console.log(`props id : ${props.id}`);
   return (
     <Box
       style={{
@@ -302,11 +300,11 @@ function MusicPlayer(props) {
     >
       {props.playerSize ? (
         <Box flex={1} backgroundColor={'#fafafa'} borderRadius={16}>
-          <VStack alignItems={'center'} space={2}>
+          <VStack alignItems={'center'} space={1}>
             <Box
               style={{
-                width: responsiveWidth(widthPersentage(228)),
-                height: responsiveHeight(heightPersentage(228)),
+                width: responsiveWidth(widthPersentage(200)),
+                height: responsiveHeight(heightPersentage(200)),
                 marginTop: responsiveHeight(heightPersentage(34)),
                 marginBottom: responsiveHeight(heightPersentage(14)),
               }}>
@@ -331,7 +329,7 @@ function MusicPlayer(props) {
               {participant}
             </Text>
           </VStack>
-          <Center>
+          <Center my={2}>
             <Box
               style={{
                 width: responsiveWidth(widthPersentage(320)),
