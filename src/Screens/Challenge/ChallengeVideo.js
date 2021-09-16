@@ -56,6 +56,7 @@ export default function ChallengeVideo(props) {
   const addChallengeTicket = id => {
     if (userId === '' || userId === undefined || userId === null) {
       defaultAlertMessage('로그인 후 이용해 주세요');
+      return;
     }
     const payload = {userId: userId.toString(), cType: '2'};
     APIKit.post('challenge/addChallengeTicket', payload)

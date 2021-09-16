@@ -259,7 +259,7 @@ function ChallengeEnjoy(props) {
           <FlatList
             data={videoList}
             onEndReached={handleLoadMore}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.2}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
