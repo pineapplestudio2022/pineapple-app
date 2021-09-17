@@ -25,131 +25,120 @@ import CheckgreenIcon from '../Assets/Image/challenge/icon_challenge_check_green
 import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_green.png';
 import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
 import HomeIcon from '../Assets/Image/challenge/icon_challenge_home_white.png';
-class Gbutton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bgColor: '#0fefbd',
-      bwidth: 0,
-      textColor: '#fafafa',
-      imgrvs: false,
-    };
-  }
+import {useState} from 'react';
 
-  render() {
-    const getImage = name => {
-      switch (name) {
-        case 'headphone':
-          return HeadPhoneWhiteIcon;
-        case 'headphone-reverse':
-          return HeadPhoneGreenIcon;
-        case 'mic':
-        case 'mic-reverse':
-          return MicIcon;
-        case 'x':
-          return XIcon;
-        case 'x-reverse':
-          return XgreenIcon;
-        case 'check':
-          return CheckIcon;
-        case 'check-reverse':
-          return CheckgreenIcon;
-        case 'pulse':
-          return PulseWhiteIcon;
-        case 'pulse-reverse':
-          return PulseGreenIcon;
-        case 'stop':
-          return StopWhiteIcon;
-        case 'stop-reverse':
-          return StopGreenIcon;
-        case 'upload':
-          return UploadWhiteIcon;
-        case 'upload-reverse':
-          return UploadGreenIcon;
-        case 'home':
-        case 'home-reverse':
-          return HomeIcon;
-        default:
-          return undefined;
+const Gbutton = props => {
+  const [bgColor, setBgColor] = useState('#0fefbd');
+  const [bwidth, setBwidth] = useState(0);
+  const [textColor, setTextColor] = useState('#fafafa');
+  const [imgrvs, setImgrvs] = useState(false);
+  const getImage = name => {
+    switch (name) {
+      case 'headphone':
+        return HeadPhoneWhiteIcon;
+      case 'headphone-reverse':
+        return HeadPhoneGreenIcon;
+      case 'mic':
+      case 'mic-reverse':
+        return MicIcon;
+      case 'x':
+        return XIcon;
+      case 'x-reverse':
+        return XgreenIcon;
+      case 'check':
+        return CheckIcon;
+      case 'check-reverse':
+        return CheckgreenIcon;
+      case 'pulse':
+        return PulseWhiteIcon;
+      case 'pulse-reverse':
+        return PulseGreenIcon;
+      case 'stop':
+        return StopWhiteIcon;
+      case 'stop-reverse':
+        return StopGreenIcon;
+      case 'upload':
+        return UploadWhiteIcon;
+      case 'upload-reverse':
+        return UploadGreenIcon;
+      case 'home':
+      case 'home-reverse':
+        return HomeIcon;
+      default:
+        return undefined;
+    }
+  };
+  const pressIn = () => {
+    setBgColor('#ffffff');
+    setBwidth(2);
+    setTextColor('#0fefbd');
+    setImgrvs(true);
+  };
+  const pressOut = () => {
+    setBgColor('#0fefbd');
+    setBwidth(0);
+    setTextColor('#fafafa');
+    setImgrvs(false);
+  };
+  return (
+    <Pressable
+      onPress={
+        props.disable
+          ? props.onPressActive
+            ? props.onPress
+            : () => {}
+          : props.onPress
       }
-    };
-    const pressIn = () => {
-      this.setState({
-        bgColor: '#ffffff',
-        bwidth: 2,
-        textColor: '#0fefbd',
-        imgrvs: true,
-      });
-    };
-    const pressOut = () => {
-      this.setState({
-        bgColor: '#0fefbd',
-        bwidth: 0,
-        textColor: '#fafafa',
-        imgrvs: false,
-      });
-    };
-    return (
-      <Pressable
-        onPress={
-          this.props.disable
-            ? this.props.onPressActive
-              ? this.props.onPress
-              : () => {}
-            : this.props.onPress
-        }
-        onPressIn={this.props.disable ? () => {} : pressIn}
-        onPressOut={this.props.disable ? () => {} : pressOut}
-        style={{
-          width: responsiveWidth(widthPersentage(this.props.wp)),
-          height: responsiveHeight(heightPersentage(this.props.hp)),
-          backgroundColor: this.props.disable ? '#a5a8ae' : this.state.bgColor,
-          borderWidth: this.state.bwidth,
-          borderRadius: this.props.rounded,
-          borderColor: '#0fefbd',
-          shadowColor: '#00000033',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowRadius: 4,
-          shadowOpacity: 1,
-        }}>
-        <Box>
-          <Center h={'100%'}>
-            {this.props.imgName ? (
-              <Image
-                source={
-                  this.state.imgrvs
-                    ? getImage(this.props.imgName + '-reverse')
-                    : getImage(this.props.imgName)
-                }
-                style={{
-                  position: 'absolute',
-                  left: 10,
-                  height:
-                    responsiveHeight(heightPersentage(this.props.hp)) / 1.6,
-                }}
-                resizeMode={'contain'}
-                alt={' '}
-              />
-            ) : (
-              <></>
-            )}
-            <Text
-              fontWeight={this.props.fw}
+      onPressIn={props.disable ? () => {} : pressIn}
+      onPressOut={props.disable ? () => {} : pressOut}
+      style={{
+        width: responsiveWidth(widthPersentage(props.wp)),
+        height: responsiveHeight(heightPersentage(props.hp)),
+        backgroundColor: props.disable ? '#a5a8ae' : bgColor,
+        borderWidth: bwidth,
+        borderRadius: props.rounded,
+        borderColor: '#0fefbd',
+        shadowColor: '#00000033',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowRadius: 4,
+        shadowOpacity: 1,
+      }}>
+      <Box>
+        <Center h={'100%'}>
+          {props.imgName ? (
+            <Image
+              source={
+                imgrvs
+                  ? getImage(props.imgName + '-reverse')
+                  : getImage(props.imgName)
+              }
               style={{
-                color: this.state.textColor,
-                fontSize: responsiveFontSize(fontSizePersentage(this.props.fs)),
-              }}>
-              {this.props.text}
-            </Text>
-          </Center>
-        </Box>
-      </Pressable>
-    );
-  }
-}
+                position: 'absolute',
+                left: 10,
+                height: responsiveHeight(heightPersentage(props.hp)) / 1.6,
+              }}
+              resizeMode={'contain'}
+              alt={' '}
+            />
+          ) : (
+            <></>
+          )}
+          <Text
+            fontWeight={props.fw}
+            style={{
+              color: textColor,
+              fontSize: responsiveFontSize(fontSizePersentage(props.fs)),
+            }}>
+            {props.text}
+          </Text>
+        </Center>
+      </Box>
+    </Pressable>
+  );
+};
 
 Gbutton.defaultProps = {
   fs: 20, //font size

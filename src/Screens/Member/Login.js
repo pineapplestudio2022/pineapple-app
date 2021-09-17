@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 
 import {
   responsiveFontSize,
@@ -21,6 +21,7 @@ import {TouchableOpacity} from 'react-native';
 import APIKit, {setClientToken} from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Login = props => {
   const {dispatch} = useContext(UserDispatch);
@@ -68,7 +69,11 @@ const Login = props => {
         navigation={props.navigation}
         notGB
       />
-      <ScrollView>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}
+        enableAutomaticScroll={true}>
         <Box
           alignItems={'center'}
           style={{
@@ -187,7 +192,8 @@ const Login = props => {
             </Box>
           </Box>
         </Box>
-      </ScrollView>
+        {/* <Box h={250} /> */}
+      </KeyboardAwareScrollView>
     </Box>
   );
 };

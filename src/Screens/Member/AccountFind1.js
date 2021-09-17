@@ -52,14 +52,23 @@ const FindAccountOne = props => {
   //인증번호 유효성 체크
   const onAuthCheck = async () => {
     const payload = {authNo: authNum, phone: '+82' + phoneNum.substring(1)};
-    console.log(payload);
+    if (phoneNum === '') {
+      defaultAlertMessage('전화번호를 입력해주세요.');
+      return;
+    }
+    if (authNum === '') {
+      defaultAlertMessage('인증번호를 입력해주세요.');
+      return;
+    }
     APIKit.post('/auth/submitAuthNo', payload)
-      .then(response => {
-        console.log(response.data);
-        if (response.data.IBcode === '1000') {
+      .then(({data}) => {
+        console.log(data);
+        if (data.IBcode === '1000') {
           defaultAlertMessage('인증되었습니다.');
           setAuthPhone(true);
           setNextBtn(true);
+        } else if (data.IBdetail) {
+          defaultAlertMessage(data.IBdetail);
         }
       })
       .catch(error => {
@@ -111,7 +120,7 @@ const FindAccountOne = props => {
             },
             shadowRadius: 4,
             shadowOpacity: 1,
-            marginTop: 70,
+            marginTop: responsiveWidth(widthPersentage(70)),
           }}>
           <Box
             style={{
@@ -159,7 +168,9 @@ const FindAccountOne = props => {
                   fontWeight={600}
                   color={'#1a1b1c'}
                   textAlign={'center'}
-                  style={{marginBottom: 70}}>
+                  style={{
+                    marginBottom: responsiveHeight(heightPersentage(50)),
+                  }}>
                   가입하신 연락처를 통해{'\n'}본인인증을 진행합니다.
                 </Text>
                 <Input
@@ -233,7 +244,8 @@ const FindAccountOne = props => {
                   }
                 />
               </VStack>
-              <Center style={{marginTop: 70}}>
+              <Center
+                style={{marginTop: responsiveHeight(heightPersentage(40))}}>
                 <Gbutton
                   wp={220}
                   hp={40}

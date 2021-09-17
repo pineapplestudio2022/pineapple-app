@@ -32,7 +32,7 @@ import AudioRecorderPlayer, {
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
 // import {BlurView} from '@react-native-community/blur';
-import {ImageBackground, PermissionsAndroid, Platform} from 'react-native';
+import {ImageBackground, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
@@ -40,7 +40,12 @@ import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import {
+  PERMISSIONS,
+  request,
+  requestMultiple,
+  RESULTS,
+} from 'react-native-permissions';
 
 function ChallengeListening(props) {
   const {userId, email} = useContext(UserDispatch);
@@ -66,6 +71,12 @@ function ChallengeListening(props) {
   const [filepath, setFilePath] = useState(''); //파일 저장 경로
   const [fileName, setFileName] = useState(''); //파일 이름
   const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
+
+  //권한 가져오기
+  useEffect(() => {
+    getPermission();
+  }, []);
+
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer(); //재생
     ARPlayer.current.setSubscriptionDuration(1);
@@ -149,7 +160,7 @@ function ChallengeListening(props) {
   //녹음파일 저장 경로
   const recordPath = Platform.select({
     ios: 'file://' + filepath + 'recording.m4a',
-    android: 'file://' + filepath + 'recording.mp4',
+    android: filepath + 'recording.mp4',
   });
 
   const onStartPlay = async () => {
@@ -192,35 +203,6 @@ function ChallengeListening(props) {
 
   //녹음 시작
   const onStartRecord = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const grants = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        ]);
-
-        console.log('write external stroage', grants);
-
-        if (
-          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.RECORD_AUDIO'] ===
-            PermissionsAndroid.RESULTS.GRANTED
-        ) {
-          console.log('permissions granted');
-        } else {
-          console.log('All required permissions not granted');
-          return;
-        }
-      } catch (err) {
-        console.warn(err);
-        return;
-      }
-    }
-
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -307,19 +289,48 @@ function ChallengeListening(props) {
       console.log(error);
     }
   };
-
-  //참여버튼
-  const handlerJoin = async () => {
-    if (userId === '' || userId === undefined || userId === null) {
-      defaultAlertMessage('로그인 후 참여가능합니다.');
-      return;
-    }
+  const getPermission = async () => {
     if (Platform.OS === 'ios') {
       const granted = await request(PERMISSIONS.IOS.MICROPHONE);
       if (granted !== RESULTS.GRANTED) {
         defaultAlertMessage('마이크 권한을 허용해주세요');
         return;
       }
+    }
+    if (Platform.OS === 'android') {
+      try {
+        const grants = await requestMultiple([
+          PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+          PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+          PERMISSIONS.ANDROID.RECORD_AUDIO,
+        ]);
+
+        console.log('write external stroage', grants);
+
+        if (
+          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+            RESULTS.GRANTED &&
+          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+            RESULTS.GRANTED &&
+          grants['android.permission.RECORD_AUDIO'] === RESULTS.GRANTED
+        ) {
+          console.log('permissions granted');
+        } else {
+          console.log('All required permissions not granted');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+  };
+
+  //참여버튼
+  const handlerJoin = async () => {
+    if (userId === '' || userId === undefined || userId === null) {
+      defaultAlertMessage('로그인 후 참여가능합니다.');
+      return;
     }
     setRecordBtn(true);
     onStopPlay();
@@ -461,137 +472,112 @@ function ChallengeListening(props) {
               shadowOpacity: 1,
             }}>
             <Box borderRadius={20} overflow={'hidden'}>
-              <Box
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: '#f9f9f9',
-                }}
-                // blurType="light"
-                // blurAmount={12}
-                // reducedTransparencyFallbackColor="white"
-              >
-                <Center>
-                  <Box
-                    style={{
-                      width: responsiveWidth(widthPersentage(209)),
-                      height: responsiveHeight(heightPersentage(188)),
-                    }}
-                    rounded={8}
-                    overflow={'hidden'}
-                    mt={5}>
-                    <ImageBackground
-                      source={DumpImg}
-                      resizeMode="center"
-                      alt={' '}
-                      style={{width: '100%', height: '100%'}}>
-                      {spinner ? (
-                        <Center h={'100%'}>
-                          <Spinner color="white" />
-                        </Center>
-                      ) : (
-                        <></>
-                      )}
-                      {recordBtn ? (
-                        <Box
+              <Center w={'100%'} h={'100%'} backgroundColor={'#f9f9f9'}>
+                <Box
+                  style={{
+                    width: responsiveWidth(widthPersentage(209)),
+                    height: responsiveHeight(heightPersentage(188)),
+                  }}
+                  rounded={8}
+                  overflow={'hidden'}
+                  mt={5}>
+                  <ImageBackground
+                    source={DumpImg}
+                    resizeMode="cover"
+                    alt={' '}
+                    style={{width: '100%', height: '100%'}}>
+                    {spinner ? (
+                      <Center h={'100%'}>
+                        <Spinner color="white" />
+                      </Center>
+                    ) : (
+                      <></>
+                    )}
+                    {recordBtn ? (
+                      <Box
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                        }}
+                        // blurType="light"
+                        // blurAmount={2}
+                        // reducedTransparencyFallbackColor="white"
+                      >
+                        <LinearGradient
+                          start={{x: 0, y: 0}}
+                          end={{x: 1, y: 0}}
+                          colors={['#0fefbd4c', '#f9fbce4c']}
                           style={{
                             width: '100%',
                             height: '100%',
-                          }}
-                          // blurType="light"
-                          // blurAmount={2}
-                          // reducedTransparencyFallbackColor="white"
-                        >
-                          <LinearGradient
-                            start={{x: 0, y: 0}}
-                            end={{x: 1, y: 0}}
-                            colors={['#0fefbd4c', '#f9fbce4c']}
+                            backgroundColor: 'transparent',
+                          }}>
+                          <Slider
                             style={{
-                              width: '100%',
-                              height: '100%',
-                              backgroundColor: 'transparent',
-                            }}>
-                            <Slider
-                              style={{
-                                position: 'absolute',
-                                bottom: '-5%',
-                              }}
-                              defaultValue={0}
-                              value={percent}>
-                              <Slider.Track bg={'#a5a8ae'}>
-                                <Slider.FilledTrack bg={'#0fefbd'} />
-                              </Slider.Track>
-                            </Slider>
-                          </LinearGradient>
-                        </Box>
-                      ) : (
-                        <></>
-                      )}
-                    </ImageBackground>
-                  </Box>
-                  <HStack
-                    style={{
-                      width: responsiveWidth(widthPersentage(209)),
-                      justifyContent: 'space-between',
-                    }}>
+                              position: 'absolute',
+                              bottom: '-5%',
+                            }}
+                            defaultValue={0}
+                            value={percent}>
+                            <Slider.Track bg={'#a5a8ae'}>
+                              <Slider.FilledTrack bg={'#0fefbd'} />
+                            </Slider.Track>
+                          </Slider>
+                        </LinearGradient>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                  </ImageBackground>
+                </Box>
+                <HStack
+                  style={{
+                    width: responsiveWidth(widthPersentage(209)),
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(12))}
+                    fontWeight={500}
+                    color={'#0fefbd'}>
+                    {timeElapsed}
+                  </Text>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(12))}
+                    fontWeight={500}
+                    color={'#0fefbd'}>
+                    {duration}
+                  </Text>
+                </HStack>
+                {uploadFinish ? (
+                  <VStack w="100%" alignItems={'center'} mt={5} space={5}>
                     <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(12))}
-                      fontWeight={500}
-                      color={'#0fefbd'}>
-                      {timeElapsed}
+                      fontSize={responsiveFontSize(fontSizePersentage(28))}
+                      color={'#000000'}
+                      bold>
+                      업로드가 완료 되었습니다.
                     </Text>
                     <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(12))}
-                      fontWeight={500}
-                      color={'#0fefbd'}>
-                      {duration}
+                      fontSize={responsiveFontSize(fontSizePersentage(20))}
+                      color={'#858c92'}
+                      bold>
+                      감사합니다
                     </Text>
-                  </HStack>
-                  {uploadFinish ? (
-                    <VStack w="100%" alignItems={'center'} mt={5} space={5}>
-                      <Text
-                        fontSize={responsiveFontSize(fontSizePersentage(28))}
-                        color={'#000000'}
-                        bold>
-                        업로드가 완료 되었습니다.
-                      </Text>
-                      <Text
-                        fontSize={responsiveFontSize(fontSizePersentage(20))}
-                        color={'#858c92'}
-                        bold>
-                        감사합니다
-                      </Text>
-                    </VStack>
-                  ) : (
-                    <>
-                      {recordBtn ? (
-                        uploadBtn ? (
-                          <Gbutton
-                            wp={220}
-                            hp={40}
-                            fs={18}
-                            fw={600}
-                            rounded={8}
-                            disable={spinner}
-                            imgName={'upload'}
-                            text={'Upload'}
-                            onPress={onFileUpload}
-                          />
-                        ) : (
-                          <Gbutton
-                            wp={220}
-                            hp={40}
-                            fs={18}
-                            fw={600}
-                            rounded={8}
-                            disable={spinner}
-                            imgName={stopRecordBtn ? 'pulse' : 'mic'}
-                            onPress={
-                              stopRecordBtn ? onStopRecord : onStartRecord
-                            }
-                            text={'RECORD'}
-                          />
-                        )
+                  </VStack>
+                ) : (
+                  <Center>
+                    {recordBtn ? (
+                      uploadBtn ? (
+                        <Gbutton
+                          wp={220}
+                          hp={40}
+                          fs={18}
+                          fw={600}
+                          rounded={8}
+                          disable={spinner}
+                          imgName={'upload'}
+                          text={'Upload'}
+                          onPress={onFileUpload}
+                        />
                       ) : (
                         <Gbutton
                           wp={220}
@@ -600,72 +586,84 @@ function ChallengeListening(props) {
                           fw={600}
                           rounded={8}
                           disable={spinner}
-                          imgName={isAlreadyPlay ? 'stop' : 'headphone'}
-                          text={'15초 듣기'}
-                          onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
+                          imgName={stopRecordBtn ? 'pulse' : 'mic'}
+                          onPress={stopRecordBtn ? onStopRecord : onStartRecord}
+                          text={'RECORD'}
                         />
-                      )}
+                      )
+                    ) : (
+                      <Gbutton
+                        wp={220}
+                        hp={40}
+                        fs={18}
+                        fw={600}
+                        rounded={8}
+                        disable={spinner}
+                        imgName={isAlreadyPlay ? 'stop' : 'headphone'}
+                        text={'15초 듣기'}
+                        onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
+                      />
+                    )}
 
-                      <Box
-                        bg={'#fafafa80'}
-                        style={{
-                          width: responsiveWidth(widthPersentage(240)),
-                          height: responsiveHeight(heightPersentage(136)),
-                        }}
-                        my={2}
-                        rounded={16}>
-                        <TextArea
-                          h="100%"
-                          fontSize={responsiveFontSize(fontSizePersentage(13))}
-                          textAlign={'center'}
-                          borderWidth={0}
-                          editable={false}
-                          px={8}
-                          pt={2}>
-                          {lyrics}
-                        </TextArea>
-                      </Box>
-                    </>
-                  )}
-                </Center>
-              </Box>
+                    <Box
+                      bg={'#fafafa80'}
+                      style={{
+                        width: responsiveWidth(widthPersentage(240)),
+                        height: responsiveHeight(heightPersentage(136)),
+                      }}
+                      my={2}
+                      rounded={16}>
+                      <TextArea
+                        h="100%"
+                        fontSize={responsiveFontSize(fontSizePersentage(13))}
+                        textAlign={'center'}
+                        borderWidth={0}
+                        editable={false}
+                        px={8}
+                        pt={2}>
+                        {lyrics}
+                      </TextArea>
+                    </Box>
+                  </Center>
+                )}
+              </Center>
             </Box>
-            <HStack space={5} justifyContent={'space-around'} mt={4}>
+          </Box>
+          <HStack space={5} justifyContent={'space-around'} mt={4}>
+            <Gbutton
+              wp={120}
+              hp={40}
+              fs={13}
+              fw={800}
+              imgName={'x'}
+              text={'닫기'}
+              rounded={6}
+              onPress={() => props.navigation.goBack()}
+            />
+            {uploadFinish ? (
               <Gbutton
                 wp={120}
                 hp={40}
                 fs={13}
                 fw={800}
-                imgName={'x'}
-                text={'닫기'}
                 rounded={6}
-                onPress={() => props.navigation.goBack()}
+                imgName={'home'}
+                text={'HOME'}
+                onPress={() => props.navigation.navigate('MainScreen')}
               />
-              {uploadFinish ? (
-                <Gbutton
-                  wp={120}
-                  hp={40}
-                  fs={13}
-                  fw={800}
-                  rounded={6}
-                  imgName={'home'}
-                  text={'HOME'}
-                  onPress={() => props.navigation.navigate('MainScreen')}
-                />
-              ) : (
-                <Gbutton
-                  wp={120}
-                  hp={40}
-                  fs={13}
-                  fw={800}
-                  rounded={6}
-                  imgName={'check'}
-                  text={'참여'}
-                  onPress={handlerJoin}
-                />
-              )}
-            </HStack>
-          </Box>
+            ) : (
+              <Gbutton
+                wp={120}
+                hp={40}
+                fs={13}
+                fw={800}
+                rounded={6}
+                imgName={'check'}
+                text={'참여'}
+                onPress={handlerJoin}
+              />
+            )}
+          </HStack>
         </VStack>
       </Box>
     </Box>

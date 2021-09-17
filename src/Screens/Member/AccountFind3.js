@@ -54,14 +54,24 @@ const FindAccountThree = props => {
   //인증번호 유효성 체크
   const onAuthCheck = async () => {
     const payload = {authNo: authNum, phone: '+82' + phoneNum.substring(1)};
+    if (phoneNum === '') {
+      defaultAlertMessage('전화번호를 입력해주세요.');
+      return;
+    }
+    if (authNum === '') {
+      defaultAlertMessage('인증번호를 입력해주세요.');
+      return;
+    }
     console.log(payload);
     APIKit.post('/auth/submitAuthNo', payload)
-      .then(response => {
-        console.log(response.data);
-        if (response.data.IBcode === '1000') {
+      .then(({data}) => {
+        console.log(data);
+        if (data.IBcode === '1000') {
           defaultAlertMessage('인증되었습니다');
           setAuthPhone(true);
           setNextBtn(true);
+        } else if (data.IBdetail) {
+          defaultAlertMessage(data.IBdetail);
         }
       })
       .catch(error => {

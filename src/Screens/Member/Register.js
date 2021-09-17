@@ -35,6 +35,7 @@ import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
 import {Alert} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Register = props => {
   const [email, setEmail] = useState(''); //이메일 주소
@@ -193,7 +194,7 @@ const Register = props => {
         <Box
           style={{
             width: responsiveWidth(widthPersentage(358)),
-            height: responsiveHeight(heightPersentage(620)),
+            height: responsiveHeight(heightPersentage(700)),
             borderRadius: 20,
             overflow: 'hidden',
           }}>
@@ -207,7 +208,11 @@ const Register = props => {
             // blurAmount={20}
             // reducedTransparencyFallbackColor="white"
           >
-            <ScrollView>
+            <KeyboardAwareScrollView
+              enableOnAndroid={true}
+              scrollEnabled={true}
+              // resetScrollToCoords={{x: 0, y: 0}}
+            >
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 fontWeight={600}
@@ -510,7 +515,7 @@ const Register = props => {
                 )}
               </Center>
               <Box h={30} />
-            </ScrollView>
+            </KeyboardAwareScrollView>
           </Box>
         </Box>
       </Box>
