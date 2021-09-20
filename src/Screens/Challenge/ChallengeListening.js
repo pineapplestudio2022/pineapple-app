@@ -154,7 +154,7 @@ function ChallengeListening(props) {
   //재생파일 경로
   const playPath = Platform.select({
     ios: 'file://' + filepath + fileName,
-    android: 'file://' + filepath + fileName,
+    android: filepath + fileName,
   });
 
   //녹음파일 저장 경로
@@ -219,7 +219,7 @@ function ChallengeListening(props) {
 
       //녹음 시작
       setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
-      console.log('recording file name : ' + uri);
+      console.log('recording file name : ' + recordPath);
       setStopRecordBtn(true);
 
       //노래 재생 리스너
@@ -258,7 +258,6 @@ function ChallengeListening(props) {
       const outputFileName =
         fileName.substring(0, fileName.lastIndexOf('.')) +
         `_${new Date().getTime().toString()}.mp4`;
-
       // here's code start to audio mix.
       const options = [
         '-i',
@@ -405,15 +404,22 @@ function ChallengeListening(props) {
     payload.append('owner', email);
     payload.append('originalWorkId', originalWorkId);
     payload.append('mimeType', mimeType);
-    payload.append('fileContents', {
-      name: outputFile,
-      // type: 'video/mp4',
-      uri: `${filepath}${outputFile}`,
-    });
+    if (Platform.OS === 'android') {
+      payload.append('fileContents', {
+        name: outputFile,
+        type: 'video/mp4',
+        uri: `file://${filepath}${outputFile}`,
+      });
+    } else if (Platform.OS === 'ios') {
+      payload.append('fileContents', {
+        name: outputFile,
+        // type: 'video/mp4',
+        uri: `${filepath}${outputFile}`,
+      });
+    }
 
     console.log('payload : ');
     console.log(payload);
-
     await APIKit.post('/challenge/updateMyChallengeSong', payload, {
       headers: {'Content-Type': 'multipart/form-data'},
     }).then(({data}) => {
