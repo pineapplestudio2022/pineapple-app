@@ -210,7 +210,7 @@ function ChallengeListening(props) {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    console.log('audioSet', audioSet);
+    console.log('audioSet : ', audioSet);
     try {
       //음악 재생
       const msg = await ARPlayer.current.startPlayer(playPath);

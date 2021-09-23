@@ -2,7 +2,7 @@
 
 import React, {useContext, useEffect} from 'react';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
 // import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
@@ -219,7 +219,11 @@ const Drawer = createDrawerNavigator();
 const MainNavigation = props => {
   // 음성인식 권한 체크
   const checkRecord = async () => {
-    await request(PERMISSIONS.IOS.MICROPHONE);
+    if (Platform.OS === 'ios') {
+      await request(PERMISSIONS.IOS.MICROPHONE);
+    } else if (Platform.OS === 'android') {
+      await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
+    }
   };
   useEffect(() => {
     checkRecord();

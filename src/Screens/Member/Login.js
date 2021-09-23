@@ -10,7 +10,7 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
+import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 // import {BlurView} from '@react-native-community/blur';
 import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
@@ -27,6 +27,7 @@ const Login = props => {
   const {dispatch} = useContext(UserDispatch);
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const payload = {
     email: signInEmail.toString(),
@@ -34,8 +35,10 @@ const Login = props => {
   };
 
   const submit = async () => {
+    setLoading(true);
     await APIKit.post('/login/signIn', payload)
       .then(({data}) => {
+        setLoading(false);
         if (data.IBcode === '2001') {
           //db data 없음
           defaultAlertMessage('존재하지 않는 이메일입니다.');
@@ -56,7 +59,7 @@ const Login = props => {
         props.navigation.navigate('MainScreen');
       })
       .catch(error => {
-        defaultAlertMessage('아이디 또는 비밀번호가 맞지않습니다');
+        setLoading(false);
         console.log(error);
       });
   };
@@ -87,23 +90,20 @@ const Login = props => {
             shadowOpacity: 1,
           }}>
           <Box
+            backgroundColor={'#f9f9f9'}
             style={{
               width: responsiveWidth(widthPersentage(350)),
               height: responsiveHeight(heightPersentage(500)),
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <Box
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#f9f9f9',
-              }}
-              // blurType="xlight"
-              // blurAmount={20}
-              // reducedTransparencyFallbackColor="white"
-            >
+            <Box flex={1}>
               <VStack alignItems={'center'} space={6}>
+                {loading ? (
+                  <Spinner position={'absolute'} left={'44%'} top={'44%'} />
+                ) : (
+                  <></>
+                )}
                 <Image
                   source={CharacterIcon}
                   resizeMode={'contain'}
@@ -168,27 +168,27 @@ const Login = props => {
                   text={'LOG IN'}
                   onPress={submit}
                 />
+                <HStack justifyContent={'space-around'} mt={4} mx={10}>
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate('MemberScreen')}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={600}
+                      color={'#0fefbd'}>
+                      회원가입 →
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate('FindAccount1')}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(16))}
+                      fontWeight={600}
+                      color={'#0fefbd'}>
+                      계정찾기 →
+                    </Text>
+                  </TouchableOpacity>
+                </HStack>
               </VStack>
-              <HStack justifyContent={'space-around'} mt={4} mx={10}>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('MemberScreen')}>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(16))}
-                    fontWeight={600}
-                    color={'#0fefbd'}>
-                    회원가입 →
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate('FindAccount1')}>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(16))}
-                    fontWeight={600}
-                    color={'#0fefbd'}>
-                    계정찾기 →
-                  </Text>
-                </TouchableOpacity>
-              </HStack>
             </Box>
           </Box>
         </Box>

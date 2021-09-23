@@ -10,6 +10,7 @@ import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
 function MyChallengeSinging(props) {
   const [myChallengeList, setMyChallengeList] = useState();
+  // const [offset, setOffset] = useState(10);
   const {userId} = useContext(UserDispatch);
   const [refresh, setRefresh] = useState(false);
 
@@ -33,6 +34,18 @@ function MyChallengeSinging(props) {
       console.log('unmount');
     };
   }, [userId, refresh]);
+
+  // const handleLoadMore = async () => {
+  //   const payload = {userId: userId.toString()};
+  //   await APIKit.post('/challenge/getMyChallengeSongs', payload)
+  //     .then(({data}) => {
+  //       setMyChallengeList([...myChallengeList, ...data.IBparams.rows]);
+  //       setOffset(offset + 10);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <Box flex={1}>
