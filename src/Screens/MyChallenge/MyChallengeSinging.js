@@ -1,10 +1,9 @@
 // My Challenge > 노래챌린지 화면
 
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Box, Center, FlatList} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import MySingingCardComponent from '../../Components/MySingingCardComponent';
-import {useEffect} from 'react/cjs/react.development';
 import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 
