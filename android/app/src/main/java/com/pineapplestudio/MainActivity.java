@@ -1,4 +1,4 @@
-package com.pineapple;
+package com.pineapplestudio;
 
 import android.os.Bundle;
 
