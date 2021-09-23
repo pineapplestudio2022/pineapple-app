@@ -67,7 +67,6 @@ function ChallengeEnjoy(props) {
 
   const HandlerVideoPanel = () => {
     videoPanel.current.hide();
-    console.log('hide?');
   };
 
   useEffect(() => {
@@ -78,7 +77,9 @@ function ChallengeEnjoy(props) {
     }
 
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getAllChallenges = async () => {
@@ -125,7 +126,9 @@ function ChallengeEnjoy(props) {
         setOffset(offset + 10);
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

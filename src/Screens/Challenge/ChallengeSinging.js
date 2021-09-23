@@ -9,16 +9,22 @@ function Singing(props) {
   const [AISongList, setAISongList] = useState(); //AI 음원 리스트
 
   useEffect(() => {
-    console.log('api get');
+    if (__DEV__) {
+      console.log('api get');
+    }
 
     const onSuccess = response => {
-      console.log(response.data.IBparams);
+      if (__DEV__) {
+        console.log(response.data.IBparams);
+      }
       if (response.data.IBcode === '1000') {
         setAISongList(response.data.IBparams);
       }
     };
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getAllOriginalSong = () => {
@@ -29,7 +35,9 @@ function Singing(props) {
     getAllOriginalSong();
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, []);
 

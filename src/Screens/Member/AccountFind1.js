@@ -39,13 +39,19 @@ const FindAccountOne = props => {
     try {
       APIKit.post('/auth/getAuthNo', payload)
         .then(response => {
-          console.log(response.data);
+          if (__DEV__) {
+            console.log(response.data);
+          }
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     } catch (e) {
-      console.log(e);
+      if (__DEV__) {
+        console.log(e);
+      }
     }
   };
 
@@ -62,7 +68,9 @@ const FindAccountOne = props => {
     }
     APIKit.post('/auth/submitAuthNo', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         if (data.IBcode === '1000') {
           defaultAlertMessage('인증되었습니다.');
           setAuthPhone(true);
@@ -72,7 +80,9 @@ const FindAccountOne = props => {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 
@@ -83,7 +93,9 @@ const FindAccountOne = props => {
     };
     await APIKit.post('auth/findEmailId', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         if (data.IBcode === '2001') {
           defaultAlertMessage('가입정보가 없습니다.');
           return;
@@ -97,7 +109,9 @@ const FindAccountOne = props => {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

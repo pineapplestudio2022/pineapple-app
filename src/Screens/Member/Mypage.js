@@ -55,13 +55,17 @@ const Mypage = props => {
           }
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     };
 
     getAccountInfo();
     return () => {
-      console.log('unmount');
+      if (__DEV__) {
+        console.log('unmount');
+      }
     };
   }, [userId]);
 
@@ -72,14 +76,20 @@ const Mypage = props => {
       marketingPolicy: marketingPolicy.indexOf('3') === -1 ? '0' : '1',
       password: password,
     };
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     APIKit.post('/login/modifyAccountInfo', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         props.navigation.goBack();
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

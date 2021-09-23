@@ -56,7 +56,9 @@ function VideoPlayer(props) {
 
   useEffect(() => {
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getReply = async () => {
@@ -85,7 +87,9 @@ function VideoPlayer(props) {
 
       await APIKit.post('/challenge/getChallenge', payload)
         .then(({data}) => {
-          console.log(data);
+          if (__DEV__) {
+            console.log(data);
+          }
           setTitle(data.IBparams.title);
           setParticipant(data.IBparams.participant);
           setCheeringCount(data.IBparams.cheering);
@@ -104,7 +108,9 @@ function VideoPlayer(props) {
     }
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, [props.id, replyUpdateCheck, userId]);
 
@@ -127,7 +133,9 @@ function VideoPlayer(props) {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
   const authMessage = () => {
@@ -146,10 +154,14 @@ function VideoPlayer(props) {
       userId: userId.toString(),
       challengeId: props.id.toString(),
     };
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     await APIKit.post('/challenge/getChallenge', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         if (data.IBcode === '1000') {
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
@@ -161,7 +173,9 @@ function VideoPlayer(props) {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 
@@ -176,15 +190,21 @@ function VideoPlayer(props) {
       reply: comment.toString(),
       challengeId: props.id.toString(),
     };
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     await APIKit.post('/challenge/addChallengeReply', payload)
       .then(response => {
-        console.log(response);
+        if (__DEV__) {
+          console.log(response);
+        }
         setReplyUpdateCheck(true);
         setComment('');
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

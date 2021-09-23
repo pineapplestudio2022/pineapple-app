@@ -30,7 +30,9 @@ export const setClientToken = token => {
 
 export const cleanClientToken = () => {
   APIKit.interceptors.request.eject(tokenIntercepter);
-  console.log('인터셉터 해제');
+  if (__DEV__) {
+    console.log('인터셉터 해제');
+  }
 };
 
 export default APIKit;

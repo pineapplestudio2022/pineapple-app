@@ -38,7 +38,9 @@ function MyChallengeVideo(props) {
     getAllOriginalVideo();
 
     return () => {
-      console.log('unmount');
+      if (__DEV__) {
+        console.log('unmount');
+      }
     };
   }, []);
 
@@ -52,16 +54,22 @@ function MyChallengeVideo(props) {
 
     APIKit.post('challenge/updateMyChallengeVideo', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 
   const handlerValue = (text, id) => {
     setInputValue({originalWorkId: id, shareLink: text});
-    console.log(inputValue);
+    if (__DEV__) {
+      console.log(inputValue);
+    }
   };
   return (
     <Box flex={1}>

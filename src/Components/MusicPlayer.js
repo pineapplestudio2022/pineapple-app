@@ -74,7 +74,9 @@ function MusicPlayer(props) {
 
   useEffect(() => {
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getReply = async () => {
@@ -139,7 +141,9 @@ function MusicPlayer(props) {
     ARPlayer.current.setSubscriptionDuration(1);
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
       //재생, 녹음중 다른화면으로 나갈시 해제
       ARPlayer.current.stopPlayer();
       ARPlayer.current.removePlayBackListener();
@@ -174,7 +178,9 @@ function MusicPlayer(props) {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 
@@ -184,10 +190,14 @@ function MusicPlayer(props) {
       userId: userId.toString(),
       challengeId: props.id.toString(),
     };
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     await APIKit.post('/challenge/getChallenge', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         if (data.IBcode === '1000') {
           setCheeringCount(data.IBparams.cheering);
           setLikesCount(data.IBparams.likes);
@@ -199,7 +209,9 @@ function MusicPlayer(props) {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
   const onStartPlay = async () => {
@@ -209,7 +221,9 @@ function MusicPlayer(props) {
       // );
       const msg = await ARPlayer.current.startPlayer(musicUrl);
       const volume = await ARPlayer.current.setVolume(1.0);
-      console.log(`file: ${msg}`, `volume: ${volume}`);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
       setIsPlay(true);
       ARPlayer.current.addPlayBackListener(e => {
         let per = Math.round(
@@ -225,7 +239,9 @@ function MusicPlayer(props) {
         return;
       });
     } catch (error) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
     }
   };
 
@@ -275,11 +291,15 @@ function MusicPlayer(props) {
     };
     await APIKit.post('/challenge/AddChallengeReply', payload)
       .then(response => {
-        console.log(response);
+        if (__DEV__) {
+          console.log(response);
+        }
         setReplyUpdateCheck(true);
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

@@ -25,7 +25,9 @@ function Basic(props) {
     getLyricsList();
 
     return () => {
-      console.log('unmount');
+      if (__DEV__) {
+        console.log('unmount');
+      }
     };
   }, []);
 
@@ -37,21 +39,28 @@ function Basic(props) {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         ]);
 
-        console.log('write external stroage', grants);
-
+        if (__DEV__) {
+          console.log('write external stroage', grants);
+        }
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
             PermissionsAndroid.RESULTS.GRANTED &&
           grants['android.permission.READ_EXTERNAL_STORAGE'] ===
             PermissionsAndroid.RESULTS.GRANTED
         ) {
-          console.log('permissions granted');
+          if (__DEV__) {
+            console.log('permissions granted');
+          }
         } else {
-          console.log('All required permissions not granted');
+          if (__DEV__) {
+            console.log('All required permissions not granted');
+          }
           return;
         }
       } catch (err) {
-        console.warn(err);
+        if (__DEV__) {
+          console.warn(err);
+        }
         return;
       }
     }
@@ -66,10 +75,14 @@ function Basic(props) {
       RNFetchBlob.fs
         .mkdir(path)
         .then(res => {
-          console.log('App directory created..');
+          if (__DEV__) {
+            console.log('App directory created..');
+          }
         })
         .catch(err => {
-          console.log(err);
+          if (__DEV__) {
+            console.log(err);
+          }
         });
     }
     RNFetchBlob.fs.ls(path).then(files => {
@@ -90,7 +103,9 @@ function Basic(props) {
         return;
       }
       RNFetchBlob.fs.unlink(path).catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
     });
   };

@@ -43,14 +43,18 @@ export default function ChallengeVideo(props) {
           }
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     };
 
     getAllOriginalVideo();
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, []);
   const addChallengeTicket = id => {
@@ -64,7 +68,9 @@ export default function ChallengeVideo(props) {
         defaultAlertMessage('참여신청이 완료되었습니다');
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
   const openVideoPlayer = (url, titleName) => {

@@ -15,10 +15,14 @@ function MainScreen(props) {
   const {userId} = useContext(UserDispatch);
   //로그인, 로그아웃시에 api호출
   useEffect(() => {
-    console.log('api get');
+    if (__DEV__) {
+      console.log('api get');
+    }
 
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getRankedChallenges = async () => {
@@ -34,7 +38,9 @@ function MainScreen(props) {
     getRankedChallenges();
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, [userId]);
 

@@ -88,7 +88,9 @@ function ChallengeListening(props) {
 
       await APIKit.post('originalWorks/getOriginalSong', payload)
         .then(response => {
-          console.log(response);
+          if (__DEV__) {
+            console.log(response);
+          }
           setTitle(response.data.IBparams.rows[0].title);
           setLyrics(response.data.IBparams.rows[0].lyrics);
           setGenre(response.data.IBparams.rows[0].genre);
@@ -117,27 +119,39 @@ function ChallengeListening(props) {
                       .progress((received, total) => {
                         const percentage =
                           Math.floor((received / total) * 100) + '%';
-                        console.log(percentage);
+                        if (__DEV__) {
+                          console.log(percentage);
+                        }
                       })
                       .then(resp => {
                         setSpinner(false);
-                        console.log('The file saved to ', resp.path());
+                        if (__DEV__) {
+                          console.log('The file saved to ', resp.path());
+                        }
                       });
                   })
                   .catch(error => {
-                    console.log(error);
+                    if (__DEV__) {
+                      console.log(error);
+                    }
                   });
               }
               setFilePath(path);
               setFileName(filename);
-              console.log('setfilepath : ' + path + filename);
+              if (__DEV__) {
+                console.log('setfilepath : ' + path + filename);
+              }
             })
             .catch(error => {
-              console.log(error);
+              if (__DEV__) {
+                console.log(error);
+              }
             });
         })
         .catch(error => {
-          console.log(error && error.response);
+          if (__DEV__) {
+            console.log(error && error.response);
+          }
         });
     };
     getOriginalSong();
@@ -167,7 +181,9 @@ function ChallengeListening(props) {
     try {
       const msg = await ARPlayer.current.startPlayer(playPath);
       const volume = await ARPlayer.current.setVolume(1.0);
-      console.log(`file: ${msg}`, `volume: ${volume}`);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
       setIsAlreadyPlay(true);
       ARPlayer.current.addPlayBackListener(e => {
         if (
@@ -188,7 +204,9 @@ function ChallengeListening(props) {
         return;
       });
     } catch (error) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
     }
   };
 
@@ -210,16 +228,22 @@ function ChallengeListening(props) {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    console.log('audioSet : ', audioSet);
+    if (__DEV__) {
+      console.log('audioSet : ', audioSet);
+    }
     try {
       //음악 재생
       const msg = await ARPlayer.current.startPlayer(playPath);
       const volume = await ARPlayer.current.setVolume(1.0);
-      console.log(`file: ${msg}`, `volume: ${volume}`);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
 
       //녹음 시작
       setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
-      console.log('recording file name : ' + recordPath);
+      if (__DEV__) {
+        console.log('recording file name : ' + recordPath);
+      }
       setStopRecordBtn(true);
 
       //노래 재생 리스너
@@ -241,9 +265,13 @@ function ChallengeListening(props) {
       //녹음 리스너
       ARRecord.current.addRecordBackListener();
 
-      console.log(`uri: ${uri}`);
+      if (__DEV__) {
+        console.log(`uri: ${uri}`);
+      }
     } catch (error) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
     }
   };
 
@@ -272,20 +300,26 @@ function ChallengeListening(props) {
         // '-acodec',
         // 'libmp3lame',
       ];
-      console.log('[onStopRecord] handler is started');
-      console.log(`[input file 1]: ${uri}`);
-      console.log(`[input file 2]: ${filepath + fileName}`);
-      console.log(`[output file name] : ${outputFileName}`);
-      console.log(`[options]: ${options}`);
+      if (__DEV__) {
+        console.log('[onStopRecord] handler is started');
+        console.log(`[input file 1]: ${uri}`);
+        console.log(`[input file 2]: ${filepath + fileName}`);
+        console.log(`[output file name] : ${outputFileName}`);
+        console.log(`[options]: ${options}`);
+      }
 
       RNFFmpeg.executeWithArguments(options).then(result => {
-        console.log(`FFmpeg process exited with rc=${result}.`);
+        if (__DEV__) {
+          console.log(`FFmpeg process exited with rc=${result}.`);
+        }
         setUploadBtn(true);
         setOutputFile(outputFileName);
         setSpinner(false);
       });
     } catch (error) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
     }
   };
   const getPermission = async () => {
@@ -304,7 +338,9 @@ function ChallengeListening(props) {
           PERMISSIONS.ANDROID.RECORD_AUDIO,
         ]);
 
-        console.log('write external stroage', grants);
+        if (__DEV__) {
+          console.log('write external stroage', grants);
+        }
 
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
@@ -313,9 +349,13 @@ function ChallengeListening(props) {
             RESULTS.GRANTED &&
           grants['android.permission.RECORD_AUDIO'] === RESULTS.GRANTED
         ) {
-          console.log('permissions granted');
+          if (__DEV__) {
+            console.log('permissions granted');
+          }
         } else {
-          console.log('All required permissions not granted');
+          if (__DEV__) {
+            console.log('All required permissions not granted');
+          }
           return;
         }
       } catch (err) {
@@ -390,7 +430,9 @@ function ChallengeListening(props) {
   //업로드 버튼       //////////////수정중
   const onFileUpload = async () => {
     setSpinner(true);
-    console.log(`fileName : ${fileName}`);
+    if (__DEV__) {
+      console.log(`fileName : ${fileName}`);
+    }
     const originalWorkId = props.route.params.id;
     const mimeType = 'video/mp4';
 
@@ -418,12 +460,16 @@ function ChallengeListening(props) {
       });
     }
 
-    console.log('payload : ');
-    console.log(payload);
+    if (__DEV__) {
+      console.log('payload : ');
+      console.log(payload);
+    }
     await APIKit.post('/challenge/updateMyChallengeSong', payload, {
       headers: {'Content-Type': 'multipart/form-data'},
     }).then(({data}) => {
-      console.log(data);
+      if (__DEV__) {
+        console.log(data);
+      }
       setSpinner(false);
       setUploadFinish(true);
     });

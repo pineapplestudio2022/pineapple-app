@@ -41,13 +41,19 @@ const FindAccountThree = props => {
     try {
       APIKit.post('/auth/getAuthNo', payload)
         .then(response => {
-          console.log(response.data);
+          if (__DEV__) {
+            console.log(response.data);
+          }
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     } catch (e) {
-      console.log(e);
+      if (__DEV__) {
+        console.log(e);
+      }
     }
   };
 
@@ -62,10 +68,14 @@ const FindAccountThree = props => {
       defaultAlertMessage('인증번호를 입력해주세요.');
       return;
     }
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     APIKit.post('/auth/submitAuthNo', payload)
       .then(({data}) => {
-        console.log(data);
+        if (__DEV__) {
+          console.log(data);
+        }
         if (data.IBcode === '1000') {
           defaultAlertMessage('인증되었습니다');
           setAuthPhone(true);
@@ -75,7 +85,9 @@ const FindAccountThree = props => {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
   return (

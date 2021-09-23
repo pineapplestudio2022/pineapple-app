@@ -19,19 +19,25 @@ function MyChallengeSinging(props) {
       const payload = {userId: userId.toString()};
       APIKit.post('challenge/getMyChallengeSongs', payload)
         .then(({data}) => {
-          console.log(data);
+          if (__DEV__) {
+            console.log(data);
+          }
           if (data.IBcode === '1000') {
             setMyChallengeList(data.IBparams.rows);
           }
           setRefresh(false);
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     };
     getMyChallengeSongs();
     return () => {
-      console.log('unmount');
+      if (__DEV__) {
+        console.log('unmount');
+      }
     };
   }, [userId, refresh]);
 

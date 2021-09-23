@@ -64,7 +64,9 @@ function MySingingCardComponent(props) {
       userId: userId.toString(),
       challengeId: props.id.toString(),
     };
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     APIKit.post('challenge/deleteMyChallenge', payload)
       .then(({data}) => {
         if (data.IBcode === '1000') {
@@ -72,7 +74,9 @@ function MySingingCardComponent(props) {
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
   return (
@@ -90,15 +94,7 @@ function MySingingCardComponent(props) {
       backgroundColor={'#fafafa'}
       width={responsiveWidth(widthPersentage(320))}
       height={responsiveHeight(heightPersentage(104))}>
-      <Box
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-        // blurType="light"
-        // blurAmount={5}
-        // reducedTransparencyFallbackColor="white"
-      >
+      <Box>
         <HStack space={4}>
           <Box
             width={responsiveWidth(widthPersentage(95))}

@@ -60,7 +60,9 @@ const Login = props => {
       })
       .catch(error => {
         setLoading(false);
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

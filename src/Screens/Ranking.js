@@ -50,7 +50,9 @@ function MusicRacking(props) {
 
   useEffect(() => {
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getRankedChallenges = async () => {
@@ -72,7 +74,9 @@ function MusicRacking(props) {
 
     return () => {
       setMusicList();
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, [props.route.params.id]);
 

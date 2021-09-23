@@ -67,7 +67,9 @@ const Register = props => {
 
   const onSuccess = response => {
     // Set JSON Web Token on success
-    console.log(response);
+    if (__DEV__) {
+      console.log(response);
+    }
     if (response.data.IBcode === '1000') {
       Alert.alert('회원가입 완료', '로그인 화면으로 이동합니다', [
         {text: '확인', onPress: () => props.navigation.navigate('LoginScreen')},
@@ -75,11 +77,15 @@ const Register = props => {
     }
   };
   const onFailure = error => {
-    console.log(error && error.response);
+    if (__DEV__) {
+      console.log(error && error.response);
+    }
   };
   //회원가입 api 요청
   const submit = async () => {
-    console.log(payload);
+    if (__DEV__) {
+      console.log(payload);
+    }
     APIKit.post('/login/signup', payload).then(onSuccess).catch(onFailure);
   };
 
@@ -101,30 +107,42 @@ const Register = props => {
     try {
       APIKit.post('/auth/getAuthNo', payl)
         .then(response => {
-          console.log(response.data);
+          if (__DEV__) {
+            console.log(response.data);
+          }
         })
         .catch(error => {
-          console.log(error);
+          if (__DEV__) {
+            console.log(error);
+          }
         });
     } catch (e) {
-      console.log(e);
+      if (__DEV__) {
+        console.log(e);
+      }
     }
   };
 
   //인증번호 유효성 체크
   const onAuthCheck = async () => {
     const payl = {authNo: authNo, phone: '+82' + phoneNum.substring(1)};
-    console.log(payl);
+    if (__DEV__) {
+      console.log(payl);
+    }
     APIKit.post('/auth/submitAuthNo', payl)
       .then(response => {
-        console.log(response.data);
+        if (__DEV__) {
+          console.log(response.data);
+        }
         if (response.data.IBcode === '1000') {
           setAuthPhone(true);
           defaultAlertMessage('인증되었습니다.');
         }
       })
       .catch(error => {
-        console.log(error);
+        if (__DEV__) {
+          console.log(error);
+        }
       });
   };
 

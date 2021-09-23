@@ -46,8 +46,10 @@ function Wlyrics(props) {
       path = `${dirs}/lyrics/${filename}`;
     }
     RNFetchBlob.fs.writeFile(path, JSON.stringify(lyrics), 'utf8').then(() => {
-      console.log(`path: ${path}`);
-      console.log(JSON.stringify(lyrics));
+      if (__DEV__) {
+        console.log(`path: ${path}`);
+        console.log(JSON.stringify(lyrics));
+      }
       props.navigation.goBack();
     });
   };
@@ -67,7 +69,9 @@ function Wlyrics(props) {
         RNFetchBlob.fs.readFile(path, 'utf8').then(data => {
           const {title, content} = JSON.parse(data);
           setLyrics({title: title, content: content});
-          console.log(JSON.parse(data));
+          if (__DEV__) {
+            console.log(JSON.parse(data));
+          }
         });
       });
     };
@@ -75,7 +79,9 @@ function Wlyrics(props) {
     readFiletoLocal();
 
     return () => {
-      console.log('unmount');
+      if (__DEV__) {
+        console.log('unmount');
+      }
     };
   }, [props.route.params.filename]);
 

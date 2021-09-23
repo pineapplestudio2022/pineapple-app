@@ -68,13 +68,17 @@ const FindAccounFour = props => {
   };
 
   const onSuccess = response => {
-    console.log(response);
+    if (__DEV__) {
+      console.log(response);
+    }
     if (response.data.IBcode === '1000') {
       props.navigation.navigate('FindAccount5');
     }
   };
   const onFailure = error => {
-    console.log(error && error.response);
+    if (__DEV__) {
+      console.log(error && error.response);
+    }
   };
   const resetPassword = () => {
     APIKit.post('/login/resetPassword', payload)

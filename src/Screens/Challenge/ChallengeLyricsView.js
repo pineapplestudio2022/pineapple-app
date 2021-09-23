@@ -22,10 +22,14 @@ function LyricsView(props) {
   const [lyrics, setLyrics] = useState();
 
   useEffect(() => {
-    console.log('api get');
+    if (__DEV__) {
+      console.log('api get');
+    }
 
     const onFailure = error => {
-      console.log(error && error.response);
+      if (__DEV__) {
+        console.log(error && error.response);
+      }
     };
 
     const getOriginalSong = () => {
@@ -44,7 +48,9 @@ function LyricsView(props) {
     getOriginalSong();
 
     return () => {
-      console.log('api unmount');
+      if (__DEV__) {
+        console.log('api unmount');
+      }
     };
   }, [props.route.params.id]);
 
