@@ -38,71 +38,62 @@ const FindAccounFive = props => {
             marginTop: 70,
           }}>
           <Box
+            paddingBottom={10}
             style={{
               width: responsiveWidth(widthPersentage(350)),
               height: responsiveHeight(heightPersentage(440)),
               borderRadius: 20,
               overflow: 'hidden',
+              backgroundColor: '#f9f9f9',
             }}>
-            <Box
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#f9f9f9',
-              }}
-              // blurType="xlight"
-              // blurAmount={25}
-              // reducedTransparencyFallbackColor="white"
-            >
-              <VStack alignItems={'center'} space={3}>
-                <Box
-                  alignItems={'center'}
-                  style={{
-                    width: responsiveWidth(widthPersentage(104)),
-                    height: responsiveHeight(heightPersentage(24)),
-                    marginTop: 10,
-                    marginBottom: 22,
-                  }}>
-                  <HStack>
-                    {['1', '2', '3', '4', '5'].map((name, index) => (
-                      <Box
-                        key={name + index}
-                        style={{
-                          width: responsiveWidth(widthPersentage(10)),
-                          height: responsiveHeight(heightPersentage(10)),
-                          backgroundColor: index == 4 ? '#0fefbd' : '#0fefbd30',
-                          borderRadius: 5,
-                          margin: 4,
-                        }}
-                      />
-                    ))}
-                  </HStack>
-                </Box>
+            <VStack alignItems={'center'} space={3}>
+              <Box
+                alignItems={'center'}
+                style={{
+                  width: responsiveWidth(widthPersentage(104)),
+                  height: responsiveHeight(heightPersentage(24)),
+                  marginTop: 10,
+                  marginBottom: 22,
+                }}>
+                <HStack>
+                  {['1', '2', '3', '4', '5'].map((name, index) => (
+                    <Box
+                      key={name + index}
+                      style={{
+                        width: responsiveWidth(widthPersentage(10)),
+                        height: responsiveHeight(heightPersentage(10)),
+                        backgroundColor: index == 4 ? '#0fefbd' : '#0fefbd30',
+                        borderRadius: 5,
+                        margin: 4,
+                      }}
+                    />
+                  ))}
+                </HStack>
+              </Box>
 
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(28))}
-                  fontWeight={800}
-                  color={'#1a1b1c'}
-                  textAlign={'center'}
-                  style={{
-                    marginTop: responsiveHeight(heightPersentage(100)),
-                  }}>
-                  암호 변경이{'\n'}완료되었습니다.
-                </Text>
-              </VStack>
-              <Center mt={responsiveHeight(heightPersentage(125))}>
-                <Gbutton
-                  wp={220}
-                  hp={40}
-                  fs={18}
-                  fw={600}
-                  rounded={8}
-                  disable={false}
-                  text={'로그인'}
-                  onPress={() => props.navigation.navigate('Login')}
-                />
-              </Center>
-            </Box>
+              <Text
+                fontSize={responsiveFontSize(fontSizePersentage(28))}
+                fontWeight={800}
+                color={'#1a1b1c'}
+                textAlign={'center'}
+                style={{
+                  marginTop: responsiveHeight(heightPersentage(100)),
+                }}>
+                암호 변경이{'\n'}완료되었습니다.
+              </Text>
+            </VStack>
+            <Center mt={responsiveHeight(heightPersentage(125))}>
+              <Gbutton
+                wp={220}
+                hp={40}
+                fs={18}
+                fw={600}
+                rounded={8}
+                disable={false}
+                text={'로그인'}
+                onPress={() => props.navigation.navigate('Login')}
+              />
+            </Center>
           </Box>
         </Box>
       </ScrollView>

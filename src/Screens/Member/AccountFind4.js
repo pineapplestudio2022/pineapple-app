@@ -26,6 +26,7 @@ import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';
 import APIKit from '../../API/APIkit';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const FindAccounFour = props => {
   const {email} = props.route.params;
@@ -56,6 +57,9 @@ const FindAccounFour = props => {
       setAuthPW(false);
     } else if (value !== password) {
       setpMessage('비밀번호가 일치하지 않습니다.');
+      setAuthPW(false);
+    } else if (!passwordRegex(value)) {
+      setpMessage('영문,숫자,특수문자 1개 이상 포함');
       setAuthPW(false);
     } else {
       setpMessage('');
@@ -94,7 +98,11 @@ const FindAccounFour = props => {
         navigation={props.navigation}
         notGB
       />
-      <ScrollView>
+      <KeyboardAwareScrollView
+        enableOnAndroid={true}
+        scrollEnabled={true}
+        resetScrollToCoords={{x: 0, y: 0}}
+        enableAutomaticScroll={true}>
         <Box
           alignItems={'center'}
           style={{
@@ -108,122 +116,109 @@ const FindAccounFour = props => {
             marginTop: 70,
           }}>
           <Box
+            paddingBottom={10}
             style={{
               width: responsiveWidth(widthPersentage(350)),
-              height: responsiveHeight(heightPersentage(440)),
               borderRadius: 20,
               overflow: 'hidden',
+              backgroundColor: '#f9f9f9',
             }}>
-            <Box
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#f9f9f9',
-              }}
-              // blurType="xlight"
-              // blurAmount={25}
-              // reducedTransparencyFallbackColor="white"
-            >
-              <VStack alignItems={'center'} space={3}>
-                <Box
-                  alignItems={'center'}
-                  style={{
-                    width: responsiveWidth(widthPersentage(104)),
-                    height: responsiveHeight(heightPersentage(24)),
-                    marginTop: 10,
-                    marginBottom: 22,
-                  }}>
-                  <HStack>
-                    {['1', '2', '3', '4', '5'].map((name, index) => (
-                      <Box
-                        key={name + index}
-                        style={{
-                          width: responsiveWidth(widthPersentage(10)),
-                          height: responsiveHeight(heightPersentage(10)),
-                          backgroundColor: index == 3 ? '#0fefbd' : '#0fefbd30',
-                          borderRadius: 5,
-                          margin: 4,
-                        }}
-                      />
-                    ))}
-                  </HStack>
-                </Box>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(17))}
-                  fontWeight={600}
-                  color={'#1a1b1c'}
-                  textAlign={'center'}
-                  style={{marginBottom: 70}}>
-                  사용하실 암호를 입력해주세요
-                </Text>
-                <Input
-                  width={responsiveWidth(widthPersentage(300))}
-                  rounded={8}
-                  backgroundColor={'#fafafab3'}
-                  borderWidth={1}
-                  type={'password'}
-                  placeholder={'PW'}
-                  value={password}
-                  onChangeText={handlePassword}
-                  InputLeftElement={
-                    <Image
-                      alt={' '}
-                      source={KeyIcon}
-                      resizeMode={'contain'}
+            <VStack alignItems={'center'} space={3}>
+              <Box
+                alignItems={'center'}
+                style={{
+                  width: responsiveWidth(widthPersentage(104)),
+                  height: responsiveHeight(heightPersentage(24)),
+                  marginTop: 10,
+                  marginBottom: 22,
+                }}>
+                <HStack>
+                  {['1', '2', '3', '4', '5'].map((name, index) => (
+                    <Box
+                      key={name + index}
                       style={{
-                        width: responsiveWidth(widthPersentage(25)),
-                        marginLeft: 13,
+                        width: responsiveWidth(widthPersentage(10)),
+                        height: responsiveHeight(heightPersentage(10)),
+                        backgroundColor: index == 3 ? '#0fefbd' : '#0fefbd30',
+                        borderRadius: 5,
+                        margin: 4,
                       }}
                     />
-                  }
-                />
-                <Input
-                  width={responsiveWidth(widthPersentage(300))}
-                  rounded={8}
-                  backgroundColor={'#fafafab3'}
-                  borderWidth={1}
-                  type={'password'}
-                  placeholder={'PW check'}
-                  value={rePassword}
-                  onChangeText={handleRePassword}
-                  InputLeftElement={
-                    <Image
-                      alt={' '}
-                      source={KeyIcon}
-                      resizeMode={'contain'}
-                      style={{
-                        width: responsiveWidth(widthPersentage(25)),
-                        marginLeft: 13,
-                      }}
-                    />
-                  }
-                />
-                <Box h={responsiveHeight(heightPersentage(15))}>
-                  <Text
-                    h={'100%'}
-                    color={'#ff0000'}
-                    bold
-                    fontSize={responsiveFontSize(fontSizePersentage(14))}>
-                    {pMessage}
-                  </Text>
-                </Box>
-              </VStack>
-              <Center style={{marginTop: 64}}>
-                <Gbutton
-                  wp={220}
-                  hp={40}
-                  fs={18}
-                  fw={600}
-                  rounded={8}
-                  disable={!authPW}
-                  text={'완료'}
-                  onPress={resetPassword}
-                />
-              </Center>
-            </Box>
+                  ))}
+                </HStack>
+              </Box>
+              <Text
+                fontSize={responsiveFontSize(fontSizePersentage(17))}
+                fontWeight={600}
+                color={'#1a1b1c'}
+                textAlign={'center'}
+                style={{marginBottom: 70}}>
+                사용하실 암호를 입력해주세요
+              </Text>
+              <Input
+                width={responsiveWidth(widthPersentage(300))}
+                rounded={8}
+                backgroundColor={'#fafafab3'}
+                borderWidth={1}
+                type={'password'}
+                placeholder={'PW'}
+                value={password}
+                onChangeText={handlePassword}
+                InputLeftElement={
+                  <Image
+                    alt={' '}
+                    source={KeyIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(25)),
+                      marginLeft: 13,
+                    }}
+                  />
+                }
+              />
+              <Input
+                width={responsiveWidth(widthPersentage(300))}
+                rounded={8}
+                backgroundColor={'#fafafab3'}
+                borderWidth={1}
+                type={'password'}
+                placeholder={'PW check'}
+                value={rePassword}
+                onChangeText={handleRePassword}
+                InputLeftElement={
+                  <Image
+                    alt={' '}
+                    source={KeyIcon}
+                    resizeMode={'contain'}
+                    style={{
+                      width: responsiveWidth(widthPersentage(25)),
+                      marginLeft: 13,
+                    }}
+                  />
+                }
+              />
+              <Text
+                color={'#ff0000'}
+                bold
+                fontSize={responsiveFontSize(fontSizePersentage(14))}>
+                {pMessage}
+              </Text>
+            </VStack>
+            <Center style={{marginTop: 64}}>
+              <Gbutton
+                wp={220}
+                hp={40}
+                fs={18}
+                fw={600}
+                rounded={8}
+                disable={!authPW}
+                text={'완료'}
+                onPress={resetPassword}
+              />
+            </Center>
           </Box>
         </Box>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Box>
   );
 };

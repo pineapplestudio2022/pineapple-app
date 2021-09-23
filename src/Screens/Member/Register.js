@@ -49,6 +49,7 @@ const Register = props => {
 
   const [phoneNum, setPhoneNum] = useState(''); //핸드폰 번호
   const [authNo, setAuthNo] = useState(''); //인증번호
+  const [getAuthNum, setGetAuthNum] = useState(false); //인증번호 전송 체크
   const [job, setJob] = useState('0'); //default = 일반인
 
   const [authBtn, setAuthBtn] = useState(false); //인증번호 요청 버튼 활성화
@@ -103,6 +104,7 @@ const Register = props => {
   const onAuthRequest = async () => {
     //인증번호 확인 버튼 활성화
     setAuthCheckBtn(true);
+    setGetAuthNum(true);
     const payl = {phoneNo: '+82' + phoneNum.substring(1)};
     try {
       APIKit.post('/auth/getAuthNo', payl)
@@ -112,11 +114,13 @@ const Register = props => {
           }
         })
         .catch(error => {
+          setGetAuthNum(false);
           if (__DEV__) {
             console.log(error);
           }
         });
     } catch (e) {
+      setGetAuthNum(false);
       if (__DEV__) {
         console.log(e);
       }
@@ -184,6 +188,9 @@ const Register = props => {
     } else if (value !== password) {
       setpMessage('비밀번호가 일치하지 않습니다.');
       setAuthPW(false);
+    } else if (!passwordRegex(value)) {
+      setpMessage('영문,숫자,특수문자 1개 이상 포함');
+      setAuthPW(false);
     } else {
       setpMessage('');
       setAuthPW(true);
@@ -221,11 +228,7 @@ const Register = props => {
               width: '100%',
               height: '100%',
               backgroundColor: '#f9f9f9',
-            }}
-            // blurType="xlight"
-            // blurAmount={20}
-            // reducedTransparencyFallbackColor="white"
-          >
+            }}>
             <KeyboardAwareScrollView
               enableOnAndroid={true}
               scrollEnabled={true}
@@ -305,15 +308,12 @@ const Register = props => {
                     />
                   }
                 />
-                <Box h={responsiveHeight(heightPersentage(15))}>
-                  <Text
-                    h={'100%'}
-                    color={'#ff0000'}
-                    bold
-                    fontSize={responsiveFontSize(fontSizePersentage(14))}>
-                    {pMessage}
-                  </Text>
-                </Box>
+                <Text
+                  color={'#ff0000'}
+                  bold
+                  fontSize={responsiveFontSize(fontSizePersentage(14))}>
+                  {pMessage}
+                </Text>
               </VStack>
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
@@ -358,7 +358,7 @@ const Register = props => {
                           rounded={4}
                           text={'인증번호'}
                           onPress={onAuthRequest}
-                          disable={authPhone}
+                          disable={getAuthNum}
                         />
                       </Box>
                     ) : (

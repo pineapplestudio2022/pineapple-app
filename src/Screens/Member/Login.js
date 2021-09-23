@@ -95,11 +95,10 @@ const Login = props => {
             backgroundColor={'#f9f9f9'}
             style={{
               width: responsiveWidth(widthPersentage(350)),
-              height: responsiveHeight(heightPersentage(500)),
               borderRadius: 20,
               overflow: 'hidden',
             }}>
-            <Box flex={1}>
+            <Box flex={1} paddingBottom={10}>
               <VStack alignItems={'center'} space={6}>
                 {loading ? (
                   <Spinner position={'absolute'} left={'44%'} top={'44%'} />
@@ -170,7 +169,11 @@ const Login = props => {
                   text={'LOG IN'}
                   onPress={submit}
                 />
-                <HStack justifyContent={'space-around'} mt={4} mx={10}>
+                <HStack
+                  justifyContent={'space-around'}
+                  mt={4}
+                  mx={10}
+                  w={'80%'}>
                   <TouchableOpacity
                     onPress={() => props.navigation.navigate('MemberScreen')}>
                     <Text
