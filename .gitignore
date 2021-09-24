@@ -26,8 +26,10 @@ DerivedData
 build/
 .idea
 .gradle
+.hprof
 local.properties
 *.iml
+/android/release/
 
 # node.js
 #
@@ -62,3 +64,4 @@ buck-out/
 
 *.lock
 package-lock.json
+
