@@ -1,18 +1,8 @@
-//음악플레이어 큰화면
-// import {BlurView} from '@react-native-community/blur';
-import {
-  Box,
-  Center,
-  HStack,
-  Image,
-  Input,
-  ScrollView,
-  Slider,
-  Text,
-  VStack,
-} from 'native-base';
+//음악플레이어
+import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
 import {Pressable, TouchableOpacity} from 'react-native';
 import React, {useState, useContext, useEffect, useRef} from 'react';
+import Slider from '@react-native-community/slider';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -65,8 +55,6 @@ function MusicPlayer(props) {
   const [isPause, setIsPause] = useState(false); //일시정지 여부
   const [currentPositionSec, setCurrentPositionSec] = useState('0'); //트랙 재생 시간
   const [currentDurationSec, setCurrentDurationSec] = useState('0'); //트랙 길이
-  const [playTime, setPlayTime] = useState('00:00'); //트랙 재생 시간(시간)
-  const [duration, setDuration] = useState('00:00'); //트랙 길이(시간)
 
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
 
@@ -144,18 +132,7 @@ function MusicPlayer(props) {
       if (__DEV__) {
         console.log('api unmount');
       }
-      //재생, 녹음중 다른화면으로 나갈시 해제
-      ARPlayer.current.stopPlayer();
-      ARPlayer.current.removePlayBackListener();
-      ARPlayer.current.stopRecorder();
-      ARPlayer.current.removeRecordBackListener();
-      setCurrentPositionSec('0');
-      setCurrentDurationSec('0');
-      setDuration('00:00');
-      setPlayTime('00:00');
-      setPercent(0);
-      setIsPlay(false);
-      setIsPause(false);
+      onStopPlay();
     };
   }, [props.id, replyUpdateCheck, userId]);
 
@@ -214,28 +191,39 @@ function MusicPlayer(props) {
         }
       });
   };
+
+  const onStopPlay = async () => {
+    ARPlayer.current.stopPlayer();
+    ARPlayer.current.removePlayBackListener();
+    setCurrentPositionSec('0');
+    setCurrentDurationSec('0');
+    setPercent(0);
+    setIsPlay(false);
+    setIsPause(false);
+  };
+
   const onStartPlay = async () => {
     try {
-      // const msg = await ARPlayer.current.startPlayer(
-      //   'https://pineappleresources.s3.ap-northeast-2.amazonaws.com/works/music/music4.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAX4TL5GZU76DSEP7D%2F20210901%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20210901T073823Z&X-Amz-Expires=3600&X-Amz-Signature=df73a6940e7c3185d61c145b318bb491c8ce9b110dd65c3b116831ab1684e2cb&X-Amz-SignedHeaders=host&x-id=GetObject',
-      // );
+      setIsPlay(true);
       const msg = await ARPlayer.current.startPlayer(musicUrl);
       const volume = await ARPlayer.current.setVolume(1.0);
       if (__DEV__) {
         console.log(`file: ${msg}`, `volume: ${volume}`);
       }
-      setIsPlay(true);
       ARPlayer.current.addPlayBackListener(e => {
+        if (e.currentPosition === e.duration) {
+          onStopPlay();
+        }
+        let du = Math.floor(e.duration / 1000);
+        let cu = Math.floor(e.currentPosition / 1000);
         let per = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
         );
-        setCurrentDurationSec(e.duration);
-        setCurrentPositionSec(e.currentPosition);
-        setPlayTime(
-          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
-        );
-        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
-        setPercent(per);
+        if (du > 0 && cu > 0 && per > 0) {
+          setCurrentDurationSec(du);
+          setCurrentPositionSec(cu);
+          setPercent(per);
+        }
         return;
       });
     } catch (error) {
@@ -259,23 +247,29 @@ function MusicPlayer(props) {
 
   //앞으로(10초)
   const rewindRight = async () => {
-    const currentPosition = Math.round(currentPositionSec);
-    const addSecs = Math.round(currentPosition + 10000);
+    const currentPosition = currentPositionSec * 1000;
+    const addSecs = currentPosition + 10000;
     await ARPlayer.current.seekToPlayer(addSecs);
   };
 
   //뒤로(10초)
   const rewindLeft = async () => {
-    const currentPosition = Math.round(currentPositionSec);
-    const addSecs = Math.round(currentPosition - 10000);
+    const currentPosition = currentPositionSec * 1000;
+    const addSecs = currentPosition - 10000;
     await ARPlayer.current.seekToPlayer(addSecs);
   };
 
   //slider bar 직접 컨트롤
   const changeTime = async value => {
-    const currentDuration = Math.round(currentDurationSec);
+    const currentDuration = currentDurationSec * 1000;
     let seekTime = value * currentDuration * 0.01;
+    if (__DEV__) {
+      console.log(
+        `value: ${value} seekTime : ${seekTime}, currentduration: ${currentDuration}`,
+      );
+    }
     await ARPlayer.current.seekToPlayer(seekTime);
+    onStartPlay();
   };
 
   //댓글 입력
@@ -310,23 +304,25 @@ function MusicPlayer(props) {
   return (
     <Box
       style={{
-        height: '100%',
+        height: responsiveHeight(heightPersentage(740)),
         width: '100%',
         borderRadius: 16,
-      }}
-      // blurType="light"
-      // blurAmount={10}
-      // reducedTransparencyFallbackColor="white"
-    >
+        backgroundColor: '#fafafa',
+      }}>
       {props.playerSize ? (
-        <Box flex={1} backgroundColor={'#fafafa'} borderRadius={16}>
-          <VStack alignItems={'center'} space={1}>
+        <VStack
+          safeAreaBottom
+          flex={1}
+          alignItems={'center'}
+          borderRadius={16}
+          justifyContent={'space-around'}>
+          <Box alignItems={'center'}>
             <Box
               style={{
                 width: responsiveWidth(widthPersentage(200)),
                 height: responsiveHeight(heightPersentage(200)),
-                marginTop: responsiveHeight(heightPersentage(34)),
-                marginBottom: responsiveHeight(heightPersentage(14)),
+                marginTop: responsiveHeight(heightPersentage(20)),
+                marginBottom: responsiveHeight(heightPersentage(10)),
               }}>
               <Image
                 source={CdDumpImage}
@@ -348,234 +344,231 @@ function MusicPlayer(props) {
               color={'#858c92'}>
               {participant}
             </Text>
-          </VStack>
-          <Center my={2}>
             <Box
               style={{
                 width: responsiveWidth(widthPersentage(320)),
-                height: responsiveHeight(heightPersentage(80)),
-              }}
-              mb={1}>
+              }}>
+              <Slider
+                minimumValue={0}
+                maximumValue={100}
+                step={1}
+                value={percent}
+                thumbTintColor="#0fefbd"
+                minimumTrackTintColor="#0fefbd"
+                maximumTrackTintColor="#a5a8ae"
+                onSlidingStart={onPausePlay}
+                onSlidingComplete={value => {
+                  changeTime(value);
+                  onResumePlay();
+                }}
+                onTouchStart={() => props.onScroll(false)}
+                onTouchEnd={() => props.onScroll(true)}
+                onTouchCancel={() => props.onScroll(false)}
+              />
               <Box>
-                <Slider
-                  defaultValue={0}
-                  value={percent}
-                  onChange={value => {
-                    changeTime(value);
-                  }}
-                  onTouchStart={() => props.onScroll(false)}
-                  onTouchEnd={() => props.onScroll(true)}
-                  onTouchCancel={() => props.onScroll(false)}>
-                  <Slider.Track bg={'#a5a8ae'}>
-                    <Slider.FilledTrack bg={'#0fefbd'} />
-                  </Slider.Track>
-                  <Slider.Thumb bg={'#0fefbd'} />
-                </Slider>
-                <Box>
-                  <HStack justifyContent={'space-between'}>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(12))}
-                      fontWeight={500}
-                      color={'#0fefbd'}>
-                      {playTime}
-                    </Text>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(12))}
-                      fontWeight={500}
-                      color={'#0fefbd'}>
-                      {duration}
-                    </Text>
-                  </HStack>
-                </Box>
-                <HStack justifyContent={'space-around'} alignItems={'center'}>
-                  <TouchableOpacity
-                    onPress={
-                      props.onPreviousMusic
-                        ? () => props.onPreviousMusic()
-                        : () => {}
-                    }
-                    style={{
-                      width: responsiveWidth(widthPersentage(36)),
-                      height: responsiveHeight(heightPersentage(36)),
-                    }}>
-                    <Image
-                      source={SkipBackIcon}
-                      resizeMode={'contain'}
-                      style={{width: '100%', height: '100%'}}
-                      alt={' '}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      width: responsiveWidth(widthPersentage(36)),
-                      height: responsiveHeight(heightPersentage(36)),
-                    }}
-                    onPress={rewindLeft}>
-                    <Image
-                      source={RewindLeftIcon}
-                      resizeMode={'contain'}
-                      style={{width: '100%', height: '100%'}}
-                      alt={' '}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      width: responsiveWidth(widthPersentage(48)),
-                      height: responsiveHeight(heightPersentage(48)),
-                    }}
-                    onPress={
-                      isPlay
-                        ? isPause
-                          ? onResumePlay
-                          : onPausePlay
-                        : onStartPlay
-                    }>
-                    <Image
-                      source={
-                        isPlay ? (isPause ? PlayIcon : PulseIcon) : PlayIcon
-                      }
-                      resizeMode={'contain'}
-                      alt={' '}
-                      w={'100%'}
-                      h={'100%'}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      width: responsiveWidth(widthPersentage(36)),
-                      height: responsiveHeight(heightPersentage(36)),
-                    }}
-                    onPress={rewindRight}>
-                    <Image
-                      source={RewindRightIcon}
-                      resizeMode={'contain'}
-                      alt={' '}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={
-                      props.onNextMusic ? () => props.onNextMusic() : () => {}
-                    }
-                    style={{
-                      width: responsiveWidth(widthPersentage(36)),
-                      height: responsiveHeight(heightPersentage(36)),
-                    }}>
-                    <Image
-                      source={SkipForwordIcon}
-                      resizeMode={'contain'}
-                      alt={' '}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  </TouchableOpacity>
+                <HStack justifyContent={'space-between'}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(12))}
+                    fontWeight={500}
+                    color={'#0fefbd'}>
+                    {ARPlayer.current.mmss(currentPositionSec)}
+                  </Text>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(12))}
+                    fontWeight={500}
+                    color={'#0fefbd'}>
+                    {ARPlayer.current.mmss(currentDurationSec)}
+                  </Text>
                 </HStack>
               </Box>
+              <HStack justifyContent={'space-around'} alignItems={'center'}>
+                <TouchableOpacity
+                  onPress={
+                    props.onPreviousMusic
+                      ? () => props.onPreviousMusic()
+                      : () => {}
+                  }
+                  style={{
+                    width: responsiveWidth(widthPersentage(36)),
+                    height: responsiveHeight(heightPersentage(36)),
+                  }}>
+                  <Image
+                    source={SkipBackIcon}
+                    resizeMode={'contain'}
+                    style={{width: '100%', height: '100%'}}
+                    alt={' '}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: responsiveWidth(widthPersentage(36)),
+                    height: responsiveHeight(heightPersentage(36)),
+                  }}
+                  onPress={rewindLeft}>
+                  <Image
+                    source={RewindLeftIcon}
+                    resizeMode={'contain'}
+                    style={{width: '100%', height: '100%'}}
+                    alt={' '}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: responsiveWidth(widthPersentage(48)),
+                    height: responsiveHeight(heightPersentage(48)),
+                  }}
+                  onPress={
+                    isPlay
+                      ? isPause
+                        ? onResumePlay
+                        : onPausePlay
+                      : onStartPlay
+                  }>
+                  <Image
+                    source={
+                      isPlay ? (isPause ? PlayIcon : PulseIcon) : PlayIcon
+                    }
+                    resizeMode={'contain'}
+                    alt={' '}
+                    w={'100%'}
+                    h={'100%'}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    width: responsiveWidth(widthPersentage(36)),
+                    height: responsiveHeight(heightPersentage(36)),
+                  }}
+                  onPress={rewindRight}>
+                  <Image
+                    source={RewindRightIcon}
+                    resizeMode={'contain'}
+                    alt={' '}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={
+                    props.onNextMusic ? () => props.onNextMusic() : () => {}
+                  }
+                  style={{
+                    width: responsiveWidth(widthPersentage(36)),
+                    height: responsiveHeight(heightPersentage(36)),
+                  }}>
+                  <Image
+                    source={SkipForwordIcon}
+                    resizeMode={'contain'}
+                    alt={' '}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </TouchableOpacity>
+              </HStack>
             </Box>
-          </Center>
-          <HStack justifyContent={'center'} space={10} mb={4}>
-            <VStack>
-              <TouchableOpacity
-                onPress={
-                  cheeringEnalbe ? () => handleCount('cheering') : () => {}
-                }
-                style={{
-                  width: responsiveWidth(widthPersentage(60)),
-                  height: responsiveHeight(heightPersentage(80)),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={'#a5a8ae'}>
-                  {cheeringCount}
-                </Text>
-                <Image
-                  source={FireIcon}
-                  alt={' '}
+            <HStack justifyContent={'center'} space={10}>
+              <VStack>
+                <TouchableOpacity
+                  onPress={
+                    cheeringEnalbe ? () => handleCount('cheering') : () => {}
+                  }
                   style={{
-                    width: responsiveWidth(widthPersentage(38)),
-                    height: responsiveHeight(heightPersentage(38)),
-                  }}
-                  resizeMode={'contain'}
-                />
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={cheeringEnalbe ? '#0fefbd' : '#a1b1c1'}>
-                  응원해요
-                </Text>
-              </TouchableOpacity>
-            </VStack>
-            <VStack>
-              <TouchableOpacity
-                onPress={likesEnable ? () => handleCount('likes') : () => {}}
-                style={{
-                  width: responsiveWidth(widthPersentage(60)),
-                  height: responsiveHeight(heightPersentage(80)),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={'#a5a8ae'}>
-                  {likesCount}
-                </Text>
-                <Image
-                  source={HeartIcon}
+                    width: responsiveWidth(widthPersentage(60)),
+                    height: responsiveHeight(heightPersentage(80)),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={'#a5a8ae'}>
+                    {cheeringCount}
+                  </Text>
+                  <Image
+                    source={FireIcon}
+                    alt={' '}
+                    style={{
+                      width: responsiveWidth(widthPersentage(38)),
+                      height: responsiveHeight(heightPersentage(38)),
+                    }}
+                    resizeMode={'contain'}
+                  />
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={cheeringEnalbe ? '#0fefbd' : '#a1b1c1'}>
+                    응원해요
+                  </Text>
+                </TouchableOpacity>
+              </VStack>
+              <VStack>
+                <TouchableOpacity
+                  onPress={likesEnable ? () => handleCount('likes') : () => {}}
                   style={{
-                    width: responsiveWidth(widthPersentage(38)),
-                    height: responsiveHeight(heightPersentage(38)),
-                  }}
-                  alt={' '}
-                  resizeMode={'contain'}
-                />
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={likesEnable ? '#0fefbd' : '#a1b1c1'}>
-                  찜
-                </Text>
-              </TouchableOpacity>
-            </VStack>
-            <VStack>
-              <TouchableOpacity
-                onPress={
-                  togetherEnable ? () => handleCount('getTogether') : () => {}
-                }
-                style={{
-                  width: responsiveWidth(widthPersentage(60)),
-                  height: responsiveHeight(heightPersentage(80)),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={'#a5a8ae'}>
-                  {togetherCount}
-                </Text>
-                <Image
-                  source={MicIcon}
+                    width: responsiveWidth(widthPersentage(60)),
+                    height: responsiveHeight(heightPersentage(80)),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={'#a5a8ae'}>
+                    {likesCount}
+                  </Text>
+                  <Image
+                    source={HeartIcon}
+                    style={{
+                      width: responsiveWidth(widthPersentage(38)),
+                      height: responsiveHeight(heightPersentage(38)),
+                    }}
+                    alt={' '}
+                    resizeMode={'contain'}
+                  />
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={likesEnable ? '#0fefbd' : '#a1b1c1'}>
+                    찜
+                  </Text>
+                </TouchableOpacity>
+              </VStack>
+              <VStack>
+                <TouchableOpacity
+                  onPress={
+                    togetherEnable ? () => handleCount('getTogether') : () => {}
+                  }
                   style={{
-                    width: responsiveWidth(widthPersentage(38)),
-                    height: responsiveHeight(heightPersentage(38)),
-                  }}
-                  alt={' '}
-                  resizeMode={'contain'}
-                />
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(16))}
-                  fontWeight={500}
-                  color={togetherEnable ? '#0fefbd' : '#a1b1c1'}>
-                  함께해요
-                </Text>
-              </TouchableOpacity>
-            </VStack>
-          </HStack>
+                    width: responsiveWidth(widthPersentage(60)),
+                    height: responsiveHeight(heightPersentage(80)),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={'#a5a8ae'}>
+                    {togetherCount}
+                  </Text>
+                  <Image
+                    source={MicIcon}
+                    style={{
+                      width: responsiveWidth(widthPersentage(38)),
+                      height: responsiveHeight(heightPersentage(38)),
+                    }}
+                    alt={' '}
+                    resizeMode={'contain'}
+                  />
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(16))}
+                    fontWeight={500}
+                    color={togetherEnable ? '#0fefbd' : '#a1b1c1'}>
+                    함께해요
+                  </Text>
+                </TouchableOpacity>
+              </VStack>
+            </HStack>
+          </Box>
           {/* 댓글 start */}
-          <Center>
+          <Box>
             <Box
               style={{
                 width: responsiveWidth(widthPersentage(320)),
@@ -636,9 +629,9 @@ function MusicPlayer(props) {
                 </Box>
               }
             />
-          </Center>
+          </Box>
           {/* 댓글 end */}
-        </Box>
+        </VStack>
       ) : (
         //small player start
         <Box
