@@ -1,6 +1,6 @@
 //음악플레이어
 import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
-import {Pressable, TouchableOpacity} from 'react-native';
+import {Platform, Pressable, TouchableOpacity} from 'react-native';
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import Slider from '@react-native-community/slider';
 import {
@@ -204,6 +204,9 @@ function MusicPlayer(props) {
 
   const onStartPlay = async () => {
     try {
+      if (musicUrl === '' || musicUrl === null || musicUrl === undefined) {
+        return;
+      }
       setIsPlay(true);
       const msg = await ARPlayer.current.startPlayer(musicUrl);
       const volume = await ARPlayer.current.setVolume(1.0);
@@ -247,29 +250,53 @@ function MusicPlayer(props) {
 
   //앞으로(10초)
   const rewindRight = async () => {
-    const currentPosition = currentPositionSec * 1000;
-    const addSecs = currentPosition + 10000;
-    await ARPlayer.current.seekToPlayer(addSecs);
+    if (!isPlay) {
+      return;
+    }
+    if (Platform.OS === 'ios') {
+      const currentPosition = currentPositionSec * 1000;
+      const addSecs = currentPosition + 10000;
+      await ARPlayer.current.seekToPlayer(addSecs);
+    }
+    if (Platform.OS === 'android') {
+      const addSecs = currentPositionSec + 10;
+      await ARPlayer.current.seekToPlayer(addSecs);
+    }
   };
 
   //뒤로(10초)
   const rewindLeft = async () => {
-    const currentPosition = currentPositionSec * 1000;
-    const addSecs = currentPosition - 10000;
-    await ARPlayer.current.seekToPlayer(addSecs);
+    if (!isPlay) {
+      return;
+    }
+    if (Platform.OS === 'ios') {
+      const currentPosition = currentPositionSec * 1000;
+      const addSecs = currentPosition - 10000;
+      await ARPlayer.current.seekToPlayer(addSecs);
+    }
+    if (Platform.OS === 'android') {
+      const addSecs = currentPositionSec - 10;
+      await ARPlayer.current.seekToPlayer(addSecs);
+    }
   };
 
   //slider bar 직접 컨트롤
   const changeTime = async value => {
-    const currentDuration = currentDurationSec * 1000;
-    let seekTime = value * currentDuration * 0.01;
-    if (__DEV__) {
-      console.log(
-        `value: ${value} seekTime : ${seekTime}, currentduration: ${currentDuration}`,
-      );
+    if (!isPlay) {
+      return;
     }
-    await ARPlayer.current.seekToPlayer(seekTime);
-    onStartPlay();
+
+    if (Platform.OS === 'ios') {
+      const currentDuration = currentDurationSec * 1000;
+      let seekTime = value * currentDuration * 0.01;
+      await ARPlayer.current.seekToPlayer(seekTime);
+    }
+
+    if (Platform.OS === 'android') {
+      let seekTime = value * currentDurationSec * 0.01;
+      await ARPlayer.current.seekToPlayer(seekTime);
+    }
+    onResumePlay();
   };
 
   //댓글 입력
@@ -357,10 +384,7 @@ function MusicPlayer(props) {
                 minimumTrackTintColor="#0fefbd"
                 maximumTrackTintColor="#a5a8ae"
                 onSlidingStart={onPausePlay}
-                onSlidingComplete={value => {
-                  changeTime(value);
-                  onResumePlay();
-                }}
+                onSlidingComplete={value => changeTime(value)}
                 onTouchStart={() => props.onScroll(false)}
                 onTouchEnd={() => props.onScroll(true)}
                 onTouchCancel={() => props.onScroll(false)}
@@ -381,7 +405,12 @@ function MusicPlayer(props) {
                   </Text>
                 </HStack>
               </Box>
-              <HStack justifyContent={'space-around'} alignItems={'center'}>
+              <HStack
+                justifyContent={'space-around'}
+                alignItems={'center'}
+                onTouchStart={() => props.onScroll(false)}
+                onTouchEnd={() => props.onScroll(true)}
+                onTouchCancel={() => props.onScroll(false)}>
                 <TouchableOpacity
                   onPress={
                     props.onPreviousMusic
@@ -464,7 +493,12 @@ function MusicPlayer(props) {
                 </TouchableOpacity>
               </HStack>
             </Box>
-            <HStack justifyContent={'center'} space={10}>
+            <HStack
+              justifyContent={'center'}
+              space={10}
+              onTouchStart={() => props.onScroll(false)}
+              onTouchEnd={() => props.onScroll(true)}
+              onTouchCancel={() => props.onScroll(false)}>
               <VStack>
                 <TouchableOpacity
                   onPress={
@@ -616,7 +650,11 @@ function MusicPlayer(props) {
               fontSize={responsiveFontSize(fontSizePersentage(16))}
               w={responsiveWidth(widthPersentage(320))}
               InputRightElement={
-                <Box mr={3}>
+                <Box
+                  mr={3}
+                  onTouchStart={() => props.onScroll(false)}
+                  onTouchEnd={() => props.onScroll(true)}
+                  onTouchCancel={() => props.onScroll(false)}>
                   <Gbutton
                     wp={70}
                     hp={24}
@@ -669,8 +707,16 @@ function MusicPlayer(props) {
             <HStack
               justifyContent={'space-between'}
               my={4}
-              alignItems={'center'}>
-              <Pressable
+              alignItems={'center'}
+              onTouchStart={() => props.onScroll(false)}
+              onTouchEnd={() => props.onScroll(true)}
+              onTouchCancel={() => props.onScroll(false)}>
+              <TouchableOpacity
+                onPress={
+                  props.onPreviousMusic
+                    ? () => props.onPreviousMusic()
+                    : () => {}
+                }
                 style={{
                   width: responsiveWidth(widthPersentage(36)),
                   height: responsiveHeight(heightPersentage(36)),
@@ -681,7 +727,7 @@ function MusicPlayer(props) {
                   style={{width: '100%', height: '100%'}}
                   alt={' '}
                 />
-              </Pressable>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={{
                   width: responsiveWidth(widthPersentage(48)),
@@ -698,7 +744,10 @@ function MusicPlayer(props) {
                   h={'100%'}
                 />
               </TouchableOpacity>
-              <Pressable
+              <TouchableOpacity
+                onPress={
+                  props.onNextMusic ? () => props.onNextMusic() : () => {}
+                }
                 style={{
                   width: responsiveWidth(widthPersentage(36)),
                   height: responsiveHeight(heightPersentage(36)),
@@ -709,7 +758,7 @@ function MusicPlayer(props) {
                   style={{width: '100%', height: '100%'}}
                   alt={' '}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </HStack>
           </VStack>
           {/* CD Image start */}
