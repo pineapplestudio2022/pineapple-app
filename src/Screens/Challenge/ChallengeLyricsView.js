@@ -114,34 +114,34 @@ function LyricsView(props) {
                 </Center>
               </ImageBackground>
             </Box>
-            <HStack space={5} justifyContent={'space-around'} mt={4}>
-              <Gbutton
-                wp={120}
-                hp={40}
-                fs={13}
-                fw={800}
-                imgName={'x'}
-                text={'닫 기'}
-                rounded={6}
-                onPress={() => props.navigation.goBack()}
-              />
-              <Gbutton
-                wp={120}
-                hp={40}
-                fs={13}
-                fw={800}
-                imgName={'check'}
-                text={'참 여'}
-                rounded={6}
-                onPress={() =>
-                  props.navigation.navigate('Listening', {
-                    id: props.route.params.id,
-                  })
-                }
-              />
-            </HStack>
           </Box>
         </VStack>
+        <HStack space={5} justifyContent={'space-around'} mt={4}>
+          <Gbutton
+            wp={120}
+            hp={40}
+            fs={13}
+            fw={800}
+            imgName={'x'}
+            text={'닫 기'}
+            rounded={6}
+            onPress={() => props.navigation.goBack()}
+          />
+          <Gbutton
+            wp={120}
+            hp={40}
+            fs={13}
+            fw={800}
+            imgName={'check'}
+            text={'참 여'}
+            rounded={6}
+            onPress={() =>
+              props.navigation.navigate('Listening', {
+                id: props.route.params.id,
+              })
+            }
+          />
+        </HStack>
       </Box>
     </Box>
   );
