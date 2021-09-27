@@ -1,6 +1,6 @@
 //음악플레이어
-import {Box, HStack, Image, Input, ScrollView, Text, VStack} from 'native-base';
-import {Platform, Pressable, TouchableOpacity} from 'react-native';
+import {Box, FlatList, HStack, Image, Input, Text, VStack} from 'native-base';
+import {Platform, TouchableOpacity} from 'react-native';
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import Slider from '@react-native-community/slider';
 import {
@@ -305,6 +305,9 @@ function MusicPlayer(props) {
       defaultAlertMessage('로그인 후 사용 가능합니다.');
       return;
     }
+    if (comment === '') {
+      defaultAlertMessage('댓글을 입력해주세요.');
+    }
     const payload = {
       userId: userId.toString(),
       reply: comment.toString(),
@@ -316,6 +319,7 @@ function MusicPlayer(props) {
           console.log(response);
         }
         setReplyUpdateCheck(true);
+        setComment('');
       })
       .catch(error => {
         if (__DEV__) {
@@ -608,37 +612,39 @@ function MusicPlayer(props) {
                 width: responsiveWidth(widthPersentage(320)),
                 height: responsiveHeight(heightPersentage(90)),
               }}>
-              <ScrollView
+              <FlatList
                 ref={scrollEnd}
-                showsVerticalScrollIndicator={false}
+                onContentSizeChange={handleScrollEnd}
+                numColumns={1}
+                data={replyList}
                 onTouchStart={() => props.onScroll(false)}
                 onTouchEnd={() => props.onScroll(true)}
                 onTouchCancel={() => props.onScroll(false)}
-                onContentSizeChange={handleScrollEnd}>
-                {replyList &&
-                  replyList.map(rows => (
-                    <HStack
-                      justifyContent={'space-around'}
-                      my={1}
-                      key={rows.id}>
-                      <Text
-                        width={responsiveScreenWidth(widthPersentage(90))}
-                        fontSize={responsiveFontSize(fontSizePersentage(14))}
-                        bold
-                        color={'#1a1b1c'}
-                        textAlign={'right'}
-                        noOfLines={1}>
-                        {rows.email}
-                      </Text>
-                      <Text
-                        width={responsiveScreenWidth(widthPersentage(200))}
-                        fontSize={responsiveFontSize(fontSizePersentage(14))}
-                        fontWeight={500}>
-                        {rows.reply}
-                      </Text>
-                    </HStack>
-                  ))}
-              </ScrollView>
+                // onEndReached={handleLoadMore}
+                onEndReachedThreshold={0.2}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item, index}) => (
+                  <HStack justifyContent={'space-around'} my={1}>
+                    <Text
+                      width={responsiveScreenWidth(widthPersentage(90))}
+                      fontSize={responsiveFontSize(fontSizePersentage(14))}
+                      bold
+                      color={'#1a1b1c'}
+                      textAlign={'left'}
+                      noOfLines={1}>
+                      {item.email}
+                    </Text>
+                    <Text
+                      width={responsiveScreenWidth(widthPersentage(200))}
+                      fontSize={responsiveFontSize(fontSizePersentage(14))}
+                      fontWeight={500}>
+                      {item.reply}
+                    </Text>
+                  </HStack>
+                )}
+                keyExtractor={item => item.id}
+              />
             </Box>
             <Input
               mt={4}
@@ -646,18 +652,15 @@ function MusicPlayer(props) {
               borderColor={'#a5a8ae4c'}
               backgroundColor={'#fafafab3'}
               placeholder={'응원의 한 줄을 남겨주세요~'}
-              onChangeText={text => setComment(text)}
+              onChangeText={setComment}
+              value={comment}
               fontSize={responsiveFontSize(fontSizePersentage(16))}
               w={responsiveWidth(widthPersentage(320))}
               InputRightElement={
-                <Box
-                  mr={3}
-                  onTouchStart={() => props.onScroll(false)}
-                  onTouchEnd={() => props.onScroll(true)}
-                  onTouchCancel={() => props.onScroll(false)}>
+                <Box mr={3}>
                   <Gbutton
                     wp={70}
-                    hp={24}
+                    hp={30}
                     fs={18}
                     fw={600}
                     rounded={4}
