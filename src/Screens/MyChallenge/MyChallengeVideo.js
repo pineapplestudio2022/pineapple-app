@@ -17,6 +17,7 @@ import {
 import APIKit from '../../API/APIkit';
 import Gbutton from '../../Components/GbuttonComponent';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
+import {defaultAlertMessage, domainRegex} from '../../Commons/CommonUtil';
 function MyChallengeVideo(props) {
   const {userId, email} = useContext(UserDispatch);
   const [originalVideoList, setOriginalVideoList] = useState();
@@ -25,6 +26,7 @@ function MyChallengeVideo(props) {
     originalWorkId: '',
     shareLink: '',
   });
+  const [uploadCheck, setUploadCheck] = useState(false);
 
   useEffect(() => {
     const getAllOriginalVideo = () => {
@@ -45,6 +47,20 @@ function MyChallengeVideo(props) {
   }, []);
 
   const submitVideo = () => {
+    if (
+      inputValue.shareLink === '' ||
+      inputValue.shareLink === undefined ||
+      inputValue.shareLink === null
+    ) {
+      defaultAlertMessage('링크를 입력해주세요.');
+      return;
+    }
+
+    if (!domainRegex(inputValue.shareLink)) {
+      defaultAlertMessage('올바른 형식의 링크를 등록해주세요');
+      return;
+    }
+
     const payload = {
       shareLink: inputValue.shareLink.toString(),
       userId: userId.toString(),
@@ -57,11 +73,14 @@ function MyChallengeVideo(props) {
         if (__DEV__) {
           console.log(data);
         }
+        setUploadCheck(true);
+        setInputValue({...inputValue, shareLink: ''});
       })
       .catch(error => {
         if (__DEV__) {
           console.log(error);
         }
+        setUploadCheck(false);
       });
   };
 
@@ -147,18 +166,22 @@ function MyChallengeVideo(props) {
                   }
                 />
               </Box>
-              <Box
-                mt={6}
-                width={responsiveWidth(widthPersentage(350))}
-                height={responsiveHeight(heightPersentage(20))}>
-                <Text
-                  fontSize={responsiveFontSize(fontSizePersentage(12))}
-                  bold
-                  textAlign={'center'}
-                  color={'#a5a8ae'}>
-                  등록이 완료 되었습니다. 감사합니다.
-                </Text>
-              </Box>
+              {uploadCheck ? (
+                <Box
+                  mt={6}
+                  width={responsiveWidth(widthPersentage(350))}
+                  height={responsiveHeight(heightPersentage(20))}>
+                  <Text
+                    fontSize={responsiveFontSize(fontSizePersentage(12))}
+                    bold
+                    textAlign={'center'}
+                    color={'#a5a8ae'}>
+                    등록이 완료 되었습니다. 감사합니다.
+                  </Text>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Center>
           )}
           keyExtractor={item => item.id}

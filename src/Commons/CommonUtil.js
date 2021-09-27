@@ -18,6 +18,12 @@ export const emailRegex = email => {
   return re.test(email);
 };
 
+export const domainRegex = value => {
+  //youtube link
+  const re = new RegExp('^https://youtu.be/(?=.*[0-9a-zZ-a])');
+  return re.test(value);
+};
+
 export const YouTubeAPIKey = () => {
   return 'AIzaSyBiuFMJXY3vEGRrkZ00XupTLQeuY7BkyLA';
 };
