@@ -11,7 +11,6 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 
 const FindAccountTwo = props => {
@@ -110,6 +109,7 @@ const FindAccountTwo = props => {
                     fw={800}
                     rounded={6}
                     text={'로그인'}
+                    onPress={() => props.navigation.navigate('Login')}
                   />
                   <Gbutton
                     wp={120}

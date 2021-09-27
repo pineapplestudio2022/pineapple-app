@@ -10,18 +10,8 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {
-  Box,
-  Center,
-  HStack,
-  Image,
-  Input,
-  ScrollView,
-  Text,
-  VStack,
-} from 'native-base';
+import {Box, Center, HStack, Image, Input, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
@@ -103,7 +93,6 @@ const FindAccountOne = props => {
           return;
         }
         if (data.IBcode === '1000') {
-          // setEmail(response.data.IBparams.email);
           props.navigation.navigate('FindAccount2', {
             authNo: authNum,
             email: data.IBparams.email,
@@ -266,12 +255,6 @@ const FindAccountOne = props => {
                 text={'다음'}
                 disable={!nextBtn}
                 onPress={findEmailId}
-                // onPress={() =>
-                //   props.navigation.navigate('FindAccount2', {
-                //     authNo: authNum,
-                //     phone: '+82' + phoneNum.substring(1),
-                //   })
-                // }
               />
             </Center>
           </Box>
