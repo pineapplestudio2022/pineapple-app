@@ -124,7 +124,7 @@ const Agreement = props => {
                 isChecked={privacy}>
                 <HStack
                   w={'85%'}
-                  justifyContent={'space-around'}
+                  justifyContent={'space-between'}
                   alignItems={'center'}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
@@ -142,7 +142,7 @@ const Agreement = props => {
                 isChecked={terms}>
                 <HStack
                   w={'85%'}
-                  justifyContent={'space-around'}
+                  justifyContent={'space-between'}
                   alignItems={'center'}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
@@ -159,10 +159,7 @@ const Agreement = props => {
                 colorScheme={'rgb(15,239,189)'}
                 onChange={() => setMarketing(!marketing)}
                 isChecked={marketing}>
-                <HStack
-                  w={'85%'}
-                  justifyContent={'space-around'}
-                  alignItems={'center'}>
+                <HStack w={'85%'} alignItems={'center'}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
@@ -170,7 +167,7 @@ const Agreement = props => {
                     {'   '}
                     광고•마케팅 수신 동의{'('}선택{')'}{' '}
                   </Text>
-                  <TermsandConditionModal terms={3} />
+                  {/* <TermsandConditionModal terms={3} /> */}
                 </HStack>
               </Checkbox>
             </VStack>
