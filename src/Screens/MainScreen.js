@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {Box, HStack, VStack} from 'native-base';
+import {Box, FlatList, HStack, VStack} from 'native-base';
 import {ScrollView} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {widthPersentage} from '../Commons/DeviceWHPersentage';
@@ -54,7 +54,41 @@ function MainScreen(props) {
       <ScrollView>
         {/* 가로스크롤 뷰 && 인기 음원 순위 start */}
         <Box>
-          <ScrollView
+          <FlatList
+            horizontal
+            numColumns={1}
+            data={musicList}
+            // onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.2}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item, index}) => (
+              <>
+                {index === 0 ? (
+                  <MusicAlbumComponent
+                    navigation={props.navigation}
+                    nextView={'Ranking'}
+                    title={'인기음원'}
+                    subtitle={'전체보기'}
+                    badge={11}
+                    cover={11}
+                  />
+                ) : (
+                  <></>
+                )}
+                <MusicAlbumComponent
+                  id={item.id}
+                  cover={index + 1}
+                  navigation={props.navigation}
+                  title={item.title}
+                  subtitle={item.participant}
+                  nextView={'Ranking'}
+                />
+              </>
+            )}
+            keyExtractor={item => item.id}
+          />
+          {/* <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false} //가로 스크롤바 표시 여부
             contentContainerStyle={{
@@ -62,7 +96,6 @@ function MainScreen(props) {
               paddingStart: 5,
               paddingEnd: 5,
             }}>
-            {/* 음원 리스트 보여주는 로직 수정 필요*/}
             <MusicAlbumComponent
               navigation={props.navigation}
               nextView={'Ranking'}
@@ -83,7 +116,7 @@ function MainScreen(props) {
                   nextView={'Ranking'}
                 />
               ))}
-          </ScrollView>
+          </ScrollView> */}
         </Box>
         {/* 가로스크롤 뷰 시작, 인기 음원 순위 end*/}
 

@@ -95,6 +95,7 @@ function MusicRacking(props) {
           numColumns={2}
           data={musicList}
           showsVerticalScrollIndicator={false}
+          initialNumToRender={8}
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
             <Box m={3}>
@@ -116,7 +117,7 @@ function MusicRacking(props) {
       <SlidingUpPanel
         ref={musicPanel}
         allowDragging={scroll}
-        friction={0.4}
+        friction={0.2}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
           bottom: responsiveHeight(heightPersentage(157)),

@@ -1,6 +1,6 @@
 // 노래부르기 화면
 import React, {useEffect, useState} from 'react';
-import {Box, ScrollView} from 'native-base';
+import {Box, FlatList} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import SingingCardComponent from '../../Components/SingingCardComponent';
 import APIKit from '../../API/APIkit';
@@ -13,24 +13,21 @@ function Singing(props) {
       console.log('api get');
     }
 
-    const onSuccess = response => {
-      if (__DEV__) {
-        console.log(response.data.IBparams);
-      }
-      if (response.data.IBcode === '1000') {
-        setAISongList(response.data.IBparams);
-      }
-    };
-    const onFailure = error => {
-      if (__DEV__) {
-        console.log(error && error.response);
-      }
-    };
-
     const getAllOriginalSong = () => {
       APIKit.post('/originalWorks/getAllOriginalSong')
-        .then(onSuccess)
-        .catch(onFailure);
+        .then(({data}) => {
+          if (__DEV__) {
+            console.log(data.IBparams);
+          }
+          if (data.IBcode === '1000') {
+            setAISongList(data.IBparams.rows);
+          }
+        })
+        .catch(error => {
+          if (__DEV__) {
+            console.log(error && error.response);
+          }
+        });
     };
     getAllOriginalSong();
 
@@ -48,23 +45,24 @@ function Singing(props) {
         titleName={'노래부르기'}
         navigation={props.navigation}
       />
-      <ScrollView
+      <FlatList
+        padding={3}
+        numColumns={1}
+        data={AISongList}
+        onEndReachedThreshold={0.2}
         showsVerticalScrollIndicator={false}
-        _contentContainerStyle={{
-          alignItems: 'center',
-        }}>
-        {AISongList &&
-          AISongList.rows.map(rows => (
-            <SingingCardComponent
-              key={rows.id}
-              id={rows.id}
-              title={rows.title}
-              detail={rows.detail}
-              genre={rows.genre}
-              navigation={props.navigation}
-            />
-          ))}
-      </ScrollView>
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item, index}) => (
+          <SingingCardComponent
+            id={item.id}
+            title={item.title}
+            detail={item.detail}
+            genre={item.genre}
+            navigation={props.navigation}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
     </Box>
   );
 }

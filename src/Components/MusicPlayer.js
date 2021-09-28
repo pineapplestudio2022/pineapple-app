@@ -617,6 +617,7 @@ function MusicPlayer(props) {
                 onContentSizeChange={handleScrollEnd}
                 numColumns={1}
                 data={replyList}
+                initialNumToRender={5}
                 onTouchStart={() => props.onScroll(false)}
                 onTouchEnd={() => props.onScroll(true)}
                 onTouchCancel={() => props.onScroll(false)}

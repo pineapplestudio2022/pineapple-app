@@ -236,6 +236,7 @@ function ChallengeEnjoy(props) {
             data={musicList}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.2}
+            initialNumToRender={8}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
@@ -289,7 +290,7 @@ function ChallengeEnjoy(props) {
         <SlidingUpPanel
           ref={musicPanel}
           allowDragging={scroll}
-          friction={0.4}
+          friction={0.2}
           draggableRange={{
             top: responsiveHeight(heightPersentage(740)),
             bottom: responsiveHeight(heightPersentage(157)),
@@ -317,7 +318,7 @@ function ChallengeEnjoy(props) {
             top: responsiveHeight(heightPersentage(740)),
             bottom: responsiveHeight(heightPersentage(0)),
           }}
-          friction={0.4}
+          friction={0.2}
           onMomentumDragStart={() => setIsBottom(false)}
           onBottomReached={() => setIsBottom(true)}
           showBackdrop={false}>
