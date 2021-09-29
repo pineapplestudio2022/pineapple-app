@@ -138,7 +138,7 @@ function MenuComponent(props) {
               onPress={() =>
                 props.navigation.reset({
                   index: 0,
-                  routes: [{name: 'HomeNavigation'}],
+                  routes: [{name: 'MainNavigation'}],
                 })
               }
               w={responsiveWidth(widthPersentage(25))}

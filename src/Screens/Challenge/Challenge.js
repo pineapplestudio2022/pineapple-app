@@ -39,7 +39,7 @@ function Challenge(props) {
                 imgName={'camera'}
                 rounded={8}
                 text={'15초 영상 챌린지'}
-                onPress={() => props.navigation.navigate('VideoScreen')}
+                onPress={() => props.navigation.navigate('ChallengeVideo')}
               />
             </HStack>
           </VStack>

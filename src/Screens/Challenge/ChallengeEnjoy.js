@@ -250,7 +250,7 @@ function ChallengeEnjoy(props) {
                 />
               </Box>
             )}
-            keyExtractor={item => item.id + item.participant}
+            keyExtractor={item => item.id}
           />
         </Center>
       ) : (

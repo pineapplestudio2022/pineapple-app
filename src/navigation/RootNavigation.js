@@ -5,22 +5,28 @@ import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
 // import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {responsiveFontSize} from 'react-native-responsive-dimensions';
-import {fontSizePersentage} from '../Commons/DeviceWHPersentage';
+import {
+  responsiveFontSize,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import {
+  fontSizePersentage,
+  widthPersentage,
+} from '../Commons/DeviceWHPersentage';
 
-import HomeNavigation from '../navigation/HomeNavigation';
+import HomeNavigation from './HomeNavigation';
 import MyChallengeNavigation from './MyChallengeNavigation';
 
 import MainBackground from '../Assets/Image/bg_main.png';
 
 import Intro from '../Screens/Intro';
-import PineappleMusic from '../Screens/PineappleMusic';
-import MainScreen from '../Screens/MainScreen';
 import {MemberScreen, LoginScreen, MypageScreen} from './MemberNavigation';
-import LyricsScreen from '../navigation/LyricsNavigation';
+import LyricsScreen from './LyricsNavigation';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import {createStackNavigator} from '@react-navigation/stack';
+import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
+import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -42,11 +48,7 @@ function CustomDrawerContent(props) {
           height: '100%',
           width: '100%',
           borderRadius: 8,
-        }}
-        // blurType="light"
-        // blurAmount={10}
-        // reducedTransparencyFallbackColor="white"
-      >
+        }}>
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           <TouchableOpacity
             w="100%"
@@ -155,7 +157,7 @@ function CustomDrawerContent(props) {
             </Text>
           </TouchableOpacity>
         </VStack>
-        <VStack space={5} alignItems={'center'} safeAreaBottom mb={4}>
+        <VStack space={5} alignItems={'center'} safeAreaBottom mb={8}>
           {/* 로그인 시 마이페이지, 로그아웃으로 변경 */}
           {userId === '' ? (
             <Pressable
@@ -235,18 +237,19 @@ const MainNavigation = props => {
         backgroundColor: '#595d6299',
         borderTopEndRadius: 8,
         borderBottomEndRadius: 8,
+        width: responsiveWidth(widthPersentage(305)),
       }}
       overlayColor={'transparent'}
       sceneContainerStyle={{backgroundColor: 'transparent'}}
       drawerContent={props => <CustomDrawerContent {...props} />}>
-      {/* <Drawer.Screen name="HomeNavigation" component={HomeNavigation} /> */}
+      <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
       <Drawer.Screen name="PineappleIntro" component={Intro} />
       <Drawer.Screen name="MemberScreen" component={MemberScreen} />
       <Drawer.Screen name="LoginScreen" component={LoginScreen} />
       <Drawer.Screen name="MypageScreen" component={MypageScreen} />
-      {/* <Drawer.Screen name="PinappleMusic" component={PineappleMusic} /> */}
       <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
       <Drawer.Screen name="MyLyrics" component={LyricsScreen} />
+      {/* <Drawer.Screen name="PinappleMusic" component={PineappleMusic} /> */}
       {/* <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
       <Drawer.Screen name="MyMusic" component={MainScreen} />
       <Drawer.Screen name="MyBGM" component={MainScreen} />
@@ -268,8 +271,9 @@ const RootNavigation = props => {
           cardStyle: {backgroundColor: 'transparent'},
           animationEnabled: false,
         }}>
-        <RootStack.Screen name={'HomeNavigation'} component={HomeNavigation} />
         <RootStack.Screen name={'MainNavigation'} component={MainNavigation} />
+        <RootStack.Screen name={'ChallengeVideo'} component={ChallengeVideo} />
+        <RootStack.Screen name={'ChallengeEnjoy'} component={ChallengeEnjoy} />
       </RootStack.Navigator>
     </ImageBackground>
   );
