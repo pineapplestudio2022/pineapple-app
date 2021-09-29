@@ -20,6 +20,7 @@ import {MemberScreen, LoginScreen, MypageScreen} from './MemberNavigation';
 import LyricsScreen from '../navigation/LyricsNavigation';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import {PERMISSIONS, request} from 'react-native-permissions';
+import {createStackNavigator} from '@react-navigation/stack';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -229,33 +230,48 @@ const MainNavigation = props => {
     checkRecord();
   }, []);
   return (
+    <Drawer.Navigator
+      drawerStyle={{
+        backgroundColor: '#595d6299',
+        borderTopEndRadius: 8,
+        borderBottomEndRadius: 8,
+      }}
+      overlayColor={'transparent'}
+      sceneContainerStyle={{backgroundColor: 'transparent'}}
+      drawerContent={props => <CustomDrawerContent {...props} />}>
+      {/* <Drawer.Screen name="HomeNavigation" component={HomeNavigation} /> */}
+      <Drawer.Screen name="PineappleIntro" component={Intro} />
+      <Drawer.Screen name="MemberScreen" component={MemberScreen} />
+      <Drawer.Screen name="LoginScreen" component={LoginScreen} />
+      <Drawer.Screen name="MypageScreen" component={MypageScreen} />
+      {/* <Drawer.Screen name="PinappleMusic" component={PineappleMusic} /> */}
+      <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
+      <Drawer.Screen name="MyLyrics" component={LyricsScreen} />
+      {/* <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
+      <Drawer.Screen name="MyMusic" component={MainScreen} />
+      <Drawer.Screen name="MyBGM" component={MainScreen} />
+      <Drawer.Screen name="FavoriteList" component={MainScreen} />
+      <Drawer.Screen name="Price" component={MainScreen} /> */}
+    </Drawer.Navigator>
+  );
+};
+const RootStack = createStackNavigator();
+
+const RootNavigation = props => {
+  return (
     <ImageBackground
       source={MainBackground}
       style={{width: '100%', height: '100%'}}>
-      <Drawer.Navigator
-        drawerStyle={{
-          backgroundColor: '#595d6299',
-          borderTopEndRadius: 8,
-          borderBottomEndRadius: 8,
-        }}
-        overlayColor={'transparent'}
-        sceneContainerStyle={{backgroundColor: 'transparent'}}
-        drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
-        <Drawer.Screen name="MemberScreen" component={MemberScreen} />
-        <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-        <Drawer.Screen name="MypageScreen" component={MypageScreen} />
-        <Drawer.Screen name="PineappleIntro" component={Intro} />
-        <Drawer.Screen name="PinappleMusic" component={PineappleMusic} />
-        <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
-        <Drawer.Screen name="MyLyrics" component={LyricsScreen} />
-        <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
-        <Drawer.Screen name="MyMusic" component={MainScreen} />
-        <Drawer.Screen name="MyBGM" component={MainScreen} />
-        <Drawer.Screen name="FavoriteList" component={MainScreen} />
-        <Drawer.Screen name="Price" component={MainScreen} />
-      </Drawer.Navigator>
+      <RootStack.Navigator
+        screenOptions={{
+          headerShown: false,
+          cardStyle: {backgroundColor: 'transparent'},
+          animationEnabled: false,
+        }}>
+        <RootStack.Screen name={'HomeNavigation'} component={HomeNavigation} />
+        <RootStack.Screen name={'MainNavigation'} component={MainNavigation} />
+      </RootStack.Navigator>
     </ImageBackground>
   );
 };
-export default MainNavigation;
+export default RootNavigation;
