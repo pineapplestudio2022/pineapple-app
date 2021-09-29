@@ -203,6 +203,8 @@ function MusicPlayer(props) {
     ARPlayer.current.removePlayBackListener();
     setCurrentPositionSec('0');
     setCurrentDurationSec('0');
+    setPlayTime('00:00');
+    setDuration('00:00');
     setPercent(0);
     setIsPlay(false);
     setIsPause(false);
