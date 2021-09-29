@@ -167,8 +167,8 @@ function ChallengeListening(props) {
 
   //재생파일 경로
   const playPath = Platform.select({
-    ios: 'file://' + filepath + fileName,
-    android: filepath + fileName,
+    ios: encodeURI('file://' + filepath + fileName),
+    android: encodeURI(filepath + fileName),
   });
 
   //녹음파일 저장 경로

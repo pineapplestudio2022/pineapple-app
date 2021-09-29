@@ -37,7 +37,7 @@ function MusicPlayer(props) {
   const {userId} = useContext(UserDispatch);
   const scrollEnd = useRef(); //scrollview
 
-  const [replyList, setReplyList] = useState(); //댓글 리스트
+  const [replyList, setReplyList] = useState([]); //댓글 리스트
   const [replyUpdateCheck, setReplyUpdateCheck] = useState(false); //댓글 업데이트 체크
   const [comment, setComment] = useState(''); //댓글 입력
 
@@ -55,10 +55,19 @@ function MusicPlayer(props) {
   const [isPause, setIsPause] = useState(false); //일시정지 여부
   const [currentPositionSec, setCurrentPositionSec] = useState('0'); //트랙 재생 시간
   const [currentDurationSec, setCurrentDurationSec] = useState('0'); //트랙 길이
+  const [playTime, setPlayTime] = useState('00:00'); //트랙 재생 시간(시간)
+  const [duration, setDuration] = useState('00:00'); //트랙 길이(시간)
 
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
 
   const ARPlayer = useRef(AudioRecorderPlayer);
+
+  useEffect(() => {
+    //플레이어 초기화
+    ARPlayer.current = new AudioRecorderPlayer();
+    ARPlayer.current.setSubscriptionDuration(1);
+    return () => {};
+  }, []);
 
   useEffect(() => {
     const onFailure = error => {
@@ -124,15 +133,12 @@ function MusicPlayer(props) {
       getChallenge();
     }
 
-    //플레이어 초기화
-    ARPlayer.current = new AudioRecorderPlayer();
-    ARPlayer.current.setSubscriptionDuration(1);
-
     return () => {
       if (__DEV__) {
         console.log('api unmount');
       }
       onStopPlay();
+      setReplyList([]);
     };
   }, [props.id, replyUpdateCheck, userId]);
 
@@ -226,6 +232,8 @@ function MusicPlayer(props) {
           setCurrentDurationSec(du);
           setCurrentPositionSec(cu);
           setPercent(per);
+          setPlayTime(ARPlayer.current.mmss(cu));
+          setDuration(ARPlayer.current.mmss(du));
         }
         return;
       });
@@ -373,7 +381,7 @@ function MusicPlayer(props) {
               fontSize={responsiveFontSize(fontSizePersentage(20))}
               bold
               color={'#858c92'}>
-              {participant}
+              {participant && participant}
             </Text>
             <Box
               style={{
@@ -399,13 +407,13 @@ function MusicPlayer(props) {
                     fontSize={responsiveFontSize(fontSizePersentage(12))}
                     fontWeight={500}
                     color={'#0fefbd'}>
-                    {ARPlayer.current.mmss(currentPositionSec)}
+                    {playTime}
                   </Text>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(12))}
                     fontWeight={500}
                     color={'#0fefbd'}>
-                    {ARPlayer.current.mmss(currentDurationSec)}
+                    {duration}
                   </Text>
                 </HStack>
               </Box>
