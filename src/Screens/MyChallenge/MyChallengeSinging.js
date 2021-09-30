@@ -64,6 +64,7 @@ function MyChallengeSinging(props) {
           data={myChallengeList}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
+          initialNumToRender={7}
           // onEndReached={handleLoadMore}
           // onEndReachedThreshold={1}
           renderItem={({item, index}) => (
