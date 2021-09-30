@@ -41,4 +41,22 @@ node-module 폴더 > rn-fetch-blob 폴더 안에 Blob.js, Fetch.js, FileReader.j
 import {NativeModules} from 'react-native';
 const RNFetchBlob = NativeModules.RNFetchBlob
 ----------------------------------------------------------
+
+[4]
+릴리즈 빌드시
+- Info.plist 에서 다음 내용을 삭제한다. 앱 내부에서 외부 API를 호출할 때, HTTPS만 사용할 수 있게 한다.
+- 앱을 개발할때는 로컬 서버와 HTTP로 통신하기 때문에 다시 이 부분을 넣어줘야 한다.
+----------------------------------------------------------
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSExceptionDomains</key>
+  <dict>
+    <key>localhost</key>
+    <dict>
+      <key>NSExceptionAllowsInsecureHTTPLoads</key>
+      <true/>
+    </dict>
+  </dict>
+</dict>
+----------------------------------------------------------
 */

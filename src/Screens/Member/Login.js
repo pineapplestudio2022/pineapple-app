@@ -1,13 +1,11 @@
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useContext} from 'react';
 
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
   fontSizePersentage,
-  heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
 import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
@@ -18,7 +16,7 @@ import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
-import APIKit, {setClientToken} from '../../API/APIkit';
+import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -40,21 +38,18 @@ const Login = props => {
       .then(({data}) => {
         setLoading(false);
         if (data.IBcode === '2001') {
-          //db data 없음
           defaultAlertMessage('존재하지 않는 이메일입니다.');
           return;
         }
         if (data.IBcode === '2002') {
-          //db data 없음
           defaultAlertMessage('비밀번호가 맞지않습니다.');
           return;
         }
-        // Set JSON Web Token on success
-        setClientToken(data.IBparams.token);
         dispatch({
           type: 'SIGN_IN',
           userId: data.IBparams.userId,
           email: data.IBparams.email,
+          token: data.IBparams.token,
         });
         props.navigation.navigate('MainScreen');
       })

@@ -27,6 +27,7 @@ import {PERMISSIONS, request} from 'react-native-permissions';
 import {createStackNavigator} from '@react-navigation/stack';
 import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
 import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -261,6 +262,28 @@ const MainNavigation = props => {
 const RootStack = createStackNavigator();
 
 const RootNavigation = props => {
+  const {dispatch} = useContext(UserDispatch);
+
+  useEffect(() => {
+    const retrieveUserSession = async () => {
+      try {
+        const session = await EncryptedStorage.getItem('user_session');
+
+        if (session !== undefined && session !== null) {
+          const {userId, email, token} = JSON.parse(session);
+          dispatch({
+            type: 'SIGN_IN',
+            userId: userId,
+            email: email,
+            token: token,
+          });
+          console.log(userId, email, token);
+        }
+      } catch (error) {}
+    };
+    retrieveUserSession();
+    return () => {};
+  }, [dispatch]);
   return (
     <ImageBackground
       source={MainBackground}
