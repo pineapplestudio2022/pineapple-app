@@ -87,7 +87,7 @@ function CustomDrawerContent(props) {
           </TouchableOpacity>
           <TouchableOpacity
             w="100%"
-            onPress={() => props.navigation.navigate('LyricsScreen')}>
+            onPress={() => props.navigation.navigate('MyLyrics')}>
             <Text
               textAlign={'center'}
               color={'#fafafa'}
@@ -248,7 +248,7 @@ const MainNavigation = props => {
       <Drawer.Screen name="LoginScreen" component={LoginScreen} />
       <Drawer.Screen name="MypageScreen" component={MypageScreen} />
       <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
-      <Drawer.Screen name="LyricsScreen" component={LyricsScreen} />
+      <Drawer.Screen name="MyLyrics" component={LyricsScreen} />
       {/* <Drawer.Screen name="PinappleMusic" component={PineappleMusic} /> */}
       {/* <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
       <Drawer.Screen name="MyMusic" component={MainScreen} />

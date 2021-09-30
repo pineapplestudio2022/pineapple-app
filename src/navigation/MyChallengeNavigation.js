@@ -28,6 +28,10 @@ const MySingingScreen = () => {
         component={MyChallengeSinging}
       />
       <MySingingStack.Screen
+        name={'ChallengeEnjoy'}
+        component={ChallengeEnjoy}
+      />
+      <MySingingStack.Screen
         name={'Listening'}
         component={ChallengeListening}
       />
@@ -90,21 +94,12 @@ const MyChallengeScreen = () => {
       }}>
       <MyChallengeStack.Screen name={'MyChallenge'} component={MyChallenge} />
       <MyChallengeStack.Screen
-        name={'MyComposingScreen'}
+        name={'MyComposing'}
         component={MyComposingScreen}
       />
-      <MyChallengeStack.Screen
-        name={'MyPlayingScreen'}
-        component={MyPlayingScreen}
-      />
-      <MyChallengeStack.Screen
-        name={'MySingingScreen'}
-        component={MySingingScreen}
-      />
-      <MyChallengeStack.Screen
-        name={'MyVideoScreen'}
-        component={MyVideoScreen}
-      />
+      <MyChallengeStack.Screen name={'MyPlaying'} component={MyPlayingScreen} />
+      <MyChallengeStack.Screen name={'MySinging'} component={MySingingScreen} />
+      <MyChallengeStack.Screen name={'MyVideo'} component={MyVideoScreen} />
     </MyChallengeStack.Navigator>
   );
 };
