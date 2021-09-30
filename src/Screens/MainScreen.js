@@ -60,6 +60,7 @@ function MainScreen(props) {
             data={musicList}
             // onEndReached={handleLoadMore}
             onEndReachedThreshold={0.2}
+            initialNumToRender={3}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (

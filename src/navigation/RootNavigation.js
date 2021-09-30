@@ -277,13 +277,13 @@ const RootNavigation = props => {
             email: email,
             token: token,
           });
-          console.log(userId, email, token);
         }
       } catch (error) {}
     };
     retrieveUserSession();
     return () => {};
   }, [dispatch]);
+
   return (
     <ImageBackground
       source={MainBackground}

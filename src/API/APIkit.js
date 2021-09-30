@@ -10,7 +10,7 @@ let APIKit = axios.create({
   // 운영서버
   // baseURL: 'https://pineapplestudio.app',
 
-  // timeout: 1000,
+  timeout: 5000,
 });
 
 let tokenIntercepter;
