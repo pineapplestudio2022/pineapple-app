@@ -28,6 +28,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
 import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import APIKit from '../API/APIkit';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
@@ -38,7 +39,7 @@ function CustomDrawerContent(props) {
     dispatch({type: 'SIGN_OUT'});
     props.navigation.reset({
       index: 0,
-      routes: [{name: 'HomeNavigation'}],
+      routes: [{name: 'MainNavigation'}],
     });
   };
 
@@ -265,6 +266,21 @@ const RootNavigation = props => {
   const {dispatch} = useContext(UserDispatch);
 
   useEffect(() => {
+    //token 유효한지 확인, 아니면 로그아웃
+    const auth = async () => {
+      await APIKit.post('login/auth')
+        .then(({data}) => {
+          if (data.IBcode !== '1000') {
+            dispatch({type: 'SIGN_OUT'});
+          }
+        })
+        .catch(error => {
+          if (__DEV__) {
+            console.log(error);
+          }
+        });
+    };
+
     const retrieveUserSession = async () => {
       try {
         const session = await EncryptedStorage.getItem('user_session');
@@ -277,10 +293,16 @@ const RootNavigation = props => {
             email: email,
             token: token,
           });
+          return true;
         }
+        return false;
       } catch (error) {}
     };
-    retrieveUserSession();
+
+    retrieveUserSession().then(exist => {
+      exist ? auth() : {};
+    });
+
     return () => {};
   }, [dispatch]);
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, FlatList, HStack, VStack} from 'native-base';
 import {ScrollView} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
@@ -6,14 +6,11 @@ import {widthPersentage} from '../Commons/DeviceWHPersentage';
 import MusicAlbumComponent from '../Components/MusicAlbumComponent';
 import MenuComponent from '../Components/MenuComponent';
 import APIKit from '../API/APIkit';
-import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Wbutton from '../Components/WbuttonComponent';
 
 function MainScreen(props) {
   //랭킹 음원 10개 가져오기
   const [musicList, setMusicList] = useState();
-  const {userId} = useContext(UserDispatch);
-  //로그인, 로그아웃시에 api호출
   useEffect(() => {
     if (__DEV__) {
       console.log('api get');
@@ -42,7 +39,7 @@ function MainScreen(props) {
         console.log('api unmount');
       }
     };
-  }, [userId]);
+  }, []);
 
   return (
     <Box flex={1}>
