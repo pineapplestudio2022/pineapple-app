@@ -79,15 +79,37 @@ const Wbutton = props => {
   const [imgrvs, setImgrvs] = useState(false);
 
   const pressIn = () => {
+    if (props.disable) {
+      return;
+    }
     setBgColor('#4be3ac');
     setTextColor('#fafafa');
     setImgrvs(true);
   };
   const pressOut = () => {
+    if (props.disable) {
+      return;
+    }
     setBgColor('#fafafa80');
     setTextColor('#0fefbd');
     setImgrvs(false);
   };
+
+  const handlerGetImage = () => {
+    if (imgrvs) {
+      return getImage(props.imgName + '-reverse');
+    } else {
+      return getImage(props.imgName);
+    }
+  };
+  const handlerGetImageLeft = () => {
+    if (imgrvs) {
+      return getImage(props.leftImgName + '-reverse');
+    } else {
+      return getImage(props.leftImgName);
+    }
+  };
+
   return (
     <Pressable
       onPress={
@@ -97,8 +119,8 @@ const Wbutton = props => {
             : () => {}
           : props.onPress
       }
-      onPressIn={props.disable ? () => {} : pressIn}
-      onPressOut={props.disable ? () => {} : pressOut}
+      onPressIn={pressIn}
+      onPressOut={pressOut}
       style={{
         width: responsiveWidth(widthPersentage(props.wp)),
         height: responsiveHeight(heightPersentage(props.hp)),
@@ -124,11 +146,7 @@ const Wbutton = props => {
 
           {props.imgName ? (
             <Image
-              source={
-                imgrvs
-                  ? getImage(props.imgName + '-reverse')
-                  : getImage(props.imgName)
-              }
+              source={handlerGetImage}
               style={{
                 width: responsiveWidth(widthPersentage(48)),
                 marginBottom: 8,
@@ -142,11 +160,7 @@ const Wbutton = props => {
           <HStack alignItems={'center'} justifyContent={'center'} w={'100%'}>
             {props.leftImgName ? (
               <Image
-                source={
-                  imgrvs
-                    ? getImage(props.leftImgName + '-reverse')
-                    : getImage(props.leftImgName)
-                }
+                source={handlerGetImageLeft}
                 style={{
                   width: responsiveWidth(widthPersentage(40)),
                   marginRight: responsiveWidth(widthPersentage(16)),

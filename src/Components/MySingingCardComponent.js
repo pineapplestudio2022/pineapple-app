@@ -78,6 +78,28 @@ function MySingingCardComponent(props) {
         }
       });
   };
+
+  const handlerMessage = () => {
+    Alert.alert('Pineapple', '삭제하시겠습니까?', [
+      {
+        text: '취소',
+        onPress: () => {},
+      },
+      {
+        text: '확인',
+        onPress: () => handlerDelete(),
+      },
+    ]);
+  };
+  const handlerGoEnjoy = () => {
+    props.navigation.navigate('ChallengeEnjoy', {id: props.id});
+  };
+
+  const handlerGoListening = name => {
+    props.navigation.navigate('Listening', {
+      id: props.originalWorkId,
+    });
+  };
   return (
     <Box
       style={{
@@ -119,18 +141,7 @@ function MySingingCardComponent(props) {
                 {props.title}
               </Text>
               <TouchableOpacity
-                onPress={() =>
-                  Alert.alert('Pineapple', '삭제하시겠습니까?', [
-                    {
-                      text: '취소',
-                      onPress: () => {},
-                    },
-                    {
-                      text: '확인',
-                      onPress: () => handlerDelete(),
-                    },
-                  ])
-                }
+                onPress={handlerMessage}
                 style={{
                   position: 'absolute',
                   right: 0,
@@ -188,9 +199,7 @@ function MySingingCardComponent(props) {
                   borderRadius: 4,
                   backgroundColor: '#0fefbd',
                 }}
-                onPress={() =>
-                  props.navigation.navigate('ChallengeEnjoy', {id: props.id})
-                }>
+                onPress={handlerGoEnjoy}>
                 <HStack>
                   <Image
                     source={PlayIcon}
@@ -218,11 +227,7 @@ function MySingingCardComponent(props) {
                   borderRadius: 4,
                   backgroundColor: '#0fefbd',
                 }}
-                onPress={() =>
-                  props.navigation.navigate('Listening', {
-                    id: props.originalWorkId,
-                  })
-                }>
+                onPress={handlerGoListening}>
                 <HStack>
                   <Image
                     source={MicIcon}

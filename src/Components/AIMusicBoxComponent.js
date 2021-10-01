@@ -14,6 +14,9 @@ import {
 import {ImageBackground} from 'react-native';
 import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_1.jpg';
 function AIMusicBoxComponent(props) {
+  const handlerNavigation = () => {
+    props.navigation.navigate(props.nextView);
+  };
   return (
     <Box
       style={{
@@ -26,7 +29,7 @@ function AIMusicBoxComponent(props) {
         shadowOpacity: 1,
       }}>
       <Pressable
-        onPress={() => props.navigation.navigate(props.nextView)}
+        onPress={handlerNavigation}
         rounded={4}
         overflow={'hidden'}
         width={responsiveWidth(widthPersentage(149))}

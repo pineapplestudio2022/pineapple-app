@@ -428,7 +428,7 @@ function VideoPlayer(props) {
             backgroundColor={'#fafafab3'}
             placeholder={'응원의 한 줄을 남겨주세요~'}
             value={comment}
-            onChangeText={text => setComment(text)}
+            onChangeText={setComment}
             fontSize={responsiveFontSize(fontSizePersentage(16))}
             w={responsiveWidth(widthPersentage(320))}
             InputRightElement={

@@ -21,10 +21,37 @@ import {
 import {TouchableOpacity} from 'react-native';
 
 function MenuComponent(props) {
+  const handlerToggleDrawer = () => {
+    props.navigation.toggleDrawer();
+  };
+  const handlerGoBack = () => {
+    props.navigation.goBack();
+  };
+  const handlerResetNavigation = () => {
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: 'MainNavigation'}],
+    });
+  };
+  const handlerGoLyrics = () => {
+    props.navigation.navigate('WriteLyrics', {filename: ''});
+  };
+  const handlerOnSave = () => {
+    props.onSave();
+  };
+  const handlerGetLeftImageIcon = () => {
+    if (props.name === 'WriteLyrics') {
+      return LyricsGoBackIcon;
+    } else {
+      return LeftArrowIcon;
+    }
+  };
   return (
     <Box safeAreaTop pt={5} mb={responsiveHeight(heightPersentage(22))}>
       {/* 상단 그라데이션 && 블러 효과 start */}
-      {props.notGB ? null : (
+      {props.notGB ? (
+        <></>
+      ) : (
         <LinearGradient
           colors={['#0fefbd', '#94fc1300']}
           style={{
@@ -46,7 +73,7 @@ function MenuComponent(props) {
         <Box ml={responsiveWidth(widthPersentage(30))}>
           {props.name === 'MainScreen' ? (
             <Pressable
-              onPress={() => props.navigation.toggleDrawer()}
+              onPress={handlerToggleDrawer}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -58,16 +85,12 @@ function MenuComponent(props) {
             </Pressable>
           ) : (
             <Pressable
-              onPress={() => props.navigation.goBack()}
+              onPress={handlerGoBack}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
                 size="100%"
-                source={
-                  props.name === 'WriteLyrics'
-                    ? LyricsGoBackIcon
-                    : LeftArrowIcon
-                }
+                source={handlerGetLeftImageIcon}
                 resizeMode={'contain'}
                 alt=" "
               />
@@ -93,9 +116,7 @@ function MenuComponent(props) {
         ) : props.name === 'Lyrics' ? (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={() =>
-                props.navigation.navigate('WriteLyrics', {filename: ''})
-              }
+              onPress={handlerGoLyrics}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -109,7 +130,7 @@ function MenuComponent(props) {
         ) : props.name === 'WriteLyrics' ? (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <TouchableOpacity
-              onPress={() => props.onSave()}
+              onPress={handlerOnSave}
               style={{
                 width: responsiveWidth(widthPersentage(25)),
                 height: responsiveHeight(heightPersentage(25)),
@@ -125,12 +146,7 @@ function MenuComponent(props) {
         ) : (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={() =>
-                props.navigation.reset({
-                  index: 0,
-                  routes: [{name: 'MainNavigation'}],
-                })
-              }
+              onPress={handlerResetNavigation}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image

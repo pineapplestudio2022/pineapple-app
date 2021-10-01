@@ -69,17 +69,24 @@ const Gbutton = props => {
   const [imgrvs, setImgrvs] = useState(false);
 
   const pressIn = () => {
+    if (props.disable) {
+      return;
+    }
     setBgColor('#ffffff');
     setBwidth(2);
     setTextColor('#0fefbd');
     setImgrvs(true);
   };
   const pressOut = () => {
+    if (props.disable) {
+      return;
+    }
     setBgColor('#0fefbd');
     setBwidth(0);
     setTextColor('#fafafa');
     setImgrvs(false);
   };
+
   return (
     <Pressable
       onPress={
@@ -89,8 +96,8 @@ const Gbutton = props => {
             : () => {}
           : props.onPress
       }
-      onPressIn={props.disable ? () => {} : pressIn}
-      onPressOut={props.disable ? () => {} : pressOut}
+      onPressIn={pressIn}
+      onPressOut={pressOut}
       style={{
         width: responsiveWidth(widthPersentage(props.wp)),
         height: responsiveHeight(heightPersentage(props.hp)),

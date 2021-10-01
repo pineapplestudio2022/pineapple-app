@@ -85,6 +85,14 @@ const getBadge = number => {
 };
 
 function MusicAlbumComponent(props) {
+  const handlerNavi = () => {
+    if (props.nextView === undefined) {
+      return;
+    }
+    props.navigation.navigate(props.nextView, {
+      id: props.id,
+    });
+  };
   return (
     <Box>
       <Box
@@ -98,14 +106,7 @@ function MusicAlbumComponent(props) {
           shadowOpacity: 1,
         }}>
         <Pressable
-          onPress={
-            props.nextView === undefined
-              ? () => {}
-              : () =>
-                  props.navigation.navigate(props.nextView, {
-                    id: props.id,
-                  })
-          }
+          onPress={handlerNavi}
           borderRadius={9.5}
           overflow={'hidden'}
           marginBottom={11}

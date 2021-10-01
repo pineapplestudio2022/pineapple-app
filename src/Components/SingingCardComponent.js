@@ -51,6 +51,12 @@ const getImage = () => {
   }
 };
 function SingingCardComponent(props) {
+  const handlerGoLyrics = () => {
+    props.navigation.navigate('Lyrics', {id: props.id});
+  };
+  const handlerGoListening = () => {
+    props.navigation.navigate('Listening', {id: props.id});
+  };
   return (
     <Box my={2}>
       <HStack
@@ -110,9 +116,7 @@ function SingingCardComponent(props) {
               fw={800}
               rounded={4}
               text={'가사보기'}
-              onPress={() =>
-                props.navigation.navigate('Lyrics', {id: props.id})
-              }
+              onPress={handlerGoLyrics}
             />
             <Gbutton
               wp={70}
@@ -121,9 +125,7 @@ function SingingCardComponent(props) {
               fw={800}
               rounded={4}
               text={'15초 감상'}
-              onPress={() =>
-                props.navigation.navigate('Listening', {id: props.id})
-              }
+              onPress={handlerGoListening}
             />
           </HStack>
         </VStack>
