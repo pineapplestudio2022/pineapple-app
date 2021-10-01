@@ -26,48 +26,48 @@ import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_gre
 import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
 import HomeIcon from '../Assets/Image/challenge/icon_challenge_home_white.png';
 import {useState} from 'react';
-
+const getImage = name => {
+  switch (name) {
+    case 'headphone':
+      return HeadPhoneWhiteIcon;
+    case 'headphone-reverse':
+      return HeadPhoneGreenIcon;
+    case 'mic':
+    case 'mic-reverse':
+      return MicIcon;
+    case 'x':
+      return XIcon;
+    case 'x-reverse':
+      return XgreenIcon;
+    case 'check':
+      return CheckIcon;
+    case 'check-reverse':
+      return CheckgreenIcon;
+    case 'pulse':
+      return PulseWhiteIcon;
+    case 'pulse-reverse':
+      return PulseGreenIcon;
+    case 'stop':
+      return StopWhiteIcon;
+    case 'stop-reverse':
+      return StopGreenIcon;
+    case 'upload':
+      return UploadWhiteIcon;
+    case 'upload-reverse':
+      return UploadGreenIcon;
+    case 'home':
+    case 'home-reverse':
+      return HomeIcon;
+    default:
+      return undefined;
+  }
+};
 const Gbutton = props => {
   const [bgColor, setBgColor] = useState('#0fefbd');
   const [bwidth, setBwidth] = useState(0);
   const [textColor, setTextColor] = useState('#fafafa');
   const [imgrvs, setImgrvs] = useState(false);
-  const getImage = name => {
-    switch (name) {
-      case 'headphone':
-        return HeadPhoneWhiteIcon;
-      case 'headphone-reverse':
-        return HeadPhoneGreenIcon;
-      case 'mic':
-      case 'mic-reverse':
-        return MicIcon;
-      case 'x':
-        return XIcon;
-      case 'x-reverse':
-        return XgreenIcon;
-      case 'check':
-        return CheckIcon;
-      case 'check-reverse':
-        return CheckgreenIcon;
-      case 'pulse':
-        return PulseWhiteIcon;
-      case 'pulse-reverse':
-        return PulseGreenIcon;
-      case 'stop':
-        return StopWhiteIcon;
-      case 'stop-reverse':
-        return StopGreenIcon;
-      case 'upload':
-        return UploadWhiteIcon;
-      case 'upload-reverse':
-        return UploadGreenIcon;
-      case 'home':
-      case 'home-reverse':
-        return HomeIcon;
-      default:
-        return undefined;
-    }
-  };
+
   const pressIn = () => {
     setBgColor('#ffffff');
     setBwidth(2);

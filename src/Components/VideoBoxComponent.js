@@ -22,7 +22,6 @@ import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
 import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
-// import {BlurView} from '@react-native-community/blur';
 
 const getCover = number => {
   //랜덤 이미지
@@ -75,9 +74,6 @@ function VideoBox(props) {
         resizeMode={'cover'}
       />
       <Box
-        // blurType="light"
-        // blurAmount={6}
-        // reducedTransparencyFallbackColor="white"
         style={{
           position: 'absolute',
           bottom: 0,

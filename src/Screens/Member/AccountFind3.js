@@ -21,7 +21,6 @@ import {
   VStack,
 } from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';

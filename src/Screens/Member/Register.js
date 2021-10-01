@@ -27,7 +27,6 @@ import {
 } from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';

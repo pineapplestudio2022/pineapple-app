@@ -14,7 +14,6 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-// import {BlurView} from '@react-native-community/blur';
 function MyChallengeComposing(props) {
   return (
     <Box flex={1}>
@@ -95,11 +94,7 @@ function MyChallengeComposing(props) {
               borderColor: '#0fefbd',
               justifyContent: 'center',
               borderRadius: 5,
-            }}
-            // blurType="light"
-            // blurAmount={6}
-            // reducedTransparencyFallbackColor="white"
-          >
+            }}>
             <Input
               type={'file'}
               editable={false}
@@ -218,11 +213,7 @@ function MyChallengeComposing(props) {
               borderColor: '#0fefbd',
               justifyContent: 'center',
               borderRadius: 5,
-            }}
-            // blurType="light"
-            // blurAmount={6}
-            // reducedTransparencyFallbackColor="white"
-          >
+            }}>
             <Input
               type={'file'}
               editable={false}

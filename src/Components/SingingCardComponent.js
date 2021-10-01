@@ -23,35 +23,34 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 import Gbutton from './GbuttonComponent';
-
+const getImage = () => {
+  const number = Math.floor(Math.random() * 10) + 1;
+  switch (number) {
+    case 1:
+      return Cover1;
+    case 2:
+      return Cover2;
+    case 3:
+      return Cover3;
+    case 4:
+      return Cover4;
+    case 5:
+      return Cover5;
+    case 6:
+      return Cover6;
+    case 7:
+      return Cover7;
+    case 8:
+      return Cover8;
+    case 9:
+      return Cover9;
+    case 10:
+      return Cover10;
+    default:
+      return DumpImage;
+  }
+};
 function SingingCardComponent(props) {
-  const getImage = () => {
-    const number = Math.floor(Math.random() * 10) + 1;
-    switch (number) {
-      case 1:
-        return Cover1;
-      case 2:
-        return Cover2;
-      case 3:
-        return Cover3;
-      case 4:
-        return Cover4;
-      case 5:
-        return Cover5;
-      case 6:
-        return Cover6;
-      case 7:
-        return Cover7;
-      case 8:
-        return Cover8;
-      case 9:
-        return Cover9;
-      case 10:
-        return Cover10;
-      default:
-        return DumpImage;
-    }
-  };
   return (
     <Box my={2}>
       <HStack

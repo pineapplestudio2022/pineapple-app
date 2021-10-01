@@ -24,7 +24,6 @@ function Challenge(props) {
                 hp={140}
                 fs={14}
                 fw={800}
-                blur={15}
                 imgName={'singing'}
                 rounded={8}
                 text={'노래 부르기 참여'}
@@ -35,7 +34,6 @@ function Challenge(props) {
                 hp={140}
                 fs={14}
                 fw={800}
-                blur={15}
                 imgName={'camera'}
                 rounded={8}
                 text={'15초 영상 챌린지'}
@@ -50,7 +48,6 @@ function Challenge(props) {
                 hp={140}
                 fs={14}
                 fw={800}
-                blur={15}
                 imgName={'playingMusic'}
                 rounded={8}
                 text={'연주 참여'}
@@ -63,7 +60,6 @@ function Challenge(props) {
                 hp={140}
                 fs={14}
                 fw={800}
-                blur={15}
                 imgName={'preview'}
                 rounded={8}
                 text={'편곡 참여'}
@@ -78,7 +74,6 @@ function Challenge(props) {
             hp={104}
             fs={28}
             fw={800}
-            blur={15}
             leftImgName={'headphone'}
             rounded={8}
             text={'챌린지 감상'}

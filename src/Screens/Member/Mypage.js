@@ -1,4 +1,3 @@
-// import {BlurView} from '@react-native-community/blur';
 import {
   Box,
   HStack,

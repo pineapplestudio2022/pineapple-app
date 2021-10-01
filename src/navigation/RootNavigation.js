@@ -3,7 +3,6 @@
 import React, {useContext, useEffect} from 'react';
 import {Box, Center, Pressable, Text, VStack} from 'native-base';
 import {ImageBackground, Platform, TouchableOpacity} from 'react-native';
-// import {BlurView} from '@react-native-community/blur';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   responsiveFontSize,

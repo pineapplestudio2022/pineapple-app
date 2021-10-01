@@ -1,6 +1,6 @@
 //My Challenge > 노래 챌린지의 Card
 import React, {useContext} from 'react';
-import {Image, Text, Box, VStack, HStack, Pressable} from 'native-base';
+import {Image, Text, Box, VStack, HStack} from 'native-base';
 import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import {
   responsiveFontSize,
@@ -12,7 +12,6 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
-// import {BlurView} from '@react-native-community/blur';
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic2.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic.png';
 import TrashIcon from '../Assets/Image/challenge/icon_challenge_trash.png';
@@ -29,34 +28,34 @@ import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
+const getImage = () => {
+  const number = Math.floor(Math.random() * 10) + 1;
+  switch (number) {
+    case 1:
+      return Cover1;
+    case 2:
+      return Cover2;
+    case 3:
+      return Cover3;
+    case 4:
+      return Cover4;
+    case 5:
+      return Cover5;
+    case 6:
+      return Cover6;
+    case 7:
+      return Cover7;
+    case 8:
+      return Cover8;
+    case 9:
+      return Cover9;
+    case 10:
+      return Cover10;
+    default:
+      return DumpImage;
+  }
+};
 function MySingingCardComponent(props) {
-  const getImage = () => {
-    const number = Math.floor(Math.random() * 10) + 1;
-    switch (number) {
-      case 1:
-        return Cover1;
-      case 2:
-        return Cover2;
-      case 3:
-        return Cover3;
-      case 4:
-        return Cover4;
-      case 5:
-        return Cover5;
-      case 6:
-        return Cover6;
-      case 7:
-        return Cover7;
-      case 8:
-        return Cover8;
-      case 9:
-        return Cover9;
-      case 10:
-        return Cover10;
-      default:
-        return DumpImage;
-    }
-  };
   const {userId} = useContext(UserDispatch);
 
   const handlerDelete = () => {

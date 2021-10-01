@@ -24,7 +24,6 @@ import {
 import MenuComponent from '../../Components/MenuComponent';
 import AIIcon from '../../Assets/Image/Close.png';
 import CloseIcon from '../../Assets/Image/icon_lyrics_close.png';
-// import {BlurView} from '@react-native-community/blur';
 import RNFetchBlob from 'rn-fetch-blob';
 import {TouchableOpacity} from 'react-native';
 

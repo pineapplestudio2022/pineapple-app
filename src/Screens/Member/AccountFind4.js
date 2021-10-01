@@ -10,18 +10,8 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../../Commons/DeviceWHPersentage';
-import {
-  Box,
-  Center,
-  HStack,
-  Image,
-  Input,
-  ScrollView,
-  Text,
-  VStack,
-} from 'native-base';
+import {Box, Center, HStack, Image, Input, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import {passwordRegex} from '../../Commons/CommonUtil';

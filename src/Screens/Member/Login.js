@@ -10,7 +10,6 @@ import {
 } from '../../Commons/DeviceWHPersentage';
 import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
-// import {BlurView} from '@react-native-community/blur';
 import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';

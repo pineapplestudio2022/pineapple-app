@@ -13,7 +13,6 @@ import {
   widthPersentage,
 } from '../Commons/DeviceWHPersentage';
 
-// import {BlurView} from '@react-native-community/blur';
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';
 import BadgeIcon3 from '../Assets/Image/Top_music/badge_ranking_green_3.png';
@@ -111,11 +110,7 @@ function MusicBoxComponent(props) {
             width: '100%',
             height: responsiveHeight(heightPersentage(52)),
             backgroundColor: '#1a1b1c80',
-          }}
-          // blurType="light"
-          // blurAmount={2}
-          // reducedTransparencyFallbackColor="white"
-        >
+          }}>
           {props.badge === undefined ? (
             <></>
           ) : (

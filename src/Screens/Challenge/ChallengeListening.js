@@ -31,7 +31,6 @@ import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
-// import {BlurView} from '@react-native-community/blur';
 import {ImageBackground, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -550,11 +549,7 @@ function ChallengeListening(props) {
                         style={{
                           width: '100%',
                           height: '100%',
-                        }}
-                        // blurType="light"
-                        // blurAmount={2}
-                        // reducedTransparencyFallbackColor="white"
-                      >
+                        }}>
                         <LinearGradient
                           start={{x: 0, y: 0}}
                           end={{x: 1, y: 0}}
