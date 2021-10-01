@@ -4,7 +4,7 @@ import {Text, Center, Box, HStack, FlatList, Image} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import APIKit from '../../API/APIkit';
 import YouTube from 'react-native-youtube';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import {defaultAlertMessage, YouTubeAPIKey} from '../../Commons/CommonUtil';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -21,7 +21,9 @@ import VideoBox from '../../Components/VideoBoxComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import {TouchableOpacity} from 'react-native';
 import ArrowDownIcon from '../../Assets/Image/icon_musicplayer_arrow_down.png';
-/*윤호님 카드 컴포넌트 작성법 참조해서 상단에 배경화면들 임포트하기*/
+
+const youtubeApiKey = YouTubeAPIKey();
+
 export default function ChallengeVideo(props) {
   const {userId} = useContext(UserDispatch);
   const videoPanel = useRef();
@@ -181,7 +183,7 @@ export default function ChallengeVideo(props) {
       </Center>
       <SlidingUpPanel
         ref={videoPanel}
-        allowDragging={true}
+        allowDragging={false}
         backdropOpacity={0.98}
         friction={0.01}
         draggableRange={{
@@ -227,7 +229,7 @@ export default function ChallengeVideo(props) {
               <Box bgColor="white" p={3} w="100%">
                 <YouTube
                   videoId={videoUrl.substring(videoUrl.lastIndexOf('/') + 1)}
-                  apiKey={'AIzaSyBiuFMJXY3vEGRrkZ00XupTLQeuY7BkyLA'}
+                  apiKey={youtubeApiKey}
                   play={false}
                   fullscreen={false}
                   loop={false}

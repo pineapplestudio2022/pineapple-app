@@ -45,8 +45,7 @@ function AIMusicBoxComponent(props) {
               width: responsiveWidth(widthPersentage(125)),
               height: responsiveHeight(heightPersentage(109)),
               justifyContent: 'center',
-            }}
-          >
+            }}>
             <Text
               fontSize={responsiveFontSize(fontSizePersentage(16))}
               fontWeight={500}

@@ -77,6 +77,7 @@ function MainScreen(props) {
                 <MusicAlbumComponent
                   id={item.id}
                   cover={index + 1}
+                  badge={index + 1}
                   navigation={props.navigation}
                   title={item.title}
                   subtitle={item.participant}
@@ -86,38 +87,8 @@ function MainScreen(props) {
             )}
             keyExtractor={item => item.id}
           />
-          {/* <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false} //가로 스크롤바 표시 여부
-            contentContainerStyle={{
-              alignItems: 'center',
-              paddingStart: 5,
-              paddingEnd: 5,
-            }}>
-            <MusicAlbumComponent
-              navigation={props.navigation}
-              nextView={'Ranking'}
-              title={'인기음원'}
-              subtitle={'전체보기'}
-              badge={11}
-              cover={11}
-            />
-            {musicList &&
-              musicList.map((rows, index) => (
-                <MusicAlbumComponent
-                  key={rows.id}
-                  id={rows.id}
-                  cover={index + 1}
-                  navigation={props.navigation}
-                  title={rows.title}
-                  subtitle={rows.participant}
-                  nextView={'Ranking'}
-                />
-              ))}
-          </ScrollView> */}
         </Box>
         {/* 가로스크롤 뷰 시작, 인기 음원 순위 end*/}
-
         <Box>
           {/* Search Box start */}
           {/* 검색기능 추후 추가 예정 */}

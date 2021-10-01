@@ -33,8 +33,8 @@ function MenuComponent(props) {
             width: '100%',
             height: responsiveHeight(heightPersentage(152)),
             backgroundColor: 'transparent',
-          }}>
-        </LinearGradient>
+          }}
+        />
       )}
       {/* 상단 그라데이션 && 블러 효과 end */}
 

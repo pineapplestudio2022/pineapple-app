@@ -32,8 +32,10 @@ import ArrowDownIcon from '../Assets/Image/icon_musicplayer_arrow_down.png';
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
-import {defaultAlertMessage} from '../Commons/CommonUtil';
+import {defaultAlertMessage, YouTubeAPIKey} from '../Commons/CommonUtil';
 import YouTube from 'react-native-youtube';
+
+const youtubeApiKey = YouTubeAPIKey();
 
 function VideoPlayer(props) {
   const {userId, dispatch} = useContext(UserDispatch);
@@ -225,7 +227,7 @@ function VideoPlayer(props) {
             videoId={props.shareLink.substring(
               props.shareLink.lastIndexOf('/') + 1,
             )}
-            apiKey={'AIzaSyBiuFMJXY3vEGRrkZ00XupTLQeuY7BkyLA'}
+            apiKey={youtubeApiKey}
             play={false}
             fullscreen={false}
             loop={false}

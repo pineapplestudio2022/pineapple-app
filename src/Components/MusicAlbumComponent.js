@@ -121,7 +121,7 @@ function MusicAlbumComponent(props) {
               height: responsiveWidth(widthPersentage(100)),
             }}>
             <Image
-              source={getBadge(props.index)}
+              source={getBadge(props.badge)}
               resizeMode="cover"
               position="absolute"
               width={25}
