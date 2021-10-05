@@ -94,7 +94,7 @@ function MusicAlbumComponent(props) {
     });
   };
   return (
-    <Box>
+    <Box marginLeft={props.ml}>
       <Box
         style={{
           shadowColor: '#00000040',
@@ -153,3 +153,7 @@ function MusicAlbumComponent(props) {
 }
 
 export default MusicAlbumComponent;
+
+MusicAlbumComponent.defaultProps = {
+  ml: 0,
+};

@@ -64,6 +64,7 @@ function MainScreen(props) {
               <>
                 {index === 0 ? (
                   <MusicAlbumComponent
+                    ml={5}
                     navigation={props.navigation}
                     nextView={'Ranking'}
                     title={'인기음원'}
