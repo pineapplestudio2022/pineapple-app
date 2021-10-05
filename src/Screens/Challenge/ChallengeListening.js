@@ -470,6 +470,23 @@ function ChallengeListening(props) {
       if (__DEV__) {
         console.log(data);
       }
+      RNFetchBlob.fs
+        .exists(filepath + outputFile)
+        .then(exist => {
+          if (!exist) {
+            return;
+          }
+          RNFetchBlob.fs.unlink(filepath + outputFile).catch(error => {
+            if (__DEV__) {
+              console.log(error);
+            }
+          });
+        })
+        .catch(error => {
+          if (__DEV__) {
+            console.log(error);
+          }
+        });
       setSpinner(false);
       setUploadFinish(true);
     });
