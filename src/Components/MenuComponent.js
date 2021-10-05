@@ -98,14 +98,19 @@ function MenuComponent(props) {
           )}
         </Box>
         <Center flex={1}>
-          <Text
-            textAlign={'center'}
-            fontSize={responsiveFontSize(fontSizePersentage(17))}
-            fontWeight={600}
-            noOfLines={1}
-            color={'#1a1b1c'}>
-            {props.titleName}
-          </Text>
+          <Pressable
+            onPress={
+              __DEV__ ? () => props.navigation.navigate('DEVScreen') : () => {}
+            }>
+            <Text
+              textAlign={'center'}
+              fontSize={responsiveFontSize(fontSizePersentage(17))}
+              fontWeight={600}
+              noOfLines={1}
+              color={'#1a1b1c'}>
+              {props.titleName}
+            </Text>
+          </Pressable>
         </Center>
         {props.name === 'MainScreen' ? (
           <Box

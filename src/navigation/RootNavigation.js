@@ -28,7 +28,7 @@ import ChallengeVideo from '../Screens/Challenge/ChallengeVideo';
 import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import APIKit from '../API/APIkit';
-
+import DEVScreen from '../Screens/etc/FFmpegTest';
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 function CustomDrawerContent(props) {
   const {userId, dispatch} = useContext(UserDispatch);
@@ -250,6 +250,7 @@ const MainNavigation = props => {
       <Drawer.Screen name="MypageScreen" component={MypageScreen} />
       <Drawer.Screen name="MyChallenge" component={MyChallengeNavigation} />
       <Drawer.Screen name="LyricsScreen" component={LyricsScreen} />
+      <Drawer.Screen name="DEVScreen" component={DEVScreen} />
       {/* <Drawer.Screen name="PinappleMusic" component={PineappleMusic} /> */}
       {/* <Drawer.Screen name="MyPhotoAlbum" component={MainScreen} />
       <Drawer.Screen name="MyMusic" component={MainScreen} />
