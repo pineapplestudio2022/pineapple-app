@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "devtools": "react-devtools",
     "clean:android": "cd android && ./gradlew clean && cd ../",
+    "cleancache:android": "cd android && ./gradlew cleanBuildCache && cd ../",
     "clean:ios": "cd ios && xcodebuild clean && cd ../"
   },
   "dependencies": {
