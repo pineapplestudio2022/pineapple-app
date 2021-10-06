@@ -60,7 +60,7 @@ function CustomDrawerContent(props) {
               color={'#fafafa'}
               bold
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
-              Pineapple Studio 소개
+              Pineapple Studio 소개 [준비중]
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
