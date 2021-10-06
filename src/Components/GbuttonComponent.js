@@ -9,8 +9,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-
+} from '../Commons/CommonUtil';
 import HeadPhoneWhiteIcon from '../Assets/Image/challenge/icon_challenge_headphones_white.png';
 import HeadPhoneGreenIcon from '../Assets/Image/challenge/icon_challenge_headphones_green.png';
 import StopGreenIcon from '../Assets/Image/challenge/icon_challenge_stop_green.png';
@@ -26,6 +25,7 @@ import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_gre
 import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
 import HomeIcon from '../Assets/Image/challenge/icon_challenge_home_white.png';
 import {useState} from 'react';
+
 const getImage = name => {
   switch (name) {
     case 'headphone':

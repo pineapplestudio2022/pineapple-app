@@ -2,7 +2,7 @@
 import {Box, Center, FlatList, HStack, VStack} from 'native-base';
 import React, {useRef, useState, useEffect} from 'react';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
-import {heightPersentage} from '../../Commons/DeviceWHPersentage';
+import {heightPersentage, defaultAlertMessage} from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
@@ -12,7 +12,6 @@ import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
 import VideoBox from '../../Components/VideoBoxComponent';
 import VideoPlayer from '../../Components/VideoPlayer';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
 
 function ChallengeEnjoy(props) {
   const musicPanel = useRef();

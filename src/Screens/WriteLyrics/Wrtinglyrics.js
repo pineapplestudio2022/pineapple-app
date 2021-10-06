@@ -20,7 +20,7 @@ import {
   widthPersentage,
   heightPersentage,
   fontSizePersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import MenuComponent from '../../Components/MenuComponent';
 import AIIcon from '../../Assets/Image/Close.png';
 import CloseIcon from '../../Assets/Image/icon_lyrics_close.png';

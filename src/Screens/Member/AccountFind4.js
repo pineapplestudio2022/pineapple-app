@@ -9,12 +9,12 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  passwordRegex,
+} from '../../Commons/CommonUtil';
 import {Box, Center, HStack, Image, Input, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
-import {passwordRegex} from '../../Commons/CommonUtil';
 import APIKit from '../../API/APIkit';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 

@@ -6,10 +6,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+import {heightPersentage, widthPersentage} from '../../Commons/CommonUtil';
 import {ImageBackground} from 'react-native';
 import MenuComponent from '../../Components/MenuComponent';
 import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';

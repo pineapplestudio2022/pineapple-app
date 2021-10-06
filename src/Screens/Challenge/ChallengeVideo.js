@@ -4,17 +4,19 @@ import {Text, Center, Box, HStack, FlatList, Image} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import APIKit from '../../API/APIkit';
 import YouTube from 'react-native-youtube';
-import {defaultAlertMessage, YouTubeAPIKey} from '../../Commons/CommonUtil';
+import {
+  defaultAlertMessage,
+  YouTubeAPIKey,
+  fontSizePersentage,
+  heightPersentage,
+  widthPersentage,
+} from '../../Commons/CommonUtil';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+
 import Gbutton from '../../Components/GbuttonComponent';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import VideoBox from '../../Components/VideoBoxComponent';

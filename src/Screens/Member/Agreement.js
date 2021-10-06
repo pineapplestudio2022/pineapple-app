@@ -8,7 +8,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import {
   Box,
   Center,

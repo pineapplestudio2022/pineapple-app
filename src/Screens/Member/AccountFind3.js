@@ -9,7 +9,8 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  defaultAlertMessage,
+} from '../../Commons/CommonUtil';
 import {
   Box,
   Center,
@@ -25,7 +26,6 @@ import Gbutton from '../../Components/GbuttonComponent';
 import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
 import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
 import APIKit from '../../API/APIkit';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
 const FindAccountThree = props => {
   const {email} = props.route.params;
 

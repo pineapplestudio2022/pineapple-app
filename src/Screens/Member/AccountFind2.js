@@ -8,7 +8,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import Gbutton from '../../Components/GbuttonComponent';

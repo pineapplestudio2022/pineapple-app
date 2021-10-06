@@ -20,7 +20,8 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  defaultAlertMessage,
+} from '../../Commons/CommonUtil';
 import MenuComponent from '../../Components/MenuComponent';
 import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
 import Gbutton from '../../Components/GbuttonComponent';
@@ -36,9 +37,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
 import APIKit from '../../API/APIkit';
-import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
 import {
   PERMISSIONS,
   request,

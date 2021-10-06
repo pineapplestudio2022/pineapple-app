@@ -19,10 +19,12 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {
+  defaultAlertMessage,
+  YouTubeAPIKey,
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import HeartIcon from '../Assets/Image/icon_musicplayer_heart_green.png';
 import FireIcon from '../Assets/Image/icon_musicplayer_fire_green.png';
@@ -32,7 +34,7 @@ import ArrowDownIcon from '../Assets/Image/icon_musicplayer_arrow_down.png';
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
-import {defaultAlertMessage, YouTubeAPIKey} from '../Commons/CommonUtil';
+
 import YouTube from 'react-native-youtube';
 
 const youtubeApiKey = YouTubeAPIKey();

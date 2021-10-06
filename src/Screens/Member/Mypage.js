@@ -20,14 +20,14 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  passwordRegex,
+} from '../../Commons/CommonUtil';
 import MenuComponent from '../../Components/MenuComponent';
 import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
 import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
 import Gbutton from '../../Components/GbuttonComponent';
 import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {passwordRegex} from '../../Commons/CommonUtil';
 import TermsandConditionModal from './TermsandConditionModal';
 const Mypage = props => {
   const {userId} = useContext(UserDispatch);

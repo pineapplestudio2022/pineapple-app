@@ -11,7 +11,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic2.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic.png';
 import TrashIcon from '../Assets/Image/challenge/icon_challenge_trash.png';

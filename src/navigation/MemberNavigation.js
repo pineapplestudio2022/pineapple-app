@@ -19,7 +19,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {heightPersentage, widthPersentage} from '../Commons/DeviceWHPersentage';
+import {heightPersentage, widthPersentage} from '../Commons/CommonUtil';
 const MemberStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const MypageStack = createStackNavigator();

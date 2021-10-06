@@ -19,8 +19,6 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
-import {
   defaultAlertMessage,
   emailRegex,
   passwordRegex,

@@ -6,13 +6,15 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+
+import {ImageBackground} from 'react-native';
+import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_1.jpg';
 import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import {ImageBackground} from 'react-native';
-import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_1.jpg';
+} from '../Commons/CommonUtil';
+
 function AIMusicBoxComponent(props) {
   const handlerNavigation = () => {
     props.navigation.navigate(props.nextView);

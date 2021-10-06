@@ -10,7 +10,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 import DefaultImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';

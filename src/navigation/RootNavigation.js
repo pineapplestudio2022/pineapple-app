@@ -8,10 +8,7 @@ import {
   responsiveFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+import {fontSizePersentage, widthPersentage} from '../Commons/CommonUtil';
 
 import HomeNavigation from './HomeNavigation';
 import MyChallengeNavigation from './MyChallengeNavigation';

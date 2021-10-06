@@ -12,7 +12,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import RNFetchBlob from 'rn-fetch-blob';
 import LeftArrowIcon from '../../Assets/Image/icon_main_left_arrow.png';
 import {Alert, PermissionsAndroid, Platform} from 'react-native';

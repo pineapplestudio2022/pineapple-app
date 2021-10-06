@@ -3,7 +3,7 @@ import {Box, Center, FlatList} from 'native-base';
 import React from 'react';
 
 import {responsiveHeight} from 'react-native-responsive-dimensions';
-import {heightPersentage} from '../../Commons/DeviceWHPersentage';
+import {heightPersentage} from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';

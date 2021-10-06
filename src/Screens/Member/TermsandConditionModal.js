@@ -7,10 +7,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import WebView from 'react-native-webview';
 import ExternalLinkIcon from '../../Assets/Image/member/icon_signup_externallink_gray.png';
-import {
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+import {heightPersentage, widthPersentage} from '../../Commons/CommonUtil';
 import Gbutton from '../../Components/GbuttonComponent';
 
 const termsText = [

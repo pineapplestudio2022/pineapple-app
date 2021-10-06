@@ -10,7 +10,7 @@ import {
   widthPersentage,
   heightPersentage,
   fontSizePersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import icon_check_close from '../../Assets/Image/Top_music/../icon_main_mic.png';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import Gbutton from '../../Components/GbuttonComponent';

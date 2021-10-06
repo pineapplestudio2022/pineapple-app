@@ -7,7 +7,8 @@ import {
 import {
   fontSizePersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  defaultAlertMessage,
+} from '../../Commons/CommonUtil';
 import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
 import MenuComponent from '../../Components/MenuComponent';
 import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
@@ -17,7 +18,6 @@ import Gbutton from '../../Components/GbuttonComponent';
 import {TouchableOpacity} from 'react-native';
 import APIKit from '../../API/APIkit';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Login = props => {

@@ -10,7 +10,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import SkipBackIcon from '../Assets/Image/icon_musicplayer_skip_back.png';
 import SkipForwordIcon from '../Assets/Image/icon_musicplayer_skip_forword.png';

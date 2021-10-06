@@ -17,7 +17,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 import {TouchableOpacity} from 'react-native';
 
 function MenuComponent(props) {

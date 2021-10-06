@@ -11,7 +11,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';

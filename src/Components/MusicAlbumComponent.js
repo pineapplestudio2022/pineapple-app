@@ -15,7 +15,7 @@ import BadgeIcon9 from '../Assets/Image/Top_music/top_music_badge_9.png';
 import BadgeIcon10 from '../Assets/Image/Top_music/top_music_badge_10.png';
 import BadgeIconCrown from '../Assets/Image/Top_music/top_music_badge_crown.png';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../Commons/DeviceWHPersentage';
+import {widthPersentage} from '../Commons/CommonUtil';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
 import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';

@@ -9,7 +9,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import MagazineIcon from '../Assets/Image/btn_main_magazine.png';
 import MusicNoteIcon from '../Assets/Image/btn_main_music_note.png';

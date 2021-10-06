@@ -11,7 +11,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import AIMusicBoxComponent from '../../Components/AIMusicBoxComponent';
 
 function ChallengePlaying(props) {

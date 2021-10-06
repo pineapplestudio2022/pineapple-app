@@ -19,7 +19,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 import {ImageBackground} from 'react-native';
 import IconHeaphone from '../../Assets/Image/challenge/icon_challenge_headphone.png';
 import IconClose from '../../Assets/Image/icon_check_close.png';
@@ -63,7 +63,8 @@ function ChallengeComposingDetail(props) {
                 height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-              }}></ImageBackground>
+              }}
+            />
           </Box>
         </Box>
         <HStack space={37} justifyContent={'center'}>

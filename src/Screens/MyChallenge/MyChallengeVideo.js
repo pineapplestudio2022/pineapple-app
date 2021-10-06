@@ -13,11 +13,13 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+  defaultAlertMessage,
+  domainRegex,
+} from '../../Commons/CommonUtil';
 import APIKit from '../../API/APIkit';
 import Gbutton from '../../Components/GbuttonComponent';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {defaultAlertMessage, domainRegex} from '../../Commons/CommonUtil';
+
 function MyChallengeVideo(props) {
   const {userId, email} = useContext(UserDispatch);
   const [originalVideoList, setOriginalVideoList] = useState();

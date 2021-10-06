@@ -13,7 +13,8 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+  defaultAlertMessage,
+} from '../Commons/CommonUtil';
 
 import CdDumpImage from '../Assets/Image/img_dump_cd.png';
 import HeartIcon from '../Assets/Image/icon_musicplayer_heart_green.png';
@@ -31,7 +32,6 @@ import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import Gbutton from './GbuttonComponent';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import {defaultAlertMessage} from '../Commons/CommonUtil';
 
 function MusicPlayer(props) {
   const {userId} = useContext(UserDispatch);

@@ -13,7 +13,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/DeviceWHPersentage';
+} from '../../Commons/CommonUtil';
 function MyChallengePlay(props) {
   return (
     <Box flex={1}>

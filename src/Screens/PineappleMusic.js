@@ -21,7 +21,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import MenuComponent from '../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';

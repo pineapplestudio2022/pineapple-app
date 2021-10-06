@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, FlatList, HStack, VStack} from 'native-base';
 import {ScrollView} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../../Commons/DeviceWHPersentage';
+import {widthPersentage} from '../../Commons/CommonUtil';
 import MusicAlbumComponent from '../../Components/MusicAlbumComponent';
 import MenuComponent from '../../Components/MenuComponent';
 import Wbutton from '../../Components/WbuttonComponent';

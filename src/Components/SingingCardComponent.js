@@ -21,7 +21,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 import Gbutton from './GbuttonComponent';
 const getImage = () => {
   const number = Math.floor(Math.random() * 10) + 1;
