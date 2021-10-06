@@ -274,10 +274,8 @@ const RootNavigation = props => {
             dispatch({type: 'SIGN_OUT'});
           }
         })
-        .catch(error => {
-          if (__DEV__) {
-            console.log(error);
-          }
+        .catch(() => {
+          dispatch({type: 'SIGN_OUT'});
         });
     };
 
