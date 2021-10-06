@@ -71,7 +71,7 @@ function MenuComponent(props) {
         width="100%"
         height={responsiveHeight(heightPersentage(44))}>
         <Box ml={responsiveWidth(widthPersentage(30))}>
-          {props.name === 'MainScreen' ? (
+          {props.name === 'Home' ? (
             <Pressable
               onPress={handlerToggleDrawer}
               w={responsiveWidth(widthPersentage(25))}
@@ -112,7 +112,7 @@ function MenuComponent(props) {
             </Text>
           </Pressable>
         </Center>
-        {props.name === 'MainScreen' ? (
+        {props.name === 'Home' ? (
           <Box
             w={responsiveWidth(widthPersentage(25))}
             h={responsiveHeight(heightPersentage(25))}

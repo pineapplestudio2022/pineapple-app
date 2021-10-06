@@ -50,7 +50,7 @@ const Login = props => {
           email: data.IBparams.email,
           token: data.IBparams.token,
         });
-        props.navigation.navigate('MainScreen');
+        props.navigation.navigate('Home');
       })
       .catch(error => {
         setLoading(false);

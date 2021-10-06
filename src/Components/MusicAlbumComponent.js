@@ -1,4 +1,4 @@
-//MainScreen 상단 Top 10 안의 음원 표시 Component
+//Home 상단 Top 10 안의 음원 표시 Component
 
 import React from 'react';
 import {Box, Text, Image, Pressable} from 'native-base';

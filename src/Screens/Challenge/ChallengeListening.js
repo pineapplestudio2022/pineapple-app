@@ -513,7 +513,6 @@ function ChallengeListening(props) {
             <Text />
           </Center>
           {/* 제목 end */}
-          {/* 자곡가, 작사가 start */}
           <HStack space={10} justifyContent={'center'} p={2}>
             <HStack>
               <Text
@@ -530,7 +529,6 @@ function ChallengeListening(props) {
               </Text>
             </HStack>
           </HStack>
-          {/* 자곡가, 작사가 end */}
           {/* GlassBox start */}
           <Box
             style={{
@@ -714,7 +712,7 @@ function ChallengeListening(props) {
                 rounded={6}
                 imgName={'home'}
                 text={'HOME'}
-                onPress={() => props.navigation.navigate('MainScreen')}
+                onPress={() => props.navigation.navigate('Home')}
               />
             ) : (
               <Gbutton

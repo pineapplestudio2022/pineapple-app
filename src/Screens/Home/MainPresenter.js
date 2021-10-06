@@ -1,46 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Box, FlatList, HStack, VStack} from 'native-base';
 import {ScrollView} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../Commons/DeviceWHPersentage';
-import MusicAlbumComponent from '../Components/MusicAlbumComponent';
-import MenuComponent from '../Components/MenuComponent';
-import APIKit from '../API/APIkit';
-import Wbutton from '../Components/WbuttonComponent';
+import {widthPersentage} from '../../Commons/DeviceWHPersentage';
+import MusicAlbumComponent from '../../Components/MusicAlbumComponent';
+import MenuComponent from '../../Components/MenuComponent';
+import Wbutton from '../../Components/WbuttonComponent';
 
-function MainScreen(props) {
-  //랭킹 음원 10개 가져오기
-  const [musicList, setMusicList] = useState();
-  useEffect(() => {
-    if (__DEV__) {
-      console.log('api get');
-    }
-
-    const onFailure = error => {
-      if (__DEV__) {
-        console.log(error && error.response);
-      }
-    };
-
-    const getRankedChallenges = async () => {
-      await APIKit.post('/challenge/getRankedChallenges')
-        .then(({data}) => {
-          if (data.IBcode === '1000') {
-            setMusicList(data.IBparams.rows);
-          }
-        })
-        .catch(onFailure);
-    };
-
-    getRankedChallenges();
-
-    return () => {
-      if (__DEV__) {
-        console.log('api unmount');
-      }
-    };
-  }, []);
-
+const MainPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -54,7 +21,7 @@ function MainScreen(props) {
           <FlatList
             horizontal
             numColumns={1}
-            data={musicList}
+            data={props.musicList}
             // onEndReached={handleLoadMore}
             onEndReachedThreshold={0.2}
             initialNumToRender={3}
@@ -197,5 +164,5 @@ function MainScreen(props) {
       </ScrollView>
     </Box>
   );
-}
-export default MainScreen;
+};
+export default MainPresenter;
