@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   responsiveFontSize,
@@ -28,19 +28,8 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import MusicPlayer from '../Components/MusicPlayer';
 import SearchIcon from '../Assets/Image/icon_main_search.png';
 import MusicBox from '../Components/MusicBoxComponent';
-import {useRef} from 'react';
 
-function PineappleMusic(props) {
-  const [scroll, setScroll] = useState(true);
-  const HandlerScroll = bool => setScroll(bool);
-
-  const [isBottom, setIsBottom] = useState(true);
-  const panel = useRef();
-  const openFullPlayer = () => {
-    setIsBottom(false);
-    panel.current.show();
-  };
-
+const PineappleMusicPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -124,13 +113,13 @@ function PineappleMusic(props) {
               badge={true}
               music={'버터'}
               owner={'bts'}
-              onPress={openFullPlayer}
+              onPress={props.openFullPlayer}
             />
             <MusicBox
               badge={false}
               music={'음원제목'}
               owner={'소유자'}
-              onPress={openFullPlayer}
+              onPress={props.openFullPlayer}
             />
           </HStack>
         </VStack>
@@ -138,22 +127,22 @@ function PineappleMusic(props) {
       </ScrollView>
 
       <SlidingUpPanel
-        ref={panel}
-        allowDragging={scroll}
+        ref={props.panel}
+        allowDragging={props.scroll}
         draggableRange={{
           top: responsiveHeight(heightPersentage(740)),
           bottom: responsiveHeight(heightPersentage(157)),
         }}
-        onMomentumDragStart={() => setIsBottom(false)}
-        onBottomReached={() => setIsBottom(true)}
+        onMomentumDragStart={() => props.setIsBottom(false)}
+        onBottomReached={() => props.setIsBottom(true)}
         showBackdrop={false}>
         <MusicPlayer
-          onScroll={HandlerScroll}
-          playerSize={isBottom ? false : true}
+          onScroll={props.HandlerScroll}
+          playerSize={props.isBottom ? false : true}
         />
       </SlidingUpPanel>
     </Box>
   );
-}
+};
 
-export default PineappleMusic;
+export default PineappleMusicPresenter;
