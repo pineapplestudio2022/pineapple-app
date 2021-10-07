@@ -2,8 +2,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Lyrics from '../Screens/WriteLyrics/ToggleScreen2';
 import WriteLyrics from '../Screens/WriteLyrics/Wrtinglyrics';
+import LyricsListView from '../Screens/WriteLyrics/LyricsListView';
 
 const LyricsStack = createStackNavigator();
 
@@ -15,7 +15,7 @@ const LyricsNavigation = props => {
         cardStyle: {backgroundColor: 'transparent'},
         animationEnabled: false,
       }}>
-      <LyricsStack.Screen name={'Lyrics'} component={Lyrics} />
+      <LyricsStack.Screen name={'LyricsListView'} component={LyricsListView} />
       <LyricsStack.Screen name={'WriteLyrics'} component={WriteLyrics} />
     </LyricsStack.Navigator>
   );

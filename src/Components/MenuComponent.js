@@ -118,7 +118,7 @@ function MenuComponent(props) {
             h={responsiveHeight(heightPersentage(25))}
             mr={responsiveWidth(widthPersentage(30))}
           />
-        ) : props.name === 'Lyrics' ? (
+        ) : props.name === 'LyricsListView' ? (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
               onPress={handlerGoLyrics}

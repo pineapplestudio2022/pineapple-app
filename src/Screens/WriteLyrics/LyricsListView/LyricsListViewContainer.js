@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from 'react';
-
+import {Alert, PermissionsAndroid, Platform} from 'react-native';
 import {Box, Text, Pressable, HStack, Image} from 'native-base';
-import {SwipeListView} from 'react-native-swipe-list-view';
-import MenuComponent from '../../Components/MenuComponent';
+import RNFetchBlob from 'rn-fetch-blob';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+
 import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-import RNFetchBlob from 'rn-fetch-blob';
-import LeftArrowIcon from '../../Assets/Image/icon_main_left_arrow.png';
-import {Alert, PermissionsAndroid, Platform} from 'react-native';
-function Basic(props) {
+} from '../../../Commons/CommonUtil';
+import LeftArrowIcon from '../../../Assets/Image/icon_main_left_arrow.png';
+import LyricsListViewPresenter from './LyricsListViewPresenter';
+
+const LyricsListViewContainer = props => {
   const [fileList, setFileList] = useState();
   const [refreshing, setRefreshing] = useState(false);
 
@@ -219,27 +219,16 @@ function Basic(props) {
       </Pressable>
     </HStack>
   );
-
   return (
-    <Box flex={1}>
-      <MenuComponent
-        name={props.route.name}
-        titleName={'가사 쓰기'}
-        navigation={props.navigation}
-      />
-      <SwipeListView
-        data={fileList && fileList}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        rightOpenValue={-165}
-        previewRowKey={'0'}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-      />
-    </Box>
+    <LyricsListViewPresenter
+      {...props}
+      fileList={fileList}
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      renderItem={renderItem}
+      renderHiddenItem={renderHiddenItem}
+    />
   );
-}
+};
 
-export default Basic;
+export default LyricsListViewContainer;
