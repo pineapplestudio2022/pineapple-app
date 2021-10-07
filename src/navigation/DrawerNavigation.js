@@ -45,7 +45,7 @@ const CustomDrawerContent = props => {
         <VStack safeAreaTop space={5} {...props} flex={1} mt={20}>
           <TouchableOpacity
             w="100%"
-            // onPress={() => props.navigation.navigate('PineappleIntro')}>
+            // onPress={() => props.navigation.navigate('Intro')}
           >
             <Text
               textAlign={'center'}
@@ -239,7 +239,7 @@ const DrawerNavigation = props => {
       sceneContainerStyle={{backgroundColor: 'transparent'}}
       drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HomeNavigation" component={HomeNavigation} />
-      <Drawer.Screen name="PineappleIntro" component={Intro} />
+      <Drawer.Screen name="Intro" component={Intro} />
       <Drawer.Screen name="MemberNavigation" component={MemberNavigation} />
       <Drawer.Screen name="LoginNavigation" component={LoginNavigation} />
       <Drawer.Screen name="Mypage" component={Mypage} />
