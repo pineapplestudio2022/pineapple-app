@@ -34,7 +34,7 @@ import AudioRecorderPlayer, {
 import {ImageBackground, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import {RNFFmpeg} from 'react-native-ffmpeg';
+import {RNFFmpeg, LogLevel, RNFFmpegConfig} from 'react-native-ffmpeg';
 import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
@@ -70,8 +70,16 @@ const FFMpegTest = props => {
   const [filepath, setFilePath] = useState(''); //파일 저장 경로
   const [fileName, setFileName] = useState(''); //파일 이름
   const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
+  const [adjustVolume, setAdjustVolume] = useState(0); // bgm - vocal 볼륨차
+  const [bgmVolume, setBgmVolume] = useState(0);
+  const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Assets/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
 
   const originalSongIdNum = 35; //원곡 id
+  useEffect(() => {
+    console.log(`bgmVolume: ${bgmVolume}`);
+    console.log(`BGMVolume - VocalVolume: ${adjustVolume}`);
+  }, [adjustVolume, bgmVolume]);
+  useEffect(() => {}, [outputFile]);
   //권한 가져오기
   useEffect(() => {
     getPermission();
@@ -82,6 +90,8 @@ const FFMpegTest = props => {
     ARRecord.current = new AudioRecorderPlayer(); //녹음
     ARRecord.current.setSubscriptionDuration(1);
 
+    // RNFFmpegConfig.setLogLevel(LogLevel.AV_LOG_VERBOSE);
+    RNFFmpegConfig.enableLogCallback(ffmpegLogCallback);
     const getOriginalSong = async () => {
       const payload = {id: originalSongIdNum.toString()};
 
@@ -163,6 +173,10 @@ const FFMpegTest = props => {
       ARRecord.current.removeRecordBackListener();
     };
   }, []);
+
+  const ffmpegLogCallback = log => {
+    const a = log;
+  };
 
   //재생파일 경로
   const playPath = Platform.select({
@@ -324,14 +338,18 @@ const FFMpegTest = props => {
         fileName.substring(0, fileName.lastIndexOf('.')) +
         `_${new Date().getTime().toString()}.mp4`;
       // here's code start to audio mix.
+
       const options = [
         '-i',
         uri,
         '-i',
         filepath + fileName,
+        '-i',
+        IRSampleAudioIos,
         '-filter_complex',
         // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
-        '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[a0]aecho=0.8:0.9:40|50|70:0.4|0.3|0.2[a1];[1]volume=volume=0.5[a2];[a2]adelay=0s|0s[a3];[a1][a3]amix=inputs=2:dropout_transition=10000[a]',
+        // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[a0]aecho=0.8:0.9:40|50|70:0.4|0.3|0.2[a1];[1]volume=volume=0.5[a2];[a2]adelay=0s|0s[a3];[a1][a3]amix=inputs=2:dropout_transition=10000[a]',
+        '[0] [2] afir=dry=10:wet=10[a0]; [1]adelay=0s|0s[a1]; [a0][a1]amix=inputs=2:dropout_transition=10000[a]',
         '-map',
         '[a]',
         `${filepath}${outputFileName}`,
@@ -401,6 +419,136 @@ const FFMpegTest = props => {
         return;
       }
     }
+  };
+
+  const onStartVocalFilePlay = async () => {
+    try {
+      const msg = await ARPlayer.current.startPlayer(uri);
+      const volume = await ARPlayer.current.setVolume(1.0);
+
+      const vocalLUFSError = await RNFFmpeg.executeWithArguments([
+        '-i',
+        uri,
+        '-af',
+        'ebur128=framelog=verbose',
+        '-f',
+        'null',
+        '-',
+      ]);
+      if (__DEV__) {
+        console.log(`FFmpeg process exited with rc=${vocalLUFSError}.`);
+      }
+
+      const vocalLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
+      const vocalLUFSSummary = vocalLUFSOutput.toString().split('Summary:')[1];
+      const avgVocalVolume = `-${vocalLUFSSummary.split('-')[1]}`;
+      console.log(
+        '======================Vocal LUFS(인지음량) 측정==========================',
+      );
+      console.log(`Vocal LUFS Summary:${vocalLUFSSummary}`);
+      console.log(`avgVocalVolume: ${avgVocalVolume}`);
+
+      const bgmLUFSError = await RNFFmpeg.executeWithArguments([
+        '-i',
+        filepath + fileName,
+        '-af',
+        'ebur128=framelog=verbose',
+        '-f',
+        'null',
+        '-',
+      ]);
+      if (__DEV__) {
+        console.log(`FFmpeg process exited with rc=${bgmLUFSError}.`);
+      }
+
+      const bgmLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
+      const bgmLUFSSummary = bgmLUFSOutput.toString().split('Summary:')[1];
+      const avgBGMVolume = `-${bgmLUFSSummary.split('-')[1]}`;
+      console.log(
+        '======================BGM LUFS(인지음량) 측정======================',
+      );
+      console.log(`BGM LUFS Summary:${bgmLUFSSummary}`);
+      console.log(`avgBGMVolume: ${avgBGMVolume}`);
+
+      setBgmVolume(avgBGMVolume);
+      setAdjustVolume(
+        Math.floor(parseFloat(avgBGMVolume) - parseFloat(avgVocalVolume)),
+      );
+
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
+      setIsAlreadyPlay(true);
+      ARPlayer.current.addPlayBackListener(e => {
+        if (e.currentPosition >= e.duration) {
+          ARPlayer.current.stopPlayer();
+          setIsAlreadyPlay(false);
+        }
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
+
+        return;
+      });
+    } catch (error) {
+      if (__DEV__) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onStopVocalPlay = () => {
+    setTimeElapsed('00:00');
+    // setDuration('00:00');
+    setPercent(0);
+    ARPlayer.current.stopPlayer();
+    ARPlayer.current.removePlayBackListener();
+    setIsAlreadyPlay(false);
+
+    const outputFileName =
+      fileName.substring(0, fileName.lastIndexOf('.')) +
+      `_${new Date().getTime().toString()}.mp4`;
+
+    console.log(adjustVolume);
+    const options = [
+      '-i',
+      uri,
+      '-i',
+      filepath + fileName,
+      '-i',
+      IRSampleAudioIos,
+      '-filter_complex',
+      // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
+      // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[a0]aecho=0.8:0.9:40|50|70:0.4|0.3|0.2[a1];[1]volume=volume=0.5[a2];[a2]adelay=0s|0s[a3];[a1][a3]amix=inputs=2:dropout_transition=10000[a]',
+      `[0]volume=volume=${adjustVolume}dB,afftdn=nf=-20[a0];[a0] [2] afir=dry=10:wet=10[a00]; [1]adelay=0s|0s[a1]; [a00][a1]amix=inputs=2:dropout_transition=10000[a]`,
+      // `[0]volume=volume=${bgmVolume}dB[a0];[a0] [2] afir=dry=10:wet=10[a00]; [1]adelay=0s|0s[a1]; [a00][a1]amix=inputs=2:dropout_transition=10000[a]`,
+      '-map',
+      '[a]',
+      `${filepath}${outputFileName}`,
+      // '-acodec',
+      // 'libmp3lame',
+    ];
+    if (__DEV__) {
+      console.log('[onStopRecord] handler is started');
+      console.log(`[input file 1]: ${uri}`);
+      console.log(`[input file 2]: ${filepath + fileName}`);
+      console.log(`[output file name] : ${outputFileName}`);
+      console.log(`[options]: ${options}`);
+    }
+
+    RNFFmpeg.executeWithArguments(options).then(result => {
+      if (__DEV__) {
+        console.log(`FFmpeg process exited with rc=${result}.`);
+      }
+      setUploadBtn(true);
+      setOutputFile(outputFileName);
+      setSpinner(false);
+    });
   };
 
   return (
@@ -525,7 +673,7 @@ const FFMpegTest = props => {
                     disable={spinner}
                     imgName={isAlreadyPlay ? 'stop' : 'headphone'}
                     onPress={isAlreadyPlay ? onStopPlay : onStartOutputFilePlay}
-                    text={'녹음파일 재생'}
+                    text={'합성파일 재생'}
                   />
                   <Gbutton
                     wp={200}
@@ -536,6 +684,20 @@ const FFMpegTest = props => {
                     text={'닫기'}
                     rounded={6}
                     onPress={() => props.navigation.goBack()}
+                  />
+
+                  <Gbutton
+                    wp={200}
+                    hp={40}
+                    fs={18}
+                    fw={600}
+                    rounded={8}
+                    disable={spinner}
+                    imgName={isAlreadyPlay ? 'stop' : 'headphone'}
+                    text={'음성 녹음파일 재생'}
+                    onPress={
+                      isAlreadyPlay ? onStopVocalPlay : onStartVocalFilePlay
+                    }
                   />
                 </VStack>
               </Center>

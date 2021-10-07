@@ -34,7 +34,7 @@ import AudioRecorderPlayer, {
 import {ImageBackground, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import {RNFFmpeg} from 'react-native-ffmpeg';
+import {RNFFmpeg, RNFFmpegConfig} from 'react-native-ffmpeg';
 import APIKit from '../../API/APIkit';
 import LinearGradient from 'react-native-linear-gradient';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
@@ -71,10 +71,23 @@ function ChallengeListening(props) {
   const [fileName, setFileName] = useState(''); //파일 이름
   const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
 
+  const [adjustVolume, setAdjustVolume] = useState(0); // bgm - vocal 볼륨차
+  const [bgmVolume, setBgmVolume] = useState(0);
+  const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Assets/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
+
   //권한 가져오기
   useEffect(() => {
     getPermission();
   }, []);
+
+  useEffect(() => {
+    if (__DEV__) {
+      console.log(`bgmVolume: ${bgmVolume}`);
+      console.log(`BGMVolume - VocalVolume: ${adjustVolume}`);
+    }
+  }, [adjustVolume, bgmVolume]);
+
+  useEffect(() => {}, [outputFile]);
 
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer(); //재생
@@ -82,6 +95,8 @@ function ChallengeListening(props) {
     ARRecord.current = new AudioRecorderPlayer(); //녹음
     ARRecord.current.setSubscriptionDuration(1);
 
+    // RNFFmpegConfig.setLogLevel(LogLevel.AV_LOG_VERBOSE);
+    RNFFmpegConfig.enableLogCallback(ffmpegLogCallback);
     const getOriginalSong = async () => {
       const payload = {id: props.route.params.id.toString()};
 
@@ -163,6 +178,10 @@ function ChallengeListening(props) {
       ARRecord.current.removeRecordBackListener();
     };
   }, [props.route.params.id]);
+
+  const ffmpegLogCallback = log => {
+    const a = log;
+  };
 
   //재생파일 경로
   const playPath = Platform.select({
@@ -282,24 +301,76 @@ function ChallengeListening(props) {
       ARRecord.current.removeRecordBackListener();
       setStopRecordBtn(false);
 
+      const vocalLUFSError = await RNFFmpeg.executeWithArguments([
+        '-i',
+        uri,
+        '-af',
+        'ebur128=framelog=verbose',
+        '-f',
+        'null',
+        '-',
+      ]);
+      if (__DEV__) {
+        console.log(`FFmpeg process exited with rc=${vocalLUFSError}.`);
+      }
+
+      const vocalLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
+      const vocalLUFSSummary = vocalLUFSOutput.toString().split('Summary:')[1];
+      const avgVocalVolume = `-${vocalLUFSSummary.split('-')[1]}`;
+      if (__DEV__) {
+        console.log(
+          '======================Vocal LUFS(인지음량) 측정==========================',
+        );
+        console.log(`Vocal LUFS Summary:${vocalLUFSSummary}`);
+        console.log(`avgVocalVolume: ${avgVocalVolume}`);
+      }
+      const bgmLUFSError = await RNFFmpeg.executeWithArguments([
+        '-i',
+        filepath + fileName,
+        '-af',
+        'ebur128=framelog=verbose',
+        '-f',
+        'null',
+        '-',
+      ]);
+      if (__DEV__) {
+        console.log(`FFmpeg process exited with rc=${bgmLUFSError}.`);
+      }
+
+      const bgmLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
+      const bgmLUFSSummary = bgmLUFSOutput.toString().split('Summary:')[1];
+      const avgBGMVolume = `-${bgmLUFSSummary.split('-')[1]}`;
+      if (__DEV__) {
+        console.log(
+          '======================BGM LUFS(인지음량) 측정======================',
+        );
+        console.log(`BGM LUFS Summary:${bgmLUFSSummary}`);
+        console.log(`avgBGMVolume: ${avgBGMVolume}`);
+      }
+      setBgmVolume(avgBGMVolume);
+      setAdjustVolume(
+        Math.floor(parseFloat(avgBGMVolume) - parseFloat(avgVocalVolume)),
+      );
+
       const outputFileName =
         fileName.substring(0, fileName.lastIndexOf('.')) +
         `_${new Date().getTime().toString()}.mp4`;
       // here's code start to audio mix.
+
       const options = [
         '-i',
         uri,
         '-i',
         filepath + fileName,
+        '-i',
+        IRSampleAudioIos,
         '-filter_complex',
-        // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
-        '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[a0]aecho=0.8:0.9:40|50|70:0.4|0.3|0.2[a1];[1]volume=volume=0.5[a2];[a2]adelay=0s|0s[a3];[a1][a3]amix=inputs=2:dropout_transition=10000[a]',
+        `[0]volume=volume=${adjustVolume}dB,afftdn=nf=-20[a0];[a0] [2] afir=dry=10:wet=10[a00]; [1]adelay=0s|0s[a1]; [a00][a1]amix=inputs=2:dropout_transition=10000[a]`,
         '-map',
         '[a]',
         `${filepath}${outputFileName}`,
-        // '-acodec',
-        // 'libmp3lame',
       ];
+
       if (__DEV__) {
         console.log('[onStopRecord] handler is started');
         console.log(`[input file 1]: ${uri}`);
@@ -308,14 +379,47 @@ function ChallengeListening(props) {
         console.log(`[options]: ${options}`);
       }
 
-      RNFFmpeg.executeWithArguments(options).then(result => {
+      RNFFmpeg.executeWithArguments(options).then(async result => {
         if (__DEV__) {
           console.log(`FFmpeg process exited with rc=${result}.`);
         }
+
         setUploadBtn(true);
         setOutputFile(outputFileName);
         setSpinner(false);
       });
+
+      // const options2 = [
+      //   '-i',
+      //   uri,
+      //   '-i',
+      //   filepath + fileName,
+      //   '-filter_complex',
+      //   '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[1]volume=volume=0.5[a1];[a1]adelay=0s|0s[a2];[a0][a2]amix=inputs=2[a]',
+      //   // '[0]volume=volume=15dB,highpass=f=200,lowpass=f=3000[a0];[a0]aecho=0.8:0.9:40|50|70:0.4|0.3|0.2[a1];[1]volume=volume=0.5[a2];[a2]adelay=0s|0s[a3];[a1][a3]amix=inputs=2:dropout_transition=10000[a]',
+      //   // '[0] [2] afir=dry=10:wet=10[a0]; [1]adelay=0s|0s[a1]; [a0][a1]amix=inputs=2:dropout_transition=10000[a]',
+      //   '-map',
+      //   '[a]',
+      //   `${filepath}original_${outputFileName}`,
+      // ];
+
+      // if (__DEV__) {
+      //   console.log('[onStopRecord] handler is started');
+      //   console.log(`[input file 1]: ${uri}`);
+      //   console.log(`[input file 2]: ${filepath + fileName}`);
+      //   console.log(`[output file name] : ${outputFileName}`);
+      //   console.log(`[options]: ${options}`);
+      // }
+
+      // RNFFmpeg.executeWithArguments(options2).then(async result => {
+      //   if (__DEV__) {
+      //     console.log(`FFmpeg process exited with rc=${result}.`);
+      //   }
+
+      //   setUploadBtn(true);
+      //   setOutputFile(outputFileName);
+      //   setSpinner(false);
+      // });
     } catch (error) {
       if (__DEV__) {
         console.log(error);
@@ -382,52 +486,8 @@ function ChallengeListening(props) {
     //     console.log(error);
     //   });
   };
-  // blob test code
-  // const uploadFile = (apiUri, userId, originalWorkId, uri, mime) => {
-  //   return new Promise((resolve, reject) => {
-  //     const uploadUri =
-  //       Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
 
-  //     let uploadBlob = null;
-  //     const Blob = RNFetchBlob.polyfill.Blob;
-  //     const fs = RNFetchBlob.fs;
-
-  //     console.log(`uri:${uri}`);
-  //     console.log(uploadUri);
-  //     fs.readFile(uploadUri, 'base64')
-  //       .then(data => {
-  //         return Blob.build(data, {type: `${mime};BASE64`});
-  //       })
-  //       .then(blob => {
-  //         const payload = new FormData();
-  //         payload.append('title', title);
-  //         payload.append('fileName', fileName);
-  //         payload.append('userId', userId);
-  //         payload.append('originSongId', originalWorkId);
-  //         payload.append('mimeType', 'video/mp4');
-  //         // payload.append('fileContents', {
-  //         //   name: outputFile,
-  //         //   type: 'video/mp4',
-  //         //   uri: `${filepath}${outputFile}`,
-  //         // });
-  //         payload.append('fileContents', blob);
-
-  //         console.log(blob);
-
-  //         APIKit.post(apiUri, payload, {
-  //           headers: {'Content-Type': 'multipart/form-data'},
-  //         }).then(response => {
-  //           // console.log(JSON.stringify(response.data, null, 2));
-  //           resolve(response.data);
-  //         });
-  //       })
-  //       .catch(error => {
-  //         reject(error);
-  //       });
-  //   });
-  // };
-
-  //업로드 버튼       //////////////수정중
+  //업로드 버튼
   const onFileUpload = async () => {
     setSpinner(true);
     if (__DEV__) {
