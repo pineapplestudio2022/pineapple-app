@@ -3,11 +3,11 @@
 import React from 'react';
 import {Box, VStack, HStack, Stack, Image} from 'native-base';
 
-import MenuComponent from '../../Components/MenuComponent';
-import ChallengeDancer from '../../Assets/Image/challenge/image_challenge_dancer.png';
-import Wbutton from '../../Components/WbuttonComponent';
+import MenuComponent from '../../../Components/MenuComponent';
+import ChallengeDancer from '../../../Assets/Image/challenge/image_challenge_dancer.png';
+import Wbutton from '../../../Components/WbuttonComponent';
 
-function Challenge(props) {
+const ChallengeListPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -95,6 +95,6 @@ function Challenge(props) {
       </Box>
     </Box>
   );
-}
+};
 
-export default Challenge;
+export default ChallengeListPresenter;

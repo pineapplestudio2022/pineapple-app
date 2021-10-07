@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Challenge from '../Screens/Challenge/Challenge';
+import ChallengeList from '../Screens/Challenge/ChallengeList';
 import ChallengeComposing from '../Screens/Challenge/ChallengeComposing';
 import ChallengeComposingDetail from '../Screens/Challenge/ChallengeComposingDetail';
 import ChallengeListening from '../Screens/Challenge/ChallengeListening';
@@ -91,7 +91,7 @@ const ChallengeNavigation = () => {
         cardStyle: {backgroundColor: 'transparent'},
         animationEnabled: false,
       }}>
-      <ChallengeStack.Screen name={'Challenge'} component={Challenge} />
+      <ChallengeStack.Screen name={'ChallengeList'} component={ChallengeList} />
       <ChallengeStack.Screen
         name={'SingingNavigation'}
         component={SingingNavigation}
