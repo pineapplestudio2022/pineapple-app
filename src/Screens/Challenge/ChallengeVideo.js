@@ -99,7 +99,7 @@ export default function ChallengeVideo(props) {
           fs={18}
           rounded={8}
           text={'MY CHANLLENGE'}
-          onPress={() => props.navigation.navigate('MyChallenge')}
+          onPress={() => props.navigation.navigate('MyChallengeNavigation')}
         />
         <FlatList
           mt={4}

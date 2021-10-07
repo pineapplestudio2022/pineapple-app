@@ -1,6 +1,6 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import ChallengeListening from '../Screens/Challenge/ChallengeListening';
 import MyChallenge from '../Screens/MyChallenge/MyChallenge';
 import MyChallengeComposing from '../Screens/MyChallenge/MyChallengeComposing';
@@ -15,7 +15,7 @@ const MySingingStack = createStackNavigator();
 const MyVideoStack = createStackNavigator();
 
 //내 노래 챌린지 nav
-const MySingingScreen = () => {
+const MySingingNavigation = () => {
   return (
     <MySingingStack.Navigator
       screenOptions={{
@@ -36,7 +36,7 @@ const MySingingScreen = () => {
 };
 
 //내 영상 챌린지 nav
-const MyVideoScreen = () => {
+const MyVideoNavigation = () => {
   return (
     <MyVideoStack.Navigator
       screenOptions={{
@@ -50,7 +50,7 @@ const MyVideoScreen = () => {
 };
 
 //내 연주 챌린지 nav
-const MyPlayingScreen = () => {
+const MyPlayingNavigation = () => {
   return (
     <MyPlayingStack.Navigator
       screenOptions={{
@@ -64,7 +64,7 @@ const MyPlayingScreen = () => {
 };
 
 //내 팬곡 챌린지 nav
-const MyComposingScreen = () => {
+const MyComposingNavigation = () => {
   return (
     <MyComposingStack.Navigator
       screenOptions={{
@@ -80,7 +80,7 @@ const MyComposingScreen = () => {
   );
 };
 
-const MyChallengeScreen = () => {
+const MyChallengeNavigation = () => {
   return (
     <MyChallengeStack.Navigator
       screenOptions={{
@@ -90,23 +90,23 @@ const MyChallengeScreen = () => {
       }}>
       <MyChallengeStack.Screen name={'MyChallenge'} component={MyChallenge} />
       <MyChallengeStack.Screen
-        name={'MyComposingScreen'}
-        component={MyComposingScreen}
+        name={'MyComposingNavigation'}
+        component={MyComposingNavigation}
       />
       <MyChallengeStack.Screen
-        name={'MyPlayingScreen'}
-        component={MyPlayingScreen}
+        name={'MyPlayingNavigation'}
+        component={MyPlayingNavigation}
       />
       <MyChallengeStack.Screen
-        name={'MySingingScreen'}
-        component={MySingingScreen}
+        name={'MySingingNavigation'}
+        component={MySingingNavigation}
       />
       <MyChallengeStack.Screen
-        name={'MyVideoScreen'}
-        component={MyVideoScreen}
+        name={'MyVideoNavigation'}
+        component={MyVideoNavigation}
       />
     </MyChallengeStack.Navigator>
   );
 };
 
-export default MyChallengeScreen;
+export default MyChallengeNavigation;

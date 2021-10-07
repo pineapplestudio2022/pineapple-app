@@ -1,5 +1,5 @@
 import {Box, Center, Image, Pressable, Text} from 'native-base';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -24,7 +24,6 @@ import CheckgreenIcon from '../Assets/Image/challenge/icon_challenge_check_green
 import UploadGreenIcon from '../Assets/Image/challenge/icon_challenge_upload_green.png';
 import UploadWhiteIcon from '../Assets/Image/challenge/icon_challenge_upload_white.png';
 import HomeIcon from '../Assets/Image/challenge/icon_challenge_home_white.png';
-import {useState} from 'react';
 
 const getImage = name => {
   switch (name) {

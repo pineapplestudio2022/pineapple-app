@@ -14,7 +14,7 @@ import {
 } from '../../Commons/CommonUtil';
 import AIMusicBoxComponent from '../../Components/AIMusicBoxComponent';
 
-function ChallengePlaying(props) {
+const ChallengePlaying = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -25,7 +25,7 @@ function ChallengePlaying(props) {
       <ScrollView>
         <Box alignItems={'center'} my={3}>
           <Pressable
-            onPress={() => props.navigation.navigate('MyChallenge')}
+            onPress={() => props.navigation.navigate('MyChallengeNavigation')}
             width={responsiveWidth(widthPersentage(220))}
             height={responsiveHeight(heightPersentage(40))}
             backgroundColor={'#0fefbd'}
@@ -73,6 +73,6 @@ function ChallengePlaying(props) {
       </ScrollView>
     </Box>
   );
-}
+};
 
 export default ChallengePlaying;

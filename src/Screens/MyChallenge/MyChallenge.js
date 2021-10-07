@@ -33,7 +33,7 @@ function MyChallenge(props) {
           leftImgName={'singing'}
           rounded={8}
           text={'노래 챌린지'}
-          onPress={() => loginChecktoMove('MySingingScreen')}
+          onPress={() => loginChecktoMove('MySingingNavigation')}
         />
         <Wbutton
           wp={320}
@@ -43,7 +43,7 @@ function MyChallenge(props) {
           leftImgName={'camera'}
           rounded={8}
           text={'영상 챌린지'}
-          onPress={() => loginChecktoMove('MyVideoScreen')}
+          onPress={() => loginChecktoMove('MyVideoNavigation')}
         />
         <Wbutton
           wp={320}

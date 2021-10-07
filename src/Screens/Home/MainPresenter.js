@@ -88,7 +88,9 @@ const MainPresenter = props => {
                   imgName={'challenge'}
                   rounded={8}
                   text={'Challenge'}
-                  onPress={() => props.navigation.navigate('ChallengeScreen')}
+                  onPress={() =>
+                    props.navigation.navigate('ChallengeNavigation')
+                  }
                 />
                 <Wbutton
                   wp={140}
@@ -98,7 +100,7 @@ const MainPresenter = props => {
                   imgName={'lyrics'}
                   rounded={8}
                   text={'가사 쓰기'}
-                  onPress={() => props.navigation.navigate('LyricsScreen')}
+                  onPress={() => props.navigation.navigate('LyricsNavigation')}
                 />
               </HStack>
               <HStack

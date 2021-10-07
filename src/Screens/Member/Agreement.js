@@ -61,11 +61,10 @@ const Agreement = props => {
     <Box flex={1}>
       <MenuComponent
         name={'Mypage'}
-        titleName={'마이페이지'}
+        titleName={'회원가입'}
         navigation={props.navigation}
         notGB
       />
-
       <ScrollView>
         <Box
           alignItems={'center'}
@@ -97,8 +96,7 @@ const Agreement = props => {
                   marginTop: responsiveHeight(heightPersentage(59)),
                   marginBottom: responsiveHeight(heightPersentage(46)),
                 }}>
-                회원가입을 위하여 개인정보 수집 및 마케팅 동의에 관련한 약관
-                동의를 부탁드려요!
+                회원가입을 위해 개인정보 수집 및 마케팅 동의 약관에 동의해주세요
               </Text>
               <Checkbox
                 colorScheme={'rgb(15,239,189)'}
@@ -112,8 +110,7 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(22))}
                     bold
                     color={'#1a1b1c'}>
-                    {'   '}
-                    약관에 전체 동의합니다.
+                    약관에 전체 동의합니다
                   </Text>
                 </HStack>
               </Checkbox>
@@ -130,7 +127,6 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
                     개인정보수집•이용 동의{'('}필수{')'}
                   </Text>
                   <TermsandConditionModal terms={1} />
@@ -148,9 +144,7 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
                     서비스 이용약관 동의{'('}필수{')'}
-                    {'   '}
                   </Text>
                   <TermsandConditionModal terms={2} />
                 </HStack>
@@ -164,8 +158,7 @@ const Agreement = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    {'   '}
-                    광고•마케팅 수신 동의{'('}선택{')'}{' '}
+                    광고•마케팅 수신 동의(선택)
                   </Text>
                   {/* <TermsandConditionModal terms={3} /> */}
                 </HStack>

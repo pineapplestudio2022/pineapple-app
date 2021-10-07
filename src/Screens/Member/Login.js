@@ -169,7 +169,9 @@ const Login = props => {
                   mx={10}
                   w={'80%'}>
                   <TouchableOpacity
-                    onPress={() => props.navigation.navigate('MemberScreen')}>
+                    onPress={() =>
+                      props.navigation.navigate('MemberNavigation')
+                    }>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       fontWeight={600}

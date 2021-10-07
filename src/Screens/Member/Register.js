@@ -70,7 +70,10 @@ const Register = props => {
     }
     if (response.data.IBcode === '1000') {
       Alert.alert('회원가입 완료', '로그인 화면으로 이동합니다', [
-        {text: '확인', onPress: () => props.navigation.navigate('LoginScreen')},
+        {
+          text: '확인',
+          onPress: () => props.navigation.navigate('LoginNavigation'),
+        },
       ]);
     }
   };

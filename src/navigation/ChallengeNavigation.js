@@ -1,5 +1,6 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import Challenge from '../Screens/Challenge/Challenge';
 import ChallengeComposing from '../Screens/Challenge/ChallengeComposing';
 import ChallengeComposingDetail from '../Screens/Challenge/ChallengeComposingDetail';
@@ -8,7 +9,7 @@ import ChallengeSinging from '../Screens/Challenge/ChallengeSinging';
 import ChallengeLyricsView from '../Screens/Challenge/ChallengeLyricsView';
 import ChallengePlaying from '../Screens/Challenge/ChallengePlaying';
 import ChallengePlayingDetail from '../Screens/Challenge/ChallengePlayingDetail';
-import MyChallengeScreen from './MyChallengeNavigation';
+import MyChallengeNavigation from './MyChallengeNavigation';
 
 const ChallengeStack = createStackNavigator();
 const SingingStack = createStackNavigator();
@@ -16,7 +17,7 @@ const ComposingStack = createStackNavigator();
 const PlayingStack = createStackNavigator();
 
 // Challenge > 연주 참여 nav
-const PlayingScreen = () => {
+const PlayingNavigation = () => {
   return (
     <PlayingStack.Navigator
       screenOptions={{
@@ -29,13 +30,16 @@ const PlayingScreen = () => {
         name={'PlayingDetail'}
         component={ChallengePlayingDetail}
       />
-      <PlayingStack.Screen name={'MyChallenge'} component={MyChallengeScreen} />
+      <PlayingStack.Screen
+        name={'MyChallengeNavigation'}
+        component={MyChallengeNavigation}
+      />
     </PlayingStack.Navigator>
   );
 };
 
 // Challenge > 작곡 참여 nav
-const ComposingScreen = () => {
+const ComposingNavigation = () => {
   return (
     <ComposingStack.Navigator
       screenOptions={{
@@ -52,15 +56,15 @@ const ComposingScreen = () => {
         component={ChallengeComposingDetail}
       />
       <ComposingStack.Screen
-        name={'MyChallenge'}
-        component={MyChallengeScreen}
+        name={'MyChallengeNavigation'}
+        component={MyChallengeNavigation}
       />
     </ComposingStack.Navigator>
   );
 };
 
 // Challenge > 노래 부르기 참여 nav
-const SingingScreen = () => {
+const SingingNavigation = () => {
   return (
     <SingingStack.Navigator
       screenOptions={{
@@ -79,7 +83,7 @@ const SingingScreen = () => {
 // Challenge > 15초 영상 챌린지
 
 // Challenge nav
-const ChallengeScreen = () => {
+const ChallengeNavigation = () => {
   return (
     <ChallengeStack.Navigator
       screenOptions={{
@@ -88,14 +92,20 @@ const ChallengeScreen = () => {
         animationEnabled: false,
       }}>
       <ChallengeStack.Screen name={'Challenge'} component={Challenge} />
-      <ChallengeStack.Screen name={'SingingScreen'} component={SingingScreen} />
-      <ChallengeStack.Screen name={'PlayingScreen'} component={PlayingScreen} />
       <ChallengeStack.Screen
-        name={'ComposingScreen'}
-        component={ComposingScreen}
+        name={'SingingNavigation'}
+        component={SingingNavigation}
+      />
+      <ChallengeStack.Screen
+        name={'PlayingNavigation'}
+        component={PlayingNavigation}
+      />
+      <ChallengeStack.Screen
+        name={'ComposingNavigation'}
+        component={ComposingNavigation}
       />
     </ChallengeStack.Navigator>
   );
 };
 
-export default ChallengeScreen;
+export default ChallengeNavigation;

@@ -27,7 +27,7 @@ function Challenge(props) {
                 imgName={'singing'}
                 rounded={8}
                 text={'노래 부르기 참여'}
-                onPress={() => props.navigation.navigate('SingingScreen')}
+                onPress={() => props.navigation.navigate('SingingNavigation')}
               />
               <Wbutton
                 wp={140}
@@ -53,7 +53,7 @@ function Challenge(props) {
                 text={'연주 참여'}
                 ready={'2차 챌린지 오픈 예정'}
                 disable
-                // onPress={() => props.navigation.navigate('ComposingScreen')}
+                // onPress={() => props.navigation.navigate('ComposingNavigation')}
               />
               <Wbutton
                 wp={140}
@@ -65,7 +65,7 @@ function Challenge(props) {
                 text={'편곡 참여'}
                 ready={'2차 챌린지 오픈 예정'}
                 disable
-                // onPress={() => props.navigation.navigate('PlayingScreen')}
+                // onPress={() => props.navigation.navigate('PlayingNavigation')}
               />
             </HStack>
           </VStack>

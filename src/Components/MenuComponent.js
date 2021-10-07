@@ -30,7 +30,7 @@ function MenuComponent(props) {
   const handlerResetNavigation = () => {
     props.navigation.reset({
       index: 0,
-      routes: [{name: 'MainNavigation'}],
+      routes: [{name: 'DrawerNavigation'}],
     });
   };
   const handlerGoLyrics = () => {
