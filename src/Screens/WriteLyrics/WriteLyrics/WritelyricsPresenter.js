@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Box,
   VStack,
@@ -16,81 +16,24 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {TouchableOpacity} from 'react-native';
 import {
   widthPersentage,
   heightPersentage,
   fontSizePersentage,
-} from '../../Commons/CommonUtil';
-import MenuComponent from '../../Components/MenuComponent';
-import AIIcon from '../../Assets/Image/Close.png';
-import CloseIcon from '../../Assets/Image/icon_lyrics_close.png';
-import RNFetchBlob from 'rn-fetch-blob';
-import {TouchableOpacity} from 'react-native';
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import AIIcon from '../../../Assets/Image/Close.png';
+import CloseIcon from '../../../Assets/Image/icon_lyrics_close.png';
 
-function Wlyrics(props) {
-  const [lyrics, setLyrics] = useState({
-    title: '',
-    content: '',
-  });
-
-  const writeFiletoLocal = () => {
-    const dirs = RNFetchBlob.fs.dirs.DocumentDir;
-    const filename = props.route.params.filename;
-    let path;
-    if (filename === '' || filename === undefined || filename === null) {
-      path = `${dirs}/lyrics/${lyrics.title}_${new Date()
-        .getTime()
-        .toString()}.text`;
-    } else {
-      path = `${dirs}/lyrics/${filename}`;
-    }
-    RNFetchBlob.fs.writeFile(path, JSON.stringify(lyrics), 'utf8').then(() => {
-      if (__DEV__) {
-        console.log(`path: ${path}`);
-        console.log(JSON.stringify(lyrics));
-      }
-      props.navigation.goBack();
-    });
-  };
-
-  useEffect(() => {
-    const readFiletoLocal = async () => {
-      const filename = props.route.params.filename;
-      if (filename === '' || filename === undefined || filename === null) {
-        return;
-      }
-      const dirs = RNFetchBlob.fs.dirs.DocumentDir;
-      const path = `${dirs}/lyrics/${filename}`;
-      RNFetchBlob.fs.exists(path).then(async exist => {
-        if (!exist) {
-          return;
-        }
-        RNFetchBlob.fs.readFile(path, 'utf8').then(data => {
-          const {title, content} = JSON.parse(data);
-          setLyrics({title: title, content: content});
-          if (__DEV__) {
-            console.log(JSON.parse(data));
-          }
-        });
-      });
-    };
-
-    readFiletoLocal();
-
-    return () => {
-      if (__DEV__) {
-        console.log('unmount');
-      }
-    };
-  }, [props.route.params.filename]);
-
+const WriteLyricsPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
         name={props.route.name}
         titleName={'가사 쓰기'}
         navigation={props.navigation}
-        onSave={writeFiletoLocal}
+        onSave={props.writeFiletoLocal}
       />
       <ScrollView>
         <Center>
@@ -123,8 +66,10 @@ function Wlyrics(props) {
                 borderWidth={0}
                 bold
                 color={'#4be3ac'}
-                value={lyrics.title}
-                onChangeText={text => setLyrics({...lyrics, title: text})}
+                value={props.lyrics.title}
+                onChangeText={text =>
+                  props.setLyrics({...props.lyrics, title: text})
+                }
               />
               <Divider
                 bgColor={'#4be3ac'}
@@ -143,8 +88,10 @@ function Wlyrics(props) {
                   borderWidth={0}
                   w="100%"
                   h="100%"
-                  value={lyrics.content}
-                  onChangeText={text => setLyrics({...lyrics, content: text})}
+                  value={props.lyrics.content}
+                  onChangeText={text =>
+                    props.setLyrics({...props.lyrics, content: text})
+                  }
                 />
               </Box>
 
@@ -229,5 +176,5 @@ function Wlyrics(props) {
       </ScrollView>
     </Box>
   );
-}
-export default Wlyrics;
+};
+export default WriteLyricsPresenter;
