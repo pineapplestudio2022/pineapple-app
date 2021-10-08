@@ -73,8 +73,7 @@ function ChallengeListening(props) {
 
   const [adjustVolume, setAdjustVolume] = useState(0); // bgm - vocal 볼륨차
   const [bgmVolume, setBgmVolume] = useState(0);
-  const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Assets/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
-
+  //const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
   //권한 가져오기
   useEffect(() => {
     getPermission();
@@ -311,7 +310,7 @@ function ChallengeListening(props) {
         '-',
       ]);
       if (__DEV__) {
-        console.log(`FFmpeg process exited with rc=${vocalLUFSError}.`);
+        console.log(`FFmpeg process exited with vocal rc=${vocalLUFSError}.`);
       }
 
       const vocalLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
@@ -334,7 +333,7 @@ function ChallengeListening(props) {
         '-',
       ]);
       if (__DEV__) {
-        console.log(`FFmpeg process exited with rc=${bgmLUFSError}.`);
+        console.log(`FFmpeg process exited with bgmlufs rc=${bgmLUFSError}.`);
       }
 
       const bgmLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
@@ -357,6 +356,9 @@ function ChallengeListening(props) {
         `_${new Date().getTime().toString()}.mp4`;
       // here's code start to audio mix.
 
+      const IRSampleAudioIos =
+        RNFetchBlob.fs.dirs.DocumentDir + '/IR_tunnel_entrance_d_1way_mono.m4a';
+
       const options = [
         '-i',
         uri,
@@ -365,16 +367,16 @@ function ChallengeListening(props) {
         '-i',
         IRSampleAudioIos,
         '-filter_complex',
-        `[0]volume=volume=${adjustVolume}dB,afftdn=nf=-20[a0];[a0] [2] afir=dry=10:wet=10[a00]; [1]adelay=0s|0s[a1]; [a00][a1]amix=inputs=2:dropout_transition=10000[a]`,
+        `[0]volume=volume=${adjustVolume}dB,afftdn=nf=-20[a0];[a0][2]afir=dry=10:wet=10[a00];[1]adelay=0s|0s[a1];[a00][a1]amix=inputs=2:dropout_transition=10000[a]`,
         '-map',
         '[a]',
         `${filepath}${outputFileName}`,
       ];
-
       if (__DEV__) {
         console.log('[onStopRecord] handler is started');
         console.log(`[input file 1]: ${uri}`);
         console.log(`[input file 2]: ${filepath + fileName}`);
+        console.log(`[input file 3]: ${IRSampleAudioIos}`);
         console.log(`[output file name] : ${outputFileName}`);
         console.log(`[options]: ${options}`);
       }

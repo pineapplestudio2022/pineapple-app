@@ -72,7 +72,9 @@ const FFMpegTest = props => {
   const [outputFile, setOutputFile] = useState(''); //mix된 파일 이름
   const [adjustVolume, setAdjustVolume] = useState(0); // bgm - vocal 볼륨차
   const [bgmVolume, setBgmVolume] = useState(0);
-  const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Assets/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
+  // const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
+  const IRSampleAudioIos =
+    RNFetchBlob.fs.dirs.DocumentDir + '/IR_tunnel_entrance_d_1way_mono.m4a';
 
   const originalSongIdNum = 35; //원곡 id
   useEffect(() => {
@@ -81,6 +83,7 @@ const FFMpegTest = props => {
   }, [adjustVolume, bgmVolume]);
   useEffect(() => {}, [outputFile]);
   //권한 가져오기
+
   useEffect(() => {
     getPermission();
   }, []);
@@ -230,7 +233,7 @@ const FFMpegTest = props => {
 
   const onStartPlay = async () => {
     try {
-      const msg = await ARPlayer.current.startPlayer(playPath);
+      const msg = await ARPlayer.current.startPlayer(IRSampleAudioIos);
       const volume = await ARPlayer.current.setVolume(1.0);
       if (__DEV__) {
         console.log(`file: ${msg}`, `volume: ${volume}`);
