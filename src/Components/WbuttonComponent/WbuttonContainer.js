@@ -1,0 +1,117 @@
+import React, {useState} from 'react';
+
+import MagazineIcon from '../../Assets/Image/btn_main_magazine.png';
+import MusicNoteIcon from '../../Assets/Image/btn_main_music_note.png';
+import BgmStudioIcon from '../../Assets/Image/btn_main_bgm_studio.png';
+import PhotoGreenIcon from '../../Assets/Image/btn_main_photo.png';
+import WriteMusicGreenIcon from '../../Assets/Image/btn_main_write_music.png';
+import WriteMusicWhiteIcon from '../../Assets/Image/btn_main_write_music_white.png';
+import ChallengeGreenIcon from '../../Assets/Image/btn_main_speaker.png';
+import ChallengeWhiteIcon from '../../Assets/Image/btn_main_speaker_white.png';
+
+import SingingGreenIcon from '../../Assets/Image/challenge/btn_challenge_singing.png';
+import SingingWhiteIcon from '../../Assets/Image/challenge/btn_challenge_singing_white.png';
+import CameraGreenIcon from '../../Assets/Image/challenge/btn_challenge_camera.png';
+import CameraWhiteIcon from '../../Assets/Image/challenge/btn_challenge_camera_white.png';
+import PlayingMusicGreenIcon from '../../Assets/Image/challenge/btn_challenge_playingmusic.png';
+import PreviewGreenIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
+import HeadPhoneWhiteIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
+import HeadPhoneGreenIcon from '../../Assets/Image/challenge/icon_challenge_headphones_green.png';
+import WbuttonPresenter from './WbuttonPresenter';
+
+const getImage = name => {
+  switch (name) {
+    case 'challenge':
+      return ChallengeGreenIcon;
+    case 'challenge-reverse':
+      return ChallengeWhiteIcon;
+    case 'lyrics':
+      return WriteMusicGreenIcon;
+    case 'lyrics-reverse':
+      return WriteMusicWhiteIcon;
+    case 'photo':
+    case 'photo-reverse':
+      return PhotoGreenIcon;
+    case 'bgm':
+    case 'bgm-reverse':
+      return BgmStudioIcon;
+    case 'magazine':
+    case 'magazine-reverse':
+      return MagazineIcon;
+    case 'musicNote':
+    case 'musicNote-reverse':
+      return MusicNoteIcon;
+    case 'singing':
+      return SingingGreenIcon;
+    case 'singing-reverse':
+      return SingingWhiteIcon;
+    case 'camera':
+      return CameraGreenIcon;
+    case 'camera-reverse':
+      return CameraWhiteIcon;
+    case 'preview':
+    case 'preview-reverse':
+      return PreviewGreenIcon;
+    case 'playingMusic':
+    case 'playingMusic-reverse':
+      return PlayingMusicGreenIcon;
+    case 'headphone':
+      return HeadPhoneGreenIcon;
+    case 'headphone-reverse':
+      return HeadPhoneWhiteIcon;
+    default:
+      return undefined;
+  }
+};
+
+const WbuttonContainer = props => {
+  const [bgColor, setBgColor] = useState('#fafafa80');
+  const [textColor, setTextColor] = useState('#0fefbd');
+  const [imgrvs, setImgrvs] = useState(false);
+
+  const pressIn = () => {
+    if (props.disable) {
+      return;
+    }
+    setBgColor('#4be3ac');
+    setTextColor('#fafafa');
+    setImgrvs(true);
+  };
+  const pressOut = () => {
+    if (props.disable) {
+      return;
+    }
+    setBgColor('#fafafa80');
+    setTextColor('#0fefbd');
+    setImgrvs(false);
+  };
+
+  const handlerGetImage = () => {
+    if (imgrvs) {
+      return getImage(props.imgName + '-reverse');
+    } else {
+      return getImage(props.imgName);
+    }
+  };
+  const handlerGetImageLeft = () => {
+    if (imgrvs) {
+      return getImage(props.leftImgName + '-reverse');
+    } else {
+      return getImage(props.leftImgName);
+    }
+  };
+
+  return (
+    <WbuttonPresenter
+      {...props}
+      pressIn={pressIn}
+      pressOut={pressOut}
+      bgColor={bgColor}
+      handlerGetImage={handlerGetImage}
+      handlerGetImageLeft={handlerGetImageLeft}
+      textColor={textColor}
+    />
+  );
+};
+
+export default WbuttonContainer;
