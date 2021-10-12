@@ -1,89 +1,29 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React from 'react';
 
 import {Text, Center, Box, HStack, FlatList, Image} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import APIKit from '../../API/APIkit';
+import MenuComponent from '../../../Components/MenuComponent';
 import YouTube from 'react-native-youtube';
 import {
-  defaultAlertMessage,
   YouTubeAPIKey,
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
+} from '../../../Commons/CommonUtil';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-import Gbutton from '../../Components/GbuttonComponent';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import VideoBox from '../../Components/VideoBoxComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
+import VideoBox from '../../../Components/VideoBoxComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import {TouchableOpacity} from 'react-native';
-import ArrowDownIcon from '../../Assets/Image/icon_musicplayer_arrow_down.png';
+import ArrowDownIcon from '../../../Assets/Image/icon_musicplayer_arrow_down.png';
 
 const youtubeApiKey = YouTubeAPIKey();
 
-export default function ChallengeVideo(props) {
-  const {userId} = useContext(UserDispatch);
-  const videoPanel = useRef();
-  const [isBottom, setIsBottom] = useState(true);
-
-  const [challengeList, setChallengeList] = useState();
-  const [title, setTitle] = useState();
-  const [videoUrl, setVideoUrl] = useState('');
-
-  useEffect(() => {
-    const getAllOriginalVideo = () => {
-      APIKit.post('originalWorks/getAllOriginalVideo', {
-        offset: '0',
-        limit: '10',
-      })
-        .then(({data}) => {
-          if (data.IBcode === '1000') {
-            setChallengeList(data.IBparams.rows);
-          }
-        })
-        .catch(error => {
-          if (__DEV__) {
-            console.log(error);
-          }
-        });
-    };
-
-    getAllOriginalVideo();
-
-    return () => {
-      if (__DEV__) {
-        console.log('api unmount');
-      }
-    };
-  }, []);
-  const addChallengeTicket = id => {
-    if (userId === '' || userId === undefined || userId === null) {
-      defaultAlertMessage('로그인 후 이용해 주세요');
-      return;
-    }
-    const payload = {userId: userId.toString(), cType: '2'};
-    APIKit.post('challenge/addChallengeTicket', payload)
-      .then(({data}) => {
-        defaultAlertMessage('참여신청이 완료되었습니다');
-      })
-      .catch(error => {
-        if (__DEV__) {
-          console.log(error);
-        }
-      });
-  };
-  const openVideoPlayer = (url, titleName) => {
-    setVideoUrl(url);
-    setTitle(titleName);
-    setIsBottom(false);
-    videoPanel.current.show();
-  };
-
+const ChallengeVideoPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -103,7 +43,7 @@ export default function ChallengeVideo(props) {
         />
         <FlatList
           mt={4}
-          data={challengeList}
+          data={props.challengeList}
           onEndReachedThreshold={1}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -114,7 +54,7 @@ export default function ChallengeVideo(props) {
                 title={item.title}
                 cover={(index % 10) + 1}
                 participant={item.participant}
-                onPress={() => openVideoPlayer(item.videoUrl, item.title)}
+                onPress={() => props.openVideoPlayer(item.videoUrl, item.title)}
               />
               <HStack
                 my={2}
@@ -176,7 +116,7 @@ export default function ChallengeVideo(props) {
                 fs={18}
                 rounded={8}
                 text={'참여신청'}
-                onPress={() => addChallengeTicket(item.id)}
+                onPress={() => props.addChallengeTicket(item.id)}
               />
             </Box>
           )}
@@ -184,7 +124,7 @@ export default function ChallengeVideo(props) {
         />
       </Center>
       <SlidingUpPanel
-        ref={videoPanel}
+        ref={props.videoPanel}
         allowDragging={false}
         backdropOpacity={0.98}
         friction={0.01}
@@ -192,10 +132,10 @@ export default function ChallengeVideo(props) {
           top: responsiveHeight(heightPersentage(600)),
           bottom: responsiveHeight(heightPersentage(0)),
         }}
-        onMomentumDragStart={() => setIsBottom(false)}
-        onBottomReached={() => setIsBottom(true)}
+        onMomentumDragStart={() => props.setIsBottom(false)}
+        onBottomReached={() => props.setIsBottom(true)}
         showBackdrop={false}>
-        {isBottom ? (
+        {props.isBottom ? (
           <></>
         ) : (
           <Box
@@ -211,10 +151,10 @@ export default function ChallengeVideo(props) {
                     fontSize={responsiveFontSize(fontSizePersentage(24))}
                     noOfLines={1}
                     style={{width: responsiveWidth(widthPersentage(300))}}>
-                    {title}
+                    {props.title}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => videoPanel.current.hide()}
+                    onPress={() => props.videoPanel.current.hide()}
                     style={{position: 'absolute', right: 20}}>
                     <Image
                       source={ArrowDownIcon}
@@ -230,7 +170,7 @@ export default function ChallengeVideo(props) {
               </Box>
               <Box bgColor="white" p={3} w="100%">
                 <YouTube
-                  videoId={videoUrl.substring(videoUrl.lastIndexOf('/') + 1)}
+                  videoId={props.videoUrl}
                   apiKey={youtubeApiKey}
                   play={false}
                   fullscreen={false}
@@ -247,4 +187,6 @@ export default function ChallengeVideo(props) {
       </SlidingUpPanel>
     </Box>
   );
-}
+};
+
+export default ChallengeVideoPresenter;
