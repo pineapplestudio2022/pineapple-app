@@ -1,12 +1,7 @@
 //상단 헤더, 햄버거 메뉴 컴포넌트
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 import {Box, Center, HStack, Image, Pressable, Text} from 'native-base';
-import HomeIcon from '../Assets/Image/icon_home.png';
-import HamburgerIcon from '../Assets/Image/icon_main_hamburg.png';
-import LeftArrowIcon from '../Assets/Image/icon_main_left_arrow.png';
-import AddLyricsIcon from '../Assets/Image/icon_menu_addLyrics.png';
-import SaveLyricsIcon from '../Assets/Image/icon_menu_saveLyrics.png';
-import LyricsGoBackIcon from '../Assets/Image/icon_menu_lyrics_goback.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   responsiveFontSize,
@@ -17,35 +12,13 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/CommonUtil';
-import {TouchableOpacity} from 'react-native';
+} from '../../Commons/CommonUtil';
+import HomeIcon from '../../Assets/Image/icon_home.png';
+import HamburgerIcon from '../../Assets/Image/icon_main_hamburg.png';
+import AddLyricsIcon from '../../Assets/Image/icon_menu_addLyrics.png';
+import SaveLyricsIcon from '../../Assets/Image/icon_menu_saveLyrics.png';
 
-function MenuComponent(props) {
-  const handlerToggleDrawer = () => {
-    props.navigation.toggleDrawer();
-  };
-  const handlerGoBack = () => {
-    props.navigation.goBack();
-  };
-  const handlerResetNavigation = () => {
-    props.navigation.reset({
-      index: 0,
-      routes: [{name: 'DrawerNavigation'}],
-    });
-  };
-  const handlerGoLyrics = () => {
-    props.navigation.navigate('WriteLyrics', {filename: ''});
-  };
-  const handlerOnSave = () => {
-    props.onSave();
-  };
-  const handlerGetLeftImageIcon = () => {
-    if (props.name === 'WriteLyrics') {
-      return LyricsGoBackIcon;
-    } else {
-      return LeftArrowIcon;
-    }
-  };
+const MenuPresenter = props => {
   return (
     <Box safeAreaTop pt={5} mb={responsiveHeight(heightPersentage(22))}>
       {/* 상단 그라데이션 && 블러 효과 start */}
@@ -73,7 +46,7 @@ function MenuComponent(props) {
         <Box ml={responsiveWidth(widthPersentage(30))}>
           {props.name === 'Home' ? (
             <Pressable
-              onPress={handlerToggleDrawer}
+              onPress={props.handlerToggleDrawer}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -85,12 +58,12 @@ function MenuComponent(props) {
             </Pressable>
           ) : (
             <Pressable
-              onPress={handlerGoBack}
+              onPress={props.handlerGoBack}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
                 size="100%"
-                source={handlerGetLeftImageIcon}
+                source={props.handlerGetLeftImageIcon}
                 resizeMode={'contain'}
                 alt=" "
               />
@@ -121,7 +94,7 @@ function MenuComponent(props) {
         ) : props.name === 'LyricsListView' ? (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={handlerGoLyrics}
+              onPress={props.handlerGoLyrics}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -135,7 +108,7 @@ function MenuComponent(props) {
         ) : props.name === 'WriteLyrics' ? (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <TouchableOpacity
-              onPress={handlerOnSave}
+              onPress={props.handlerOnSave}
               style={{
                 width: responsiveWidth(widthPersentage(25)),
                 height: responsiveHeight(heightPersentage(25)),
@@ -151,7 +124,7 @@ function MenuComponent(props) {
         ) : (
           <Box mr={responsiveWidth(widthPersentage(30))}>
             <Pressable
-              onPress={handlerResetNavigation}
+              onPress={props.handlerResetNavigation}
               w={responsiveWidth(widthPersentage(25))}
               h={responsiveHeight(heightPersentage(25))}>
               <Image
@@ -167,6 +140,6 @@ function MenuComponent(props) {
       {/* 상단 메뉴, 타이틀 end */}
     </Box>
   );
-}
+};
 
-export default MenuComponent;
+export default MenuPresenter;
