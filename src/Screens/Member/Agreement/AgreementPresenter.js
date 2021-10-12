@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -8,7 +8,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
+} from '../../../Commons/CommonUtil';
 import {
   Box,
   Center,
@@ -20,43 +20,11 @@ import {
   VStack,
 } from 'native-base';
 
-import MenuComponent from '../../Components/MenuComponent';
-import Gbutton from '../../Components/GbuttonComponent';
-import {Alert} from 'react-native';
+import MenuComponent from '../../../Components/MenuComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
 import TermsandConditionModal from './TermsandConditionModal';
 
-const Agreement = props => {
-  const [privacy, setPrivacy] = useState(false); //개인정보
-  const [terms, setTerms] = useState(false); //이용약관
-  const [marketing, setMarketing] = useState(false); //마케팅
-
-  //전체동의
-  const handelAllCheck = value => {
-    if (value) {
-      setPrivacy(true);
-      setTerms(true);
-      setMarketing(true);
-    } else {
-      setPrivacy(false);
-      setTerms(false);
-      setMarketing(false);
-    }
-  };
-
-  const handleAgreement = () => {
-    if (privacy && terms) {
-      props.navigation.navigate('Register', {
-        marketing: marketing ? '1' : '0',
-      });
-    } else {
-      Alert.alert(
-        'PineApple',
-        '서비스 이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.',
-        [{text: '확인'}],
-      );
-    }
-  };
-
+const AgreementPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -101,7 +69,7 @@ const Agreement = props => {
               <Checkbox
                 colorScheme={'rgb(15,239,189)'}
                 size={'md'}
-                onChange={handelAllCheck}>
+                onChange={props.handelAllCheck}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-around'}
@@ -117,8 +85,8 @@ const Agreement = props => {
               <Divider />
               <Checkbox
                 colorScheme={'rgb(15,239,189)'}
-                onChange={() => setPrivacy(!privacy)}
-                isChecked={privacy}>
+                onChange={props.handlerPrivacy}
+                isChecked={props.privacy}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-between'}
@@ -134,8 +102,8 @@ const Agreement = props => {
               </Checkbox>
               <Checkbox
                 colorScheme={'rgb(15,239,189)'}
-                onChange={() => setTerms(!terms)}
-                isChecked={terms}>
+                onChange={props.handlerTerms}
+                isChecked={props.terms}>
                 <HStack
                   w={'85%'}
                   justifyContent={'space-between'}
@@ -151,8 +119,8 @@ const Agreement = props => {
               </Checkbox>
               <Checkbox
                 colorScheme={'rgb(15,239,189)'}
-                onChange={() => setMarketing(!marketing)}
-                isChecked={marketing}>
+                onChange={props.handlerMarketing}
+                isChecked={props.marketing}>
                 <HStack w={'85%'} alignItems={'center'}>
                   <Text
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
@@ -173,7 +141,7 @@ const Agreement = props => {
                 rounded={8}
                 disable={false}
                 text={'동의'}
-                onPress={handleAgreement}
+                onPress={props.handleAgreement}
               />
             </Center>
           </Box>
@@ -182,4 +150,4 @@ const Agreement = props => {
     </Box>
   );
 };
-export default Agreement;
+export default AgreementPresenter;
