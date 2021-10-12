@@ -13,7 +13,7 @@ import PineappleCharacter from '../Assets/Image/pineapplecharacter.png';
 import Login from '../Screens/Member/Login';
 import Register from '../Screens/Member/Register';
 import Agreement from '../Screens/Member/Agreement';
-import FindAccount1 from '../Screens/Member/AccountFind1';
+import FindAccount1 from '../Screens/Member/AccountFindOne';
 import FindAccount2 from '../Screens/Member/AccountFind2';
 import FindAccount3 from '../Screens/Member/AccountFind3';
 import FindAccount4 from '../Screens/Member/AccountFind4';
