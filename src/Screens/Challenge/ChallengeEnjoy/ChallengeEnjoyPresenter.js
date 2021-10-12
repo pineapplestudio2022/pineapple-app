@@ -3,7 +3,10 @@ import React from 'react';
 import {Box, Center, FlatList, HStack, VStack} from 'native-base';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
-import {heightPersentage, defaultAlertMessage} from '../../Commons/CommonUtil';
+import {
+  heightPersentage,
+  defaultAlertMessage,
+} from '../../../Commons/CommonUtil';
 
 import MenuComponent from '../../../Components/MenuComponent';
 import MusicPlayer from '../../../Components/MusicPlayer';

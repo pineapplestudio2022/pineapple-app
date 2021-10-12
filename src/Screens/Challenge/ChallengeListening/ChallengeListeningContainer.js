@@ -1,25 +1,6 @@
 //Challenge -> 15초감상 View
 
 import React, {useEffect, useState, useRef, useContext} from 'react';
-import {
-  Box,
-  Center,
-  Text,
-  VStack,
-  HStack,
-  TextArea,
-  Slider,
-  Spinner,
-} from 'native-base';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
-
-import MenuComponent from '../../Components/MenuComponent';
-import DumpImg from '../../Assets/Image/image_singing_dumpimage.jpg';
-import Gbutton from '../../Components/GbuttonComponent';
 
 import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
@@ -27,27 +8,22 @@ import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
-import {ImageBackground, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg, RNFFmpegConfig} from 'react-native-ffmpeg';
-import APIKit from '../../API/APIkit';
-import LinearGradient from 'react-native-linear-gradient';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {
-  defaultAlertMessage,
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/CommonUtil';
+import APIKit from '../../../API/APIkit';
+import {UserDispatch} from '../../../Commons/UserDispatchProvider';
+import {defaultAlertMessage} from '../../../Commons/CommonUtil';
 import {
   PERMISSIONS,
   request,
   requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
+import ChallengeListeningPresenter from './ChallengeListeningPresenter';
 
-function ChallengeListening(props) {
+const ChallengeListeningContainer = props => {
   const {userId, email} = useContext(UserDispatch);
 
   const [isAlreadyPlay, setIsAlreadyPlay] = useState(false); //재생 | 일시정지 상태
@@ -207,8 +183,8 @@ function ChallengeListening(props) {
         if (
           ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)) >= '00:15'
         ) {
-          ARPlayer.current.stopPlayer();
-          setIsAlreadyPlay(false);
+          onStopPlay();
+          return;
         }
         let percentage = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
@@ -228,13 +204,13 @@ function ChallengeListening(props) {
     }
   };
 
-  const onStopPlay = async e => {
-    setTimeElapsed('00:00');
-    // setDuration('00:00');
-    setPercent(0);
+  const onStopPlay = () => {
     ARPlayer.current.stopPlayer();
     ARPlayer.current.removePlayBackListener();
     setIsAlreadyPlay(false);
+    setPercent(0);
+    setDuration('00:00');
+    setTimeElapsed('00:00');
   };
 
   //녹음 시작
@@ -266,9 +242,17 @@ function ChallengeListening(props) {
 
       //노래 재생 리스너
       ARPlayer.current.addPlayBackListener(e => {
-        if (e.currentPosition >= e.duration) {
-          ARPlayer.current.stopPlayer();
-          ARRecord.current.stopRecorder();
+        // if (e.currentPosition === e.duration) {
+        //   // ARPlayer.current.stopPlayer();
+        //   // ARRecord.current.stopRecorder();
+        //   onStopRecord();
+        //   return;
+        // }
+        if (
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)) >= '00:05'
+        ) {
+          onStopRecord();
+          return;
         }
         let percentage = Math.round(
           (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
@@ -555,247 +539,28 @@ function ChallengeListening(props) {
     });
   };
   return (
-    <Box flex={1}>
-      <MenuComponent
-        name={props.route.name}
-        titleName={'노래부르기'}
-        navigation={props.navigation}
-      />
-      <Box safeAreaBottom alignItems="center">
-        <VStack space={2} w={responsiveWidth(widthPersentage(345))}>
-          {/* 제목 start */}
-          <Center>
-            <Text
-              fontSize={responsiveFontSize(fontSizePersentage(20))}
-              bold
-              color={'#1a1b1c'}
-              px={2}
-              noOfLines={1}>
-              {title}
-            </Text>
-            <Text />
-          </Center>
-          {/* 제목 end */}
-          {/* 자곡가, 작사가 start */}
-          <HStack space={10} justifyContent={'center'} p={2}>
-            <HStack>
-              <Text
-                color={'#4be3ac'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                장르 :{'  '}
-              </Text>
-              <Text
-                color={'#1a1b1c'}
-                fontSize={responsiveFontSize(fontSizePersentage(17))}
-                bold>
-                {genre}
-              </Text>
-            </HStack>
-          </HStack>
-          {/* 자곡가, 작사가 end */}
-          {/* GlassBox start */}
-          <Box
-            style={{
-              height: responsiveHeight(heightPersentage(440)),
-              shadowColor: '#858c9233',
-              shadowOffset: {width: 0, height: 2},
-              shadowRadius: 4,
-              shadowOpacity: 1,
-            }}>
-            <Box borderRadius={20} overflow={'hidden'}>
-              <Center w={'100%'} h={'100%'} backgroundColor={'#f9f9f9'}>
-                <Box
-                  style={{
-                    width: responsiveWidth(widthPersentage(209)),
-                    height: responsiveHeight(heightPersentage(188)),
-                  }}
-                  rounded={8}
-                  overflow={'hidden'}
-                  mt={5}>
-                  <ImageBackground
-                    source={DumpImg}
-                    resizeMode="cover"
-                    alt={' '}
-                    style={{width: '100%', height: '100%'}}>
-                    {spinner ? (
-                      <Center h={'100%'}>
-                        <Spinner color="white" />
-                      </Center>
-                    ) : (
-                      <></>
-                    )}
-                    {recordBtn ? (
-                      <Box
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                        }}>
-                        <LinearGradient
-                          start={{x: 0, y: 0}}
-                          end={{x: 1, y: 0}}
-                          colors={['#0fefbd4c', '#f9fbce4c']}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            backgroundColor: 'transparent',
-                          }}>
-                          <Slider
-                            style={{
-                              position: 'absolute',
-                              bottom: '-5%',
-                            }}
-                            defaultValue={0}
-                            value={percent}>
-                            <Slider.Track bg={'#a5a8ae'}>
-                              <Slider.FilledTrack bg={'#0fefbd'} />
-                            </Slider.Track>
-                          </Slider>
-                        </LinearGradient>
-                      </Box>
-                    ) : (
-                      <></>
-                    )}
-                  </ImageBackground>
-                </Box>
-                <HStack
-                  style={{
-                    width: responsiveWidth(widthPersentage(209)),
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(12))}
-                    fontWeight={500}
-                    color={'#0fefbd'}>
-                    {timeElapsed}
-                  </Text>
-                  <Text
-                    fontSize={responsiveFontSize(fontSizePersentage(12))}
-                    fontWeight={500}
-                    color={'#0fefbd'}>
-                    {duration}
-                  </Text>
-                </HStack>
-                {uploadFinish ? (
-                  <VStack w="100%" alignItems={'center'} mt={5} space={5}>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(28))}
-                      color={'#000000'}
-                      bold>
-                      업로드가 완료 되었습니다.
-                    </Text>
-                    <Text
-                      fontSize={responsiveFontSize(fontSizePersentage(20))}
-                      color={'#858c92'}
-                      bold>
-                      감사합니다
-                    </Text>
-                  </VStack>
-                ) : (
-                  <Center>
-                    {recordBtn ? (
-                      uploadBtn ? (
-                        <Gbutton
-                          wp={220}
-                          hp={40}
-                          fs={18}
-                          fw={600}
-                          rounded={8}
-                          disable={spinner}
-                          imgName={'upload'}
-                          text={'Upload'}
-                          onPress={onFileUpload}
-                        />
-                      ) : (
-                        <Gbutton
-                          wp={220}
-                          hp={40}
-                          fs={18}
-                          fw={600}
-                          rounded={8}
-                          disable={spinner}
-                          imgName={stopRecordBtn ? 'pulse' : 'mic'}
-                          onPress={stopRecordBtn ? onStopRecord : onStartRecord}
-                          text={'RECORD'}
-                        />
-                      )
-                    ) : (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        disable={spinner}
-                        imgName={isAlreadyPlay ? 'stop' : 'headphone'}
-                        text={'15초 듣기'}
-                        onPress={isAlreadyPlay ? onStopPlay : onStartPlay}
-                      />
-                    )}
-
-                    <Box
-                      bg={'#fafafa80'}
-                      style={{
-                        width: responsiveWidth(widthPersentage(240)),
-                        height: responsiveHeight(heightPersentage(136)),
-                      }}
-                      my={2}
-                      rounded={16}>
-                      <TextArea
-                        h="100%"
-                        fontSize={responsiveFontSize(fontSizePersentage(13))}
-                        textAlign={'center'}
-                        borderWidth={0}
-                        editable={false}
-                        px={8}
-                        pt={2}>
-                        {lyrics}
-                      </TextArea>
-                    </Box>
-                  </Center>
-                )}
-              </Center>
-            </Box>
-          </Box>
-          <HStack space={5} justifyContent={'space-around'} mt={4}>
-            <Gbutton
-              wp={120}
-              hp={40}
-              fs={13}
-              fw={800}
-              imgName={'x'}
-              text={'닫기'}
-              rounded={6}
-              onPress={() => props.navigation.goBack()}
-            />
-            {uploadFinish ? (
-              <Gbutton
-                wp={120}
-                hp={40}
-                fs={13}
-                fw={800}
-                rounded={6}
-                imgName={'home'}
-                text={'HOME'}
-                onPress={() => props.navigation.navigate('MainScreen')}
-              />
-            ) : (
-              <Gbutton
-                wp={120}
-                hp={40}
-                fs={13}
-                fw={800}
-                rounded={6}
-                imgName={'check'}
-                text={'참여'}
-                onPress={handlerJoin}
-              />
-            )}
-          </HStack>
-        </VStack>
-      </Box>
-    </Box>
+    <ChallengeListeningPresenter
+      {...props}
+      title={title}
+      genre={genre}
+      lyrics={lyrics}
+      spinner={spinner}
+      recordBtn={recordBtn}
+      uploadBtn={uploadBtn}
+      percent={percent}
+      timeElapsed={timeElapsed}
+      duration={duration}
+      uploadFinish={uploadFinish}
+      onFileUpload={onFileUpload}
+      stopRecordBtn={stopRecordBtn}
+      onStopRecord={onStopRecord}
+      onStartRecord={onStartRecord}
+      isAlreadyPlay={isAlreadyPlay}
+      onStopPlay={onStopPlay}
+      onStartPlay={onStartPlay}
+      handlerJoin={handlerJoin}
+    />
   );
-}
+};
 
-export default ChallengeListening;
+export default ChallengeListeningContainer;
