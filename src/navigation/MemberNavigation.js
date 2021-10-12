@@ -15,7 +15,7 @@ import Register from '../Screens/Member/Register';
 import Agreement from '../Screens/Member/Agreement';
 import AccountFindOne from '../Screens/Member/AccountFindOne';
 import AccountFindTwo from '../Screens/Member/AccountFindTwo';
-import FindAccount3 from '../Screens/Member/AccountFind3';
+import AccountFindThree from '../Screens/Member/AccountFindThree';
 import FindAccount4 from '../Screens/Member/AccountFind4';
 import FindAccount5 from '../Screens/Member/AccountFind5';
 
@@ -47,7 +47,7 @@ export const LoginNavigation = () => {
         <LoginStack.Screen name={'Login'} component={Login} />
         <LoginStack.Screen name={'FindAccount1'} component={AccountFindOne} />
         <LoginStack.Screen name={'FindAccount2'} component={AccountFindTwo} />
-        <LoginStack.Screen name={'FindAccount3'} component={FindAccount3} />
+        <LoginStack.Screen name={'FindAccount3'} component={AccountFindThree} />
         <LoginStack.Screen name={'FindAccount4'} component={FindAccount4} />
         <LoginStack.Screen name={'FindAccount5'} component={FindAccount5} />
       </LoginStack.Navigator>
