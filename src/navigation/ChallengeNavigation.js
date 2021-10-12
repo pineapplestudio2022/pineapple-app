@@ -6,8 +6,8 @@ import ChallengeComposing from '../Screens/Challenge/ChallengeComposing';
 import ChallengeComposingDetail from '../Screens/Challenge/ChallengeComposingDetail';
 import ChallengeListening from '../Screens/Challenge/ChallengeListening';
 import ChallengeSinging from '../Screens/Challenge/ChallengeSinging';
-import ChallengeLyricsView from '../Screens/Challenge/ChallengeLyricsView';
 import ChallengePlaying from '../Screens/Challenge/ChallengePlaying';
+import ChallengeLyricsView from '../Screens/Challenge/ChallengeLyricsView';
 import ChallengePlayingDetail from '../Screens/Challenge/ChallengePlayingDetail';
 import MyChallengeNavigation from './MyChallengeNavigation';
 

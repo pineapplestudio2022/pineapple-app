@@ -52,7 +52,7 @@ const getImage = () => {
 };
 function SingingCardComponent(props) {
   const handlerGoLyrics = () => {
-    props.navigation.navigate('LyricsListView', {id: props.id});
+    props.navigation.navigate('Lyrics', {id: props.id});
   };
   const handlerGoListening = () => {
     props.navigation.navigate('Listening', {id: props.id});

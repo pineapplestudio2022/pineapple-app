@@ -1,56 +1,18 @@
 //Challenge -> 가사보기 뷰
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import {ImageBackground} from 'react-native';
 import {Box, Center, Text, VStack, HStack, TextArea} from 'native-base';
 import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {heightPersentage, widthPersentage} from '../../Commons/CommonUtil';
-import {ImageBackground} from 'react-native';
-import MenuComponent from '../../Components/MenuComponent';
-import LyricsViewBackground from '../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
-import APIKit from '../../API/APIkit';
-import Gbutton from '../../Components/GbuttonComponent';
+import {heightPersentage, widthPersentage} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import LyricsViewBackground from '../../../Assets/Image/challenge/bg_lyricsView_glassbox.png';
+import Gbutton from '../../../Components/GbuttonComponent';
 
-function LyricsView(props) {
-  const [title, setTitle] = useState();
-  const [genre, setGenre] = useState();
-  const [lyrics, setLyrics] = useState();
-
-  useEffect(() => {
-    if (__DEV__) {
-      console.log('api get');
-    }
-
-    const onFailure = error => {
-      if (__DEV__) {
-        console.log(error && error.response);
-      }
-    };
-
-    const getOriginalSong = () => {
-      const payload = {id: props.route.params.id.toString()};
-
-      APIKit.post('/originalWorks/getOriginalSong', payload)
-        .then(({data}) => {
-          if (data.IBcode === '1000') {
-            setTitle(data.IBparams.rows[0].title);
-            setGenre(data.IBparams.rows[0].genre);
-            setLyrics(data.IBparams.rows[0].lyrics);
-          }
-        })
-        .catch(onFailure);
-    };
-    getOriginalSong();
-
-    return () => {
-      if (__DEV__) {
-        console.log('api unmount');
-      }
-    };
-  }, [props.route.params.id]);
-
+const ChallengeLyricsViewPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -62,7 +24,7 @@ function LyricsView(props) {
         <VStack space={2} w="80%">
           <Center>
             <Text fontSize={20} bold color={'#1a1b1c'} px={2} noOfLines={1}>
-              {title}
+              {props.title}
             </Text>
             <Text />
           </Center>
@@ -71,7 +33,7 @@ function LyricsView(props) {
               장르 :
             </Text>
             <Text color={'#1a1b1c'} fontSize={17} bold noOfLines={1}>
-              {genre}
+              {props.genre}
             </Text>
           </HStack>
           <Box
@@ -105,7 +67,7 @@ function LyricsView(props) {
                       editable={false}
                       px={8}
                       pt={2}>
-                      {lyrics}
+                      {props.lyrics}
                     </TextArea>
                   </Box>
                 </Center>
@@ -142,6 +104,6 @@ function LyricsView(props) {
       </Box>
     </Box>
   );
-}
+};
 
-export default LyricsView;
+export default ChallengeLyricsViewPresenter;
