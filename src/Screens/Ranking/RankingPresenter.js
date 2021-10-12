@@ -7,7 +7,7 @@ import {heightPersentage} from '../../Commons/CommonUtil';
 
 import MenuComponent from '../../Components/MenuComponent';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import MusicPlayer from '../../Components/MusicPlayer';
+import MusicPlayer from '../MusicPlayer';
 import MusicBox from '../../Components/MusicBoxComponent';
 
 const RankingPresenter = props => {

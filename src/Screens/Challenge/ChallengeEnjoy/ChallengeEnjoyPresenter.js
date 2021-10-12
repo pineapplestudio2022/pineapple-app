@@ -9,7 +9,7 @@ import {
 } from '../../../Commons/CommonUtil';
 
 import MenuComponent from '../../../Components/MenuComponent';
-import MusicPlayer from '../../../Components/MusicPlayer';
+import MusicPlayer from '../../MusicPlayer';
 import MusicBox from '../../../Components/MusicBoxComponent';
 import Gbutton from '../../../Components/GbuttonComponent';
 import VideoBox from '../../../Components/VideoBoxComponent';
