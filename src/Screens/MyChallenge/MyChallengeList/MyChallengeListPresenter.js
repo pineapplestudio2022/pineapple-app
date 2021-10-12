@@ -1,22 +1,12 @@
 // My Challenge View
 
-import React, {useContext} from 'react';
+import React from 'react';
 import {Box, VStack} from 'native-base';
 
-import MenuComponent from '../../Components/MenuComponent';
-import Wbutton from '../../Components/WbuttonComponent';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import Wbutton from '../../../Components/WbuttonComponent';
 
-function MyChallenge(props) {
-  const {userId} = useContext(UserDispatch);
-  const loginChecktoMove = navigation => {
-    if (userId === '' || userId === undefined) {
-      defaultAlertMessage('로그인 후 사용가능합니다.');
-      return;
-    }
-    props.navigation.navigate(navigation);
-  };
+const MyChallengeListPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -33,7 +23,7 @@ function MyChallenge(props) {
           leftImgName={'singing'}
           rounded={8}
           text={'노래 챌린지'}
-          onPress={() => loginChecktoMove('MySingingNavigation')}
+          onPress={() => props.loginChecktoMove('MySingingNavigation')}
         />
         <Wbutton
           wp={320}
@@ -43,7 +33,7 @@ function MyChallenge(props) {
           leftImgName={'camera'}
           rounded={8}
           text={'영상 챌린지'}
-          onPress={() => loginChecktoMove('MyVideoNavigation')}
+          onPress={() => props.loginChecktoMove('MyVideoNavigation')}
         />
         <Wbutton
           wp={320}
@@ -70,6 +60,6 @@ function MyChallenge(props) {
       </VStack>
     </Box>
   );
-}
+};
 
-export default MyChallenge;
+export default MyChallengeListPresenter;
