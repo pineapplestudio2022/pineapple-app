@@ -1,9 +1,9 @@
 //My Challenge > 영상 챌린지 화면
 
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {Box, Center, FlatList, Image, Input, Text} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import LinkIcon from '../../Assets/Image/challenge/icon_challenge_link.png';
+import MenuComponent from '../../../Components/MenuComponent';
+import LinkIcon from '../../../Assets/Image/challenge/icon_challenge_link.png';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -13,85 +13,10 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-  defaultAlertMessage,
-  domainRegex,
-} from '../../Commons/CommonUtil';
-import APIKit from '../../API/APIkit';
-import Gbutton from '../../Components/GbuttonComponent';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
+} from '../../../Commons/CommonUtil';
+import Gbutton from '../../../Components/GbuttonComponent';
 
-function MyChallengeVideo(props) {
-  const {userId, email} = useContext(UserDispatch);
-  const [originalVideoList, setOriginalVideoList] = useState();
-  const [selected, setSelected] = useState();
-  const [inputValue, setInputValue] = useState({
-    originalWorkId: '',
-    shareLink: '',
-  });
-  const [uploadCheck, setUploadCheck] = useState(false);
-
-  useEffect(() => {
-    const getAllOriginalVideo = () => {
-      APIKit.post('originalWorks/getAllOriginalVideo').then(({data}) => {
-        if (data.IBcode === '1000') {
-          setOriginalVideoList(data.IBparams.rows);
-        }
-      });
-    };
-
-    getAllOriginalVideo();
-
-    return () => {
-      if (__DEV__) {
-        console.log('unmount');
-      }
-    };
-  }, []);
-
-  const submitVideo = () => {
-    if (
-      inputValue.shareLink === '' ||
-      inputValue.shareLink === undefined ||
-      inputValue.shareLink === null
-    ) {
-      defaultAlertMessage('링크를 입력해주세요.');
-      return;
-    }
-
-    if (!domainRegex(inputValue.shareLink)) {
-      defaultAlertMessage('올바른 형식의 링크를 등록해주세요');
-      return;
-    }
-
-    const payload = {
-      shareLink: inputValue.shareLink.toString(),
-      userId: userId.toString(),
-      owner: email.toString(),
-      originalWorkId: inputValue.originalWorkId.toString(),
-    };
-
-    APIKit.post('challenge/updateMyChallengeVideo', payload)
-      .then(({data}) => {
-        if (__DEV__) {
-          console.log(data);
-        }
-        setUploadCheck(true);
-        setInputValue({...inputValue, shareLink: ''});
-      })
-      .catch(error => {
-        if (__DEV__) {
-          console.log(error);
-        }
-        setUploadCheck(false);
-      });
-  };
-
-  const handlerValue = (text, id) => {
-    setInputValue({originalWorkId: id, shareLink: text});
-    if (__DEV__) {
-      console.log(inputValue);
-    }
-  };
+const MyChallengeVideoPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -109,7 +34,7 @@ function MyChallengeVideo(props) {
           개인 YouTube에 등록 된 {'\n'} 챌린지 영상의 링크를 등록해 주세요
         </Text>
         <FlatList
-          data={originalVideoList}
+          data={props.originalVideoList}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           // onEndReached={handleLoadMore}
@@ -132,17 +57,19 @@ function MyChallengeVideo(props) {
               <Box>
                 <Input
                   width={responsiveWidth(widthPersentage(320))}
-                  backgroundColor={selected === index ? '#ffffff' : '#1a1b1c80'}
+                  backgroundColor={
+                    props.selected === index ? '#ffffff' : '#1a1b1c80'
+                  }
                   placeholder="링크를 등록해주세요"
                   placeholderTextColor="#a5a8ae"
-                  onFocus={() => setSelected(index)}
+                  onFocus={() => props.setSelected(index)}
                   fontSize={responsiveFontSize(fontSizePersentage(16))}
                   fontWeight={600}
-                  color={selected === index ? '#1a1b1c' : '#1a1b1c'}
-                  onChangeText={text => handlerValue(text, item.id)}
+                  color={props.selected === index ? '#1a1b1c' : '#1a1b1c'}
+                  onChangeText={text => props.handlerValue(text, item.id)}
                   value={
-                    inputValue.originalWorkId === item.id
-                      ? inputValue.shareLink
+                    props.inputValue.originalWorkId === item.id
+                      ? props.inputValue.shareLink
                       : ''
                   }
                   InputLeftElement={
@@ -162,13 +89,13 @@ function MyChallengeVideo(props) {
                         fs={12}
                         fw={800}
                         rounded={4}
-                        onPress={() => submitVideo()}
+                        onPress={() => props.submitVideo()}
                       />
                     </Box>
                   }
                 />
               </Box>
-              {uploadCheck ? (
+              {props.uploadCheck ? (
                 <Box
                   mt={6}
                   width={responsiveWidth(widthPersentage(350))}
@@ -191,6 +118,6 @@ function MyChallengeVideo(props) {
       </Box>
     </Box>
   );
-}
+};
 
-export default MyChallengeVideo;
+export default MyChallengeVideoPresenter;
