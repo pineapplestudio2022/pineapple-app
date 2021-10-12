@@ -1,4 +1,6 @@
 //작곡 참여 View
+import React from 'react';
+import {ImageBackground} from 'react-native';
 import {
   Box,
   HStack,
@@ -8,24 +10,25 @@ import {
   Text,
   VStack,
 } from 'native-base';
-import React from 'react';
-import MenuComponent from '../../Components/MenuComponent';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+
+import IconHeaphone from '../../../Assets/Image/challenge/icon_challenge_headphone.png';
+import IconClose from '../../../Assets/Image/icon_check_close.png';
+import DumpImage from '../../../Assets/Image/challenge/bg_challenge_ai_3.jpg';
+
 import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-import {ImageBackground} from 'react-native';
-import IconHeaphone from '../../Assets/Image/challenge/icon_challenge_headphone.png';
-import IconClose from '../../Assets/Image/icon_check_close.png';
-import DumpImage from '../../Assets/Image/challenge/bg_challenge_ai_3.jpg';
-import SingingMiniCardComponent from '../../Components/SingingMiniCardComponent';
-function ChallengeComposingDetail(props) {
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import SingingMiniCardComponent from '../../../Components/SingingMiniCardComponent';
+
+const ComposingDetailPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -188,6 +191,6 @@ function ChallengeComposingDetail(props) {
       </VStack>
     </Box>
   );
-}
+};
 
-export default ChallengeComposingDetail;
+export default ComposingDetailPresenter;
