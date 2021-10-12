@@ -1,8 +1,11 @@
 //Home 상단 Top 10 안의 음원 표시 Component
 
 import React from 'react';
-import {Box, Text, Image, Pressable} from 'native-base';
 import {ImageBackground} from 'react-native';
+import {Box, Text, Image, Pressable} from 'native-base';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {widthPersentage} from '../Commons/CommonUtil';
+
 import BadgeIcon1 from '../Assets/Image/Top_music/top_music_badge_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/top_music_badge_2.png';
 import BadgeIcon3 from '../Assets/Image/Top_music/top_music_badge_3.png';
@@ -14,8 +17,6 @@ import BadgeIcon8 from '../Assets/Image/Top_music/top_music_badge_8.png';
 import BadgeIcon9 from '../Assets/Image/Top_music/top_music_badge_9.png';
 import BadgeIcon10 from '../Assets/Image/Top_music/top_music_badge_10.png';
 import BadgeIconCrown from '../Assets/Image/Top_music/top_music_badge_crown.png';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../Commons/CommonUtil';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
 import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
@@ -27,6 +28,7 @@ import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 import CoverAll from '../Assets/Image/Top_music/top_music_all.jpg';
+
 const getCover = number => {
   switch (number) {
     case 1:
@@ -84,7 +86,7 @@ const getBadge = number => {
   }
 };
 
-function MusicAlbumComponent(props) {
+const MusicAlbumComponent = props => {
   const handlerNavi = () => {
     if (props.nextView === undefined) {
       return;
@@ -150,7 +152,7 @@ function MusicAlbumComponent(props) {
       </Box>
     </Box>
   );
-}
+};
 
 export default MusicAlbumComponent;
 

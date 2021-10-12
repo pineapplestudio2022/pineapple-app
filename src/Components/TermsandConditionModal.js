@@ -1,12 +1,14 @@
-import {Box, Image, Modal} from 'native-base';
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
+import {Box, Image, Modal} from 'native-base';
+import WebView from 'react-native-webview';
 import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import WebView from 'react-native-webview';
+
 import ExternalLinkIcon from '../Assets/Image/member/icon_signup_externallink_gray.png';
+
 import {heightPersentage, widthPersentage} from '../Commons/CommonUtil';
 import Gbutton from './GbuttonComponent';
 

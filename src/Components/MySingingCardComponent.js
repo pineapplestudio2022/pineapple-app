@@ -1,7 +1,7 @@
 //My Challenge > 노래 챌린지의 Card
 import React, {useContext} from 'react';
+import {Alert, TouchableOpacity} from 'react-native';
 import {Image, Text, Box, VStack, HStack} from 'native-base';
-import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -12,10 +12,10 @@ import {
   heightPersentage,
   widthPersentage,
 } from '../Commons/CommonUtil';
+
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic2.png';
 import MicIcon from '../Assets/Image/challenge/icon_challenge_mic.png';
 import TrashIcon from '../Assets/Image/challenge/icon_challenge_trash.png';
-import {Alert, TouchableOpacity} from 'react-native';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
 import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
@@ -26,8 +26,11 @@ import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
 import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
+import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
+
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
+
 const getImage = () => {
   const number = Math.floor(Math.random() * 10) + 1;
   switch (number) {
