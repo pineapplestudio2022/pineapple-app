@@ -141,7 +141,16 @@ const MusicPlayerContainer = props => {
         }
       });
   };
-
+  const authMessage = () => {
+    if (userId === '') {
+      defaultAlertMessage('로그인 후 사용가능합니다.');
+      return;
+    }
+    if (!cheeringEnalbe || !likesEnable || !togetherEnable) {
+      defaultAlertMessage('1번만 추천가능합니다');
+      return;
+    }
+  };
   //응원,찜,함께해요 업데이트
   const getLikeCount = async () => {
     const payload = {
@@ -348,6 +357,7 @@ const MusicPlayerContainer = props => {
       comment={comment}
       submitComment={submitComment}
       percent={percent}
+      authMessage={authMessage}
     />
   );
 };

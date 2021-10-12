@@ -209,7 +209,7 @@ const MusicPlayerPresenter = props => {
                   onPress={
                     props.cheeringEnalbe
                       ? () => props.handleCount('cheering')
-                      : () => {}
+                      : props.authMessage
                   }
                   style={{
                     width: responsiveWidth(widthPersentage(60)),
@@ -245,7 +245,7 @@ const MusicPlayerPresenter = props => {
                   onPress={
                     props.likesEnable
                       ? () => props.handleCount('likes')
-                      : () => {}
+                      : props.authMessage
                   }
                   style={{
                     width: responsiveWidth(widthPersentage(60)),
@@ -281,7 +281,7 @@ const MusicPlayerPresenter = props => {
                   onPress={
                     props.togetherEnable
                       ? () => props.handleCount('getTogether')
-                      : () => {}
+                      : props.authMessage
                   }
                   style={{
                     width: responsiveWidth(widthPersentage(60)),
