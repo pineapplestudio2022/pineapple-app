@@ -1,65 +1,21 @@
-import React, {useState, useContext} from 'react';
-
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   responsiveFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  widthPersentage,
-  defaultAlertMessage,
-} from '../../Commons/CommonUtil';
-import {Box, HStack, Image, Input, Spinner, Text, VStack} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import CharacterIcon from '../../Assets/Image/member/icon_login_character.png';
-import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
-import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
-import Gbutton from '../../Components/GbuttonComponent';
-import {TouchableOpacity} from 'react-native';
-import APIKit from '../../API/APIkit';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const Login = props => {
-  const {dispatch} = useContext(UserDispatch);
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+import {fontSizePersentage, widthPersentage} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
 
-  const payload = {
-    email: signInEmail.toString(),
-    password: signInPassword.toString(),
-  };
+import CharacterIcon from '../../../Assets/Image/member/icon_login_character.png';
+import EmailIcon from '../../../Assets/Image/member/icon_login_email_gray.png';
+import KeyIcon from '../../../Assets/Image/member/icon_login_key_gray.png';
 
-  const submit = async () => {
-    setLoading(true);
-    await APIKit.post('/login/signIn', payload)
-      .then(({data}) => {
-        setLoading(false);
-        if (data.IBcode === '2001') {
-          defaultAlertMessage('존재하지 않는 이메일입니다.');
-          return;
-        }
-        if (data.IBcode === '2002') {
-          defaultAlertMessage('비밀번호가 맞지않습니다.');
-          return;
-        }
-        dispatch({
-          type: 'SIGN_IN',
-          userId: data.IBparams.userId,
-          email: data.IBparams.email,
-          token: data.IBparams.token,
-        });
-        props.navigation.navigate('Home');
-      })
-      .catch(error => {
-        setLoading(false);
-        if (__DEV__) {
-          console.log(error);
-        }
-      });
-  };
-
+const LoginPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -94,7 +50,7 @@ const Login = props => {
             }}>
             <Box flex={1} paddingBottom={10}>
               <VStack alignItems={'center'} space={6}>
-                {loading ? (
+                {props.loading ? (
                   <Spinner position={'absolute'} left={'44%'} top={'44%'} />
                 ) : (
                   <></>
@@ -119,8 +75,8 @@ const Login = props => {
                   borderWidth={1}
                   placeholder={'Email'}
                   autoFocus
-                  onChangeText={text => setSignInEmail(text)}
-                  value={signInEmail}
+                  onChangeText={props.setSignInEmail}
+                  value={props.signInEmail}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -140,8 +96,8 @@ const Login = props => {
                   borderWidth={1}
                   type={'password'}
                   placeholder={'PW'}
-                  onChangeText={text => setSignInPassword(text)}
-                  value={signInPassword}
+                  onChangeText={props.setSignInPassword}
+                  value={props.signInPassword}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -161,7 +117,7 @@ const Login = props => {
                   fw={600}
                   rounded={8}
                   text={'LOG IN'}
-                  onPress={submit}
+                  onPress={props.submit}
                 />
                 <HStack
                   justifyContent={'space-around'}
@@ -198,4 +154,4 @@ const Login = props => {
     </Box>
   );
 };
-export default Login;
+export default LoginPresenter;
