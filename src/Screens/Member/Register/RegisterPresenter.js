@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   Box,
   Center,
@@ -6,7 +7,6 @@ import {
   Image,
   Input,
   Radio,
-  ScrollView,
   Text,
   VStack,
 } from 'native-base';
@@ -19,184 +19,16 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-  defaultAlertMessage,
-  emailRegex,
-  passwordRegex,
-} from '../../Commons/CommonUtil';
+} from '../../../Commons/CommonUtil';
 
-import MenuComponent from '../../Components/MenuComponent';
-import Gbutton from '../../Components/GbuttonComponent';
-import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
-import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
-import PhoneIcon from '../../Assets/Image/member/icon_member_phone_gray.png';
-import AuthIcon from '../../Assets/Image/member/icon_member_auth_gray.png';
-import APIKit from '../../API/APIkit';
-import {Alert} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import MenuComponent from '../../../Components/MenuComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
+import EmailIcon from '../../../Assets/Image/member/icon_login_email_gray.png';
+import KeyIcon from '../../../Assets/Image/member/icon_login_key_gray.png';
+import PhoneIcon from '../../../Assets/Image/member/icon_member_phone_gray.png';
+import AuthIcon from '../../../Assets/Image/member/icon_member_auth_gray.png';
 
-const Register = props => {
-  const [email, setEmail] = useState(''); //이메일 주소
-  const [password, setPassword] = useState(''); //첫번째 비밀번호
-  const [rePassword, setRePassword] = useState(''); //두번째 비밀번호
-  const [pMessage, setpMessage] = useState(''); //유효성 체크 메시지
-
-  const [authEmail, setAuthEmail] = useState(false); //이메일 유효성 체크
-  const [authPW, setAuthPW] = useState(false); //비밀번호 유효성 체크
-  const [authPhone, setAuthPhone] = useState(false); //번호인증 유효성 체크
-
-  const [phoneNum, setPhoneNum] = useState(''); //핸드폰 번호
-  const [authNo, setAuthNo] = useState(''); //인증번호
-  const [getAuthNum, setGetAuthNum] = useState(false); //인증번호 전송 체크
-  const [job, setJob] = useState('0'); //default = 일반인
-
-  const [authBtn, setAuthBtn] = useState(false); //인증번호 요청 버튼 활성화
-  const [authCheckBtn, setAuthCheckBtn] = useState(false); //인증번호 확인 버튼 활성화
-
-  const {marketing} = props.route.params; //마케팅 동의 여부
-
-  const payload = {
-    email: email.toString(),
-    password: password.toString(),
-    phone: '+82' + phoneNum.substring(1),
-    uType: job.toString(),
-    marketingPolicy: marketing.toString(),
-    authNo: authNo.toString(),
-  };
-
-  const onSuccess = response => {
-    // Set JSON Web Token on success
-    if (__DEV__) {
-      console.log(response);
-    }
-    if (response.data.IBcode === '1000') {
-      Alert.alert('회원가입 완료', '로그인 화면으로 이동합니다', [
-        {
-          text: '확인',
-          onPress: () => props.navigation.navigate('LoginNavigation'),
-        },
-      ]);
-    }
-  };
-  const onFailure = error => {
-    if (__DEV__) {
-      console.log(error && error.response);
-    }
-  };
-  //회원가입 api 요청
-  const submit = async () => {
-    if (__DEV__) {
-      console.log(payload);
-    }
-    APIKit.post('/login/signup', payload).then(onSuccess).catch(onFailure);
-  };
-
-  //인증번호 전송 버튼 활성화
-  const handleAuthButoon = value => {
-    if (value === '' || value === undefined || value === null) {
-      setAuthBtn(false);
-    } else {
-      setAuthBtn(true);
-    }
-    setPhoneNum(value);
-  };
-
-  //인증번호 요청
-  const onAuthRequest = async () => {
-    //인증번호 확인 버튼 활성화
-    setAuthCheckBtn(true);
-    setGetAuthNum(true);
-    const payl = {phoneNo: '+82' + phoneNum.substring(1)};
-    try {
-      APIKit.post('/auth/getAuthNo', payl)
-        .then(response => {
-          if (__DEV__) {
-            console.log(response.data);
-          }
-        })
-        .catch(error => {
-          setGetAuthNum(false);
-          if (__DEV__) {
-            console.log(error);
-          }
-        });
-    } catch (e) {
-      setGetAuthNum(false);
-      if (__DEV__) {
-        console.log(e);
-      }
-    }
-  };
-
-  //인증번호 유효성 체크
-  const onAuthCheck = async () => {
-    const payl = {authNo: authNo, phone: '+82' + phoneNum.substring(1)};
-    if (__DEV__) {
-      console.log(payl);
-    }
-    APIKit.post('/auth/submitAuthNo', payl)
-      .then(response => {
-        if (__DEV__) {
-          console.log(response.data);
-        }
-        if (response.data.IBcode === '1000') {
-          setAuthPhone(true);
-          defaultAlertMessage('인증되었습니다.');
-        }
-      })
-      .catch(error => {
-        if (__DEV__) {
-          console.log(error);
-        }
-      });
-  };
-
-  //email valid check
-  const handleEmail = value => {
-    setEmail(value);
-    if (value === '' || value === undefined || value === null) {
-      setpMessage('');
-      setAuthEmail(false);
-    } else if (emailRegex(value)) {
-      setpMessage('');
-      setAuthEmail(true);
-    } else {
-      setpMessage('올바른 이메일 형식을 입력해주세요');
-      setAuthEmail(false);
-    }
-  };
-
-  //password valid check
-  const handlePassword = value => {
-    setPassword(value);
-    if (value === '' || value === undefined || value === null) {
-      setpMessage('');
-      setAuthPW(false);
-    } else if (passwordRegex(value)) {
-      setpMessage('');
-    } else {
-      setpMessage('영문,숫자,특수문자 1개 이상 포함');
-      setAuthPW(false);
-    }
-  };
-
-  //password check
-  const handleRePassword = value => {
-    setRePassword(value);
-    if (value === '' || value === undefined || value === null) {
-      setpMessage('');
-      setAuthPW(false);
-    } else if (value !== password) {
-      setpMessage('비밀번호가 일치하지 않습니다.');
-      setAuthPW(false);
-    } else if (!passwordRegex(value)) {
-      setpMessage('영문,숫자,특수문자 1개 이상 포함');
-      setAuthPW(false);
-    } else {
-      setpMessage('');
-      setAuthPW(true);
-    }
-  };
-
+const RegisterPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -252,8 +84,8 @@ const Register = props => {
                   backgroundColor={'#fafafab3'}
                   borderWidth={1}
                   placeholder={'Email'}
-                  value={email}
-                  onChangeText={handleEmail}
+                  value={props.email}
+                  onChangeText={props.handleEmail}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -273,8 +105,8 @@ const Register = props => {
                   borderWidth={1}
                   type={'password'}
                   placeholder={'PW'}
-                  value={password}
-                  onChangeText={handlePassword}
+                  value={props.password}
+                  onChangeText={props.handlePassword}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -294,8 +126,8 @@ const Register = props => {
                   borderWidth={1}
                   type={'password'}
                   placeholder={'PW check'}
-                  value={rePassword}
-                  onChangeText={handleRePassword}
+                  value={props.rePassword}
+                  onChangeText={props.handleRePassword}
                   InputLeftElement={
                     <Image
                       alt={' '}
@@ -312,7 +144,7 @@ const Register = props => {
                   color={'#ff0000'}
                   bold
                   fontSize={responsiveFontSize(fontSizePersentage(14))}>
-                  {pMessage}
+                  {props.pMessage}
                 </Text>
               </VStack>
               <Text
@@ -331,8 +163,8 @@ const Register = props => {
                   width={responsiveWidth(widthPersentage(300))}
                   rounded={8}
                   keyboardType={'numeric'}
-                  onChangeText={handleAuthButoon}
-                  value={phoneNum}
+                  onChangeText={props.handleAuthButoon}
+                  value={props.phoneNum}
                   backgroundColor={'#fafafab3'}
                   borderWidth={1}
                   placeholder={'전화번호'}
@@ -348,7 +180,7 @@ const Register = props => {
                     />
                   }
                   InputRightElement={
-                    authBtn ? (
+                    props.authBtn ? (
                       <Box mr={2}>
                         <Gbutton
                           wp={70}
@@ -357,8 +189,8 @@ const Register = props => {
                           fw={800}
                           rounded={4}
                           text={'인증번호'}
-                          onPress={onAuthRequest}
-                          disable={getAuthNum}
+                          onPress={props.onAuthRequest}
+                          disable={props.getAuthNum}
                         />
                       </Box>
                     ) : (
@@ -372,8 +204,8 @@ const Register = props => {
                   keyboardType={'numeric'}
                   backgroundColor={'#fafafab3'}
                   borderWidth={1}
-                  onChangeText={setAuthNo}
-                  value={authNo}
+                  onChangeText={props.setAuthNo}
+                  value={props.authNo}
                   placeholder={'인증번호'}
                   InputLeftElement={
                     <Image
@@ -387,7 +219,7 @@ const Register = props => {
                     />
                   }
                   InputRightElement={
-                    authCheckBtn ? (
+                    props.authCheckBtn ? (
                       <Box mr={2}>
                         <Gbutton
                           wp={70}
@@ -396,8 +228,8 @@ const Register = props => {
                           fw={800}
                           rounded={4}
                           text={'확인'}
-                          onPress={onAuthCheck}
-                          disable={authPhone}
+                          onPress={props.onAuthCheck}
+                          disable={props.authPhone}
                         />
                       </Box>
                     ) : (
@@ -419,11 +251,11 @@ const Register = props => {
               </Text>
               <Radio.Group
                 colorScheme={'rgb(15,239,189)'}
-                defaultValue={job}
+                defaultValue={props.job}
                 name="jobGroup"
                 alignItems={'center'}
                 accessibilityLabel={'pick a job'}
-                onChange={setJob}
+                onChange={props.setJob}
                 style={{marginBottom: 20}}>
                 <VStack
                   w={'72%'}
@@ -510,7 +342,7 @@ const Register = props => {
                 </VStack>
               </Radio.Group>
               <Center>
-                {authEmail && authPW && authPhone ? (
+                {props.authEmail && props.authPW && props.authPhone ? (
                   <Gbutton
                     wp={220}
                     hp={40}
@@ -518,7 +350,7 @@ const Register = props => {
                     fw={600}
                     rounded={8}
                     text={'SIGN UP'}
-                    onPress={submit}
+                    onPress={props.submit}
                   />
                 ) : (
                   <Gbutton
@@ -540,4 +372,4 @@ const Register = props => {
     </Box>
   );
 };
-export default Register;
+export default RegisterPresenter;
