@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Box, Center, HStack, ScrollView, Text, VStack} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -9,12 +9,11 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-import {Box, Center, HStack, ScrollView, Text, VStack} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import Gbutton from '../../Components/GbuttonComponent';
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
 
-const FindAccounFive = props => {
+const AccountFindFivePresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -99,4 +98,4 @@ const FindAccounFive = props => {
     </Box>
   );
 };
-export default FindAccounFive;
+export default AccountFindFivePresenter;
