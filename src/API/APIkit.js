@@ -23,6 +23,9 @@ export const setClientToken = token => {
       return config;
     },
     error => {
+      if (__DEV__) {
+        console.log(error);
+      }
       Promise.reject(error);
     },
   );

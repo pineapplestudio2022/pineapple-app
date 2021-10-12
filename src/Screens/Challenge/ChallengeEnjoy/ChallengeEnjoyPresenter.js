@@ -13,7 +13,7 @@ import MusicPlayer from '../../MusicPlayer';
 import MusicBox from '../../../Components/MusicBoxComponent';
 import Gbutton from '../../../Components/GbuttonComponent';
 import VideoBox from '../../../Components/VideoBoxComponent';
-import VideoPlayer from '../../../Components/VideoPlayer';
+import VideoPlayer from '../../VideoPlayer';
 
 const ChallengeEnjoyPresenter = props => {
   return (

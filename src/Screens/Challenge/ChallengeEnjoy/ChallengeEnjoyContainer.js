@@ -49,7 +49,11 @@ const ChallengeEnjoyContainer = props => {
 
   const openVideoPlayer = index => {
     setId(videoList[index].id);
-    setShareLink(videoList[index].shareLink);
+    setShareLink(
+      videoList[index].shareLink.substring(
+        videoList[index].shareLink.lastIndexOf('/') + 1,
+      ),
+    );
     setIsBottom(false);
     videoPanel.current.show();
   };
