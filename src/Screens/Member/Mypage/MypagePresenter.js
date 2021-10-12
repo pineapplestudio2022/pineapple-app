@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   HStack,
@@ -10,7 +11,6 @@ import {
   Center,
   Checkbox,
 } from 'native-base';
-import React, {useContext, useEffect, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -20,110 +20,14 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-  passwordRegex,
-} from '../../Commons/CommonUtil';
-import MenuComponent from '../../Components/MenuComponent';
-import EmailIcon from '../../Assets/Image/member/icon_login_email_gray.png';
-import KeyIcon from '../../Assets/Image/member/icon_login_key_gray.png';
-import Gbutton from '../../Components/GbuttonComponent';
-import APIKit from '../../API/APIkit';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import TermsandConditionModal from './TermsandConditionModal';
-const Mypage = props => {
-  const {userId} = useContext(UserDispatch);
-  const [email, setEmail] = useState('');
-  const [uType, setUType] = useState('1');
-  const [marketingPolicy, setMarketingPolicy] = useState(['1', '2']);
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import EmailIcon from '../../../Assets/Image/member/icon_login_email_gray.png';
+import KeyIcon from '../../../Assets/Image/member/icon_login_key_gray.png';
+import Gbutton from '../../../Components/GbuttonComponent';
+import TermsandConditionModal from '../../../Components/TermsandConditionModal';
 
-  const [password, setPassword] = useState(''); //첫번째 비밀번호
-  const [rePassword, setRePassword] = useState(''); //두번째 비밀번호
-  const [pMessage, setpMessage] = useState(''); //유효성 체크 메시지
-  const [authPW, setAuthPW] = useState(false); //비밀번호 유효성 체크
-
-  useEffect(() => {
-    const getAccountInfo = async () => {
-      const payload = {userId: userId.toString()};
-      await APIKit.post('login/getAccountInfo', payload)
-        .then(({data}) => {
-          if (data.IBcode === '1000') {
-            setEmail(data.IBparams.user.email);
-            setUType(data.IBparams.user.uType.toString());
-            if (data.IBparams.user.marketing_policy.toString() === '1') {
-              setMarketingPolicy(['1', '2', '3']);
-            }
-          }
-        })
-        .catch(error => {
-          if (__DEV__) {
-            console.log(error);
-          }
-        });
-    };
-
-    getAccountInfo();
-    return () => {
-      if (__DEV__) {
-        console.log('unmount');
-      }
-    };
-  }, [userId]);
-
-  const modifyAccountInfo = () => {
-    const payload = {
-      email: email.toString(),
-      uType: uType.toString(),
-      marketingPolicy: marketingPolicy.indexOf('3') === -1 ? '0' : '1',
-      password: password,
-    };
-    if (__DEV__) {
-      console.log(payload);
-    }
-    APIKit.post('/login/modifyAccountInfo', payload)
-      .then(({data}) => {
-        if (__DEV__) {
-          console.log(data);
-        }
-        props.navigation.goBack();
-      })
-      .catch(error => {
-        if (__DEV__) {
-          console.log(error);
-        }
-      });
-  };
-
-  //password valid check
-  const handlePassword = value => {
-    setPassword(value);
-    if (value === '' || value === undefined || value === null) {
-      setpMessage('');
-      setAuthPW(false);
-    } else if (passwordRegex(value)) {
-      setpMessage('');
-    } else {
-      setpMessage('영문,숫자,특수문자 1개 이상 포함');
-      setAuthPW(false);
-    }
-  };
-
-  //password check
-  const handleRePassword = value => {
-    setRePassword(value);
-    if (value === '' || value === undefined || value === null) {
-      setpMessage('');
-      setAuthPW(false);
-    } else if (value !== password) {
-      setpMessage('비밀번호가 일치하지 않습니다.');
-      setAuthPW(false);
-    } else if (!passwordRegex(value)) {
-      setpMessage('영문,숫자,특수문자 1개 이상 포함');
-      setAuthPW(false);
-    } else {
-      setpMessage('');
-      setAuthPW(true);
-    }
-  };
-
+const MypagePresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -168,7 +72,7 @@ const Mypage = props => {
                 isDisabled
                 backgroundColor={'#fafafab3'}
                 borderWidth={1}
-                placeholder={email}
+                placeholder={props.email}
                 InputLeftElement={
                   <Image
                     alt={' '}
@@ -188,8 +92,8 @@ const Mypage = props => {
                 borderWidth={1}
                 type={'password'}
                 placeholder={'변경할 암호를 입력해주세요'}
-                value={password}
-                onChangeText={handlePassword}
+                value={props.password}
+                onChangeText={props.handlePassword}
                 InputLeftElement={
                   <Image
                     alt={' '}
@@ -209,8 +113,8 @@ const Mypage = props => {
                 borderWidth={1}
                 type={'password'}
                 placeholder={'변경할 암호를 재확인해주세요'}
-                value={rePassword}
-                onChangeText={handleRePassword}
+                value={props.rePassword}
+                onChangeText={props.handleRePassword}
                 InputLeftElement={
                   <Image
                     alt={' '}
@@ -227,7 +131,7 @@ const Mypage = props => {
                 color={'#ff0000'}
                 bold
                 fontSize={responsiveFontSize(fontSizePersentage(14))}>
-                {pMessage}
+                {props.pMessage}
               </Text>
             </VStack>
             <Text
@@ -245,10 +149,8 @@ const Mypage = props => {
               colorScheme={'rgb(15,239,189)'}
               accessibilityLabel={'pick a job'}
               name="jobGroup"
-              value={uType}
-              onChange={nextValue => {
-                setUType(nextValue);
-              }}
+              value={props.uType}
+              onChange={props.setUType}
               alignItems={'center'}
               style={{marginBottom: 35}}>
               <VStack
@@ -339,9 +241,9 @@ const Mypage = props => {
               <VStack space={4} alignItems={'center'} w={'76%'}>
                 <Checkbox.Group
                   colorScheme={'rgb(15,239,189)'}
-                  value={marketingPolicy}
+                  value={props.marketingPolicy}
                   w={'100%'}
-                  onChange={setMarketingPolicy}>
+                  onChange={props.setMarketingPolicy}>
                   <Checkbox value={'1'} isDisabled>
                     <HStack
                       w={'100%'}
@@ -378,7 +280,6 @@ const Mypage = props => {
                         color={'#a5a8ae'}>
                         광고•마케팅 수신 동의{'('}선택{')'}
                       </Text>
-                      {/* <TermsandConditionModal terms={3} /> */}
                     </HStack>
                   </Checkbox>
                 </Checkbox.Group>
@@ -391,9 +292,9 @@ const Mypage = props => {
                 fs={18}
                 fw={600}
                 rounded={8}
-                disable={!authPW}
+                disable={!props.authPW}
                 text={'저장하기'}
-                onPress={modifyAccountInfo}
+                onPress={props.modifyAccountInfo}
               />
             </Center>
           </Box>
@@ -403,4 +304,4 @@ const Mypage = props => {
   );
 };
 
-export default Mypage;
+export default MypagePresenter;
