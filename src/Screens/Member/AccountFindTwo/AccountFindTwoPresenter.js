@@ -1,4 +1,5 @@
 import React from 'react';
+import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -8,13 +9,11 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-import {HStack, Box, ScrollView, VStack, Text, Center} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import Gbutton from '../../Components/GbuttonComponent';
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import Gbutton from '../../../Components/GbuttonComponent';
 
-const FindAccountTwo = props => {
-  const email = props.route.params.email;
+const AccountFindTwoPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -90,7 +89,7 @@ const FindAccountTwo = props => {
                   fontSize={responsiveFontSize(fontSizePersentage(17))}
                   fontWeight={600}
                   color={'#fafafa'}>
-                  {email}
+                  {props.email}
                 </Text>
               </Box>
               <Text
@@ -120,7 +119,7 @@ const FindAccountTwo = props => {
                     text={'다음'}
                     onPress={() =>
                       props.navigation.navigate('FindAccount3', {
-                        email: email,
+                        email: props.email,
                       })
                     }
                   />
@@ -133,4 +132,4 @@ const FindAccountTwo = props => {
     </Box>
   );
 };
-export default FindAccountTwo;
+export default AccountFindTwoPresenter;

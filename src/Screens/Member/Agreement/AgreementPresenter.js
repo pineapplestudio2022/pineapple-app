@@ -22,7 +22,7 @@ import {
 
 import MenuComponent from '../../../Components/MenuComponent';
 import Gbutton from '../../../Components/GbuttonComponent';
-import TermsandConditionModal from './TermsandConditionModal';
+import TermsandConditionModal from '../TermsandConditionModal';
 
 const AgreementPresenter = props => {
   return (

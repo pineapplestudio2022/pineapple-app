@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
-import APIKit from '../../API/APIkit';
+import {defaultAlertMessage} from '../../../Commons/CommonUtil';
+import APIKit from '../../../API/APIkit';
 import AccountFindOnePresenter from './AccountFindOnePresenter';
 
 const AccountFindOneContainer = props => {
