@@ -12,9 +12,9 @@ import {Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import {RNFFmpeg, RNFFmpegConfig} from 'react-native-ffmpeg';
-import APIKit from '../../API/APIkit';
-import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import APIKit from '../../../API/APIkit';
+import {UserDispatch} from '../../../Commons/UserDispatchProvider';
+import {defaultAlertMessage} from '../../../Commons/CommonUtil';
 import {
   PERMISSIONS,
   request,
