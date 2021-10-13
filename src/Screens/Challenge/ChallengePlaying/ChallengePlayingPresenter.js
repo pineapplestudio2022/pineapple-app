@@ -1,7 +1,6 @@
 //작곡 참여 View
-import {Box, HStack, Pressable, ScrollView, Text, VStack} from 'native-base';
 import React from 'react';
-import MenuComponent from '../../Components/MenuComponent';
+import {Box, HStack, Pressable, ScrollView, Text, VStack} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -11,10 +10,11 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-import AIMusicBoxComponent from '../../Components/AIMusicBoxComponent';
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import AIMusicBoxComponent from '../../../Components/AIMusicBoxComponent';
 
-const ChallengePlaying = props => {
+const ChallengePlayingPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -75,4 +75,4 @@ const ChallengePlaying = props => {
   );
 };
 
-export default ChallengePlaying;
+export default ChallengePlayingPresenter;
