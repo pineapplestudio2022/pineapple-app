@@ -2,19 +2,21 @@
 
 import React from 'react';
 import {Box, HStack, Image, Input, Pressable, Text, VStack} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
-import LinkIcon from '../../Assets/Image/challenge/icon_challenge_link.png';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+
 import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../../Commons/CommonUtil';
-function MyChallengePlay(props) {
+} from '../../../Commons/CommonUtil';
+import MenuComponent from '../../../Components/MenuComponent';
+import LinkIcon from '../../../Assets/Image/challenge/icon_challenge_link.png';
+
+const MyPlayPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -258,6 +260,6 @@ function MyChallengePlay(props) {
       </VStack>
     </Box>
   );
-}
+};
 
-export default MyChallengePlay;
+export default MyPlayPresenter;
