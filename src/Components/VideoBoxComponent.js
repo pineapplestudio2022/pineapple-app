@@ -1,6 +1,6 @@
-import {Box, Pressable, Text} from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
+import {Box, Pressable, Text} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -10,7 +10,8 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
+
 import DefaultImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
@@ -53,7 +54,8 @@ const getCover = number => {
       return DefaultImage;
   }
 };
-function VideoBox(props) {
+
+const VideoBox = props => {
   return (
     <Pressable
       onPress={props.onPress}
@@ -103,7 +105,7 @@ function VideoBox(props) {
       </Box>
     </Pressable>
   );
-}
+};
 
 VideoBox.defaultProps = {
   wp: 320, //width

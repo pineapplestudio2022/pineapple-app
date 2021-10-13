@@ -1,6 +1,7 @@
 //Challenge > 작곡 참여안의 카드 컴포넌트
-import {Box, Pressable, Text} from 'native-base';
 import React from 'react';
+import {ImageBackground} from 'react-native';
+import {Box, Pressable, Text} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -10,10 +11,10 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
-import {ImageBackground} from 'react-native';
+} from '../Commons/CommonUtil';
 import DumpImage from '../Assets/Image/challenge/bg_challenge_ai_1.jpg';
-function AIMusicBoxComponent(props) {
+
+const AIMusicBoxComponent = props => {
   const handlerNavigation = () => {
     props.navigation.navigate(props.nextView);
   };
@@ -61,5 +62,5 @@ function AIMusicBoxComponent(props) {
       </Pressable>
     </Box>
   );
-}
+};
 export default AIMusicBoxComponent;

@@ -1,6 +1,12 @@
 //CHallenge > 노래부르기 참여 > 카드 컴포넌트
 import React from 'react';
 import {Image, Text, Box, VStack, HStack} from 'native-base';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+
 import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
 import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
 import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
@@ -12,17 +18,14 @@ import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
 import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+
 import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 import Gbutton from './GbuttonComponent';
+
 const getImage = () => {
   const number = Math.floor(Math.random() * 10) + 1;
   switch (number) {
@@ -50,7 +53,8 @@ const getImage = () => {
       return DumpImage;
   }
 };
-function SingingCardComponent(props) {
+
+const SingingCardComponent = props => {
   const handlerGoLyrics = () => {
     props.navigation.navigate('Lyrics', {id: props.id});
   };
@@ -132,5 +136,5 @@ function SingingCardComponent(props) {
       </HStack>
     </Box>
   );
-}
+};
 export default SingingCardComponent;

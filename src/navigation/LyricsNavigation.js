@@ -1,11 +1,13 @@
 //가사 쓰기 Navigation
-import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import Lyrics from '../Screens/WriteLyrics/ToggleScreen2';
-import WriteLyrics from '../Screens/WriteLyrics/Wrtinglyrics';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import WriteLyrics from '../Screens/WriteLyrics/WriteLyrics';
+import LyricsListView from '../Screens/WriteLyrics/LyricsListView';
+
 const LyricsStack = createStackNavigator();
 
-function LyricsScreen() {
+const LyricsNavigation = props => {
   return (
     <LyricsStack.Navigator
       screenOptions={{
@@ -13,10 +15,10 @@ function LyricsScreen() {
         cardStyle: {backgroundColor: 'transparent'},
         animationEnabled: false,
       }}>
-      <LyricsStack.Screen name={'Lyrics'} component={Lyrics} />
+      <LyricsStack.Screen name={'LyricsListView'} component={LyricsListView} />
       <LyricsStack.Screen name={'WriteLyrics'} component={WriteLyrics} />
     </LyricsStack.Navigator>
   );
-}
+};
 
-export default LyricsScreen;
+export default LyricsNavigation;

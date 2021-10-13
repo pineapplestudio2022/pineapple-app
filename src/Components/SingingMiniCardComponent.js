@@ -1,14 +1,11 @@
 //My Challenge > 노래 챌린지 > 카드컴포넌트
-import React, {Component} from 'react';
+import React from 'react';
 import {Image, Text, Box, VStack, HStack, Pressable} from 'native-base';
 import {
   responsiveFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+import {fontSizePersentage, widthPersentage} from '../Commons/CommonUtil';
 import PlayIcon from '../Assets/Image/challenge/icon_challenge_playmusic.png';
 
 const SingingMiniCardComponent = props => {

@@ -2,6 +2,23 @@
 
 import {Alert} from 'react-native';
 
+const ZEPLIN_DEVICE_WIDTH = 390;
+const ZEPLIN_DEVICE_HEIGHT = 843;
+
+export function widthPersentage(width) {
+  const persentage = (width / ZEPLIN_DEVICE_WIDTH) * 100;
+  return persentage;
+}
+export function heightPersentage(height) {
+  const persentage = (height / ZEPLIN_DEVICE_HEIGHT) * 100;
+  return persentage;
+}
+
+export function fontSizePersentage(size) {
+  const persentage = size * 0.13;
+  return persentage;
+}
+
 //password vaild check
 export const passwordRegex = password => {
   //숫자, 영문, 특수문자 각 1자리 이상 ( 그외 글자 X )

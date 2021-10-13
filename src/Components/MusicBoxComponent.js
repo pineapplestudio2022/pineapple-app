@@ -1,7 +1,7 @@
 // 랭킹, 파인애플 뮤직 등 음악 앨범 카드 컴포넌트
-import {Box, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {ImageBackground} from 'react-native';
+import {Box, Image, Pressable, Text} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -11,7 +11,7 @@ import {
   fontSizePersentage,
   heightPersentage,
   widthPersentage,
-} from '../Commons/DeviceWHPersentage';
+} from '../Commons/CommonUtil';
 
 import BadgeIcon1 from '../Assets/Image/Top_music/badge_ranking_green_1.png';
 import BadgeIcon2 from '../Assets/Image/Top_music/badge_ranking_green_2.png';
@@ -33,6 +33,7 @@ import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
 import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
+
 const getCover = number => {
   //랜덤 이미지
   if (number === 100) {
@@ -90,7 +91,7 @@ const getBadge = number => {
   }
 };
 
-function MusicBoxComponent(props) {
+const MusicBoxComponent = props => {
   return (
     <Pressable
       onPress={props.onPress}
@@ -159,6 +160,6 @@ function MusicBoxComponent(props) {
       </ImageBackground>
     </Pressable>
   );
-}
+};
 
 export default MusicBoxComponent;
