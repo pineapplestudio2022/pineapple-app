@@ -50,7 +50,7 @@ const ChallengeListeningContainer = props => {
 
   const [adjustVolume, setAdjustVolume] = useState(0); // bgm - vocal 볼륨차
   const [bgmVolume, setBgmVolume] = useState(0);
-  //const IRSampleAudioIos = `${RNFetchBlob.fs.dirs.MainBundleDir}/Audio/IR_tunnel_entrance_d_1way_mono.m4a`;
+
   //권한 가져오기
   useEffect(() => {
     getPermission();
@@ -72,27 +72,29 @@ const ChallengeListeningContainer = props => {
     ARRecord.current.setSubscriptionDuration(1);
 
     // RNFFmpegConfig.setLogLevel(LogLevel.AV_LOG_VERBOSE);
+
     RNFFmpegConfig.enableLogCallback(ffmpegLogCallback);
+
     const getOriginalSong = async () => {
       const payload = {id: props.route.params.id.toString()};
 
       await APIKit.post('originalWorks/getOriginalSong', payload)
-        .then(response => {
+        .then(({data}) => {
           if (__DEV__) {
-            console.log(response);
+            console.log(data);
           }
-          setTitle(response.data.IBparams.rows[0].title);
-          setLyrics(response.data.IBparams.rows[0].lyrics);
-          setGenre(response.data.IBparams.rows[0].genre);
+          setTitle(data.IBparams.rows[0].title);
+          setLyrics(data.IBparams.rows[0].lyrics);
+          setGenre(data.IBparams.rows[0].genre);
 
-          const keyname = response.data.IBparams.rows[0].musicKey.toString();
+          const keyname = data.IBparams.rows[0].musicKey.toString();
           const splitKey = keyname.split('/');
           const length = splitKey.length;
           const filename = splitKey[length - 1];
 
           const dirs = RNFetchBlob.fs.dirs.DocumentDir;
           const path = dirs + '/';
-          RNFetchBlob.fs //로컬 파일 체크
+          RNFetchBlob.fs
             .exists(path + filename)
             .then(async exist => {
               if (!exist) {
@@ -107,9 +109,9 @@ const ChallengeListeningContainer = props => {
                     })
                       .fetch('GET', s3Path)
                       .progress((received, total) => {
-                        const percentage =
-                          Math.floor((received / total) * 100) + '%';
                         if (__DEV__) {
+                          const percentage =
+                            Math.floor((received / total) * 100) + '%';
                           console.log(percentage);
                         }
                       })
@@ -158,7 +160,6 @@ const ChallengeListeningContainer = props => {
   const ffmpegLogCallback = log => {
     const a = log;
   };
-
   //재생파일 경로
   const playPath = Platform.select({
     ios: encodeURI('file://' + filepath + fileName),
