@@ -1,3 +1,3 @@
-import MyChallengeVideoContainer from './MyChallengeVideoContainer';
+import MyVideoContainer from './MyVideoContainer';
 
-export default MyChallengeVideoContainer;
+export default MyVideoContainer;

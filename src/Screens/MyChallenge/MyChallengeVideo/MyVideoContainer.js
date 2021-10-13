@@ -4,9 +4,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {defaultAlertMessage, domainRegex} from '../../../Commons/CommonUtil';
 import APIKit from '../../../API/APIkit';
 import {UserDispatch} from '../../../Commons/UserDispatchProvider';
-import MyChallengeVideoPresenter from './MyChallengeVideoPresenter';
+import MyVideoPresenter from './MyVideoPresenter';
 
-const MyChallengeVideoContainer = props => {
+const MyVideoContainer = props => {
   const {userId, email} = useContext(UserDispatch);
   const [originalVideoList, setOriginalVideoList] = useState();
   const [selected, setSelected] = useState();
@@ -79,7 +79,7 @@ const MyChallengeVideoContainer = props => {
     }
   };
   return (
-    <MyChallengeVideoPresenter
+    <MyVideoPresenter
       {...props}
       selected={selected}
       setSelected={setSelected}
@@ -92,4 +92,4 @@ const MyChallengeVideoContainer = props => {
   );
 };
 
-export default MyChallengeVideoContainer;
+export default MyVideoContainer;

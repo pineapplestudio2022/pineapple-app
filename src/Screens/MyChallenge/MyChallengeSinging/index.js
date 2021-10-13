@@ -1,3 +1,3 @@
-import MyChallengeSingingContainer from './MyChallengeSingingContainer';
+import MySingingContainer from './MySingingContainer';
 
-export default MyChallengeSingingContainer;
+export default MySingingContainer;

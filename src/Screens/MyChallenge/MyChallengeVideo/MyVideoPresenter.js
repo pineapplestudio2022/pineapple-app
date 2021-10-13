@@ -16,7 +16,7 @@ import {
 } from '../../../Commons/CommonUtil';
 import Gbutton from '../../../Components/GbuttonComponent';
 
-const MyChallengeVideoPresenter = props => {
+const MyVideoPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -120,4 +120,4 @@ const MyChallengeVideoPresenter = props => {
   );
 };
 
-export default MyChallengeVideoPresenter;
+export default MyVideoPresenter;

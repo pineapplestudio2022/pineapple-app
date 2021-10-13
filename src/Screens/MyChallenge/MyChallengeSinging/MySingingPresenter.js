@@ -5,7 +5,7 @@ import {Box, Center, FlatList} from 'native-base';
 import MenuComponent from '../../../Components/MenuComponent';
 import MySingingCardComponent from '../../../Components/MySingingCardComponent';
 
-const MyChallengeSingingPresenter = props => {
+const MySingingPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
@@ -41,4 +41,4 @@ const MyChallengeSingingPresenter = props => {
   );
 };
 
-export default MyChallengeSingingPresenter;
+export default MySingingPresenter;

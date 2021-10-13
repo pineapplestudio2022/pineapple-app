@@ -3,9 +3,9 @@
 import React, {useContext, useState, useEffect} from 'react';
 import APIKit from '../../../API/APIkit';
 import {UserDispatch} from '../../../Commons/UserDispatchProvider';
-import MyChallengeSingingPresenter from './MyChallengeSingingPresenter';
+import MySingingPresenter from './MySingingPresenter';
 
-const MyChallengeSingingContainer = props => {
+const MySingingContainer = props => {
   const [myChallengeList, setMyChallengeList] = useState();
   // const [offset, setOffset] = useState(10);
   const {userId} = useContext(UserDispatch);
@@ -51,7 +51,7 @@ const MyChallengeSingingContainer = props => {
   // };
 
   return (
-    <MyChallengeSingingPresenter
+    <MySingingPresenter
       {...props}
       myChallengeList={myChallengeList}
       setRefresh={setRefresh}
@@ -59,4 +59,4 @@ const MyChallengeSingingContainer = props => {
   );
 };
 
-export default MyChallengeSingingContainer;
+export default MySingingContainer;
