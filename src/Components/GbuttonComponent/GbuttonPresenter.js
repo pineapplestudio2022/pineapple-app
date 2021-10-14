@@ -1,4 +1,4 @@
-import {Box, Center, Image, Pressable, Text} from 'native-base';
+import {Box, Center, HStack, Image, Pressable, Text, VStack} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -38,36 +38,39 @@ const GbuttonPresenter = props => {
         shadowRadius: 4,
         shadowOpacity: 1,
       }}>
-      <Box>
-        <Center h={'100%'}>
-          {props.imgName ? (
-            <Image
-              source={
-                props.imgrvs
-                  ? props.getImage(props.imgName + '-reverse')
-                  : props.getImage(props.imgName)
-              }
-              style={{
-                position: 'absolute',
-                left: 10,
-                height: responsiveHeight(heightPersentage(props.hp)) / 1.6,
-              }}
-              resizeMode={'contain'}
-              alt={' '}
-            />
-          ) : (
-            <></>
-          )}
-          <Text
-            fontWeight={props.fw}
+      <HStack flex={1} alignItems={'center'}>
+        {props.imgName ? (
+          <Image
+            pl={4}
+            flex={1}
+            position={'absolute'}
+            left={2}
+            source={
+              props.imgrvs
+                ? props.getImage(props.imgName + '-reverse')
+                : props.getImage(props.imgName)
+            }
             style={{
-              color: props.textColor,
-              fontSize: responsiveFontSize(fontSizePersentage(props.fs)),
-            }}>
-            {props.text}
-          </Text>
-        </Center>
-      </Box>
+              height: responsiveHeight(heightPersentage(props.hp)) / 1.6,
+              width: responsiveHeight(heightPersentage(props.hp)) / 1.6,
+            }}
+            resizeMode={'contain'}
+            alt={' '}
+          />
+        ) : (
+          <></>
+        )}
+        <Text
+          flex={5}
+          textAlign={'center'}
+          fontWeight={props.fw}
+          style={{
+            color: props.textColor,
+            fontSize: responsiveFontSize(fontSizePersentage(props.fs)),
+          }}>
+          {props.text}
+        </Text>
+      </HStack>
     </Pressable>
   );
 };
