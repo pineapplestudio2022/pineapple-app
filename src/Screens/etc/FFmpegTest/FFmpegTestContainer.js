@@ -310,9 +310,11 @@ const FFMpegTestContainer = props => {
       }
 
       //녹음 시작
-      setUri(await ARRecord.current.startRecorder(recordPath, audioSet));
+      const foo = await ARRecord.current.startRecorder(recordPath, audioSet);
+      setUri(foo);
       if (__DEV__) {
         console.log('recording file name : ' + recordPath);
+        console.log('foo : ' + foo);
       }
       setStopRecordBtn(true);
 
@@ -331,7 +333,9 @@ const FFMpegTestContainer = props => {
         //   return;
         // }
         if (e.currentPosition >= e.duration) {
-          onStopRecord();
+          ARPlayer.current.stopPlayer();
+          ARRecord.current.stopRecorder();
+          // onStopRecord();
           return;
         }
         let percentage = Math.round(
@@ -402,7 +406,7 @@ const FFMpegTestContainer = props => {
       }
 
       const bgmLUFSOutput = await RNFFmpegConfig.getLastCommandOutput();
-      const bgmLUFSSummary = bgmLUFSOutput.toString().split('Summary:')[1];
+      const bgmLUFSSummary = bgmLUFSOutput.split('Summary:')[1];
       const avgBGMVolume = `-${bgmLUFSSummary.split('-')[1]}`;
       if (__DEV__) {
         console.log(

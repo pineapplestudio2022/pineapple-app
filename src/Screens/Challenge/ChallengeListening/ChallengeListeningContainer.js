@@ -1,6 +1,8 @@
 //Challenge -> 15초감상 View
 
 import React, {useEffect, useState, useRef, useContext} from 'react';
+import {Platform} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
@@ -8,19 +10,17 @@ import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
 } from 'react-native-audio-recorder-player';
-import {Platform} from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
-
 import {RNFFmpeg, RNFFmpegConfig} from 'react-native-ffmpeg';
-import APIKit from '../../../API/APIkit';
-import {UserDispatch} from '../../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../../Commons/CommonUtil';
 import {
   PERMISSIONS,
   request,
   requestMultiple,
   RESULTS,
 } from 'react-native-permissions';
+
+import APIKit from '../../../API/APIkit';
+import {UserDispatch} from '../../../Commons/UserDispatchProvider';
+import {defaultAlertMessage} from '../../../Commons/CommonUtil';
 import ChallengeListeningPresenter from './ChallengeListeningPresenter';
 
 const ChallengeListeningContainer = props => {
@@ -243,16 +243,10 @@ const ChallengeListeningContainer = props => {
 
       //노래 재생 리스너
       ARPlayer.current.addPlayBackListener(e => {
-        // if (e.currentPosition === e.duration) {
-        //   // ARPlayer.current.stopPlayer();
-        //   // ARRecord.current.stopRecorder();
-        //   onStopRecord();
-        //   return;
-        // }
-        if (
-          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)) >= '00:05'
-        ) {
-          onStopRecord();
+        if (e.currentPosition >= e.duration) {
+          ARPlayer.current.stopPlayer();
+          ARRecord.current.stopRecorder();
+          // onStopRecord();
           return;
         }
         let percentage = Math.round(
@@ -267,10 +261,6 @@ const ChallengeListeningContainer = props => {
 
       //녹음 리스너
       ARRecord.current.addRecordBackListener();
-
-      if (__DEV__) {
-        console.log(`uri: ${uri}`);
-      }
     } catch (error) {
       if (__DEV__) {
         console.log(error);

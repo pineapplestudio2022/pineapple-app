@@ -60,7 +60,7 @@ const ChallengeListeningPresenter = props => {
                 color={'#4be3ac'}
                 fontSize={responsiveFontSize(fontSizePersentage(17))}
                 bold>
-                장르 :{'  '}
+                장르 :
               </Text>
               <Text
                 color={'#1a1b1c'}
