@@ -4,7 +4,7 @@ import MenuComponent from '../../Components/MenuComponent';
 
 const IntroPresenter = props => {
   return (
-    <Box>
+    <Box flex={1}>
       <MenuComponent name={props.route.nate} navigation={props.navigation} />
       <Heading>Intro</Heading>
     </Box>

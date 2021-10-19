@@ -247,6 +247,35 @@ const FFMpegTestContainer = props => {
     android: filepath + 'recording.mp4',
   });
 
+  const onStartOutputFilePlay = async () => {
+    try {
+      const outputFilePath = Platform.select({
+        ios: encodeURI('file://' + filepath + outputFile),
+        android: filepath + outputFile,
+      });
+      const msg = await ARPlayer.current.startPlayer(outputFilePath);
+      const volume = await ARPlayer.current.setVolume(1.0);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
+      setIsAlreadyPlay(true);
+      ARPlayer.current.addPlayBackListener(e => {
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
+        return;
+      });
+    } catch (error) {
+      if (__DEV__) {
+        console.log(error);
+      }
+    }
+  };
   const onStartPlay = async () => {
     try {
       const msg = await ARPlayer.current.startPlayer(playPath);
@@ -597,6 +626,7 @@ const FFMpegTestContainer = props => {
       onRefresh={onRefresh}
       customOptionUse={customOptionUse}
       handlerOptionToggle={handlerOptionToggle}
+      onStartOutputFilePlay={onStartOutputFilePlay}
     />
   );
 };

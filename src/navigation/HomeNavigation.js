@@ -9,7 +9,7 @@ import ChallengeNavigation from './ChallengeNavigation';
 
 const HomeStack = createStackNavigator();
 
-const HomeNavigation = () => {
+const HomeNavigation = props => {
   return (
     <HomeStack.Navigator
       screenOptions={{

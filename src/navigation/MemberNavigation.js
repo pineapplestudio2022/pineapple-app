@@ -24,7 +24,7 @@ import {heightPersentage, widthPersentage} from '../Commons/CommonUtil';
 const MemberStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 
-export const LoginNavigation = () => {
+export const LoginNavigation = props => {
   return (
     <>
       <ImageBackground
@@ -55,7 +55,7 @@ export const LoginNavigation = () => {
   );
 };
 
-export const MemberNavigation = () => {
+export const MemberNavigation = props => {
   return (
     <>
       <ImageBackground

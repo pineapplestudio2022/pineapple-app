@@ -15,7 +15,7 @@ const MySingingStack = createStackNavigator();
 const MyVideoStack = createStackNavigator();
 
 //내 노래 챌린지 nav
-const MySingingNavigation = () => {
+const MySingingNavigation = props => {
   return (
     <MySingingStack.Navigator
       screenOptions={{
@@ -36,7 +36,7 @@ const MySingingNavigation = () => {
 };
 
 //내 영상 챌린지 nav
-const MyVideoNavigation = () => {
+const MyVideoNavigation = props => {
   return (
     <MyVideoStack.Navigator
       screenOptions={{
@@ -50,7 +50,7 @@ const MyVideoNavigation = () => {
 };
 
 //내 연주 챌린지 nav
-const MyPlayingNavigation = () => {
+const MyPlayingNavigation = props => {
   return (
     <MyPlayingStack.Navigator
       screenOptions={{
@@ -64,7 +64,7 @@ const MyPlayingNavigation = () => {
 };
 
 //내 팬곡 챌린지 nav
-const MyComposingNavigation = () => {
+const MyComposingNavigation = props => {
   return (
     <MyComposingStack.Navigator
       screenOptions={{
@@ -80,7 +80,7 @@ const MyComposingNavigation = () => {
   );
 };
 
-const MyChallengeNavigation = () => {
+const MyChallengeNavigation = props => {
   return (
     <MyChallengeStack.Navigator
       screenOptions={{
