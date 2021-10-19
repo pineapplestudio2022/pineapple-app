@@ -83,7 +83,7 @@ const SingingNavigation = () => {
 // Challenge > 15초 영상 챌린지
 
 // Challenge nav
-const ChallengeNavigation = () => {
+const ChallengeNavigation = props => {
   return (
     <ChallengeStack.Navigator
       screenOptions={{
