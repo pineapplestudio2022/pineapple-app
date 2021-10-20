@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Gbutton] Test Gbutton snapshot 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onHoverIn={[Function]}
+    onHoverOut={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {},
+        Object {
+          "backgroundColor": "#0fefbd",
+          "borderColor": "#0fefbd",
+          "borderRadius": 0,
+          "borderWidth": 0,
+          "height": 1334,
+          "shadowColor": "#00000033",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 1,
+          "shadowRadius": 4,
+          "width": 750,
+        },
+      ]
+    }
+  >
+    <View
+      alignItems="center"
+      flex={1}
+      flexDirection="row"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexBasis": 0,
+            "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      />
+      <Text
+        color="muted.700"
+        flex={5}
+        fontFamily="body"
+        fontSize="md"
+        fontStyle="normal"
+        fontWeight="normal"
+        style={
+          Array [
+            Object {
+              "color": "#404040",
+              "flexBasis": 0,
+              "flexGrow": 5,
+              "flexShrink": 1,
+              "fontSize": 16,
+              "fontStyle": "normal",
+              "fontWeight": "400",
+              "textAlign": "center",
+            },
+            Object {
+              "color": "#fafafa",
+              "fontSize": 39.77471279315261,
+            },
+          ]
+        }
+        textAlign="center"
+      >
+        
+      </Text>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

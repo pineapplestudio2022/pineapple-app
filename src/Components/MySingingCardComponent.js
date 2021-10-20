@@ -58,7 +58,7 @@ const getImage = () => {
       return DumpImage;
   }
 };
-function MySingingCardComponent(props) {
+const MySingingCardComponent = props => {
   const {userId} = useContext(UserDispatch);
 
   const handlerDelete = () => {
@@ -256,6 +256,6 @@ function MySingingCardComponent(props) {
       </Box>
     </Box>
   );
-}
+};
 
 export default MySingingCardComponent;

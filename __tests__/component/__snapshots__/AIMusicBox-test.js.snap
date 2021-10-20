@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[AIMusicBox] Test AIMusicBox snapshot 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {},
+        Object {
+          "shadowColor": "#00000080",
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 1,
+          },
+          "shadowOpacity": 1,
+          "shadowRadius": 3,
+        },
+      ]
+    }
+  >
+    <View
+      _text={
+        Object {
+          "color": "darkText",
+        }
+      }
+      accessible={true}
+      backgroundColor="#aaaaaa"
+      collapsable={false}
+      focusable={true}
+      height={205.717674970344}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onHoverIn={[Function]}
+      onHoverOut={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      overflow="hidden"
+      rounded={4}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#aaaaaa",
+            "borderRadius": 4,
+            "height": 205.717674970344,
+            "overflow": "hidden",
+            "width": 286.53846153846155,
+          },
+        ]
+      }
+      width={286.53846153846155}
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "100%",
+            "justifyContent": "center",
+            "width": "100%",
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "testUri": "../../../src/Assets/Image/challenge/bg_challenge_ai_1.jpg",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "height": "100%",
+                "width": "100%",
+              },
+              undefined,
+            ]
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {},
+              Object {
+                "height": 172.48635824436536,
+                "justifyContent": "center",
+                "width": 240.38461538461536,
+              },
+            ]
+          }
+        >
+          <Text
+            color="#fafafa"
+            fontFamily="body"
+            fontSize={31.819770234522082}
+            fontStyle="normal"
+            fontWeight={500}
+            style={
+              Array [
+                Object {
+                  "color": "#fafafa",
+                  "fontSize": 31.819770234522082,
+                  "fontStyle": "normal",
+                  "fontWeight": "500",
+                  "textAlign": "center",
+                },
+              ]
+            }
+            textAlign="center"
+          >
+            Innocent
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

@@ -1,0 +1,443 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[SingingCard] Test SingingCard snapshot 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    my={2}
+    style={
+      Array [
+        Object {
+          "marginBottom": 8,
+          "marginTop": 8,
+        },
+      ]
+    }
+  >
+    <View
+      Height={245.27876631079477}
+      Width={1546.153846153846}
+      alignItems="center"
+      backgroundColor="#fafafa80"
+      borderColor="#8799a45b"
+      borderWidth={1}
+      flexDirection="row"
+      rounded={4}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#fafafa80",
+            "borderColor": "#8799a45b",
+            "borderRadius": 4,
+            "borderWidth": 1,
+            "flexDirection": "row",
+          },
+        ]
+      }
+    >
+      <View
+        m={4}
+        overflow="hidden"
+        rounded={4}
+        style={
+          Array [
+            Object {
+              "borderRadius": 4,
+              "marginBottom": 16,
+              "marginLeft": 16,
+              "marginRight": 16,
+              "marginTop": 16,
+              "overflow": "hidden",
+            },
+          ]
+        }
+      >
+        <Image
+          accessibilityLabel=" "
+          alt=" "
+          height={211.53846153846155}
+          maxWidth="100%"
+          onError={[Function]}
+          resizeMode="center"
+          source={
+            Object {
+              "testUri": "../../../src/Assets/Image/Top_music/top_music_6.jpg",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "height": 211.53846153846155,
+                "maxWidth": "100%",
+                "width": 211.53846153846155,
+              },
+            ]
+          }
+          width={211.53846153846155}
+        />
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "width": 12,
+            },
+          ]
+        }
+        width={3}
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "width": 365.38461538461536,
+            },
+          ]
+        }
+        w={365.38461538461536}
+      >
+        <Text
+          color="#1a1b1c"
+          fontFamily="body"
+          fontSize={27.842298955206825}
+          fontStyle="normal"
+          fontWeight={800}
+          numberOfLines={1}
+          style={
+            Array [
+              Object {
+                "color": "#1a1b1c",
+                "fontSize": 27.842298955206825,
+                "fontStyle": "normal",
+                "fontWeight": "800",
+              },
+            ]
+          }
+        />
+        <View
+          height={1}
+          style={
+            Array [
+              Object {
+                "height": 4,
+              },
+            ]
+          }
+        />
+        <Text
+          color="#858c92"
+          fontFamily="body"
+          fontSize={21.876092036233935}
+          fontStyle="normal"
+          fontWeight={400}
+          h={50.63819691577699}
+          numberOfLines={2}
+          style={
+            Array [
+              Object {
+                "color": "#858c92",
+                "fontSize": 21.876092036233935,
+                "fontStyle": "normal",
+                "fontWeight": "400",
+                "height": 50.63819691577699,
+              },
+            ]
+          }
+        />
+        <View
+          height={1}
+          style={
+            Array [
+              Object {
+                "height": 4,
+              },
+            ]
+          }
+        />
+        <View
+          flexDirection="row"
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <Text
+            color="#000000"
+            fontFamily="body"
+            fontSize={21.876092036233935}
+            fontStyle="normal"
+            fontWeight={500}
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontSize": 21.876092036233935,
+                  "fontStyle": "normal",
+                  "fontWeight": "500",
+                },
+              ]
+            }
+          >
+            장르:
+          </Text>
+          <View
+            style={
+              Array [
+                Object {
+                  "width": 12,
+                },
+              ]
+            }
+            width={3}
+          />
+          <Text
+            color="#858c92"
+            fontFamily="body"
+            fontSize={21.876092036233935}
+            fontStyle="normal"
+            fontWeight={500}
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#858c92",
+                  "fontSize": 21.876092036233935,
+                  "fontStyle": "normal",
+                  "fontWeight": "500",
+                },
+              ]
+            }
+          />
+        </View>
+        <View
+          height={1}
+          style={
+            Array [
+              Object {
+                "height": 4,
+              },
+            ]
+          }
+        />
+        <View
+          flexDirection="row"
+          mt={1}
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "marginTop": 4,
+              },
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onHoverIn={[Function]}
+            onHoverOut={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {},
+                Object {
+                  "backgroundColor": "#0fefbd",
+                  "borderColor": "#0fefbd",
+                  "borderRadius": 4,
+                  "borderWidth": 0,
+                  "height": 37.97864768683274,
+                  "shadowColor": "#00000033",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 4,
+                  "width": 134.6153846153846,
+                },
+              ]
+            }
+          >
+            <View
+              alignItems="center"
+              flex={1}
+              flexDirection="row"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexBasis": 0,
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {},
+                  ]
+                }
+              />
+              <Text
+                color="muted.700"
+                flex={5}
+                fontFamily="body"
+                fontSize="md"
+                fontStyle="normal"
+                fontWeight={800}
+                style={
+                  Array [
+                    Object {
+                      "color": "#404040",
+                      "flexBasis": 0,
+                      "flexGrow": 5,
+                      "flexShrink": 1,
+                      "fontSize": 16,
+                      "fontStyle": "normal",
+                      "fontWeight": "800",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "color": "#fafafa",
+                      "fontSize": 23.864827675891565,
+                    },
+                  ]
+                }
+                textAlign="center"
+              >
+                가사보기
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "width": 20,
+                },
+              ]
+            }
+            width={5}
+          />
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onHoverIn={[Function]}
+            onHoverOut={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Array [
+                Object {},
+                Object {
+                  "backgroundColor": "#0fefbd",
+                  "borderColor": "#0fefbd",
+                  "borderRadius": 4,
+                  "borderWidth": 0,
+                  "height": 37.97864768683274,
+                  "shadowColor": "#00000033",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 4,
+                  "width": 134.6153846153846,
+                },
+              ]
+            }
+          >
+            <View
+              alignItems="center"
+              flex={1}
+              flexDirection="row"
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexBasis": 0,
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {},
+                  ]
+                }
+              />
+              <Text
+                color="muted.700"
+                flex={5}
+                fontFamily="body"
+                fontSize="md"
+                fontStyle="normal"
+                fontWeight={800}
+                style={
+                  Array [
+                    Object {
+                      "color": "#404040",
+                      "flexBasis": 0,
+                      "flexGrow": 5,
+                      "flexShrink": 1,
+                      "fontSize": 16,
+                      "fontStyle": "normal",
+                      "fontWeight": "800",
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "color": "#fafafa",
+                      "fontSize": 23.864827675891565,
+                    },
+                  ]
+                }
+                textAlign="center"
+              >
+                15초 감상
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

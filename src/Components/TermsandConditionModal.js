@@ -48,7 +48,7 @@ const TermsandConditionModal = props => {
           alt={' '}
           source={ExternalLinkIcon}
           resizeMode={'contain'}
-          style={{witdh: '100%'}}
+          style={{width: '100%'}}
         />
       </TouchableOpacity>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>

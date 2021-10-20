@@ -52,6 +52,9 @@
     "@babel/core": "7.14.6",
     "@babel/runtime": "7.14.6",
     "@react-native-community/eslint-config": "2.0.0",
+    "@testing-library/jest-native": "4.0.2",
+    "@testing-library/react-native": "7.2.0",
+    "@types/jest": "27.0.2",
     "babel-jest": "26.6.3",
     "eslint": "7.14.0",
     "jest": "26.6.3",
@@ -61,6 +64,13 @@
     "reactotron-react-native": "5.0.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation|native-base|rn-fetch-blob|rn-sliding-up-panel|react-native-gesture-handler)/"
+    ],
+    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   }
 }
