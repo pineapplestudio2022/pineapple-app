@@ -73,7 +73,8 @@ const ChallengeListeningContainer = props => {
 
     // RNFFmpegConfig.setLogLevel(LogLevel.AV_LOG_VERBOSE);
 
-    RNFFmpegConfig.enableLogCallback(ffmpegLogCallback);
+    // 테스트 코드 적용을 위한 주석
+    // RNFFmpegConfig.enableLogCallback(ffmpegLogCallback);
 
     const getOriginalSong = async () => {
       const payload = {id: props.route.params.id.toString()};
@@ -160,6 +161,7 @@ const ChallengeListeningContainer = props => {
   const ffmpegLogCallback = log => {
     const a = log;
   };
+
   //재생파일 경로
   const playPath = Platform.select({
     ios: encodeURI('file://' + filepath + fileName),
