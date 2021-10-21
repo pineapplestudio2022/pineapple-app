@@ -262,7 +262,7 @@ const RegisterPresenter = props => {
                   h={responsiveHeight(heightPersentage(88))}
                   justifyContent={'space-between'}>
                   <HStack w="100%" space={4}>
-                    <Radio value="0">
+                    <Radio value="0" accessibilityLabel={'public'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -271,7 +271,7 @@ const RegisterPresenter = props => {
                         일반인
                       </Text>
                     </Radio>
-                    <Radio value="1">
+                    <Radio value="1" accessibilityLabel={'performer'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -280,7 +280,7 @@ const RegisterPresenter = props => {
                         실연자
                       </Text>
                     </Radio>
-                    <Radio value="2">
+                    <Radio value="2" accessibilityLabel={'composer'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -291,7 +291,7 @@ const RegisterPresenter = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={4}>
-                    <Radio value="3">
+                    <Radio value="3" accessibilityLabel={'lyricist'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -300,7 +300,7 @@ const RegisterPresenter = props => {
                         작사가
                       </Text>
                     </Radio>
-                    <Radio value="4">
+                    <Radio value="4" accessibilityLabel={'Trainee'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -309,7 +309,7 @@ const RegisterPresenter = props => {
                         연습생
                       </Text>
                     </Radio>
-                    <Radio value="5">
+                    <Radio value="5" accessibilityLabel={'engineer'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -320,7 +320,7 @@ const RegisterPresenter = props => {
                     </Radio>
                   </HStack>
                   <HStack w="100%" space={2}>
-                    <Radio value="6">
+                    <Radio value="6" accessibilityLabel={'performer'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}
@@ -329,7 +329,7 @@ const RegisterPresenter = props => {
                         퍼포먼서
                       </Text>
                     </Radio>
-                    <Radio value="7">
+                    <Radio value="7" accessibilityLabel={'influencer'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(16))}
                         color={'#a5a8ae'}

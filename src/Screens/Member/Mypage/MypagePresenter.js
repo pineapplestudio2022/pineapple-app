@@ -158,7 +158,7 @@ const MypagePresenter = props => {
                 h={responsiveHeight(heightPersentage(88))}
                 justifyContent={'space-between'}>
                 <HStack w="100%" space={4}>
-                  <Radio value="0">
+                  <Radio value="0" accessibilityLabel={'public'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -167,7 +167,7 @@ const MypagePresenter = props => {
                       일반인
                     </Text>
                   </Radio>
-                  <Radio value="1">
+                  <Radio value="1" accessibilityLabel={'performer'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -176,7 +176,7 @@ const MypagePresenter = props => {
                       실연자
                     </Text>
                   </Radio>
-                  <Radio value="2">
+                  <Radio value="2" accessibilityLabel={'composer'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -187,7 +187,7 @@ const MypagePresenter = props => {
                   </Radio>
                 </HStack>
                 <HStack w="100%" space={4}>
-                  <Radio value="3">
+                  <Radio value="3" accessibilityLabel={'lyricist'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -196,7 +196,7 @@ const MypagePresenter = props => {
                       작사가
                     </Text>
                   </Radio>
-                  <Radio value="4">
+                  <Radio value="4" accessibilityLabel={'Trainee'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -205,7 +205,7 @@ const MypagePresenter = props => {
                       연습생
                     </Text>
                   </Radio>
-                  <Radio value="5">
+                  <Radio value="5" accessibilityLabel={'engineer'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -216,7 +216,7 @@ const MypagePresenter = props => {
                   </Radio>
                 </HStack>
                 <HStack w="100%" space={2}>
-                  <Radio value="6">
+                  <Radio value="6" accessibilityLabel={'performer'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -225,7 +225,7 @@ const MypagePresenter = props => {
                       퍼포먼서
                     </Text>
                   </Radio>
-                  <Radio value="7">
+                  <Radio value="7" accessibilityLabel={'influencer'}>
                     <Text
                       fontSize={responsiveFontSize(fontSizePersentage(16))}
                       color={'#a5a8ae'}
@@ -240,11 +240,17 @@ const MypagePresenter = props => {
             <Center>
               <VStack space={4} alignItems={'center'} w={'76%'}>
                 <Checkbox.Group
+                  accessibilityLabel={'Accept the terms and conditions'}
                   colorScheme={'rgb(15,239,189)'}
                   value={props.marketingPolicy}
                   w={'100%'}
                   onChange={props.setMarketingPolicy}>
-                  <Checkbox value={'1'} isDisabled>
+                  <Checkbox
+                    value={'1'}
+                    isDisabled
+                    accessibilityLabel={
+                      'Consent to collection and use of personal information'
+                    }>
                     <HStack
                       w={'100%'}
                       justifyContent={'space-between'}
@@ -258,7 +264,10 @@ const MypagePresenter = props => {
                       <TermsandConditionModal terms={1} />
                     </HStack>
                   </Checkbox>
-                  <Checkbox value={'2'} isDisabled>
+                  <Checkbox
+                    value={'2'}
+                    isDisabled
+                    accessibilityLabel={'Subscribe Terms of Service'}>
                     <HStack
                       w={'100%'}
                       justifyContent={'space-between'}
@@ -272,7 +281,11 @@ const MypagePresenter = props => {
                       <TermsandConditionModal terms={2} />
                     </HStack>
                   </Checkbox>
-                  <Checkbox value={'3'}>
+                  <Checkbox
+                    value={'3'}
+                    accessibilityLabel={
+                      'Consent to receive advertising marketing'
+                    }>
                     <HStack w={'100%'} alignItems={'center'}>
                       <Text
                         fontSize={responsiveFontSize(fontSizePersentage(15))}

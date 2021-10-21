@@ -67,6 +67,7 @@ const AgreementPresenter = props => {
                 회원가입을 위해 개인정보 수집 및 마케팅 동의 약관에 동의해주세요
               </Text>
               <Checkbox
+                accessibilityLabel={'I fully agree to the terms'}
                 colorScheme={'rgb(15,239,189)'}
                 size={'md'}
                 onChange={props.handelAllCheck}>
@@ -84,6 +85,9 @@ const AgreementPresenter = props => {
               </Checkbox>
               <Divider />
               <Checkbox
+                accessibilityLabel={
+                  'Consent to collection and use of personal information'
+                }
                 colorScheme={'rgb(15,239,189)'}
                 onChange={props.handlerPrivacy}
                 isChecked={props.privacy}>
@@ -101,6 +105,7 @@ const AgreementPresenter = props => {
                 </HStack>
               </Checkbox>
               <Checkbox
+                accessibilityLabel={'Subscribe Terms of Service'}
                 colorScheme={'rgb(15,239,189)'}
                 onChange={props.handlerTerms}
                 isChecked={props.terms}>
@@ -118,6 +123,7 @@ const AgreementPresenter = props => {
                 </HStack>
               </Checkbox>
               <Checkbox
+                accessibilityLabel={'Consent to receive advertising marketing'}
                 colorScheme={'rgb(15,239,189)'}
                 onChange={props.handlerMarketing}
                 isChecked={props.marketing}>

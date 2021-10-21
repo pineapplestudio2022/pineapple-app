@@ -29,7 +29,6 @@ const MyPlayPresenter = props => {
           textAlign={'center'}
           fontSize={responsiveFontSize(fontSizePersentage(20))}
           bold
-          lineHeight={28}
           color={'#1a1b1c'}>
           개인 YouTube에 등록 된 {'\n'} 챌린지 영상의 링크를 등록해 주세요
         </Text>
@@ -41,7 +40,6 @@ const MyPlayPresenter = props => {
           mt={8}>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(20))}
-            lineHeight={28}
             bold
             textAlign={'center'}
             color={'#858c92'}>
@@ -62,7 +60,7 @@ const MyPlayPresenter = props => {
                 source={LinkIcon}
                 style={{width: responsiveWidth(widthPersentage(24))}}
                 ml={3}
-                alt={''}
+                alt={' '}
               />
             }
             InputRightElement={
@@ -159,7 +157,6 @@ const MyPlayPresenter = props => {
           mt={10}>
           <Text
             fontSize={responsiveFontSize(fontSizePersentage(20))}
-            lineHeight={28}
             bold
             textAlign={'center'}
             color={'#858c92'}>
@@ -181,7 +178,7 @@ const MyPlayPresenter = props => {
                 source={LinkIcon}
                 style={{width: responsiveWidth(widthPersentage(24))}}
                 ml={3}
-                alt={''}
+                alt={' '}
               />
             }
             InputRightElement={
