@@ -99,7 +99,7 @@ const AgreementPresenter = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    개인정보수집•이용 동의{'('}필수{')'}
+                    개인정보수집•이용 동의(필수)
                   </Text>
                   <TermsandConditionModal terms={1} />
                 </HStack>
@@ -117,7 +117,7 @@ const AgreementPresenter = props => {
                     fontSize={responsiveFontSize(fontSizePersentage(15))}
                     bold
                     color={'#a5a8ae'}>
-                    서비스 이용약관 동의{'('}필수{')'}
+                    서비스 이용약관 동의(필수)
                   </Text>
                   <TermsandConditionModal terms={2} />
                 </HStack>

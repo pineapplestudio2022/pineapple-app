@@ -858,10 +858,7 @@ exports[`[Agreement] Test Agreement snapshot 1`] = `
                         ]
                       }
                     >
-                      개인정보수집•이용 동의
-                      (
-                      필수
-                      )
+                      개인정보수집•이용 동의(필수)
                     </Text>
                     <View
                       style={
@@ -1165,10 +1162,7 @@ exports[`[Agreement] Test Agreement snapshot 1`] = `
                         ]
                       }
                     >
-                      서비스 이용약관 동의
-                      (
-                      필수
-                      )
+                      서비스 이용약관 동의(필수)
                     </Text>
                     <View
                       style={

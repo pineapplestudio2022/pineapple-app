@@ -22,6 +22,13 @@ const wrapper = ({children}) => (
 const getTempComponent = props => {
   return <WriteLyrics {...props} />;
 };
+// beforeEach(() => {
+//   jest.useFakeTimers();
+// });
+
+// afterEach(() => {
+//   jest.clearAllTimers();
+// });
 
 describe('[WriteLyrics] Test', () => {
   const props = {

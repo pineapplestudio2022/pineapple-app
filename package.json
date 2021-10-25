@@ -68,7 +68,9 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation|native-base|rn-fetch-blob|rn-sliding-up-panel|react-native-gesture-handler)/"
     ],
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "setupFiles": [
       "./jest.setup.js"
     ]

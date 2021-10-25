@@ -158,9 +158,9 @@ const ChallengeListeningContainer = props => {
     };
   }, [props.route.params.id]);
 
-  const ffmpegLogCallback = log => {
-    const a = log;
-  };
+  // const ffmpegLogCallback = log => {
+  //   const a = log;
+  // };
 
   //재생파일 경로
   const playPath = Platform.select({
