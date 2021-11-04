@@ -30,6 +30,70 @@ import {
   widthPersentage,
 } from '../../../Commons/CommonUtil';
 
+const buttonRender = props => {
+  switch (props.renderButtonName) {
+    case 'Upload':
+      return (
+        <HStack space={4}>
+          <Gbutton
+            wp={125}
+            hp={40}
+            fs={18}
+            fw={600}
+            rounded={8}
+            disable={props.spinner}
+            text={'미리듣기'}
+            onPress={
+              props.isAlreadyPlay ? props.onStopPlay : props.mediaPreview
+            }
+            imgName={props.isAlreadyPlay ? 'stop' : 'headphone'}
+          />
+          <Gbutton
+            wp={125}
+            hp={40}
+            fs={18}
+            fw={600}
+            rounded={8}
+            disable={props.spinner}
+            imgName={'upload'}
+            text={'Upload'}
+            onPress={props.onFileUpload}
+          />
+        </HStack>
+      );
+    case 'Record':
+      return (
+        <Gbutton
+          wp={220}
+          hp={40}
+          fs={18}
+          fw={600}
+          rounded={8}
+          disable={props.spinner}
+          imgName={props.stopRecordBtn ? 'pulse' : 'mic'}
+          onPress={
+            props.stopRecordBtn ? props.onStopRecord : props.onStartRecord
+          }
+          text={'RECORD'}
+        />
+      );
+    default:
+      return (
+        <Gbutton
+          wp={220}
+          hp={40}
+          fs={18}
+          fw={600}
+          rounded={8}
+          disable={props.spinner}
+          imgName={props.isAlreadyPlay ? 'stop' : 'headphone'}
+          text={'15초 듣기'}
+          onPress={props.isAlreadyPlay ? props.onStopPlay : props.onStartPlay}
+        />
+      );
+  }
+};
+
 const ChallengeListeningPresenter = props => {
   return (
     <Box flex={1}>
@@ -102,7 +166,7 @@ const ChallengeListeningPresenter = props => {
                     ) : (
                       <></>
                     )}
-                    {props.recordBtn ? (
+                    {props.renderButtonName === 'Record' ? (
                       <Box
                         style={{
                           width: '100%',
@@ -170,54 +234,7 @@ const ChallengeListeningPresenter = props => {
                   </VStack>
                 ) : (
                   <Center>
-                    {props.recordBtn ? (
-                      props.uploadBtn ? (
-                        <Gbutton
-                          wp={220}
-                          hp={40}
-                          fs={18}
-                          fw={600}
-                          rounded={8}
-                          disable={props.spinner}
-                          imgName={'upload'}
-                          text={'Upload'}
-                          onPress={props.onFileUpload}
-                        />
-                      ) : (
-                        <Gbutton
-                          wp={220}
-                          hp={40}
-                          fs={18}
-                          fw={600}
-                          rounded={8}
-                          disable={props.spinner}
-                          imgName={props.stopRecordBtn ? 'pulse' : 'mic'}
-                          onPress={
-                            props.stopRecordBtn
-                              ? props.onStopRecord
-                              : props.onStartRecord
-                          }
-                          text={'RECORD'}
-                        />
-                      )
-                    ) : (
-                      <Gbutton
-                        wp={220}
-                        hp={40}
-                        fs={18}
-                        fw={600}
-                        rounded={8}
-                        disable={props.spinner}
-                        imgName={props.isAlreadyPlay ? 'stop' : 'headphone'}
-                        text={'15초 듣기'}
-                        onPress={
-                          props.isAlreadyPlay
-                            ? props.onStopPlay
-                            : props.onStartPlay
-                        }
-                      />
-                    )}
-
+                    {buttonRender(props)}
                     <Box
                       bg={'#fafafa80'}
                       style={{

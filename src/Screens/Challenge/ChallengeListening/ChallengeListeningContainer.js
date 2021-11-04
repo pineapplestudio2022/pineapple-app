@@ -32,9 +32,10 @@ const ChallengeListeningContainer = props => {
   const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
   const [spinner, setSpinner] = useState(false); //로딩 중 표시
 
-  const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
+  // const [recordBtn, setRecordBtn] = useState(false); //녹음 시작 버튼 활성화
+  // const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
+  const [renderButtonName, setRenderButtonName] = useState(''); //버튼 변경 (업로드, 재생, 녹음)
   const [stopRecordBtn, setStopRecordBtn] = useState(false); // 녹음 중지 버튼 활성화
-  const [uploadBtn, setUploadBtn] = useState(false); //업로드 버튼
   const [uploadFinish, setUploadFinish] = useState(false); //업로드 완료 유무
 
   const ARPlayer = useRef(AudioRecorderPlayer);
@@ -63,7 +64,7 @@ const ChallengeListeningContainer = props => {
     }
   }, [adjustVolume, bgmVolume]);
 
-  useEffect(() => {}, [outputFile]);
+  // useEffect(() => {}, [outputFile]);
 
   useEffect(() => {
     ARPlayer.current = new AudioRecorderPlayer(); //재생
@@ -157,6 +158,39 @@ const ChallengeListeningContainer = props => {
       ARRecord.current.removeRecordBackListener();
     };
   }, [props.route.params.id]);
+
+  useEffect(() => {
+    const deleteOutputFile = () => {
+      if (
+        outputFile === '' ||
+        outputFile === null ||
+        outputFile === undefined
+      ) {
+        return;
+      }
+      RNFetchBlob.fs
+        .exists(filepath + outputFile)
+        .then(exist => {
+          if (!exist) {
+            return;
+          }
+          RNFetchBlob.fs.unlink(filepath + outputFile).catch(error => {
+            if (__DEV__) {
+              console.log(error);
+            }
+          });
+        })
+        .catch(error => {
+          if (__DEV__) {
+            console.log(error);
+          }
+        });
+    };
+    return () => {
+      //녹음된 파일 제거
+      deleteOutputFile();
+    };
+  }, [filepath, outputFile]);
 
   // const ffmpegLogCallback = log => {
   //   const a = log;
@@ -364,7 +398,8 @@ const ChallengeListeningContainer = props => {
           console.log(`FFmpeg process exited with rc=${result}.`);
         }
 
-        setUploadBtn(true);
+        // setUploadBtn(true);
+        setRenderButtonName('Upload');
         setOutputFile(outputFileName);
         setSpinner(false);
       });
@@ -455,7 +490,8 @@ const ChallengeListeningContainer = props => {
       defaultAlertMessage('로그인 후 참여가능합니다.');
       return;
     }
-    setRecordBtn(true);
+    // setRecordBtn(true);
+    setRenderButtonName('Record');
     onStopPlay();
     // const payload = {userId: userId.toString(), cType: '1'};
     // APIKit.post('challenge/addChallengeTicket', payload)
@@ -531,6 +567,39 @@ const ChallengeListeningContainer = props => {
       setUploadFinish(true);
     });
   };
+
+  //미리듣기
+  const mediaPreview = async () => {
+    console.log('preview');
+    try {
+      const outputFilePath = Platform.select({
+        ios: encodeURI('file://' + filepath + outputFile),
+        android: filepath + outputFile,
+      });
+      const msg = await ARPlayer.current.startPlayer(outputFilePath);
+      const volume = await ARPlayer.current.setVolume(1.0);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
+      setIsAlreadyPlay(true);
+      ARPlayer.current.addPlayBackListener(e => {
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setTimeElapsed(
+          ARPlayer.current.mmss(Math.floor(e.currentPosition / 1000)),
+        );
+        setPercent(percentage);
+        setDuration(ARPlayer.current.mmss(Math.floor(e.duration / 1000)));
+        return;
+      });
+    } catch (error) {
+      if (__DEV__) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <ChallengeListeningPresenter
       {...props}
@@ -538,8 +607,8 @@ const ChallengeListeningContainer = props => {
       genre={genre}
       lyrics={lyrics}
       spinner={spinner}
-      recordBtn={recordBtn}
-      uploadBtn={uploadBtn}
+      // recordBtn={recordBtn}
+      // uploadBtn={uploadBtn}
       percent={percent}
       timeElapsed={timeElapsed}
       duration={duration}
@@ -552,6 +621,8 @@ const ChallengeListeningContainer = props => {
       onStopPlay={onStopPlay}
       onStartPlay={onStartPlay}
       handlerJoin={handlerJoin}
+      renderButtonName={renderButtonName}
+      mediaPreview={mediaPreview}
     />
   );
 };
