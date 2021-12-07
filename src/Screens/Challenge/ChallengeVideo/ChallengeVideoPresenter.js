@@ -1,8 +1,8 @@
 import React from 'react';
-
-import {Text, Center, Box, HStack, FlatList, Image} from 'native-base';
-import MenuComponent from '../../../Components/MenuComponent';
 import YouTube from 'react-native-youtube';
+import {TouchableOpacity} from 'react-native';
+import SlidingUpPanel from 'rn-sliding-up-panel';
+import {Text, Center, Box, HStack, FlatList, Image} from 'native-base';
 import {
   YouTubeAPIKey,
   fontSizePersentage,
@@ -17,8 +17,8 @@ import {
 
 import Gbutton from '../../../Components/GbuttonComponent';
 import VideoBox from '../../../Components/VideoBoxComponent';
-import SlidingUpPanel from 'rn-sliding-up-panel';
-import {TouchableOpacity} from 'react-native';
+import MenuComponent from '../../../Components/MenuComponent';
+
 import ArrowDownIcon from '../../../Assets/Image/icon_musicplayer_arrow_down.png';
 
 const youtubeApiKey = YouTubeAPIKey();
@@ -54,6 +54,7 @@ const ChallengeVideoPresenter = props => {
                 title={item.title}
                 cover={(index % 10) + 1}
                 participant={item.participant}
+                videoUrl={item.videoUrl}
                 onPress={() => props.openVideoPlayer(item.videoUrl, item.title)}
               />
               <HStack

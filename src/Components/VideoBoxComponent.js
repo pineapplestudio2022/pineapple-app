@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ImageBackground} from 'react-native';
 import {Box, Pressable, Text} from 'native-base';
 import {
@@ -13,49 +13,27 @@ import {
 } from '../Commons/CommonUtil';
 
 import DefaultImage from '../Assets/Image/image_singing_dumpimage.jpg';
-import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
-import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
-import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
-import Cover4 from '../Assets/Image/Top_music/top_music_4.jpg';
-import Cover5 from '../Assets/Image/Top_music/top_music_5.jpg';
-import Cover6 from '../Assets/Image/Top_music/top_music_6.jpg';
-import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
-import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
-import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
-import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 
-const getCover = number => {
-  //랜덤 이미지
-  if (number === 100) {
-    number = Math.floor(Math.random() * 10) + 1;
-  }
-  switch (number) {
-    case 1:
-      return Cover1;
-    case 2:
-      return Cover2;
-    case 3:
-      return Cover3;
-    case 4:
-      return Cover4;
-    case 5:
-      return Cover5;
-    case 6:
-      return Cover6;
-    case 7:
-      return Cover7;
-    case 8:
-      return Cover8;
-    case 9:
-      return Cover9;
-    case 10:
-      return Cover10;
-    default:
-      return DefaultImage;
-  }
+//thumbnail size type
+export const THUMBNAIL_TYPES = {
+  default: 'default',
+  high: 'hqdefault',
+  medium: 'mqdefault',
+  standard: 'sddefault',
+  maximum: 'maxresdefault',
 };
 
 const VideoBox = props => {
+  const [ImageError, setImageError] = useState(false);
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const YoutubeVideoId = props.videoUrl?.substring(
+    props.videoUrl.lastIndexOf('/') + 1,
+  );
+
+  const url = `https://img.youtube.com/vi/${YoutubeVideoId}/${THUMBNAIL_TYPES.medium}.jpg`;
   return (
     <Pressable
       onPress={props.onPress}
@@ -66,7 +44,15 @@ const VideoBox = props => {
         overflow: 'hidden',
       }}>
       <ImageBackground
-        source={getCover(props.cover)}
+        source={
+          ImageError
+            ? DefaultImage
+            : {
+                uri: url,
+              }
+        }
+        onError={handleImageError}
+        alt={DefaultImage}
         style={{
           width: '100%',
           height: '100%',

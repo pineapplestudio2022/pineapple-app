@@ -1,19 +1,19 @@
 //파인애플 뮤직 화면
 import React from 'react';
-import {Box, Center, FlatList, HStack, VStack} from 'native-base';
 import SlidingUpPanel from 'rn-sliding-up-panel';
+import {Box, Center, FlatList, HStack, VStack} from 'native-base';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {
   heightPersentage,
   defaultAlertMessage,
 } from '../../../Commons/CommonUtil';
 
-import MenuComponent from '../../../Components/MenuComponent';
-import MusicPlayer from '../../MusicPlayer';
-import MusicBox from '../../../Components/MusicBoxComponent';
-import Gbutton from '../../../Components/GbuttonComponent';
-import VideoBox from '../../../Components/VideoBoxComponent';
 import VideoPlayer from '../../VideoPlayer';
+import MusicPlayer from '../../MusicPlayer';
+import Gbutton from '../../../Components/GbuttonComponent';
+import MusicBox from '../../../Components/MusicBoxComponent';
+import VideoBox from '../../../Components/VideoBoxComponent';
+import MenuComponent from '../../../Components/MenuComponent';
 
 const ChallengeEnjoyPresenter = props => {
   return (
@@ -158,6 +158,7 @@ const ChallengeEnjoyPresenter = props => {
                   cover={(index % 10) + 1}
                   participant={item.participant}
                   onScroll={props.HandlerScroll}
+                  videoUrl={item.shareLink}
                   onPress={() => props.openVideoPlayer(index)}
                 />
               </Box>
