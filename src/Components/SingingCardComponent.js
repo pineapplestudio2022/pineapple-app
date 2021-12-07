@@ -112,7 +112,7 @@ const SingingCardComponent = props => {
               {props.genre}
             </Text>
           </HStack>
-          <HStack space={5} mt={1}>
+          <HStack space={5} mt={1} justifyContent={'space-between'}>
             <Gbutton
               wp={70}
               hp={24}

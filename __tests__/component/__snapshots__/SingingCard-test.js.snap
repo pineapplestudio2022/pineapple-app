@@ -235,11 +235,13 @@ exports[`[SingingCard] Test SingingCard snapshot 1`] = `
         />
         <View
           flexDirection="row"
+          justifyContent="space-between"
           mt={1}
           style={
             Array [
               Object {
                 "flexDirection": "row",
+                "justifyContent": "space-between",
                 "marginTop": 4,
               },
             ]
