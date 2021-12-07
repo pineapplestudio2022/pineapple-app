@@ -52,10 +52,10 @@ const CustomDrawerContent = props => {
               color={'#fafafa'}
               bold
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
-              Pineapple Studio 소개 [준비중]
+              Pineapple Studio 소개
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('PinappleMusic')}>
           >
@@ -66,7 +66,7 @@ const CustomDrawerContent = props => {
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
               PinappleMusic [준비중]
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             w="100%"
             onPress={() => props.navigation.navigate('MyChallengeNavigation')}>
@@ -89,7 +89,7 @@ const CustomDrawerContent = props => {
               My Lyrics
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('MyPhotoAlbum')}
           >
@@ -100,8 +100,8 @@ const CustomDrawerContent = props => {
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
               My Photo Album [준비중]
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </TouchableOpacity> */}
+          {/* <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('MyMusic')}
           >
@@ -112,7 +112,7 @@ const CustomDrawerContent = props => {
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
               내가 만든 음원 [준비중]
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('MyBGM')}
@@ -122,10 +122,10 @@ const CustomDrawerContent = props => {
               color={'#fafafa'}
               bold
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
-              My BGM [준비중]
+              My BGM
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('FavoriteList')}
           >
@@ -136,8 +136,8 @@ const CustomDrawerContent = props => {
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
               Favorite List [준비중]
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </TouchableOpacity> */}
+          {/* <TouchableOpacity
             w="100%"
             // onPress={() => props.navigation.navigate('Price')}
           >
@@ -148,7 +148,7 @@ const CustomDrawerContent = props => {
               fontSize={responsiveFontSize(fontSizePersentage(18))}>
               Price [준비중]
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </VStack>
         <VStack space={5} alignItems={'center'} safeAreaBottom mb={8}>
           {/* 로그인 시 마이페이지, 로그아웃으로 변경 */}
