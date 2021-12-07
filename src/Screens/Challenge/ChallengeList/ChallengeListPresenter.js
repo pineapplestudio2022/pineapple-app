@@ -6,6 +6,11 @@ import {Box, VStack, HStack, Stack, Image} from 'native-base';
 import MenuComponent from '../../../Components/MenuComponent';
 import ChallengeDancer from '../../../Assets/Image/challenge/image_challenge_dancer.png';
 import Wbutton from '../../../Components/WbuttonComponent';
+import {heightPersentage, widthPersentage} from '../../../Commons/CommonUtil';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 const ChallengeListPresenter = props => {
   return (
@@ -14,6 +19,18 @@ const ChallengeListPresenter = props => {
         name={props.route.name}
         titleName={'Challenge'}
         navigation={props.navigation}
+      />
+      <Image
+        source={ChallengeDancer}
+        resizeMode={'contain'}
+        position={'absolute'}
+        bottom={0}
+        right={3}
+        alt=" "
+        style={{
+          width: responsiveWidth(widthPersentage(125)),
+          height: responsiveHeight(heightPersentage(273)),
+        }}
       />
       <Box>
         <Stack space={5} alignItems="center">
@@ -41,7 +58,7 @@ const ChallengeListPresenter = props => {
               />
             </HStack>
           </VStack>
-          <VStack space={5} alignItems="center">
+          {/* <VStack space={5} alignItems="center">
             <HStack space={5} alignItems="center">
               <Wbutton
                 wp={140}
@@ -68,7 +85,7 @@ const ChallengeListPresenter = props => {
                 // onPress={() => props.navigation.navigate('PlayingNavigation')}
               />
             </HStack>
-          </VStack>
+          </VStack> */}
           <Wbutton
             wp={300}
             hp={104}
@@ -82,16 +99,6 @@ const ChallengeListPresenter = props => {
             }
           />
         </Stack>
-      </Box>
-      <Box mt="7" flex={1} safeAreaBottom>
-        <Image
-          source={ChallengeDancer}
-          resizeMode={'contain'}
-          position={'absolute'}
-          right={3}
-          h="100%"
-          alt=" "
-        />
       </Box>
     </Box>
   );
