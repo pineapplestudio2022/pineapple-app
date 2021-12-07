@@ -35,7 +35,7 @@ const MyChallengeListPresenter = props => {
           text={'영상 챌린지'}
           onPress={() => props.loginChecktoMove('MyVideoNavigation')}
         />
-        <Wbutton
+        {/* <Wbutton
           wp={320}
           hp={104}
           fs={28}
@@ -56,7 +56,7 @@ const MyChallengeListPresenter = props => {
           text={'편곡 챌린지'}
           ready={'2차 챌린지 오픈 예정'}
           disable
-        />
+        /> */}
       </VStack>
     </Box>
   );
