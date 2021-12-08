@@ -20,6 +20,7 @@ import {LoginNavigation, MemberNavigation} from './MemberNavigation';
 
 import {UserDispatch} from '../Commons/UserDispatchProvider';
 import {fontSizePersentage, widthPersentage} from '../Commons/CommonUtil';
+import BGMStudioNavigation from './BGMStudioNavigation';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
 const CustomDrawerContent = props => {
@@ -115,8 +116,7 @@ const CustomDrawerContent = props => {
           </TouchableOpacity> */}
           <TouchableOpacity
             w="100%"
-            // onPress={() => props.navigation.navigate('MyBGM')}
-          >
+            onPress={() => props.navigation.navigate('BGMStudioNavigation')}>
             <Text
               textAlign={'center'}
               color={'#fafafa'}
@@ -248,6 +248,10 @@ const DrawerNavigation = props => {
         component={MyChallengeNavigation}
       />
       <Drawer.Screen name="LyricsNavigation" component={LyricsNavigation} />
+      <Drawer.Screen
+        name="BGMStudioNavigation"
+        component={BGMStudioNavigation}
+      />
       <Drawer.Screen name="DEVScreen" component={DEVScreen} />
     </Drawer.Navigator>
   );
