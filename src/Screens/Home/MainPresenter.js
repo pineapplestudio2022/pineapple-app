@@ -104,7 +104,7 @@ const MainPresenter = props => {
                 hp={140}
                 fs={14}
                 fw={600}
-                imgName={'photo'}
+                imgName={'coar'}
                 rounded={8}
                 text={'작곡 / 편곡 매칭'}
                 onPress={() => props.navigation.navigate('CoArMatching')}
@@ -128,7 +128,7 @@ const MainPresenter = props => {
                 hp={140}
                 fs={14}
                 fw={600}
-                imgName={'magazine'}
+                imgName={'pineclip'}
                 rounded={8}
                 text={'PineClip'}
                 onPress={() => props.navigation.navigate('PineClip')}

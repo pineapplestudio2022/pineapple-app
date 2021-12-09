@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 
 import MagazineIcon from '../../Assets/Image/btn_main_magazine.png';
 import MusicNoteIcon from '../../Assets/Image/btn_main_music_note.png';
-import BgmStudioIcon from '../../Assets/Image/btn_main_bgm_studio.png';
+import BGMGreenIcon from '../../Assets/Image/icon_main_bgm_green.png';
+import BGMWhiteIcon from '../../Assets/Image/icon_main_bgm_white.png';
 import PhotoGreenIcon from '../../Assets/Image/btn_main_photo.png';
 import WriteMusicGreenIcon from '../../Assets/Image/btn_main_write_music.png';
 import WriteMusicWhiteIcon from '../../Assets/Image/btn_main_write_music_white.png';
@@ -17,6 +18,11 @@ import PlayingMusicGreenIcon from '../../Assets/Image/challenge/btn_challenge_pl
 import PreviewGreenIcon from '../../Assets/Image/challenge/btn_challenge_preview.png';
 import HeadPhoneWhiteIcon from '../../Assets/Image/challenge/icon_challenge_headphones_white.png';
 import HeadPhoneGreenIcon from '../../Assets/Image/challenge/icon_challenge_headphones_green.png';
+import CoArGreenIcon from '../../Assets/Image/icon_main_coar_green.png';
+import CoArWhiteIcon from '../../Assets/Image/icon_main_coar_white.png';
+import PineClipGreenIcon from '../../Assets/Image/icon_main_pineclip_green.png';
+import PineClipWhiteIcon from '../../Assets/Image/icon_main_pineclip_white.png';
+
 import WbuttonPresenter from './WbuttonPresenter';
 
 const getImage = name => {
@@ -33,8 +39,9 @@ const getImage = name => {
     case 'photo-reverse':
       return PhotoGreenIcon;
     case 'bgm':
+      return BGMGreenIcon;
     case 'bgm-reverse':
-      return BgmStudioIcon;
+      return BGMWhiteIcon;
     case 'magazine':
     case 'magazine-reverse':
       return MagazineIcon;
@@ -59,6 +66,14 @@ const getImage = name => {
       return HeadPhoneGreenIcon;
     case 'headphone-reverse':
       return HeadPhoneWhiteIcon;
+    case 'coar':
+      return CoArGreenIcon;
+    case 'coar-reverse':
+      return CoArWhiteIcon;
+    case 'pineclip':
+      return PineClipGreenIcon;
+    case 'pineclip-reverse':
+      return PineClipWhiteIcon;
     default:
       return undefined;
   }
