@@ -1,8 +1,6 @@
 import React from 'react';
-import {Box, FlatList, HStack, VStack} from 'native-base';
+import {Box, FlatList, HStack} from 'native-base';
 import {ScrollView} from 'react-native';
-import {responsiveWidth} from 'react-native-responsive-dimensions';
-import {widthPersentage} from '../../Commons/CommonUtil';
 import MusicAlbumComponent from '../../Components/MusicAlbumComponent';
 import MenuComponent from '../../Components/MenuComponent';
 import Wbutton from '../../Components/WbuttonComponent';
@@ -57,7 +55,7 @@ const MainPresenter = props => {
           />
         </Box>
         {/* 가로스크롤 뷰 시작, 인기 음원 순위 end*/}
-        <Box>
+        <Box mb={20}>
           {/* Search Box start */}
           {/* 검색기능 추후 추가 예정 */}
           {/* <Center backgroundColor="#fafafa80" marginBottom={14}>
@@ -75,92 +73,68 @@ const MainPresenter = props => {
           </Center> */}
           {/* Search Box end */}
           {/* 버튼 메뉴 start */}
-          <Box w="100%" mt={4}>
-            <VStack space={responsiveWidth(widthPersentage(28))}>
-              <HStack
-                space={responsiveWidth(widthPersentage(28))}
-                justifyContent={'center'}>
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'challenge'}
-                  rounded={8}
-                  text={'Challenge'}
-                  onPress={() =>
-                    props.navigation.navigate('ChallengeNavigation')
-                  }
-                />
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'lyrics'}
-                  rounded={8}
-                  text={'가사 쓰기'}
-                  onPress={() => props.navigation.navigate('LyricsNavigation')}
-                />
-              </HStack>
-              <HStack
-                space={responsiveWidth(widthPersentage(28))}
-                justifyContent={'center'}>
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'photo'}
-                  rounded={8}
-                  text={'추억의 사진으로' + '\n' + '노래만들기'}
-                  ready={'준비중'}
-                  disable
-                  onPress={() => {}}
-                />
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'bgm'}
-                  rounded={8}
-                  text={'BGM Studio'}
-                  ready={'준비중'}
-                  disable
-                  onPress={() => {}}
-                />
-              </HStack>
-              <HStack
-                space={responsiveWidth(widthPersentage(28))}
-                justifyContent={'center'}>
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'magazine'}
-                  rounded={8}
-                  text={'매거진'}
-                  ready={'준비중'}
-                  disable
-                  onPress={() => {}}
-                />
-                <Wbutton
-                  wp={140}
-                  hp={140}
-                  fs={14}
-                  fw={600}
-                  imgName={'musicNote'}
-                  rounded={8}
-                  text={'함께 만드는' + '\n' + '우리의 Music'}
-                  ready={'준비중'}
-                  disable
-                  onPress={() => {}}
-                />
-              </HStack>
-            </VStack>
-          </Box>
+          <HStack mt={4} flexWrap={'wrap'} h={'100%'} justifyContent="center">
+            <Box m={4}>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={600}
+                imgName={'challenge'}
+                rounded={8}
+                text={'Challenge'}
+                onPress={() => props.navigation.navigate('ChallengeNavigation')}
+              />
+            </Box>
+            <Box m={4}>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={600}
+                imgName={'lyrics'}
+                rounded={8}
+                text={'가사 쓰기'}
+                onPress={() => props.navigation.navigate('LyricsNavigation')}
+              />
+            </Box>
+            <Box m={4}>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={600}
+                imgName={'photo'}
+                rounded={8}
+                text={'작곡 / 편곡 매칭'}
+                onPress={() => props.navigation.navigate('CoArMatching')}
+              />
+            </Box>
+            <Box m={4}>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={600}
+                imgName={'bgm'}
+                rounded={8}
+                text={'BGM Studio'}
+                onPress={() => props.navigation.navigate('BgmStudio')}
+              />
+            </Box>
+            <Box m={4} mr={188}>
+              <Wbutton
+                wp={140}
+                hp={140}
+                fs={14}
+                fw={600}
+                imgName={'magazine'}
+                rounded={8}
+                text={'PineClip'}
+                onPress={() => {}}
+              />
+            </Box>
+          </HStack>
           {/* 버튼 메뉴 end */}
         </Box>
       </ScrollView>

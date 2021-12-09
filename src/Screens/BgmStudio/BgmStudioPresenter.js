@@ -1,6 +1,6 @@
-import {Box, CheckIcon, Input, Pressable, Select, Text} from 'native-base';
 import React from 'react';
 import {Image, ImageBackground, ScrollView} from 'react-native';
+import {Box, CheckIcon, Input, Pressable, Select, Text} from 'native-base';
 import {
   responsiveFontSize,
   responsiveHeight,
