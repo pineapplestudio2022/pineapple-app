@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 
-import MagazineIcon from '../../Assets/Image/btn_main_magazine.png';
-import MusicNoteIcon from '../../Assets/Image/btn_main_music_note.png';
 import BGMGreenIcon from '../../Assets/Image/icon_main_bgm_green.png';
 import BGMWhiteIcon from '../../Assets/Image/icon_main_bgm_white.png';
-import PhotoGreenIcon from '../../Assets/Image/btn_main_photo.png';
 import WriteMusicGreenIcon from '../../Assets/Image/btn_main_write_music.png';
 import WriteMusicWhiteIcon from '../../Assets/Image/btn_main_write_music_white.png';
 import ChallengeGreenIcon from '../../Assets/Image/btn_main_speaker.png';
@@ -35,19 +32,10 @@ const getImage = name => {
       return WriteMusicGreenIcon;
     case 'lyrics-reverse':
       return WriteMusicWhiteIcon;
-    case 'photo':
-    case 'photo-reverse':
-      return PhotoGreenIcon;
     case 'bgm':
       return BGMGreenIcon;
     case 'bgm-reverse':
       return BGMWhiteIcon;
-    case 'magazine':
-    case 'magazine-reverse':
-      return MagazineIcon;
-    case 'musicNote':
-    case 'musicNote-reverse':
-      return MusicNoteIcon;
     case 'singing':
       return SingingGreenIcon;
     case 'singing-reverse':
