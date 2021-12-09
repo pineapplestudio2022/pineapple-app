@@ -1,7 +1,7 @@
 //가사 쓰기 Navigation
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import BgmStudio from '../Screens/BgmStudio';
+import MyBGM from '../Screens/MyBGM';
 
 const BGMStudioStack = createStackNavigator();
 
@@ -13,7 +13,7 @@ const BGMStudioNavigation = props => {
         cardStyle: {backgroundColor: 'transparent'},
         animationEnabled: false,
       }}>
-      <BGMStudioStack.Screen name={'BGMStudio'} component={BgmStudio} />
+      <BGMStudioStack.Screen name={'MyBGM'} component={MyBGM} />
     </BGMStudioStack.Navigator>
   );
 };

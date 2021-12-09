@@ -13,6 +13,10 @@ import CheckIcon from '../../Assets/Image/challenge/icon_challenge_check_white.p
 import CheckgreenIcon from '../../Assets/Image/challenge/icon_challenge_check_green.png';
 import UploadGreenIcon from '../../Assets/Image/challenge/icon_challenge_upload_green.png';
 import UploadWhiteIcon from '../../Assets/Image/challenge/icon_challenge_upload_white.png';
+import DownloadGreenIcon from '../../Assets/Image/challenge/icon_challenge_download_green.png';
+import DownloadWhiteIcon from '../../Assets/Image/challenge/icon_challenge_download_white.png';
+import PlayGreenIcon from '../../Assets/Image/challenge/icon_challenge_play_green.png';
+import PlayWhiteIcon from '../../Assets/Image/challenge/icon_challenge_play_white.png';
 import HomeIcon from '../../Assets/Image/challenge/icon_challenge_home_white.png';
 import GbuttonPresenter from './GbuttonPresenter';
 
@@ -45,9 +49,17 @@ const getImage = name => {
       return UploadWhiteIcon;
     case 'upload-reverse':
       return UploadGreenIcon;
+    case 'download':
+      return DownloadWhiteIcon;
+    case 'download-reverse':
+      return DownloadGreenIcon;
     case 'home':
     case 'home-reverse':
       return HomeIcon;
+    case 'play':
+      return PlayWhiteIcon;
+    case 'play-reverse':
+      return PlayGreenIcon;
     default:
       return undefined;
   }

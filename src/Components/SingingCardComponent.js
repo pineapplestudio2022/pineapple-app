@@ -7,52 +7,13 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
-import Cover1 from '../Assets/Image/Top_music/top_music_1.jpg';
-import Cover2 from '../Assets/Image/Top_music/top_music_2.jpg';
-import Cover3 from '../Assets/Image/Top_music/top_music_3.jpg';
-import Cover4 from '../Assets/Image/Top_music/top_music_4.jpg';
-import Cover5 from '../Assets/Image/Top_music/top_music_5.jpg';
-import Cover6 from '../Assets/Image/Top_music/top_music_6.jpg';
-import Cover7 from '../Assets/Image/Top_music/top_music_7.jpg';
-import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
-import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
-import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
-
 import {
   fontSizePersentage,
+  getImage,
   heightPersentage,
   widthPersentage,
 } from '../Commons/CommonUtil';
 import Gbutton from './GbuttonComponent';
-
-const getImage = () => {
-  const number = Math.floor(Math.random() * 10) + 1;
-  switch (number) {
-    case 1:
-      return Cover1;
-    case 2:
-      return Cover2;
-    case 3:
-      return Cover3;
-    case 4:
-      return Cover4;
-    case 5:
-      return Cover5;
-    case 6:
-      return Cover6;
-    case 7:
-      return Cover7;
-    case 8:
-      return Cover8;
-    case 9:
-      return Cover9;
-    case 10:
-      return Cover10;
-    default:
-      return DumpImage;
-  }
-};
 
 const SingingCardComponent = props => {
   const handlerGoLyrics = () => {
@@ -75,7 +36,7 @@ const SingingCardComponent = props => {
         <Box m={4} rounded={4} overflow={'hidden'}>
           <Image
             source={getImage}
-            resizeMode={'center'}
+            resizeMode={'cover'}
             width={responsiveWidth(widthPersentage(110))}
             height={responsiveWidth(widthPersentage(110))}
             alt={' '}
