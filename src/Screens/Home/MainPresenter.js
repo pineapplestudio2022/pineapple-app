@@ -131,7 +131,7 @@ const MainPresenter = props => {
                 imgName={'magazine'}
                 rounded={8}
                 text={'PineClip'}
-                onPress={() => {}}
+                onPress={() => props.navigation.navigate('PineClip')}
               />
             </Box>
           </HStack>

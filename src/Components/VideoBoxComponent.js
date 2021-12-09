@@ -97,6 +97,5 @@ VideoBox.defaultProps = {
   wp: 320, //width
   hp: 148, //height
   rounded: 8, //borderRadius
-  cover: 1,
 };
 export default VideoBox;

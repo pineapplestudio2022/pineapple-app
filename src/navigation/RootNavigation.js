@@ -13,6 +13,7 @@ import ChallengeEnjoy from '../Screens/Challenge/ChallengeEnjoy';
 
 import APIKit from '../API/APIkit';
 import {UserDispatch} from '../Commons/UserDispatchProvider';
+import PineClip from '../Screens/PineClip';
 
 const RootStack = createStackNavigator();
 
@@ -74,6 +75,7 @@ const RootNavigation = props => {
         />
         <RootStack.Screen name={'ChallengeVideo'} component={ChallengeVideo} />
         <RootStack.Screen name={'ChallengeEnjoy'} component={ChallengeEnjoy} />
+        <RootStack.Screen name={'PineClip'} component={PineClip} />
       </RootStack.Navigator>
     </ImageBackground>
   );

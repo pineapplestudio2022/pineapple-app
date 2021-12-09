@@ -155,9 +155,7 @@ const ChallengeEnjoyPresenter = props => {
                 <VideoBox
                   id={item.id}
                   title={item.title}
-                  cover={(index % 10) + 1}
                   participant={item.participant}
-                  onScroll={props.HandlerScroll}
                   videoUrl={item.shareLink}
                   onPress={() => props.openVideoPlayer(index)}
                 />

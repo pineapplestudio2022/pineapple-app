@@ -52,7 +52,6 @@ const ChallengeVideoPresenter = props => {
               <VideoBox
                 id={item.id}
                 title={item.title}
-                cover={(index % 10) + 1}
                 participant={item.participant}
                 videoUrl={item.videoUrl}
                 onPress={() => props.openVideoPlayer(item.videoUrl, item.title)}
