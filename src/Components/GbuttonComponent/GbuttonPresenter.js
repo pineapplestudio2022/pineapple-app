@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Image, Pressable, Text, VStack} from 'native-base';
+import {HStack, Image, Pressable, Text} from 'native-base';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -25,7 +25,7 @@ const GbuttonPresenter = props => {
       onPressOut={props.pressOut}
       style={{
         width: responsiveWidth(widthPersentage(props.wp)),
-        height: responsiveHeight(heightPersentage(props.hp)),
+        height: responsiveWidth(widthPersentage(props.hp)),
         backgroundColor: props.disable ? '#a5a8ae' : props.bgColor,
         borderWidth: props.bwidth,
         borderRadius: props.rounded,

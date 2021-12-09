@@ -20,7 +20,7 @@ import SaveLyricsIcon from '../../Assets/Image/icon_menu_saveLyrics.png';
 
 const MenuPresenter = props => {
   return (
-    <Box safeAreaTop pt={5} mb={responsiveHeight(heightPersentage(22))}>
+    <Box safeAreaTop pt={2} mb={responsiveHeight(heightPersentage(14))}>
       {/* 상단 그라데이션 && 블러 효과 start */}
       {props.notGB ? (
         <></>

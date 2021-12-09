@@ -5,11 +5,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/CommonUtil';
+import {fontSizePersentage, widthPersentage} from '../../Commons/CommonUtil';
 
 const WbuttonPresenter = props => {
   return (
@@ -25,7 +21,7 @@ const WbuttonPresenter = props => {
       onPressOut={props.pressOut}
       style={{
         width: responsiveWidth(widthPersentage(props.wp)),
-        height: responsiveHeight(heightPersentage(props.hp)),
+        height: responsiveWidth(widthPersentage(props.hp)),
         backgroundColor: props.disable ? '#fafafa80' : props.bgColor,
         borderWidth: 1,
         borderRadius: props.rounded,
