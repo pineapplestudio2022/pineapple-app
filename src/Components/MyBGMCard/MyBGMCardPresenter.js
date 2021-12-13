@@ -1,6 +1,15 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Box, HStack, Image, Text, VStack} from 'native-base';
+import {
+  Badge,
+  Box,
+  FlatList,
+  HStack,
+  Image,
+  Slider,
+  Text,
+  VStack,
+} from 'native-base';
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -46,6 +55,19 @@ const MyBGMCardPresenter = props => {
             width="100%"
             height="100%"
           />
+          {props.isPlay ? (
+            <Slider
+              style={{
+                position: 'absolute',
+                bottom: '-5%',
+              }}
+              defaultValue={0}
+              value={props.percent}>
+              <Slider.Track bg={'#a5a8ae'}>
+                <Slider.FilledTrack bg={'#0fefbd'} />
+              </Slider.Track>
+            </Slider>
+          ) : null}
         </Box>
         <Box flex={1} justifyContent="center">
           <VStack space={1.5}>
@@ -54,15 +76,28 @@ const MyBGMCardPresenter = props => {
               fontWeight={600}
               numberOfLines={1}
               color="#1a1b1c">
-              BGM 생성 일자
+              {props.createdAt}
             </Text>
-            <Text
-              fontSize={responsiveFontSize(fontSizePersentage(11))}
-              fontWeight={600}
-              numberOfLines={1}
-              color="#858c92">
-              BGM 생성 키워드 정보
-            </Text>
+
+            <FlatList
+              data={props.keyword}
+              horizontal
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <Box mr={1} rounded={4} overflow="hidden">
+                  <Badge colorScheme={'gray'} px={2}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(11))}
+                      fontWeight={600}
+                      color={'white'}>
+                      {item}
+                    </Text>
+                  </Badge>
+                </Box>
+              )}
+              keyExtractor={item => item.index}
+            />
             <HStack space={1}>
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(11))}
@@ -76,7 +111,7 @@ const MyBGMCardPresenter = props => {
                 bold
                 numberOfLines={1}
                 color="#858c92">
-                사용처정보
+                {props.whereUse}
               </Text>
             </HStack>
             <HStack justifyContent="space-between">
@@ -84,10 +119,11 @@ const MyBGMCardPresenter = props => {
                 wp={84}
                 hp={26}
                 rounded={4}
-                text={'재 생'}
-                imgName={'play'}
+                text={props.isPlay ? '정 지' : '재 생'}
+                imgName={props.isPlay ? 'stop' : 'play'}
                 fs={13}
                 fw={800}
+                onPress={props.handlerPlay}
               />
               <Gbutton
                 wp={84}
