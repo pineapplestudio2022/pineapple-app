@@ -19,12 +19,12 @@ import DatePickerModal from '../../Components/DatePickerModal';
 import DropdownIcon from '../../Assets/Image/icon_dropdown_green.png';
 import NoteIcon from '../../Assets/Image/icon_note_gray.png';
 
-const CoArMatchingPresenter = props => {
+const CompositionMatchingPresenter = props => {
   return (
     <Box flex={1}>
       <MenuComponent
         name={props.route.name}
-        titleName={'작곡/편곡 매칭'}
+        titleName={'작곡 매칭'}
         navigation={props.navigation}
       />
       <Box flex={1} bgColor={'#fafafacc'} rounded={16}>
@@ -106,8 +106,14 @@ const CoArMatchingPresenter = props => {
               bg: 'cyan.600',
               endIcon: <CheckIcon size={4} />,
             }}>
-            <Select.Item label="JavaScript" value="js" />
-            <Select.Item label="TypeScript" value="ts" />
+            <Select.Item label="Rock" value="rock" />
+            <Select.Item label="Pop" value="pop" />
+            <Select.Item label="New age" value="newage" />
+            <Select.Item label="Hip hop" value="hiphop" />
+            <Select.Item label="Accoustic" value="accoustic" />
+            <Select.Item label="Old pop" value="oldpop" />
+            <Select.Item label="Ballad" value="ballad" />
+            <Select.Item label="Elec" value="elec" />
           </Select>
           <Text
             mt={responsiveHeight(heightPersentage(50))}
@@ -182,8 +188,14 @@ const CoArMatchingPresenter = props => {
               bg: 'cyan.600',
               endIcon: <CheckIcon size={4} />,
             }}>
-            <Select.Item label="JavaScript" value="js" />
-            <Select.Item label="TypeScript" value="ts" />
+            <Select.Item label="Rock" value="rock" />
+            <Select.Item label="Pop" value="pop" />
+            <Select.Item label="New age" value="newage" />
+            <Select.Item label="Hip hop" value="hiphop" />
+            <Select.Item label="Accoustic" value="accoustic" />
+            <Select.Item label="Old pop" value="oldpop" />
+            <Select.Item label="Ballad" value="ballad" />
+            <Select.Item label="Elec" value="elec" />
           </Select>
           <Input
             alignSelf={'center'}
@@ -210,7 +222,14 @@ const CoArMatchingPresenter = props => {
             alignSelf={'center'}
             mt={responsiveHeight(heightPersentage(85))}
             mb={20}>
-            <Gbutton wp={220} hp={40} fs={18} text={'매칭 신청'} rounded={8} />
+            <Gbutton
+              wp={220}
+              hp={40}
+              fs={18}
+              text={'매칭 신청'}
+              rounded={8}
+              onPress={props.Comatching}
+            />
           </Box>
         </KeyboardAwareScrollView>
       </Box>
@@ -218,4 +237,4 @@ const CoArMatchingPresenter = props => {
   );
 };
 
-export default CoArMatchingPresenter;
+export default CompositionMatchingPresenter;

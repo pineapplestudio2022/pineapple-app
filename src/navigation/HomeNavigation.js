@@ -7,7 +7,9 @@ import Ranking from '../Screens/Ranking';
 import LyricsNavigation from '../navigation/LyricsNavigation';
 import ChallengeNavigation from './ChallengeNavigation';
 import BgmStudio from '../Screens/BgmStudio';
-import CoArMatching from '../Screens/CoArMatching';
+import CompositionMatching from '../Screens/CompositionMatching';
+import ArrangementMatching from '../Screens/ArrangementMatching';
+import CoArHome from '../Screens/CoArHome';
 
 const HomeStack = createStackNavigator();
 
@@ -30,7 +32,15 @@ const HomeNavigation = props => {
         component={LyricsNavigation}
       />
       <HomeStack.Screen name={'BgmStudio'} component={BgmStudio} />
-      <HomeStack.Screen name={'CoArMatching'} component={CoArMatching} />
+      <HomeStack.Screen name={'CoArHome'} component={CoArHome} />
+      <HomeStack.Screen
+        name={'CompositionMatching'}
+        component={CompositionMatching}
+      />
+      <HomeStack.Screen
+        name={'ArrangementMatching'}
+        component={ArrangementMatching}
+      />
     </HomeStack.Navigator>
   );
 };

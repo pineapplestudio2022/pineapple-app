@@ -1,8 +1,9 @@
 import React from 'react';
 import {useState} from 'react';
-import CoArMatchingPresenter from './CoArMatchingPresenter';
+import {Alert} from 'react-native';
+import CompositionMatchingPresenter from './CompositionMatchingPresenter';
 
-const CoArMatchingContainer = props => {
+const CompositionMatchingContainer = props => {
   const [title, setTitle] = useState('');
   const [singer, setSinger] = useState('');
   const [genre, setGenre] = useState('');
@@ -12,9 +13,20 @@ const CoArMatchingContainer = props => {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
+  const Comatching = () => {
+    Alert.alert('Pineapple', '매칭 신청이 완료되었습니다', [
+      {
+        text: '확인',
+        onPress: () =>
+          props.navigation.reset({
+            index: 0,
+            routes: [{name: 'DrawerNavigation'}],
+          }),
+      },
+    ]);
+  };
   return (
-    <CoArMatchingPresenter
+    <CompositionMatchingPresenter
       {...props}
       title={title}
       setTitle={setTitle}
@@ -32,8 +44,9 @@ const CoArMatchingContainer = props => {
       setStartDate={setStartDate}
       endDate={endDate}
       setEndDate={setEndDate}
+      Comatching={Comatching}
     />
   );
 };
 
-export default CoArMatchingContainer;
+export default CompositionMatchingContainer;

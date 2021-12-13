@@ -107,7 +107,7 @@ const MainPresenter = props => {
                 imgName={'coar'}
                 rounded={8}
                 text={'작곡 / 편곡 매칭'}
-                onPress={() => props.navigation.navigate('CoArMatching')}
+                onPress={() => props.navigation.navigate('CoArHome')}
               />
             </Box>
             <Box m={4}>
