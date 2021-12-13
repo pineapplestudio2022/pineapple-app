@@ -824,8 +824,8 @@ exports[`[VideoPlayer] Test VideoPlayer snapshot 1`] = `
                     "borderColor": "#0fefbd",
                     "borderRadius": 4,
                     "borderWidth": 0,
-                    "height": 37.97864768683274,
-                    "shadowColor": "#00000033",
+                    "height": 46.15384615384615,
+                    "shadowColor": "#8799a45b",
                     "shadowOffset": Object {
                       "height": 2,
                       "width": 0,
@@ -862,7 +862,7 @@ exports[`[VideoPlayer] Test VideoPlayer snapshot 1`] = `
                 />
                 <Text
                   color="muted.700"
-                  flex={5}
+                  flex={6}
                   fontFamily="body"
                   fontSize="md"
                   fontStyle="normal"
@@ -872,7 +872,7 @@ exports[`[VideoPlayer] Test VideoPlayer snapshot 1`] = `
                       Object {
                         "color": "#404040",
                         "flexBasis": 0,
-                        "flexGrow": 5,
+                        "flexGrow": 6,
                         "flexShrink": 1,
                         "fontSize": 16,
                         "fontStyle": "normal",

@@ -25,13 +25,13 @@ exports[`[ChallengePlaying] Test ChallengePlaying snapshot 1`] = `
     }
   >
     <View
-      mb={34.81376037959668}
-      pt={5}
+      mb={22.15421115065243}
+      pt={2}
       style={
         Array [
           Object {
-            "marginBottom": 34.81376037959668,
-            "paddingTop": 20,
+            "marginBottom": 22.15421115065243,
+            "paddingTop": 8,
           },
         ]
       }

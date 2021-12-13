@@ -35,7 +35,7 @@ exports[`[Wbutton] Test Wbutton snapshot 1`] = `
           "borderColor": "#0fefbd",
           "borderRadius": 0,
           "borderWidth": 1,
-          "height": 1334,
+          "height": 1621.153846153846,
           "width": 750,
         },
       ]
