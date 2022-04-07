@@ -25,13 +25,13 @@ exports[`[ChallengeList] Test ChallengeList snapshot 1`] = `
     }
   >
     <View
-      mb={34.81376037959668}
-      pt={5}
+      mb={22.15421115065243}
+      pt={2}
       style={
         Array [
           Object {
-            "marginBottom": 34.81376037959668,
-            "paddingTop": 20,
+            "marginBottom": 22.15421115065243,
+            "paddingTop": 8,
           },
         ]
       }
@@ -370,7 +370,7 @@ exports[`[ChallengeList] Test ChallengeList snapshot 1`] = `
                     "borderColor": "#0fefbd",
                     "borderRadius": 8,
                     "borderWidth": 1,
-                    "height": 221.54211150652432,
+                    "height": 269.2307692307692,
                     "width": 269.2307692307692,
                   },
                 ]
@@ -506,7 +506,7 @@ exports[`[ChallengeList] Test ChallengeList snapshot 1`] = `
                     "borderColor": "#0fefbd",
                     "borderRadius": 8,
                     "borderWidth": 1,
-                    "height": 221.54211150652432,
+                    "height": 269.2307692307692,
                     "width": 269.2307692307692,
                   },
                 ]
@@ -644,7 +644,7 @@ exports[`[ChallengeList] Test ChallengeList snapshot 1`] = `
                 "borderColor": "#0fefbd",
                 "borderRadius": 8,
                 "borderWidth": 1,
-                "height": 164.5741399762752,
+                "height": 200,
                 "width": 576.923076923077,
               },
             ]

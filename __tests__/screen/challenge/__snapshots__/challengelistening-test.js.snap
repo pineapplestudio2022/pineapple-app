@@ -25,13 +25,13 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
     }
   >
     <View
-      mb={34.81376037959668}
-      pt={5}
+      mb={22.15421115065243}
+      pt={2}
       style={
         Array [
           Object {
-            "marginBottom": 34.81376037959668,
-            "paddingTop": 20,
+            "marginBottom": 22.15421115065243,
+            "paddingTop": 8,
           },
         ]
       }
@@ -650,8 +650,8 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                         "borderColor": "#0fefbd",
                         "borderRadius": 8,
                         "borderWidth": 0,
-                        "height": 63.29774614472123,
-                        "shadowColor": "#00000033",
+                        "height": 76.92307692307692,
+                        "shadowColor": "#8799a45b",
                         "shadowOffset": Object {
                           "height": 2,
                           "width": 0,
@@ -683,11 +683,11 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                       accessibilityLabel=" "
                       alt=" "
                       flex={1}
-                      left={2}
+                      maxHeight="90%"
                       maxWidth="100%"
+                      ml={1}
                       onError={[Function]}
-                      pl={4}
-                      position="absolute"
+                      pl={2}
                       resizeMode="contain"
                       source={
                         Object {
@@ -700,14 +700,10 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                             "flexBasis": 0,
                             "flexGrow": 1,
                             "flexShrink": 1,
-                            "left": 8,
+                            "marginLeft": 4,
+                            "maxHeight": "90%",
                             "maxWidth": "100%",
-                            "paddingLeft": 16,
-                            "position": "absolute",
-                          },
-                          Object {
-                            "height": 39.561091340450766,
-                            "width": 39.561091340450766,
+                            "paddingLeft": 8,
                           },
                         ]
                       }
@@ -721,7 +717,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                     />
                     <Text
                       color="muted.700"
-                      flex={5}
+                      flex={6}
                       fontFamily="body"
                       fontSize="md"
                       fontStyle="normal"
@@ -731,7 +727,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                           Object {
                             "color": "#404040",
                             "flexBasis": 0,
-                            "flexGrow": 5,
+                            "flexGrow": 6,
                             "flexShrink": 1,
                             "fontSize": 16,
                             "fontStyle": "normal",
@@ -866,8 +862,8 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                   "borderColor": "#0fefbd",
                   "borderRadius": 6,
                   "borderWidth": 0,
-                  "height": 63.29774614472123,
-                  "shadowColor": "#00000033",
+                  "height": 76.92307692307692,
+                  "shadowColor": "#8799a45b",
                   "shadowOffset": Object {
                     "height": 2,
                     "width": 0,
@@ -899,11 +895,11 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                 accessibilityLabel=" "
                 alt=" "
                 flex={1}
-                left={2}
+                maxHeight="90%"
                 maxWidth="100%"
+                ml={1}
                 onError={[Function]}
-                pl={4}
-                position="absolute"
+                pl={2}
                 resizeMode="contain"
                 source={
                   Object {
@@ -916,14 +912,10 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                       "flexBasis": 0,
                       "flexGrow": 1,
                       "flexShrink": 1,
-                      "left": 8,
+                      "marginLeft": 4,
+                      "maxHeight": "90%",
                       "maxWidth": "100%",
-                      "paddingLeft": 16,
-                      "position": "absolute",
-                    },
-                    Object {
-                      "height": 39.561091340450766,
-                      "width": 39.561091340450766,
+                      "paddingLeft": 8,
                     },
                   ]
                 }
@@ -937,7 +929,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
               />
               <Text
                 color="muted.700"
-                flex={5}
+                flex={6}
                 fontFamily="body"
                 fontSize="md"
                 fontStyle="normal"
@@ -947,7 +939,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                     Object {
                       "color": "#404040",
                       "flexBasis": 0,
-                      "flexGrow": 5,
+                      "flexGrow": 6,
                       "flexShrink": 1,
                       "fontSize": 16,
                       "fontStyle": "normal",
@@ -999,8 +991,8 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                   "borderColor": "#0fefbd",
                   "borderRadius": 6,
                   "borderWidth": 0,
-                  "height": 63.29774614472123,
-                  "shadowColor": "#00000033",
+                  "height": 76.92307692307692,
+                  "shadowColor": "#8799a45b",
                   "shadowOffset": Object {
                     "height": 2,
                     "width": 0,
@@ -1032,11 +1024,11 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                 accessibilityLabel=" "
                 alt=" "
                 flex={1}
-                left={2}
+                maxHeight="90%"
                 maxWidth="100%"
+                ml={1}
                 onError={[Function]}
-                pl={4}
-                position="absolute"
+                pl={2}
                 resizeMode="contain"
                 source={
                   Object {
@@ -1049,14 +1041,10 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                       "flexBasis": 0,
                       "flexGrow": 1,
                       "flexShrink": 1,
-                      "left": 8,
+                      "marginLeft": 4,
+                      "maxHeight": "90%",
                       "maxWidth": "100%",
-                      "paddingLeft": 16,
-                      "position": "absolute",
-                    },
-                    Object {
-                      "height": 39.561091340450766,
-                      "width": 39.561091340450766,
+                      "paddingLeft": 8,
                     },
                   ]
                 }
@@ -1070,7 +1058,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
               />
               <Text
                 color="muted.700"
-                flex={5}
+                flex={6}
                 fontFamily="body"
                 fontSize="md"
                 fontStyle="normal"
@@ -1080,7 +1068,7 @@ exports[`[ChallengeListening] Test ChallengeListening snapshot 1`] = `
                     Object {
                       "color": "#404040",
                       "flexBasis": 0,
-                      "flexGrow": 5,
+                      "flexGrow": 6,
                       "flexShrink": 1,
                       "fontSize": 16,
                       "fontStyle": "normal",

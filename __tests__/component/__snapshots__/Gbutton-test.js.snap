@@ -35,8 +35,8 @@ exports[`[Gbutton] Test Gbutton snapshot 1`] = `
           "borderColor": "#0fefbd",
           "borderRadius": 0,
           "borderWidth": 0,
-          "height": 1334,
-          "shadowColor": "#00000033",
+          "height": 1621.153846153846,
+          "shadowColor": "#8799a45b",
           "shadowOffset": Object {
             "height": 2,
             "width": 0,
@@ -73,7 +73,7 @@ exports[`[Gbutton] Test Gbutton snapshot 1`] = `
       />
       <Text
         color="muted.700"
-        flex={5}
+        flex={6}
         fontFamily="body"
         fontSize="md"
         fontStyle="normal"
@@ -83,7 +83,7 @@ exports[`[Gbutton] Test Gbutton snapshot 1`] = `
             Object {
               "color": "#404040",
               "flexBasis": 0,
-              "flexGrow": 5,
+              "flexGrow": 6,
               "flexShrink": 1,
               "fontSize": 16,
               "fontStyle": "normal",

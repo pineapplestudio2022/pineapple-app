@@ -25,13 +25,13 @@ exports[`[Home] Test Home snapshot 1`] = `
     }
   >
     <View
-      mb={34.81376037959668}
-      pt={5}
+      mb={22.15421115065243}
+      pt={2}
       style={
         Array [
           Object {
-            "marginBottom": 34.81376037959668,
-            "paddingTop": 20,
+            "marginBottom": 22.15421115065243,
+            "paddingTop": 8,
           },
         ]
       }
@@ -278,966 +278,757 @@ exports[`[Home] Test Home snapshot 1`] = `
           </RCTScrollView>
         </View>
         <View
+          mb={20}
           style={
             Array [
-              Object {},
+              Object {
+                "marginBottom": 80,
+              },
             ]
           }
         >
           <View
+            flexDirection="row"
+            flexWrap="wrap"
+            h="100%"
+            justifyContent="center"
             mt={4}
             style={
               Array [
                 Object {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "height": "100%",
+                  "justifyContent": "center",
                   "marginTop": 16,
-                  "width": "100%",
                 },
               ]
             }
-            w="100%"
           >
+            <View
+              m={4}
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 16,
+                    "marginLeft": 16,
+                    "marginRight": 16,
+                    "marginTop": 16,
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onHoverIn={[Function]}
+                onHoverOut={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {},
+                    Object {
+                      "backgroundColor": "#fafafa80",
+                      "borderColor": "#0fefbd",
+                      "borderRadius": 8,
+                      "borderWidth": 1,
+                      "height": 269.2307692307692,
+                      "width": 269.2307692307692,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {},
+                    ]
+                  }
+                >
+                  <View
+                    alignItems="center"
+                    display="flex"
+                    h="100%"
+                    justifyContent="center"
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "display": "flex",
+                          "height": "100%",
+                          "justifyContent": "center",
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      accessibilityLabel=" "
+                      alt=" "
+                      maxWidth="100%"
+                      onError={[Function]}
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "testUri": "../../../src/Assets/Image/btn_main_speaker.png",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "maxWidth": "100%",
+                          },
+                          Object {
+                            "marginBottom": 8,
+                            "width": 92.3076923076923,
+                          },
+                        ]
+                      }
+                    />
+                    <View
+                      alignItems="center"
+                      flexDirection="row"
+                      justifyContent="center"
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "justifyContent": "center",
+                            "width": "100%",
+                          },
+                        ]
+                      }
+                      w="100%"
+                    >
+                      <View
+                        style={
+                          Array [
+                            Object {},
+                          ]
+                        }
+                      />
+                      <Text
+                        color="muted.700"
+                        fontFamily="body"
+                        fontSize="md"
+                        fontStyle="normal"
+                        fontWeight={600}
+                        style={
+                          Array [
+                            Object {
+                              "color": "#404040",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "fontWeight": "600",
+                            },
+                            Object {
+                              "color": "#0fefbd",
+                              "fontSize": 27.842298955206825,
+                              "textAlign": "center",
+                            },
+                          ]
+                        }
+                      >
+                        Challenge
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
             <View
               style={
                 Array [
                   Object {},
                 ]
               }
+            />
+            <View
+              m={4}
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 16,
+                    "marginLeft": 16,
+                    "marginRight": 16,
+                    "marginTop": 16,
+                  },
+                ]
+              }
             >
               <View
-                flexDirection="row"
-                justifyContent="center"
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onHoverIn={[Function]}
+                onHoverOut={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
+                    Object {},
                     Object {
-                      "flexDirection": "row",
-                      "justifyContent": "center",
+                      "backgroundColor": "#fafafa80",
+                      "borderColor": "#0fefbd",
+                      "borderRadius": 8,
+                      "borderWidth": 1,
+                      "height": 269.2307692307692,
+                      "width": 269.2307692307692,
                     },
                   ]
                 }
               >
                 <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Array [
                       Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
                     ]
                   }
                 >
                   <View
+                    alignItems="center"
+                    display="flex"
+                    h="100%"
+                    justifyContent="center"
                     style={
                       Array [
-                        Object {},
+                        Object {
+                          "alignItems": "center",
+                          "display": "flex",
+                          "height": "100%",
+                          "justifyContent": "center",
+                        },
                       ]
                     }
                   >
+                    <Image
+                      accessibilityLabel=" "
+                      alt=" "
+                      maxWidth="100%"
+                      onError={[Function]}
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "testUri": "../../../src/Assets/Image/btn_main_write_music.png",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "maxWidth": "100%",
+                          },
+                          Object {
+                            "marginBottom": 8,
+                            "width": 92.3076923076923,
+                          },
+                        ]
+                      }
+                    />
                     <View
                       alignItems="center"
-                      display="flex"
-                      h="100%"
+                      flexDirection="row"
                       justifyContent="center"
                       style={
                         Array [
                           Object {
                             "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
+                            "flexDirection": "row",
                             "justifyContent": "center",
+                            "width": "100%",
                           },
                         ]
                       }
+                      w="100%"
                     >
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_speaker.png",
-                          }
-                        }
+                      <View
                         style={
                           Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
+                            Object {},
                           ]
                         }
                       />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
+                      <Text
+                        color="muted.700"
+                        fontFamily="body"
+                        fontSize="md"
+                        fontStyle="normal"
+                        fontWeight={600}
                         style={
                           Array [
                             Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
+                              "color": "#404040",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "fontWeight": "600",
+                            },
+                            Object {
+                              "color": "#0fefbd",
+                              "fontSize": 27.842298955206825,
+                              "textAlign": "center",
                             },
                           ]
                         }
-                        w="100%"
                       >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          Challenge
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "width": 53.84615384615384,
-                      },
-                    ]
-                  }
-                  width={53.84615384615384}
-                />
-                <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    Array [
-                      Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {},
-                      ]
-                    }
-                  >
-                    <View
-                      alignItems="center"
-                      display="flex"
-                      h="100%"
-                      justifyContent="center"
-                      style={
-                        Array [
-                          Object {
-                            "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
-                            "justifyContent": "center",
-                          },
-                        ]
-                      }
-                    >
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_write_music.png",
-                          }
-                        }
-                        style={
-                          Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
-                          ]
-                        }
-                      />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
-                        style={
-                          Array [
-                            Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
-                            },
-                          ]
-                        }
-                        w="100%"
-                      >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          가사 쓰기
-                        </Text>
-                      </View>
+                        가사 쓰기
+                      </Text>
                     </View>
                   </View>
                 </View>
               </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+            />
+            <View
+              m={4}
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 16,
+                    "marginLeft": 16,
+                    "marginRight": 16,
+                    "marginTop": 16,
+                  },
+                ]
+              }
+            >
               <View
-                height={53.84615384615384}
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onHoverIn={[Function]}
+                onHoverOut={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
+                    Object {},
                     Object {
-                      "height": 53.84615384615384,
-                    },
-                  ]
-                }
-              />
-              <View
-                flexDirection="row"
-                justifyContent="center"
-                style={
-                  Array [
-                    Object {
-                      "flexDirection": "row",
-                      "justifyContent": "center",
+                      "backgroundColor": "#fafafa80",
+                      "borderColor": "#0fefbd",
+                      "borderRadius": 8,
+                      "borderWidth": 1,
+                      "height": 269.2307692307692,
+                      "width": 269.2307692307692,
                     },
                   ]
                 }
               >
                 <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Array [
                       Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
                     ]
                   }
                 >
                   <View
+                    alignItems="center"
+                    display="flex"
+                    h="100%"
+                    justifyContent="center"
                     style={
                       Array [
-                        Object {},
+                        Object {
+                          "alignItems": "center",
+                          "display": "flex",
+                          "height": "100%",
+                          "justifyContent": "center",
+                        },
                       ]
                     }
                   >
+                    <Image
+                      accessibilityLabel=" "
+                      alt=" "
+                      maxWidth="100%"
+                      onError={[Function]}
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "testUri": "../../../src/Assets/Image/icon_main_coar_green.png",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "maxWidth": "100%",
+                          },
+                          Object {
+                            "marginBottom": 8,
+                            "width": 92.3076923076923,
+                          },
+                        ]
+                      }
+                    />
                     <View
                       alignItems="center"
-                      display="flex"
-                      h="100%"
+                      flexDirection="row"
                       justifyContent="center"
                       style={
                         Array [
                           Object {
                             "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
+                            "flexDirection": "row",
                             "justifyContent": "center",
+                            "width": "100%",
                           },
                         ]
                       }
+                      w="100%"
                     >
-                      <Text
-                        color="#858c92"
-                        fontFamily="body"
-                        fontSize={27.842298955206825}
-                        fontStyle="normal"
-                        fontWeight="bold"
-                        position="absolute"
+                      <View
                         style={
                           Array [
-                            Object {
-                              "color": "#858c92",
-                              "fontSize": 27.842298955206825,
-                              "fontStyle": "normal",
-                              "fontWeight": "700",
-                              "position": "absolute",
-                              "top": 8,
-                            },
-                          ]
-                        }
-                        top={2}
-                      >
-                        준비중
-                      </Text>
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_photo.png",
-                          }
-                        }
-                        style={
-                          Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
+                            Object {},
                           ]
                         }
                       />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
-                        style={
-                          Array [
-                            Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
-                            },
-                          ]
-                        }
-                        w="100%"
-                      >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          추억의 사진으로
-노래만들기
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "width": 53.84615384615384,
-                      },
-                    ]
-                  }
-                  width={53.84615384615384}
-                />
-                <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    Array [
-                      Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {},
-                      ]
-                    }
-                  >
-                    <View
-                      alignItems="center"
-                      display="flex"
-                      h="100%"
-                      justifyContent="center"
-                      style={
-                        Array [
-                          Object {
-                            "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
-                            "justifyContent": "center",
-                          },
-                        ]
-                      }
-                    >
                       <Text
-                        color="#858c92"
+                        color="muted.700"
                         fontFamily="body"
-                        fontSize={27.842298955206825}
+                        fontSize="md"
                         fontStyle="normal"
-                        fontWeight="bold"
-                        position="absolute"
+                        fontWeight={600}
                         style={
                           Array [
                             Object {
-                              "color": "#858c92",
-                              "fontSize": 27.842298955206825,
+                              "color": "#404040",
+                              "fontSize": 16,
                               "fontStyle": "normal",
-                              "fontWeight": "700",
-                              "position": "absolute",
-                              "top": 8,
+                              "fontWeight": "600",
+                            },
+                            Object {
+                              "color": "#0fefbd",
+                              "fontSize": 27.842298955206825,
+                              "textAlign": "center",
                             },
                           ]
                         }
-                        top={2}
                       >
-                        준비중
+                        작곡 / 편곡 매칭
                       </Text>
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_bgm_studio.png",
-                          }
-                        }
-                        style={
-                          Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
-                          ]
-                        }
-                      />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
-                        style={
-                          Array [
-                            Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
-                            },
-                          ]
-                        }
-                        w="100%"
-                      >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          BGM Studio
-                        </Text>
-                      </View>
                     </View>
                   </View>
                 </View>
               </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+            />
+            <View
+              m={4}
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 16,
+                    "marginLeft": 16,
+                    "marginRight": 16,
+                    "marginTop": 16,
+                  },
+                ]
+              }
+            >
               <View
-                height={53.84615384615384}
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onHoverIn={[Function]}
+                onHoverOut={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Array [
+                    Object {},
                     Object {
-                      "height": 53.84615384615384,
-                    },
-                  ]
-                }
-              />
-              <View
-                flexDirection="row"
-                justifyContent="center"
-                style={
-                  Array [
-                    Object {
-                      "flexDirection": "row",
-                      "justifyContent": "center",
+                      "backgroundColor": "#fafafa80",
+                      "borderColor": "#0fefbd",
+                      "borderRadius": 8,
+                      "borderWidth": 1,
+                      "height": 269.2307692307692,
+                      "width": 269.2307692307692,
                     },
                   ]
                 }
               >
                 <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Array [
                       Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
                     ]
                   }
                 >
                   <View
+                    alignItems="center"
+                    display="flex"
+                    h="100%"
+                    justifyContent="center"
                     style={
                       Array [
-                        Object {},
+                        Object {
+                          "alignItems": "center",
+                          "display": "flex",
+                          "height": "100%",
+                          "justifyContent": "center",
+                        },
                       ]
                     }
                   >
+                    <Image
+                      accessibilityLabel=" "
+                      alt=" "
+                      maxWidth="100%"
+                      onError={[Function]}
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "testUri": "../../../src/Assets/Image/icon_main_bgm_green.png",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "maxWidth": "100%",
+                          },
+                          Object {
+                            "marginBottom": 8,
+                            "width": 92.3076923076923,
+                          },
+                        ]
+                      }
+                    />
                     <View
                       alignItems="center"
-                      display="flex"
-                      h="100%"
+                      flexDirection="row"
                       justifyContent="center"
                       style={
                         Array [
                           Object {
                             "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
+                            "flexDirection": "row",
                             "justifyContent": "center",
+                            "width": "100%",
                           },
                         ]
                       }
+                      w="100%"
                     >
-                      <Text
-                        color="#858c92"
-                        fontFamily="body"
-                        fontSize={27.842298955206825}
-                        fontStyle="normal"
-                        fontWeight="bold"
-                        position="absolute"
+                      <View
                         style={
                           Array [
-                            Object {
-                              "color": "#858c92",
-                              "fontSize": 27.842298955206825,
-                              "fontStyle": "normal",
-                              "fontWeight": "700",
-                              "position": "absolute",
-                              "top": 8,
-                            },
-                          ]
-                        }
-                        top={2}
-                      >
-                        준비중
-                      </Text>
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_magazine.png",
-                          }
-                        }
-                        style={
-                          Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
+                            Object {},
                           ]
                         }
                       />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
+                      <Text
+                        color="muted.700"
+                        fontFamily="body"
+                        fontSize="md"
+                        fontStyle="normal"
+                        fontWeight={600}
                         style={
                           Array [
                             Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
+                              "color": "#404040",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "fontWeight": "600",
+                            },
+                            Object {
+                              "color": "#0fefbd",
+                              "fontSize": 27.842298955206825,
+                              "textAlign": "center",
                             },
                           ]
                         }
-                        w="100%"
                       >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          매거진
-                        </Text>
-                      </View>
+                        BGM Studio
+                      </Text>
                     </View>
                   </View>
                 </View>
+              </View>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {},
+                ]
+              }
+            />
+            <View
+              m={4}
+              mr={188}
+              style={
+                Array [
+                  Object {
+                    "marginBottom": 16,
+                    "marginLeft": 16,
+                    "marginRight": 188,
+                    "marginTop": 16,
+                  },
+                ]
+              }
+            >
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onHoverIn={[Function]}
+                onHoverOut={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {},
+                    Object {
+                      "backgroundColor": "#fafafa80",
+                      "borderColor": "#0fefbd",
+                      "borderRadius": 8,
+                      "borderWidth": 1,
+                      "height": 269.2307692307692,
+                      "width": 269.2307692307692,
+                    },
+                  ]
+                }
+              >
                 <View
-                  style={
-                    Array [
-                      Object {
-                        "width": 53.84615384615384,
-                      },
-                    ]
-                  }
-                  width={53.84615384615384}
-                />
-                <View
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onHoverIn={[Function]}
-                  onHoverOut={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
                   style={
                     Array [
                       Object {},
-                      Object {
-                        "backgroundColor": "#fafafa80",
-                        "borderColor": "#0fefbd",
-                        "borderRadius": 8,
-                        "borderWidth": 1,
-                        "height": 221.54211150652432,
-                        "width": 269.2307692307692,
-                      },
                     ]
                   }
                 >
                   <View
+                    alignItems="center"
+                    display="flex"
+                    h="100%"
+                    justifyContent="center"
                     style={
                       Array [
-                        Object {},
+                        Object {
+                          "alignItems": "center",
+                          "display": "flex",
+                          "height": "100%",
+                          "justifyContent": "center",
+                        },
                       ]
                     }
                   >
+                    <Image
+                      accessibilityLabel=" "
+                      alt=" "
+                      maxWidth="100%"
+                      onError={[Function]}
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "testUri": "../../../src/Assets/Image/icon_main_pineclip_green.png",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "maxWidth": "100%",
+                          },
+                          Object {
+                            "marginBottom": 8,
+                            "width": 92.3076923076923,
+                          },
+                        ]
+                      }
+                    />
                     <View
                       alignItems="center"
-                      display="flex"
-                      h="100%"
+                      flexDirection="row"
                       justifyContent="center"
                       style={
                         Array [
                           Object {
                             "alignItems": "center",
-                            "display": "flex",
-                            "height": "100%",
+                            "flexDirection": "row",
                             "justifyContent": "center",
+                            "width": "100%",
                           },
                         ]
                       }
+                      w="100%"
                     >
-                      <Text
-                        color="#858c92"
-                        fontFamily="body"
-                        fontSize={27.842298955206825}
-                        fontStyle="normal"
-                        fontWeight="bold"
-                        position="absolute"
+                      <View
                         style={
                           Array [
-                            Object {
-                              "color": "#858c92",
-                              "fontSize": 27.842298955206825,
-                              "fontStyle": "normal",
-                              "fontWeight": "700",
-                              "position": "absolute",
-                              "top": 8,
-                            },
-                          ]
-                        }
-                        top={2}
-                      >
-                        준비중
-                      </Text>
-                      <Image
-                        accessibilityLabel=" "
-                        alt=" "
-                        maxWidth="100%"
-                        onError={[Function]}
-                        resizeMode="contain"
-                        source={
-                          Object {
-                            "testUri": "../../../src/Assets/Image/btn_main_music_note.png",
-                          }
-                        }
-                        style={
-                          Array [
-                            Object {
-                              "maxWidth": "100%",
-                            },
-                            Object {
-                              "marginBottom": 8,
-                              "width": 92.3076923076923,
-                            },
+                            Object {},
                           ]
                         }
                       />
-                      <View
-                        alignItems="center"
-                        flexDirection="row"
-                        justifyContent="center"
+                      <Text
+                        color="muted.700"
+                        fontFamily="body"
+                        fontSize="md"
+                        fontStyle="normal"
+                        fontWeight={600}
                         style={
                           Array [
                             Object {
-                              "alignItems": "center",
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "width": "100%",
+                              "color": "#404040",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "fontWeight": "600",
+                            },
+                            Object {
+                              "color": "#0fefbd",
+                              "fontSize": 27.842298955206825,
+                              "textAlign": "center",
                             },
                           ]
                         }
-                        w="100%"
                       >
-                        <View
-                          style={
-                            Array [
-                              Object {},
-                            ]
-                          }
-                        />
-                        <Text
-                          color="muted.700"
-                          fontFamily="body"
-                          fontSize="md"
-                          fontStyle="normal"
-                          fontWeight={600}
-                          style={
-                            Array [
-                              Object {
-                                "color": "#404040",
-                                "fontSize": 16,
-                                "fontStyle": "normal",
-                                "fontWeight": "600",
-                              },
-                              Object {
-                                "color": "#0fefbd",
-                                "fontSize": 27.842298955206825,
-                                "textAlign": "center",
-                              },
-                            ]
-                          }
-                        >
-                          함께 만드는
-우리의 Music
-                        </Text>
-                      </View>
+                        PineClip
+                      </Text>
                     </View>
                   </View>
                 </View>

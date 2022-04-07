@@ -51,10 +51,16 @@ exports[`[VideoBox] Test VideoBox snapshot 1`] = `
       }
     >
       <Image
+        alt={
+          Object {
+            "testUri": "../../../src/Assets/Image/image_singing_dumpimage.jpg",
+          }
+        }
+        onError={[Function]}
         resizeMode="cover"
         source={
           Object {
-            "testUri": "../../../src/Assets/Image/Top_music/top_music_1.jpg",
+            "uri": "https://img.youtube.com/vi/undefined/mqdefault.jpg",
           }
         }
         style={

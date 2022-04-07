@@ -25,13 +25,13 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
     }
   >
     <View
-      mb={34.81376037959668}
-      pt={5}
+      mb={22.15421115065243}
+      pt={2}
       style={
         Array [
           Object {
-            "marginBottom": 34.81376037959668,
-            "paddingTop": 20,
+            "marginBottom": 22.15421115065243,
+            "paddingTop": 8,
           },
         ]
       }
@@ -326,8 +326,8 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                 "borderColor": "#0fefbd",
                 "borderRadius": 4,
                 "borderWidth": 0,
-                "height": 41.1435349940688,
-                "shadowColor": "#00000033",
+                "height": 50,
+                "shadowColor": "#8799a45b",
                 "shadowOffset": Object {
                   "height": 2,
                   "width": 0,
@@ -364,7 +364,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
             />
             <Text
               color="muted.700"
-              flex={5}
+              flex={6}
               fontFamily="body"
               fontSize="md"
               fontStyle="normal"
@@ -374,7 +374,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                   Object {
                     "color": "#404040",
                     "flexBasis": 0,
-                    "flexGrow": 5,
+                    "flexGrow": 6,
                     "flexShrink": 1,
                     "fontSize": 16,
                     "fontStyle": "normal",
@@ -426,8 +426,8 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                 "borderColor": "#0fefbd",
                 "borderRadius": 4,
                 "borderWidth": 0,
-                "height": 41.1435349940688,
-                "shadowColor": "#00000033",
+                "height": 50,
+                "shadowColor": "#8799a45b",
                 "shadowOffset": Object {
                   "height": 2,
                   "width": 0,
@@ -464,7 +464,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
             />
             <Text
               color="muted.700"
-              flex={5}
+              flex={6}
               fontFamily="body"
               fontSize="md"
               fontStyle="normal"
@@ -474,7 +474,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                   Object {
                     "color": "#404040",
                     "flexBasis": 0,
-                    "flexGrow": 5,
+                    "flexGrow": 6,
                     "flexShrink": 1,
                     "fontSize": 16,
                     "fontStyle": "normal",
@@ -526,8 +526,8 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                 "borderColor": "#0fefbd",
                 "borderRadius": 4,
                 "borderWidth": 0,
-                "height": 41.1435349940688,
-                "shadowColor": "#00000033",
+                "height": 50,
+                "shadowColor": "#8799a45b",
                 "shadowOffset": Object {
                   "height": 2,
                   "width": 0,
@@ -564,7 +564,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
             />
             <Text
               color="muted.700"
-              flex={5}
+              flex={6}
               fontFamily="body"
               fontSize="md"
               fontStyle="normal"
@@ -574,7 +574,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                   Object {
                     "color": "#404040",
                     "flexBasis": 0,
-                    "flexGrow": 5,
+                    "flexGrow": 6,
                     "flexShrink": 1,
                     "fontSize": 16,
                     "fontStyle": "normal",
@@ -626,8 +626,8 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                 "borderColor": "#0fefbd",
                 "borderRadius": 4,
                 "borderWidth": 0,
-                "height": 41.1435349940688,
-                "shadowColor": "#00000033",
+                "height": 50,
+                "shadowColor": "#8799a45b",
                 "shadowOffset": Object {
                   "height": 2,
                   "width": 0,
@@ -664,7 +664,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
             />
             <Text
               color="muted.700"
-              flex={5}
+              flex={6}
               fontFamily="body"
               fontSize="md"
               fontStyle="normal"
@@ -674,7 +674,7 @@ exports[`[ChallengeEnjoy] Test ChallengeEnjoy snapshot 1`] = `
                   Object {
                     "color": "#404040",
                     "flexBasis": 0,
-                    "flexGrow": 5,
+                    "flexGrow": 6,
                     "flexShrink": 1,
                     "fontSize": 16,
                     "fontStyle": "normal",
