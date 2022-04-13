@@ -119,7 +119,7 @@ const MainPresenter = props => {
                 imgName={'bgm'}
                 rounded={8}
                 text={'BGM Studio'}
-                onPress={() => props.navigation.navigate('BgmStudio')}
+                onPress={props.handlerMoveToBGMStudio}
               />
             </Box>
             <Box m={4} mr={188}>
