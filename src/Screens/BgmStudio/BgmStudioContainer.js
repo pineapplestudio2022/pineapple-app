@@ -95,6 +95,14 @@ const BgmStudioContainer = props => {
         //   }
         // })
         .then(async resp => {
+          if (userId === '' || userId === undefined || userId === null) {
+            defaultAlertMessage(
+              '로그인시에만 키워드와 사용처를 등록할 수 있습니다.',
+            );
+            setBgmResult(true);
+            setLoading(false);
+            return;
+          }
           const payload = {
             keyword: keywordList,
             whereUse: whereUse.toString(),
