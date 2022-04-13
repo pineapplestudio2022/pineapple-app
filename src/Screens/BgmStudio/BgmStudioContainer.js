@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
-import BgmStudioPresenter from './BgmStudioPresenter';
-
-import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
-import {defaultAlertMessage} from '../../Commons/CommonUtil';
-import FormData from 'form-data';
 import RNFetchBlob from 'rn-fetch-blob';
+import React, {useContext, useState} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
+
+import APIKit from '../../API/APIkit';
+import BgmStudioPresenter from './BgmStudioPresenter';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
+
 /* toggle includeExtra */
 const includeExtra = true;
 
@@ -20,6 +22,7 @@ const BgmStudioContainer = props => {
     type: null,
     name: null,
   });
+  const {userId} = useContext(UserDispatch);
 
   const handleMovetoMyBGM = () => {
     props.navigation.navigate('BGMStudioNavigation');
@@ -30,6 +33,25 @@ const BgmStudioContainer = props => {
     setKeyword('');
   };
 
+  const updateBgmStudio = async s3Url => {
+    if (s3Url === null || s3Url === undefined || s3Url === '') {
+      return;
+    }
+    const payload = {
+      keyword: keywordList,
+      whereUse: whereUse.toString(),
+      url: s3Url.toString(),
+      userId: userId.toString(),
+    };
+    console.log(payload);
+    const result = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
+    if (result?.data) {
+      console.log(result.data);
+      if (result?.data?.IBcode === '1000') {
+        console.log('success');
+      }
+    }
+  };
   const handlerCreate = async () => {
     if (image === null || image === '') {
       defaultAlertMessage('이미지를 선택해주세요');
@@ -59,25 +81,34 @@ const BgmStudioContainer = props => {
       const ext = s3Url.substring(s3Url.lastIndexOf('.'));
       const path = dirs + '/bgmstudio/' + filename + '_' + Date.now() + ext;
       console.log(path);
-      RNFetchBlob.config({
+
+      //mp3 다운로드
+      await RNFetchBlob.config({
         fileCache: true,
         path: path,
       })
         .fetch('GET', s3Url)
-        .progress((received, total) => {
-          if (__DEV__) {
-            const percentage = Math.floor((received / total) * 100) + '%';
-            console.log(percentage);
+        // .progress((received, total) => {
+        //   if (__DEV__) {
+        //     const percentage = Math.floor((received / total) * 100) + '%';
+        //     console.log(percentage);
+        //   }
+        // })
+        .then(async resp => {
+          const payload = {
+            keyword: keywordList,
+            whereUse: whereUse.toString(),
+            url: s3Url.toString(),
+            userId: userId.toString(),
+          };
+          console.log(payload);
+          const res = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
+          if (res?.data?.IBcode === '1000') {
+            setLoading(false);
+            setBgmResult(true);
+          } else {
+            setLoading(false);
           }
-        })
-        .then(resp => {
-          console.log(keywordList);
-          console.log(whereUse);
-          // RNFetchBlob.fs.writeFile(path, JSON.stringify(lyrics), 'utf8').then(() => {
-
-          // });
-          setLoading(false);
-          setBgmResult(true);
           if (__DEV__) {
             console.log('The file saved to ', resp.path());
           }
@@ -88,15 +119,6 @@ const BgmStudioContainer = props => {
         });
     }
   };
-
-  // const test = async () => {
-  //   const data = {
-  //     whereUse: whereUse,
-  //     keyword: keywordList,
-  //   };
-  //   console.log(data);
-  //   console.log(JSON.stringify(data));
-  // };
 
   const handlePicker = async () => {
     const res = await launchImageLibrary({
@@ -138,7 +160,6 @@ const BgmStudioContainer = props => {
       image={image}
       handlePicker={handlePicker}
       handleRemoveImage={handleRemoveImage}
-      // test={test}
     />
   );
 };
