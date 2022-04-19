@@ -1,5 +1,4 @@
 import axios from 'axios';
-import RNFetchBlob from 'rn-fetch-blob';
 import React, {useContext, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 
@@ -33,25 +32,6 @@ const BgmStudioContainer = props => {
     setKeyword('');
   };
 
-  const updateBgmStudio = async s3Url => {
-    if (s3Url === null || s3Url === undefined || s3Url === '') {
-      return;
-    }
-    const payload = {
-      keyword: keywordList,
-      whereUse: whereUse.toString(),
-      url: s3Url.toString(),
-      userId: userId.toString(),
-    };
-    console.log(payload);
-    const result = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
-    if (result?.data) {
-      console.log(result.data);
-      if (result?.data?.IBcode === '1000') {
-        console.log('success');
-      }
-    }
-  };
   const handlerCreate = async () => {
     if (image === null || image === '') {
       defaultAlertMessage('이미지를 선택해주세요');
@@ -76,56 +56,74 @@ const BgmStudioContainer = props => {
     if (result?.data) {
       const s3Url = result?.data.data.toString();
       console.log(`s3Url : ${s3Url}`);
-      const dirs = RNFetchBlob.fs.dirs.DocumentDir;
-      const filename = image.name.substring(0, image.name.lastIndexOf('.'));
-      const ext = s3Url.substring(s3Url.lastIndexOf('.'));
-      const path = dirs + '/bgmstudio/' + filename + '_' + Date.now() + ext;
-      console.log(path);
-
-      //mp3 다운로드
-      await RNFetchBlob.config({
-        fileCache: true,
-        path: path,
-      })
-        .fetch('GET', s3Url)
-        // .progress((received, total) => {
-        //   if (__DEV__) {
-        //     const percentage = Math.floor((received / total) * 100) + '%';
-        //     console.log(percentage);
-        //   }
-        // })
-        .then(async resp => {
-          if (userId === '' || userId === undefined || userId === null) {
-            defaultAlertMessage(
-              '로그인시에만 키워드와 사용처를 등록할 수 있습니다.',
-            );
-            setBgmResult(true);
-            setLoading(false);
-            return;
-          }
-          const payload = {
-            keyword: keywordList,
-            whereUse: whereUse.toString(),
-            url: s3Url.toString(),
-            userId: userId.toString(),
-          };
-          console.log(payload);
-          const res = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
-          if (res?.data?.IBcode === '1000') {
-            setLoading(false);
-            setBgmResult(true);
-          } else {
-            setLoading(false);
-          }
-          if (__DEV__) {
-            console.log('The file saved to ', resp.path());
-          }
-        })
-        .catch(e => {
-          setLoading(false);
-          console.log(e);
-        });
+      const payload = {
+        keyword: keywordList,
+        whereUse: whereUse.toString(),
+        url: s3Url.toString(),
+        userId: userId.toString(),
+      };
+      const res = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
+      if (res?.data?.IBcode === '1000') {
+        setLoading(false);
+        setBgmResult(true);
+      } else {
+        setLoading(false);
+      }
     }
+
+    // if (result?.data) {
+    //   const s3Url = result?.data.data.toString();
+    //   console.log(`s3Url : ${s3Url}`);
+    //   const dirs = RNFetchBlob.fs.dirs.DocumentDir;
+    //   const filename = image.name.substring(0, image.name.lastIndexOf('.'));
+    //   const ext = s3Url.substring(s3Url.lastIndexOf('.'));
+    //   const path = dirs + '/bgmstudio/' + filename + '_' + Date.now() + ext;
+    //   console.log(path);
+
+    //   //mp3 다운로드
+    //   await RNFetchBlob.config({
+    //     fileCache: true,
+    //     path: path,
+    //   })
+    //     .fetch('GET', s3Url)
+    //     // .progress((received, total) => {
+    //     //   if (__DEV__) {
+    //     //     const percentage = Math.floor((received / total) * 100) + '%';
+    //     //     console.log(percentage);
+    //     //   }
+    //     // })
+    //     .then(async resp => {
+    //       if (userId === '' || userId === undefined || userId === null) {
+    //         defaultAlertMessage(
+    //           '로그인시에만 키워드와 사용처를 등록할 수 있습니다.',
+    //         );
+    //         setBgmResult(true);
+    //         setLoading(false);
+    //         return;
+    //       }
+    //       const payload = {
+    //         keyword: keywordList,
+    //         whereUse: whereUse.toString(),
+    //         url: s3Url.toString(),
+    //         userId: userId.toString(),
+    //       };
+    //       console.log(payload);
+    //       const res = await APIKit.post('/bgmStudio/updateBgmStudio', payload);
+    //       if (res?.data?.IBcode === '1000') {
+    //         setLoading(false);
+    //         setBgmResult(true);
+    //       } else {
+    //         setLoading(false);
+    //       }
+    //       if (__DEV__) {
+    //         console.log('The file saved to ', resp.path());
+    //       }
+    //     })
+    //     .catch(e => {
+    //       setLoading(false);
+    //       console.log(e);
+    //     });
+    // }
   };
 
   const handlePicker = async () => {

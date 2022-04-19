@@ -17,7 +17,7 @@ import {
 
 import {
   fontSizePersentage,
-  getImage,
+  getImageById,
   widthPersentage,
 } from '../../Commons/CommonUtil';
 import Gbutton from '../../Components/GbuttonComponent';
@@ -44,12 +44,12 @@ const MyBGMCardPresenter = props => {
         <Box
           borderColor="red"
           width={responsiveWidth(widthPersentage(95))}
-          height={responsiveWidth(widthPersentage(95))}
+          height={95}
           alignSelf="center"
           rounded={4}
           overflow={'hidden'}>
           <Image
-            source={getImage}
+            source={getImageById(props.bgmStudioId)}
             alt=" "
             resizeMode="cover"
             width="100%"
@@ -96,7 +96,7 @@ const MyBGMCardPresenter = props => {
                   </Badge>
                 </Box>
               )}
-              keyExtractor={item => item.index}
+              keyExtractor={item => item + item.index}
             />
             <HStack space={1}>
               <Text
@@ -133,6 +133,7 @@ const MyBGMCardPresenter = props => {
                 imgName={'download'}
                 fs={13}
                 fw={800}
+                onPress={props.handlerDownload}
               />
             </HStack>
           </VStack>
@@ -143,7 +144,8 @@ const MyBGMCardPresenter = props => {
             right: 12,
             top: 8,
             padding: 4,
-          }}>
+          }}
+          onPress={props.deleteAlert}>
           <Image
             source={TrashIcon}
             resizeMode={'contain'}

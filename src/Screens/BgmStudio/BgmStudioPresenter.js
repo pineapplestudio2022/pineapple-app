@@ -1,17 +1,17 @@
 import React from 'react';
-import {FlatList} from 'react-native-gesture-handler';
 import {Image, ScrollView} from 'react-native';
-import {Badge, Box, Button, Input, Spinner, Text} from 'native-base';
+import {Badge, Box, Button, FlatList, Input, Spinner, Text} from 'native-base';
 import {
   responsiveFontSize,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {fontSizePersentage, widthPersentage} from '../../Commons/CommonUtil';
+
+import styled from 'styled-components/native';
 import Gbutton from '../../Components/GbuttonComponent';
 import MenuComponent from '../../Components/MenuComponent';
+import {fontSizePersentage, widthPersentage} from '../../Commons/CommonUtil';
 
 import KeywordIcon from '../../Assets/Image/icon_mybgm_keyword.png';
-import styled from 'styled-components/native';
 import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
 
 const XButton = styled.TouchableOpacity`
