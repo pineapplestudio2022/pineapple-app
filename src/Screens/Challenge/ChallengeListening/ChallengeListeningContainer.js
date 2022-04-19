@@ -20,7 +20,10 @@ import {
 
 import APIKit from '../../../API/APIkit';
 import {UserDispatch} from '../../../Commons/UserDispatchProvider';
-import {defaultAlertMessage} from '../../../Commons/CommonUtil';
+import {
+  defaultAlertMessage,
+  getFilePathDocumentDirDATA,
+} from '../../../Commons/CommonUtil';
 import ChallengeListeningPresenter from './ChallengeListeningPresenter';
 
 const ChallengeListeningContainer = props => {
@@ -94,6 +97,7 @@ const ChallengeListeningContainer = props => {
           const length = splitKey.length;
           const filename = splitKey[length - 1];
 
+          // const dirs = getFilePathDocumentDirDATA();
           const dirs = RNFetchBlob.fs.dirs.DocumentDir;
           const path = dirs + '/';
           RNFetchBlob.fs
