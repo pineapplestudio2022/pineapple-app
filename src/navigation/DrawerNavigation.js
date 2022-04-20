@@ -19,7 +19,11 @@ import MyChallengeNavigation from './MyChallengeNavigation';
 import {LoginNavigation, MemberNavigation} from './MemberNavigation';
 
 import {UserDispatch} from '../Commons/UserDispatchProvider';
-import {fontSizePersentage, widthPersentage} from '../Commons/CommonUtil';
+import {
+  defaultAlertMessage,
+  fontSizePersentage,
+  widthPersentage,
+} from '../Commons/CommonUtil';
 import BGMStudioNavigation from './BGMStudioNavigation';
 
 // 햄버거메뉴 활성화시 보여지는 컨텐츠
@@ -34,7 +38,13 @@ const CustomDrawerContent = props => {
       routes: [{name: 'DrawerNavigation'}],
     });
   };
-
+  const handleMoveToMyBGM = () => {
+    if (userId === '' || userId === null || userId === undefined) {
+      defaultAlertMessage('로그인 후 사용가능합니다.');
+      return;
+    }
+    props.navigation.navigate('BGMStudioNavigation');
+  };
   return (
     <Box flex={1}>
       <Box
@@ -114,9 +124,7 @@ const CustomDrawerContent = props => {
               내가 만든 음원 [준비중]
             </Text>
           </TouchableOpacity> */}
-          <TouchableOpacity
-            w="100%"
-            onPress={() => props.navigation.navigate('BGMStudioNavigation')}>
+          <TouchableOpacity w="100%" onPress={handleMoveToMyBGM}>
             <Text
               textAlign={'center'}
               color={'#fafafa'}
