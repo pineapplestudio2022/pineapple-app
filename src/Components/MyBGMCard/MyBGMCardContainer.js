@@ -1,49 +1,27 @@
-import React, {useContext} from 'react';
-import {useEffect} from 'react';
-import {useState} from 'react';
-import {Alert, Platform} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import {Alert, Platform} from 'react-native';
+import React, {useContext, useState} from 'react';
+
 import APIKit from '../../API/APIkit';
+import MyBGMCardPresenter from './MyBGMCardPresenter';
 import {defaultAlertMessage} from '../../Commons/CommonUtil';
 import {UserDispatch} from '../../Commons/UserDispatchProvider';
-import MyBGMCardPresenter from './MyBGMCardPresenter';
 
 const MyBGMCardContainer = props => {
-  const [percent, setPercent] = useState(0); //트랙 경과시간에 따른 slider 표시
-  const [isPlay, setIsPlay] = useState(false);
   const {userId} = useContext(UserDispatch);
-  const handlerPlay = () => {
-    if (!isPlay) {
-      setIsPlay(true);
-    } else {
-      setIsPlay(false);
-      setPercent(0);
-    }
-  };
-  useEffect(() => {
-    let intPercent;
-    if (isPlay) {
-      intPercent = setInterval(() => {
-        setPercent(percent + 2);
-        if (percent >= 100) {
-          clearInterval(intPercent);
-          console.log('clear');
-        }
-      }, 1000);
-    }
-    return () => clearInterval(intPercent);
-  }, [isPlay, percent]);
+  const [percent, setPercent] = useState(0);
+  const [isPlay, setIsPlay] = useState(false);
+
+  const {ARPlayer, bgmStudioId, handlerDeleteItem, url, handlePlayId, playId} =
+    props;
   const handlerDownload = async () => {
-    console.log(props.url);
+    console.log(url);
     const filename = 'AIMusic';
-    const ext = props.url.substring(props.url.lastIndexOf('.'));
-    // const path = dirs + '/' + filename + '_' + Date.now() + ext;
+    const ext = url.substring(url.lastIndexOf('.'));
 
     if (Platform.OS === 'android') {
       const dirs = RNFetchBlob.fs.dirs.DCIMDir;
       const path = dirs + '/' + filename + '_' + Date.now() + ext;
-      console.log(path);
-
       await RNFetchBlob.config({
         fileCache: true,
         addAndroidDownloads: {
@@ -55,7 +33,7 @@ const MyBGMCardContainer = props => {
           mime: 'audio/mpeg',
         },
       })
-        .fetch('GET', props.url)
+        .fetch('GET', url)
         .then(res =>
           RNFetchBlob.fs.scanFile([{path: res.path(), mime: 'audio/mpeg'}]),
         )
@@ -69,7 +47,7 @@ const MyBGMCardContainer = props => {
         fileCache: true,
         path: path,
       })
-        .fetch('GET', props.url)
+        .fetch('GET', url)
         .then(async resp => {
           console.log(`The file is save to : ${resp.path()}`);
         })
@@ -93,7 +71,7 @@ const MyBGMCardContainer = props => {
   };
 
   const handleDelete = async () => {
-    const bgmStudioId = props?.bgmStudioId;
+    // const bgmStudioId = props?.bgmStudioId;
     const payload = {
       userId: userId.toString(),
       bgmStudioId: bgmStudioId?.toString(),
@@ -102,7 +80,7 @@ const MyBGMCardContainer = props => {
     await APIKit.post('/bgmStudio/deleteMybgmById', payload)
       .then(res => {
         if (res.data.IBcode === '1000') {
-          props.handlerDeleteItem(bgmStudioId);
+          handlerDeleteItem(bgmStudioId);
         } else {
           defaultAlertMessage(res.data.IBmessage);
         }
@@ -111,14 +89,54 @@ const MyBGMCardContainer = props => {
         console.log(e);
       });
   };
+
+  const onStartPlay = async () => {
+    try {
+      const msg = await ARPlayer.current.startPlayer(url);
+      const volume = await ARPlayer.current.setVolume(1.0);
+      setIsPlay(true);
+      if (__DEV__) {
+        console.log(`file: ${msg}`, `volume: ${volume}`);
+      }
+      ARPlayer.current.addPlayBackListener(e => {
+        let percentage = Math.round(
+          (Math.floor(e.currentPosition) / Math.floor(e.duration)) * 100,
+        );
+        setPercent(percentage);
+        return;
+      });
+    } catch (error) {
+      if (__DEV__) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onStopPlay = () => {
+    setPercent(0);
+    setIsPlay(false);
+    ARPlayer.current.stopPlayer();
+    ARPlayer.current.removePlayBackListener();
+  };
+  //재생
+  const handlePlay = () => {
+    handlePlayId(bgmStudioId);
+    if (isPlay && playId === bgmStudioId) {
+      onStopPlay();
+    } else {
+      onStopPlay();
+      onStartPlay();
+    }
+  };
+
   return (
     <MyBGMCardPresenter
       {...props}
       percent={percent}
-      isPlay={isPlay}
-      handlerPlay={handlerPlay}
+      isPlay={playId === bgmStudioId ? isPlay : false}
       handlerDownload={handlerDownload}
       deleteAlert={deleteAlert}
+      handlePlay={handlePlay}
     />
   );
 };

@@ -6,32 +6,48 @@ import MyBGMCard from '../../Components/MyBGMCard';
 import MenuComponent from '../../Components/MenuComponent';
 
 const MyBGMPresenter = props => {
+  const {
+    route,
+    navigation,
+    myBGMList,
+    refreshing,
+    handleRefresh,
+    handleLoadMore,
+    handlerDeleteItem,
+    ARPlayer,
+    handlePlayId,
+    playId,
+  } = props;
+
   return (
     <Box flex={1}>
       <MenuComponent
-        name={props.route.name}
+        name={route.name}
         titleName={'My BGM'}
-        navigation={props.navigation}
+        navigation={navigation}
       />
       <FlatList
-        data={props.myBGMList}
-        refreshing={props.refreshing}
-        onRefresh={props.handleRefresh}
+        data={myBGMList}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         initialNumToRender={8}
-        onEndReached={props.handleLoadMore}
+        onEndReached={handleLoadMore}
         onEndReachedThreshold={0}
         renderItem={({item, index}) => (
           <Box my={2} alignItems="center">
             <MyBGMCard
               bgmStudioId={item.id}
-              navigation={props.navigation}
+              navigation={navigation}
               createdAt={moment(item.createdAt).format('YYYY-MM-DD')}
               keyword={item.keyword?.split(',')}
               whereUse={item.whereUse}
               url={item.url}
-              handlerDeleteItem={props.handlerDeleteItem}
+              handlerDeleteItem={handlerDeleteItem}
+              ARPlayer={ARPlayer}
+              handlePlayId={handlePlayId}
+              playId={playId}
             />
           </Box>
         )}
