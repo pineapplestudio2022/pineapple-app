@@ -60,6 +60,7 @@ import Cover8 from '../Assets/Image/Top_music/top_music_8.jpg';
 import Cover9 from '../Assets/Image/Top_music/top_music_9.jpg';
 import Cover10 from '../Assets/Image/Top_music/top_music_10.jpg';
 import DumpImage from '../Assets/Image/image_singing_dumpimage.jpg';
+import RNFetchBlob from 'rn-fetch-blob';
 
 export const getImage = () => {
   const number = Math.floor(Math.random() * 10) + 1;
@@ -87,4 +88,44 @@ export const getImage = () => {
     default:
       return DumpImage;
   }
+};
+
+export const getImageById = number => {
+  const value = number % 10;
+  switch (value) {
+    case 1:
+      return Cover1;
+    case 2:
+      return Cover2;
+    case 3:
+      return Cover3;
+    case 4:
+      return Cover4;
+    case 5:
+      return Cover5;
+    case 6:
+      return Cover6;
+    case 7:
+      return Cover7;
+    case 8:
+      return Cover8;
+    case 9:
+      return Cover9;
+    case 10:
+      return Cover10;
+    default:
+      return DumpImage;
+  }
+};
+export const getFilePathDCIMDir = () => {
+  return RNFetchBlob.fs.dirs.DCIMDir;
+};
+export const getFilePathDCIMDirDATA = () => {
+  return RNFetchBlob.fs.dirs.DCIMDir + '/.data';
+};
+export const getFilePathDocumentDir = () => {
+  return RNFetchBlob.fs.dirs.DocumentDir;
+};
+export const getFilePathDocumentDirDATA = () => {
+  return RNFetchBlob.fs.dirs.DocumentDir + '/.data';
 };

@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import APIKit from '../../API/APIkit';
+import {defaultAlertMessage} from '../../Commons/CommonUtil';
+import {UserDispatch} from '../../Commons/UserDispatchProvider';
 import MainPresenter from './MainPresenter';
 
 const MainContainer = props => {
   //랭킹 음원 10개 가져오기
   const [musicList, setMusicList] = useState();
+  const {userId} = useContext(UserDispatch);
+
   useEffect(() => {
     if (__DEV__) {
       console.log('api get');
@@ -34,7 +38,20 @@ const MainContainer = props => {
       }
     };
   }, []);
+  const handlerMoveToBGMStudio = () => {
+    if (userId === '' || userId === undefined || userId === null) {
+      defaultAlertMessage('로그인 후 이용가능합니다.');
+      return;
+    }
+    props.navigation.navigate('BgmStudio');
+  };
 
-  return <MainPresenter musicList={musicList} {...props} />;
+  return (
+    <MainPresenter
+      musicList={musicList}
+      handlerMoveToBGMStudio={handlerMoveToBGMStudio}
+      {...props}
+    />
+  );
 };
 export default MainContainer;

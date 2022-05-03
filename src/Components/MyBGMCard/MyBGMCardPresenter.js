@@ -1,6 +1,15 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Box, HStack, Image, Text, VStack} from 'native-base';
+import {
+  Badge,
+  Box,
+  FlatList,
+  HStack,
+  Image,
+  Slider,
+  Text,
+  VStack,
+} from 'native-base';
 import {
   responsiveFontSize,
   responsiveWidth,
@@ -8,7 +17,7 @@ import {
 
 import {
   fontSizePersentage,
-  getImage,
+  getImageById,
   widthPersentage,
 } from '../../Commons/CommonUtil';
 import Gbutton from '../../Components/GbuttonComponent';
@@ -16,6 +25,17 @@ import Gbutton from '../../Components/GbuttonComponent';
 import TrashIcon from '../../Assets/Image/challenge/icon_challenge_trash.png';
 
 const MyBGMCardPresenter = props => {
+  const {
+    percent,
+    isPlay,
+    createdAt,
+    keyword,
+    bgmStudioId,
+    whereUse,
+    handlerDownload,
+    deleteAlert,
+    handlePlay,
+  } = props;
   return (
     <Box
       w={320}
@@ -35,17 +55,30 @@ const MyBGMCardPresenter = props => {
         <Box
           borderColor="red"
           width={responsiveWidth(widthPersentage(95))}
-          height={responsiveWidth(widthPersentage(95))}
+          height={95}
           alignSelf="center"
           rounded={4}
           overflow={'hidden'}>
           <Image
-            source={getImage}
+            source={getImageById(bgmStudioId)}
             alt=" "
             resizeMode="cover"
             width="100%"
             height="100%"
           />
+          {isPlay ? (
+            <Slider
+              style={{
+                position: 'absolute',
+                bottom: '-5%',
+              }}
+              defaultValue={0}
+              value={percent}>
+              <Slider.Track bg={'#a5a8ae'}>
+                <Slider.FilledTrack bg={'#0fefbd'} />
+              </Slider.Track>
+            </Slider>
+          ) : null}
         </Box>
         <Box flex={1} justifyContent="center">
           <VStack space={1.5}>
@@ -54,15 +87,28 @@ const MyBGMCardPresenter = props => {
               fontWeight={600}
               numberOfLines={1}
               color="#1a1b1c">
-              BGM 생성 일자
+              {createdAt}
             </Text>
-            <Text
-              fontSize={responsiveFontSize(fontSizePersentage(11))}
-              fontWeight={600}
-              numberOfLines={1}
-              color="#858c92">
-              BGM 생성 키워드 정보
-            </Text>
+
+            <FlatList
+              data={keyword}
+              horizontal
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <Box mr={1} rounded={4} overflow="hidden">
+                  <Badge colorScheme={'gray'} px={2}>
+                    <Text
+                      fontSize={responsiveFontSize(fontSizePersentage(11))}
+                      fontWeight={600}
+                      color={'white'}>
+                      {item}
+                    </Text>
+                  </Badge>
+                </Box>
+              )}
+              keyExtractor={item => item + item.index}
+            />
             <HStack space={1}>
               <Text
                 fontSize={responsiveFontSize(fontSizePersentage(11))}
@@ -76,7 +122,7 @@ const MyBGMCardPresenter = props => {
                 bold
                 numberOfLines={1}
                 color="#858c92">
-                사용처정보
+                {whereUse}
               </Text>
             </HStack>
             <HStack justifyContent="space-between">
@@ -84,10 +130,11 @@ const MyBGMCardPresenter = props => {
                 wp={84}
                 hp={26}
                 rounded={4}
-                text={'재 생'}
-                imgName={'play'}
+                text={isPlay ? '정 지' : '재 생'}
+                imgName={isPlay ? 'stop' : 'play'}
                 fs={13}
                 fw={800}
+                onPress={handlePlay}
               />
               <Gbutton
                 wp={84}
@@ -97,6 +144,7 @@ const MyBGMCardPresenter = props => {
                 imgName={'download'}
                 fs={13}
                 fw={800}
+                onPress={handlerDownload}
               />
             </HStack>
           </VStack>
@@ -107,7 +155,8 @@ const MyBGMCardPresenter = props => {
             right: 12,
             top: 8,
             padding: 4,
-          }}>
+          }}
+          onPress={deleteAlert}>
           <Image
             source={TrashIcon}
             resizeMode={'contain'}

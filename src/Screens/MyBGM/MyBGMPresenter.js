@@ -1,32 +1,54 @@
 import React from 'react';
-import {Box, FlatList, Text} from 'native-base';
-import MenuComponent from '../../Components/MenuComponent';
+import moment from 'moment';
+import {Box, FlatList} from 'native-base';
+
 import MyBGMCard from '../../Components/MyBGMCard';
+import MenuComponent from '../../Components/MenuComponent';
 
 const MyBGMPresenter = props => {
+  const {
+    route,
+    navigation,
+    myBGMList,
+    refreshing,
+    handleRefresh,
+    handleLoadMore,
+    handlerDeleteItem,
+    ARPlayer,
+    handlePlayId,
+    playId,
+  } = props;
+
   return (
     <Box flex={1}>
       <MenuComponent
-        name={props.route.name}
+        name={route.name}
         titleName={'My BGM'}
-        navigation={props.navigation}
+        navigation={navigation}
       />
       <FlatList
-        data={props.myBGMList}
+        data={myBGMList}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        initialNumToRender={7}
-        // onEndReached={handleLoadMore}
-        // onEndReachedThreshold={1}
+        initialNumToRender={8}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0}
         renderItem={({item, index}) => (
           <Box my={2} alignItems="center">
             <MyBGMCard
-              navigation={props.navigation}
-              createdAt={item.createdAt}
-              keyword={item.keyword}
-              whereUse={item.whereUse}>
-              <Text>asdasd</Text>
-            </MyBGMCard>
+              bgmStudioId={item.id}
+              navigation={navigation}
+              createdAt={moment(item.createdAt).format('YYYY-MM-DD')}
+              keyword={item.keyword?.split(',')}
+              whereUse={item.whereUse}
+              url={item.url}
+              handlerDeleteItem={handlerDeleteItem}
+              ARPlayer={ARPlayer}
+              handlePlayId={handlePlayId}
+              playId={playId}
+            />
           </Box>
         )}
         keyExtractor={item => item.id}

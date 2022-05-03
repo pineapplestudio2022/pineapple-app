@@ -1,22 +1,37 @@
 import React from 'react';
-import {Image, ImageBackground, ScrollView} from 'react-native';
-import {Box, CheckIcon, Input, Pressable, Select, Text} from 'native-base';
+import {Image, ScrollView} from 'react-native';
+import {Badge, Box, Button, FlatList, Input, Spinner, Text} from 'native-base';
 import {
   responsiveFontSize,
-  responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {
-  fontSizePersentage,
-  heightPersentage,
-  widthPersentage,
-} from '../../Commons/CommonUtil';
+
+import styled from 'styled-components/native';
 import Gbutton from '../../Components/GbuttonComponent';
 import MenuComponent from '../../Components/MenuComponent';
+import {fontSizePersentage, widthPersentage} from '../../Commons/CommonUtil';
 
 import KeywordIcon from '../../Assets/Image/icon_mybgm_keyword.png';
-import DropdownIcon from '../../Assets/Image/icon_dropdown_green.png';
+import XIcon from '../../Assets/Image/challenge/icon_challenge_x_white.png';
 
+const XButton = styled.TouchableOpacity`
+  width: ${responsiveWidth(widthPersentage(32))}px;
+  height: ${responsiveWidth(widthPersentage(32))}px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+const ImageBackground = styled.ImageBackground`
+  width: 100%;
+  height: 100%;
+  background-color: #a5a8ae;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+`;
 const BgmStudioPresenter = props => {
   return (
     <Box flex={1}>
@@ -31,26 +46,50 @@ const BgmStudioPresenter = props => {
             fontSize={responsiveFontSize(fontSizePersentage(18))}
             color={'#1a1b1c'}
             bold
-            mt={responsiveHeight(heightPersentage(46))}
+            mt={46}
             alignSelf={'center'}>
             AI가 만드는 맞춤형 BGM 만들기
           </Text>
-          <Pressable
-            style={{
-              width: responsiveWidth(widthPersentage(320)),
-              height: responsiveHeight(heightPersentage(180)),
-            }}
+          <Box
+            width={responsiveWidth(widthPersentage(320))}
+            height={180}
             alignSelf={'center'}
-            mt={responsiveHeight(heightPersentage(29))}>
+            mt={30}>
             <ImageBackground
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#a5a8ae',
-                borderRadius: 8,
-              }}
+              resizeMode="cover"
+              source={{uri: props.image.uri ? props.image.uri : ''}}>
+              {!props.image.uri ? (
+                <Button onPress={props.handlePicker}>
+                  <Text color={'white'} bold>
+                    image upload
+                  </Text>
+                </Button>
+              ) : (
+                <XButton onPress={props.handleRemoveImage}>
+                  <Image source={XIcon} resizeMode={'contain'} alt={' '} />
+                </XButton>
+              )}
+            </ImageBackground>
+          </Box>
+          <Box
+            alignSelf={'center'}
+            mt={5}
+            width={responsiveWidth(widthPersentage(320))}>
+            <FlatList
+              data={props.keywordList}
+              horizontal
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <Box mx={1} rounded={4} overflow="hidden">
+                  <Badge colorScheme={'info'} px={2}>
+                    <Text color={'white'}>{item}</Text>
+                  </Badge>
+                </Box>
+              )}
+              keyExtractor={item => item.index}
             />
-          </Pressable>
+          </Box>
           <Input
             alignSelf={'center'}
             width={responsiveWidth(widthPersentage(320))}
@@ -60,9 +99,8 @@ const BgmStudioPresenter = props => {
             borderBottomColor={'#0fefbd'}
             placeholder={'키워드를 입력해주세요'}
             fontSize={responsiveFontSize(fontSizePersentage(16))}
-            mt={responsiveHeight(heightPersentage(47))}
-            //   value={props.password}
-            //   onChangeText={props.handlePassword}
+            value={props.keyword}
+            onChangeText={props.setKeyword}
             InputLeftElement={
               <Image
                 alt={' '}
@@ -73,8 +111,34 @@ const BgmStudioPresenter = props => {
                 }}
               />
             }
+            InputRightElement={
+              <Gbutton
+                wp={60}
+                hp={30}
+                fs={16}
+                fw={800}
+                text={'등록'}
+                rounded={8}
+                onPress={props.addKeyword}
+              />
+            }
           />
-          <Select
+          <Input
+            alignSelf={'center'}
+            width={responsiveWidth(widthPersentage(320))}
+            backgroundColor={'#fafafab3'}
+            borderWidth={0}
+            borderBottomWidth={1}
+            borderBottomColor={'#0fefbd'}
+            placeholder={'사용처를 입력해주세요'}
+            fontSize={responsiveFontSize(fontSizePersentage(16))}
+            onChangeText={props.setWhereUse}
+            value={props.whereUse}
+            mt={47}
+            //   value={props.password}
+            //   onChangeText={props.handlePassword}
+          />
+          {/* <Select
             mt={responsiveHeight(heightPersentage(69))}
             alignSelf={'center'}
             selectedValue={props.whereUse}
@@ -95,17 +159,40 @@ const BgmStudioPresenter = props => {
             }}>
             <Select.Item label="JavaScript" value="js" />
             <Select.Item label="TypeScript" value="ts" />
-          </Select>
-          <Box
-            alignSelf={'center'}
-            mt={responsiveHeight(heightPersentage(100))}>
+          </Select> */}
+          <Box alignSelf={'center'} mt={100} alignItems={'center'}>
+            {props.loading ? (
+              <Box
+                position={'absolute'}
+                top={-65}
+                bottom={0}
+                alignItems={'center'}>
+                <Spinner />
+                <Text>생성중....</Text>
+              </Box>
+            ) : null}
             <Gbutton
               wp={220}
               hp={40}
               fs={18}
-              text={'AI BGM 생성'}
+              fw={800}
+              text={props.bgmResult ? 'BGM 확인하기' : 'AI BGM 생성'}
+              disable={props.loading}
               rounded={8}
+              onPress={
+                props.bgmResult ? props.handleMovetoMyBGM : props.handlerCreate
+              }
             />
+            {/* <Gbutton
+              wp={220}
+              hp={40}
+              fs={18}
+              fw={800}
+              text={'test'}
+              disable={props.loading}
+              rounded={8}
+              onPress={props.test}
+            /> */}
           </Box>
         </ScrollView>
       </Box>
